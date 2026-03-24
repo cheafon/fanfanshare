@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>旧时光杂货铺 OLD TIMES GENERAL — 安福路市集</title>
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Liu+Jian+Mao+Cao&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--kraft:#d8c8a8;--news:#e8e4d8;--ink:#1a1810;--red:#c83030;--denim:#4a6898;--sepia:#a08860;--orange:#ff6830;--dim:rgba(26,24,16,0.35)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:linear-gradient(170deg,#d0c0a0,#d8c8a8,#c8b898);color:var(--ink);font-family:'Noto Sans SC',sans-serif;font-size:17px;line-height:1.8;padding:1.5rem;-webkit-font-smoothing:antialiased;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E")}
+
+  .board{max-width:580px;margin:0 auto;animation:fadeIn .7s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;padding:1rem 0 1.5rem;position:relative}
+
+  /* Tape decoration */
+  .tape{position:absolute;top:-4px;left:50%;transform:translateX(-50%) rotate(-1deg);width:80px;height:18px;background:rgba(232,228,216,0.5);border:0.5px solid rgba(0,0,0,0.04);z-index:2}
+
+  .header-cn{font-family:'Liu Jian Mao Cao',cursive;font-size:clamp(2.2rem,7vw,3rem);color:var(--ink);line-height:1.2;margin-top:1rem}
+  .header-en{font-family:'Special Elite',monospace;font-size:clamp(0.7rem,2vw,0.85rem);color:var(--sepia);letter-spacing:0.12em;margin-top:0.2rem}
+  .header-info{font-size:0.85rem;color:var(--dim);margin-top:0.4rem}
+
+  /* Rubber stamp */
+  .stamp{display:inline-block;width:48px;height:48px;border:3px solid var(--red);border-radius:50%;position:absolute;top:10px;right:10px;
+    transform:rotate(-15deg);display:flex;align-items:center;justify-content:center;opacity:0.6}
+  .stamp-text{font-family:'Liu Jian Mao Cao',cursive;font-size:1.1rem;color:var(--red);font-weight:700}
+
+  /* ═══ ITEMS GRID ═══ */
+  .items{display:grid;grid-template-columns:1fr 1fr;gap:1rem;padding:0.5rem 0}
+
+  /* Polaroid card */
+  .polaroid{background:#fff;padding:8px 8px 30px;box-shadow:2px 3px 8px rgba(0,0,0,0.1);transition:transform .2s,box-shadow .2s;cursor:default;position:relative}
+  .polaroid:hover{transform:translateY(-3px) rotate(0deg) !important;box-shadow:3px 6px 14px rgba(0,0,0,0.15);z-index:2}
+
+  .pol-photo{width:100%;aspect-ratio:1;position:relative}
+  .pol-name{font-family:'Liu Jian Mao Cao',cursive;font-size:1.1rem;color:var(--ink);margin-top:6px;line-height:1.3}
+  .pol-desc{font-family:'Special Elite',monospace;font-size:0.72rem;color:var(--sepia);margin-top:2px;line-height:1.5}
+  .pol-price{font-family:'Special Elite',monospace;font-size:0.85rem;color:var(--red);margin-top:4px;font-weight:700}
+  .pol-cond{font-size:0.7rem;color:var(--dim);margin-top:1px}
+
+  /* Price sticker */
+  .price-sticker{position:absolute;top:8px;right:8px;background:var(--orange);color:#fff;font-family:'Special Elite',monospace;font-size:0.6rem;padding:2px 6px;transform:rotate(3deg);z-index:1}
+
+  .r-2{transform:rotate(-2deg)}
+  .r3{transform:rotate(3deg)}
+  .r-1{transform:rotate(-1deg)}
+  .r2{transform:rotate(2deg)}
+  .r-3{transform:rotate(-3deg)}
+  .r1{transform:rotate(1deg)}
+
+  /* ═══ NOTE ═══ */
+  .note{background:var(--news);padding:1.2rem;margin:1rem 0;transform:rotate(-0.5deg);position:relative;
+    box-shadow:1px 2px 6px rgba(0,0,0,0.06)}
+  .note::before{content:'';position:absolute;top:-4px;left:30px;width:60px;height:16px;background:rgba(232,228,216,0.5);border:0.5px solid rgba(0,0,0,0.03);transform:rotate(1deg)}
+  .note-text{font-family:'Liu Jian Mao Cao',cursive;font-size:1.15rem;color:var(--ink);line-height:2;opacity:0.7}
+
+  /* ═══ INFO ═══ */
+  .info{padding:0.8rem 1rem;border:1.5px dashed rgba(26,24,16,0.15);margin-bottom:1rem}
+  .info-row{font-size:0.9rem;color:var(--dim);line-height:2}
+  .info-row strong{color:var(--ink);font-weight:500}
+  .info-note{font-family:'Special Elite',monospace;font-size:0.78rem;color:var(--sepia);margin-top:0.3rem;opacity:0.6}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;padding:1rem 0 0.5rem}
+  .footer-motto{font-family:'Liu Jian Mao Cao',cursive;font-size:1.2rem;color:var(--ink);opacity:0.35}
+  .footer-disc{font-size:0.68rem;color:var(--dim);opacity:0.2;margin-top:0.5rem}
+
+  @media(max-width:500px){
+    body{padding:0.8rem}
+    .items{grid-template-columns:1fr 1fr;gap:0.8rem}
+    .stamp{width:40px;height:40px;border-width:2px;top:5px;right:5px}
+    .stamp-text{font-size:0.9rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="board">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="tape"></div>
+    <div class="stamp"><span class="stamp-text">好物</span></div>
+    <h1 class="header-cn">旧时光杂货铺</h1>
+    <div class="header-en">OLD TIMES GENERAL</div>
+    <div class="header-info">每周六 · 上海安福路市集 · 摊位号 B-12</div>
+  </header>
+
+  <!-- ═══ ITEMS ═══ -->
+  <div class="items">
+
+    <div class="polaroid r-2">
+      <div class="pol-photo" style="background:linear-gradient(135deg,#b8a070,#a09060,#c0a878)">
+        <div class="price-sticker">¥1,800</div>
+      </div>
+      <div class="pol-name">理光 GR1 胶片相机</div>
+      <div class="pol-desc">1996 old beast. Shutter still crispy.</div>
+      <div class="pol-price">¥1,800</div>
+      <div class="pol-cond">成色 8/10 · 带一卷 Kodak Gold</div>
+    </div>
+
+    <div class="polaroid r3">
+      <div class="pol-photo" style="background:linear-gradient(135deg,#4a6898,#3a5888,#5878a8)">
+        <div class="price-sticker">¥350</div>
+      </div>
+      <div class="pol-name">Levi's 501 古着牛仔裤</div>
+      <div class="pol-desc">90s USA made. Waist 30.</div>
+      <div class="pol-price">¥350</div>
+      <div class="pol-cond">成色 7/10 · 洗到刚好的蓝</div>
+    </div>
+
+    <div class="polaroid r-1">
+      <div class="pol-photo" style="background:linear-gradient(135deg,#e8d8c0,#d8c8b0,#f0e0c8)">
+        <div class="price-sticker">¥280</div>
+      </div>
+      <div class="pol-name">昭和玻璃台灯</div>
+      <div class="pol-desc">Japanese vintage. Milk glass.</div>
+      <div class="pol-price">¥280</div>
+      <div class="pol-cond">成色 9/10 · 暖光很治愈</div>
+    </div>
+
+    <div class="polaroid r2">
+      <div class="pol-photo" style="background:linear-gradient(135deg,#e0d8c0,#d0c8b0,#e8dcc0)">
+        <div class="price-sticker">¥150</div>
+      </div>
+      <div class="pol-name">《百年孤独》首版中译</div>
+      <div class="pol-desc">1984 Shanghai ed. Pencil notes.</div>
+      <div class="pol-price">¥150</div>
+      <div class="pol-cond">成色 6/10 · 有前主人批注</div>
+    </div>
+
+    <div class="polaroid r-3">
+      <div class="pol-photo" style="background:linear-gradient(135deg,#2a2828,#3a3838,#1a1818)">
+        <div class="price-sticker">¥420</div>
+      </div>
+      <div class="pol-name">邓丽君《淡淡幽情》黑胶</div>
+      <div class="pol-desc">1983 PolyGram original pressing.</div>
+      <div class="pol-price">¥420</div>
+      <div class="pol-cond">成色 9/10 · 封套完好</div>
+    </div>
+
+    <div class="polaroid r1">
+      <div class="pol-photo" style="background:linear-gradient(135deg,#5a7848,#4a6838,#6a8858)">
+        <div class="price-sticker">¥120</div>
+      </div>
+      <div class="pol-name">军绿帆布邮差包</div>
+      <div class="pol-desc">Unknown era. Canvas is thick.</div>
+      <div class="pol-price">¥120</div>
+      <div class="pol-cond">成色 7/10 · 背带可调</div>
+    </div>
+
+  </div>
+
+  <!-- ═══ NOTE ═══ -->
+  <div class="note">
+    <p class="note-text">我收旧物不是为了卖钱。每样东西都在某个人的生活里待过。它们值得被再次喜欢。如果你只是来逛逛聊聊天也没关系——市集嘛，开心就好。</p>
+  </div>
+
+  <!-- ═══ INFO ═══ -->
+  <div class="info">
+    <div class="info-row"><strong>出摊时间：</strong>每周六 10:00 – 18:00</div>
+    <div class="info-row"><strong>地点：</strong>上海安福路周末市集 · B-12 号摊位</div>
+    <div class="info-row"><strong>微信：</strong>old_times_shop</div>
+    <div class="info-note">可以提前微信预留，但不接受砍价太狠的哦 :)</div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">旧时光杂货铺 · 旧物不旧，是故事</div>
+    <div class="footer-disc">页面来源：虚构摊位 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>
