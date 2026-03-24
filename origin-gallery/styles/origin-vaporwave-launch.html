@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>梦境守望者 DREAM WATCHER — 虚空造物</title>
+<link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#1a0a2e;--pink:#ff71ce;--blue:#01cdfe;--purple:#b967ff;--orange:#ff8a5c;--grid:rgba(1,205,254,0.06)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:#fff;font-family:'Noto Sans SC',sans-serif;font-size:17px;min-height:100vh;overflow-x:hidden;display:flex;flex-direction:column;align-items:center}
+
+  /* Sunset sky */
+  .sky{position:fixed;top:0;left:0;right:0;height:45vh;
+    background:linear-gradient(to bottom,#1a0a2e 0%,#3a1a5e 30%,#8a3a6e 55%,#d06060 75%,#e8905a 90%,#f0b050 100%);
+    opacity:0.4;pointer-events:none;z-index:0}
+
+  /* 3D perspective grid floor */
+  .grid-floor{position:fixed;bottom:0;left:0;right:0;height:55vh;overflow:hidden;z-index:0;
+    perspective:300px;perspective-origin:50% 0%}
+  .grid-plane{position:absolute;top:0;left:-50%;width:200%;height:200%;
+    background-image:
+      repeating-linear-gradient(90deg,var(--grid) 0px,var(--grid) 1px,transparent 1px,transparent 60px),
+      repeating-linear-gradient(0deg,var(--grid) 0px,var(--grid) 1px,transparent 1px,transparent 60px);
+    transform:rotateX(60deg);transform-origin:50% 0%;
+    animation:gridMove 4s linear infinite}
+  @keyframes gridMove{0%{transform:rotateX(60deg) translateY(0)}100%{transform:rotateX(60deg) translateY(60px)}}
+
+  /* Horizon glow */
+  .horizon{position:fixed;top:42vh;left:0;right:0;height:4px;
+    background:linear-gradient(90deg,transparent 10%,var(--pink) 30%,var(--blue) 50%,var(--purple) 70%,transparent 90%);
+    filter:blur(6px);opacity:0.6;z-index:1}
+
+  .page{position:relative;z-index:2;text-align:center;padding:3rem 2rem;max-width:600px;width:100%}
+
+  /* ═══ HEADER ═══ */
+  .brand{font-size:0.7rem;font-weight:500;letter-spacing:0.25em;color:var(--blue);opacity:0.6;margin-bottom:2rem;margin-top:2rem}
+
+  /* Title gradient cycling */
+  .title-cn{font-weight:900;font-size:clamp(2.5rem,8vw,4.5rem);line-height:1.2;letter-spacing:0.06em;
+    background:linear-gradient(90deg,var(--pink),var(--blue),var(--purple),var(--orange),var(--pink));
+    background-size:300% 100%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    animation:gradientCycle 6s linear infinite}
+  @keyframes gradientCycle{0%{background-position:0% 50%}100%{background-position:300% 50%}}
+
+  .title-en{font-family:'Bungee Shade',cursive;font-size:clamp(1rem,3vw,1.6rem);color:var(--purple);margin-top:0.3rem;letter-spacing:0.08em}
+  .title-sub{font-weight:300;font-size:1rem;color:rgba(255,255,255,0.4);margin-top:1rem;letter-spacing:0.06em}
+
+  /* Product placeholder */
+  .product-block{width:200px;height:260px;margin:2rem auto;border-radius:12px;
+    background:linear-gradient(135deg,rgba(255,113,206,0.15),rgba(1,205,254,0.1),rgba(185,103,255,0.12));
+    border:1px solid rgba(255,113,206,0.15);box-shadow:0 0 40px rgba(185,103,255,0.08)}
+
+  /* ═══ COUNTDOWN ═══ */
+  .countdown-label{font-size:0.8rem;color:var(--blue);letter-spacing:0.15em;opacity:0.5;margin-bottom:1rem}
+  .countdown{display:flex;justify-content:center;gap:0.8rem;margin-bottom:2rem;flex-wrap:wrap}
+  .cd-box{width:75px;padding:1rem 0.5rem;border:1.5px solid rgba(1,205,254,0.2);border-radius:10px;
+    background:rgba(1,205,254,0.04);box-shadow:0 0 15px rgba(1,205,254,0.06);text-align:center}
+  .cd-num{font-family:'Bungee Shade',cursive;font-size:1.8rem;color:var(--blue);line-height:1;
+    text-shadow:0 0 10px rgba(1,205,254,0.3)}
+  .cd-unit{font-size:0.65rem;color:rgba(255,255,255,0.3);margin-top:0.3rem;letter-spacing:0.08em}
+
+  /* ═══ SPECS ═══ */
+  .specs{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin:2rem 0;max-width:360px;margin-left:auto;margin-right:auto}
+  .spec{padding:0.8rem;border-radius:10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);text-align:center}
+  .spec-label{font-size:0.7rem;color:rgba(255,255,255,0.25);letter-spacing:0.06em;margin-bottom:0.2rem}
+  .spec-val{font-weight:700;font-size:1.05rem}
+  .spec:nth-child(1) .spec-val{color:var(--pink)}
+  .spec:nth-child(2) .spec-val{color:var(--blue)}
+  .spec:nth-child(3) .spec-val{color:var(--purple)}
+  .spec:nth-child(4) .spec-val{color:var(--orange)}
+
+  .spec-note{font-weight:300;font-size:0.85rem;color:rgba(255,255,255,0.3);margin-top:0.5rem;text-align:center}
+
+  /* ═══ CTA ═══ */
+  .cta{display:inline-block;margin-top:1.5rem;font-weight:700;font-size:1rem;letter-spacing:0.06em;color:#fff;
+    background:linear-gradient(135deg,var(--pink),var(--purple));padding:0.9em 2.5em;border-radius:999px;border:none;cursor:pointer;
+    box-shadow:0 0 25px rgba(255,113,206,0.25);transition:all 0.3s;text-decoration:none;animation:ctaPulse 3s ease-in-out infinite}
+  @keyframes ctaPulse{0%,100%{box-shadow:0 0 25px rgba(255,113,206,0.25)}50%{box-shadow:0 0 40px rgba(255,113,206,0.4)}}
+  .cta:hover{transform:translateY(-2px);box-shadow:0 0 45px rgba(255,113,206,0.45)}
+
+  /* ═══ FOOTER ═══ */
+  .footer{margin-top:3rem;text-align:center;padding-bottom:2rem}
+  .footer-text{font-weight:300;font-size:0.85rem;color:rgba(255,255,255,0.2);letter-spacing:0.04em}
+  .footer-email{font-size:0.8rem;color:var(--purple);opacity:0.4;margin-top:0.3rem}
+  .footer-email a{color:var(--purple);text-decoration:none}
+  .footer-aesthetic{font-family:'Bungee Shade',cursive;font-size:0.6rem;color:rgba(255,255,255,0.06);letter-spacing:0.4em;margin-top:1.5rem}
+
+  @media(max-width:500px){
+    .cd-box{width:65px;padding:0.8rem 0.3rem}
+    .cd-num{font-size:1.4rem}
+    .specs{grid-template-columns:1fr;max-width:240px}
+    .product-block{width:160px;height:210px}
+  }
+</style>
+</head>
+<body>
+
+<div class="sky"></div>
+<div class="grid-floor"><div class="grid-plane"></div></div>
+<div class="horizon"></div>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <div class="brand">V O I D &nbsp; O B J E C T · 虚空造物</div>
+  <h1 class="title-cn">梦境守望者</h1>
+  <div class="title-en">DREAM WATCHER</div>
+  <div class="title-sub">限量树脂雕塑 · 全球仅 200 体</div>
+
+  <!-- Product placeholder -->
+  <div class="product-block"></div>
+
+  <!-- ═══ COUNTDOWN ═══ -->
+  <div class="countdown-label">距离发售</div>
+  <div class="countdown">
+    <div class="cd-box"><div class="cd-num" id="cd-d">--</div><div class="cd-unit">天</div></div>
+    <div class="cd-box"><div class="cd-num" id="cd-h">--</div><div class="cd-unit">时</div></div>
+    <div class="cd-box"><div class="cd-num" id="cd-m">--</div><div class="cd-unit">分</div></div>
+    <div class="cd-box"><div class="cd-num" id="cd-s">--</div><div class="cd-unit">秒</div></div>
+  </div>
+
+  <!-- ═══ SPECS ═══ -->
+  <div class="specs">
+    <div class="spec"><div class="spec-label">材质</div><div class="spec-val">高级树脂</div></div>
+    <div class="spec"><div class="spec-label">高度</div><div class="spec-val">28cm</div></div>
+    <div class="spec"><div class="spec-label">价格</div><div class="spec-val">¥1,680</div></div>
+    <div class="spec"><div class="spec-label">限量</div><div class="spec-val">200 体</div></div>
+  </div>
+  <div class="spec-note">编号刻印 · 含收藏证书 · 限定包装 · 每人限购 1 体</div>
+
+  <!-- ═══ CTA ═══ -->
+  <a href="#" class="cta">预约抢购提醒</a>
+
+  <!-- ═══ FOOTER ═══ -->
+  <div class="footer">
+    <div class="footer-text">虚空造物 · 每一件都是最后一件</div>
+    <div class="footer-email"><a href="mailto:void@object.studio">void@object.studio</a></div>
+    <div class="footer-aesthetic">A E S T H E T I C</div>
+  </div>
+
+</div>
+
+<script>
+function tick(){
+  const t=new Date('2026-05-01T00:00:00').getTime()-Date.now();
+  if(t<=0){document.querySelectorAll('.cd-num').forEach(n=>n.textContent='00');return}
+  const d=Math.floor(t/864e5),h=Math.floor(t%864e5/36e5),m=Math.floor(t%36e5/6e4),s=Math.floor(t%6e4/1e3);
+  document.getElementById('cd-d').textContent=String(d).padStart(2,'0');
+  document.getElementById('cd-h').textContent=String(h).padStart(2,'0');
+  document.getElementById('cd-m').textContent=String(m).padStart(2,'0');
+  document.getElementById('cd-s').textContent=String(s).padStart(2,'0');
+}
+tick();setInterval(tick,1000);
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
