@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>你的包裹到啦 — 小盒快递 LITTLE BOX</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=ZCOOL+KuaiLe&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--cream:#f8f0e8;--blue:#78b8f0;--pink:#f0a0b8;--green:#80d0a0;--yellow:#f0d870;--purple:#b8a0e0;--choco:#3a2820;
+    --clay:6px 6px 12px rgba(0,0,0,0.07),-4px -4px 8px rgba(255,255,255,0.8);
+    --clay-in:inset 4px 4px 8px rgba(0,0,0,0.06),inset -3px -3px 6px rgba(255,255,255,0.7)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--cream);color:var(--choco);font-family:'Noto Sans SC',sans-serif;font-size:17px;line-height:1.8;display:flex;justify-content:center;padding:2rem;-webkit-font-smoothing:antialiased}
+
+  .page{max-width:460px;width:100%;animation:fadeIn .6s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;padding:1rem 0 1.5rem}
+  .header-name{font-family:'ZCOOL KuaiLe',cursive;font-size:1.6rem;color:var(--choco)}
+  .header-en{font-family:'Nunito',sans-serif;font-weight:700;font-size:0.7rem;color:var(--blue);letter-spacing:0.15em}
+
+  /* CSS Package box */
+  .pkg{width:60px;height:60px;margin:1rem auto 0;position:relative;animation:bounce 2s ease-in-out infinite}
+  @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  .pkg-body{width:50px;height:36px;background:var(--yellow);border-radius:6px;position:absolute;bottom:0;left:5px;
+    box-shadow:var(--clay)}
+  .pkg-lid{width:56px;height:14px;background:var(--yellow);border-radius:8px 8px 3px 3px;position:absolute;bottom:34px;left:2px;
+    filter:brightness(1.05);box-shadow:2px 2px 6px rgba(0,0,0,0.05)}
+  .pkg-ribbon-h{position:absolute;bottom:10px;left:5px;width:50px;height:6px;background:var(--pink);border-radius:3px;opacity:0.6}
+  .pkg-ribbon-v{position:absolute;bottom:0;left:27px;width:6px;height:36px;background:var(--pink);border-radius:3px;opacity:0.6}
+
+  /* ═══ NOTIFICATION CARD ═══ */
+  .notify{background:linear-gradient(135deg,#fff,#faf6f0);border-radius:24px;padding:2rem 1.5rem;margin-top:1.5rem;
+    box-shadow:var(--clay)}
+  .notify-title{font-family:'ZCOOL KuaiLe',cursive;font-size:1.5rem;color:var(--choco);text-align:center}
+
+  .code-area{text-align:center;margin:1.2rem 0;padding:1rem;background:var(--cream);border-radius:20px;box-shadow:var(--clay-in)}
+  .code-label{font-family:'Nunito',sans-serif;font-weight:600;font-size:0.7rem;color:rgba(58,40,32,0.4);letter-spacing:0.1em}
+  .code-num{font-family:'Nunito',sans-serif;font-weight:900;font-size:clamp(2rem,7vw,2.8rem);color:var(--blue);letter-spacing:0.1em;margin-top:0.2rem}
+
+  .loc{text-align:center;margin-top:1rem}
+  .loc-main{font-weight:500;font-size:1rem;color:var(--choco)}
+  .loc-detail{font-size:0.9rem;color:rgba(58,40,32,0.5);margin-top:0.2rem}
+  .loc-deadline{font-family:'Nunito',sans-serif;font-weight:700;font-size:0.78rem;color:var(--pink);margin-top:0.6rem;
+    display:inline-block;background:rgba(240,160,184,0.1);padding:0.3em 1em;border-radius:12px}
+
+  /* ═══ PACKAGE INFO ═══ */
+  .info{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-top:1.5rem;padding:1rem;background:var(--cream);border-radius:18px;box-shadow:var(--clay-in)}
+  .info-item{text-align:center}
+  .info-label{font-family:'Nunito',sans-serif;font-weight:600;font-size:0.6rem;color:rgba(58,40,32,0.3);letter-spacing:0.05em}
+  .info-val{font-size:0.88rem;color:var(--choco);margin-top:0.1rem;font-weight:400}
+
+  /* ═══ PROGRESS ═══ */
+  .progress{margin-top:1.5rem}
+  .prog-track{display:flex;align-items:center;gap:0;position:relative;padding:0 0.5rem}
+  .prog-step{flex:1;text-align:center;position:relative;z-index:1}
+  .prog-dot{width:28px;height:28px;border-radius:50%;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:0.75rem;
+    box-shadow:var(--clay)}
+  .prog-dot-done{background:var(--green);color:#fff}
+  .prog-dot-wait{background:var(--cream);color:rgba(58,40,32,0.3);box-shadow:var(--clay-in)}
+  .prog-text{font-size:0.7rem;color:rgba(58,40,32,0.4);margin-top:0.3rem;line-height:1.3}
+  .prog-line{position:absolute;top:14px;left:14%;right:14%;height:4px;background:var(--cream);border-radius:2px;z-index:0;box-shadow:var(--clay-in)}
+  .prog-line-fill{height:100%;width:75%;background:var(--green);border-radius:2px}
+
+  /* ═══ TIPS ═══ */
+  .tips{margin-top:1.5rem;padding:1rem 1.2rem;background:linear-gradient(135deg,rgba(184,160,224,0.08),rgba(120,184,240,0.08));border-radius:18px;box-shadow:var(--clay)}
+  .tip{font-size:0.9rem;color:rgba(58,40,32,0.5);line-height:2;padding-left:1.2rem;position:relative}
+  .tip::before{content:'·';position:absolute;left:0;color:var(--purple);font-weight:700;font-size:1.2rem}
+
+  /* ═══ BUTTONS ═══ */
+  .btns{display:flex;flex-direction:column;gap:0.8rem;margin-top:1.5rem;align-items:center}
+  .btn-primary{font-family:'ZCOOL KuaiLe',cursive;font-size:1.1rem;color:#fff;background:var(--blue);border:none;
+    padding:0.8em 2.5em;border-radius:18px;cursor:pointer;box-shadow:var(--clay);transition:all .15s;letter-spacing:0.04em}
+  .btn-primary:hover{box-shadow:var(--clay-in);transform:translateY(1px)}
+  .btn-primary:active{transform:translateY(2px)}
+
+  .btn-secondary{font-family:'Noto Sans SC',sans-serif;font-size:0.9rem;color:rgba(58,40,32,0.4);background:none;border:none;cursor:pointer;
+    padding:0.5em 1em;transition:color .2s}
+  .btn-secondary:hover{color:var(--choco)}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;padding:2rem 0 0.5rem}
+  .footer-motto{font-family:'ZCOOL KuaiLe',cursive;font-size:0.9rem;color:rgba(58,40,32,0.25)}
+  .footer-disc{font-size:0.68rem;color:rgba(58,40,32,0.12);margin-top:0.5rem}
+
+  @media(max-width:500px){
+    body{padding:1rem}
+    .notify{padding:1.5rem 1.2rem}
+    .prog-text{font-size:0.6rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="header-name">小盒快递</div>
+    <div class="header-en">LITTLE BOX</div>
+    <div class="pkg">
+      <div class="pkg-lid"></div>
+      <div class="pkg-body"></div>
+      <div class="pkg-ribbon-h"></div>
+      <div class="pkg-ribbon-v"></div>
+    </div>
+  </header>
+
+  <!-- ═══ NOTIFICATION ═══ -->
+  <div class="notify">
+    <div class="notify-title">你的包裹到啦！</div>
+
+    <div class="code-area">
+      <div class="code-label">PICKUP CODE · 取件码</div>
+      <div class="code-num">8-2-0437</div>
+    </div>
+
+    <div class="loc">
+      <div class="loc-main">阳光花园小区 3 号楼 · 东门快递柜</div>
+      <div class="loc-detail">B 区 · 12 号柜 · 中号格</div>
+      <div class="loc-deadline">请在 24 小时内取件</div>
+    </div>
+
+    <!-- Info -->
+    <div class="info">
+      <div class="info-item"><div class="info-label">TRACKING</div><div class="info-val">SF1234567890</div></div>
+      <div class="info-item"><div class="info-label">FROM</div><div class="info-val">好物研究所</div></div>
+      <div class="info-item"><div class="info-label">WEIGHT</div><div class="info-val">0.8 kg</div></div>
+      <div class="info-item"><div class="info-label">ARRIVED</div><div class="info-val">今天 14:23</div></div>
+    </div>
+
+    <!-- Progress -->
+    <div class="progress">
+      <div class="prog-track" style="position:relative">
+        <div class="prog-line"><div class="prog-line-fill"></div></div>
+        <div class="prog-step"><div class="prog-dot prog-dot-done">✓</div><div class="prog-text">已发货<br>3/22</div></div>
+        <div class="prog-step"><div class="prog-dot prog-dot-done">✓</div><div class="prog-text">运输中</div></div>
+        <div class="prog-step"><div class="prog-dot prog-dot-done">✓</div><div class="prog-text">已到达<br>3/25</div></div>
+        <div class="prog-step"><div class="prog-dot prog-dot-wait">⏳</div><div class="prog-text">待取件</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ TIPS ═══ -->
+  <div class="tips">
+    <div class="tip">取件时请出示取件码或扫描短信中的二维码</div>
+    <div class="tip">如果柜子打不开，请拨打客服 400-XXX-XXXX</div>
+    <div class="tip">下雨天记得带伞来取件哦</div>
+  </div>
+
+  <!-- ═══ BUTTONS ═══ -->
+  <div class="btns">
+    <button class="btn-primary">一键导航到快递柜</button>
+    <button class="btn-secondary">我晚点再取</button>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">小盒快递 · 你的包裹，我们用心守护</div>
+    <div class="footer-disc">页面来源：虚构快递 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>

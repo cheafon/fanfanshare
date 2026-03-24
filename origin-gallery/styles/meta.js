@@ -43,4 +43,5 @@ window.__NAV_META = {
   'marble-perfume': { name: '琥珀黄昏 · 大理石香水', desc: '香水产品详情页 — 大理石黑+金箔+暖白+玫瑰金、Cormorant Garamond 300极细+Noto Serif SC+Noto Sans SC 200、金箔渐变shimmer动画+0.5px极细金色线+CSS香水瓶线画+超大留白+大理石radial-gradient纹理+香调金字塔、Luxury Marble奢华大理石', tags: ['dark','luxury','marble','perfume','gold','minimal','elegant','refined'] },
   'collage-fleamarket': { name: '旧时光 · 拼贴跳蚤', desc: '跳蚤市场摊位页 — 牛皮纸+报纸灰白+墨水黑+红印章+牛仔蓝、Special Elite打字机+刘建毛草手写+Noto Sans SC、宝丽来照片框(白border+底部留白+rotate)+CSS胶带+红色橡皮印章+牛皮纸噪声纹理+荧光橙价签+hover翘起、Collage Zine拼贴杂志', tags: ['light','collage','fleamarket','vintage','handwritten','zine','polaroid','diy'] },
   'ukiyoe-fortune': { name: '御神籤 · 浮世绘签文', desc: '运势抽签页 — 靛蓝+朱红+金箔+和纸白+樱粉、Shippori Mincho B1明朝体+Noto Serif SC 900、CSS鸟居剪影+金箔渐变shimmer+朱红印章"福"+和纸纹理签纸+JS抽签5种运势+签诗+运势解读+SVG波浪、Ukiyo-e Modern浮世绘现代', tags: ['dark','ukiyoe','fortune','japanese','interactive','gold','wafuu','animated'] },
+  'clay-package': { name: '小盒快递 · 粘土快递', desc: '快递取件通知页 — 奶油底+糖果蓝粉绿黄紫+巧克力色、Nunito超圆+ZCOOL快乐体、粘土box-shadow(外凸+内光)+超圆角20px+CSS包裹盒子弹跳+内凹hover按钮+圆角进度条+取件码大数字+柔和渐变卡片、Claymorphism粘土态', tags: ['light','clay','package','notification','cute','rounded','3d','candy'] },
 };
