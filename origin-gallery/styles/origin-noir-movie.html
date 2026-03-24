@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>末路狂花 FLOWERS OF FURY — 影评</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Serif+SC:wght@400;500;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--black:#0a0a0a;--gray:#2a2a2a;--smoke:#c8c0b0;--red:#a02020;--gold:#c8a840;--blue:#4a6080;--dim:rgba(200,192,176,0.35)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--black);color:var(--smoke);font-family:'Noto Sans SC',sans-serif;font-size:17px;line-height:1.9;-webkit-font-smoothing:antialiased;display:flex;justify-content:center;padding:2rem}
+
+  /* Film grain overlay */
+  body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:0.04;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:200px 200px}
+
+  .poster{max-width:520px;width:100%;animation:fadeIn 1s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* ═══ STILL FRAME ═══ */
+  .still{position:relative;height:340px;background:linear-gradient(160deg,#1a2030 0%,#2a3040 30%,#1a1a28 60%,#0a0a14 100%);overflow:hidden}
+  .still::after{content:'';position:absolute;bottom:0;left:0;right:0;height:50%;background:linear-gradient(to bottom,transparent,var(--black))}
+
+  .badge{position:absolute;top:16px;left:16px;font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.12em;color:var(--smoke);background:rgba(160,32,32,0.8);padding:0.3em 0.8em;z-index:1}
+
+  /* Film perforation holes on sides */
+  .still::before{content:'';position:absolute;top:0;left:0;bottom:0;width:24px;z-index:1;
+    background:repeating-linear-gradient(to bottom,transparent 0px,transparent 12px,rgba(200,192,176,0.06) 12px,rgba(200,192,176,0.06) 20px,transparent 20px,transparent 32px)}
+
+  /* ═══ TITLE ═══ */
+  .title-area{padding:2rem 2rem 1rem;text-align:center;position:relative}
+  .title-cn{font-family:'Noto Serif SC',serif;font-weight:900;font-size:clamp(2rem,6vw,3rem);color:var(--gold);letter-spacing:0.08em;line-height:1.2;
+    text-shadow:0 0 30px rgba(200,168,64,0.15)}
+  .title-en{font-family:'Bebas Neue',sans-serif;font-size:clamp(0.9rem,2.5vw,1.3rem);color:var(--smoke);letter-spacing:0.15em;margin-top:0.3rem;opacity:0.4}
+  .title-meta{font-size:0.85rem;color:var(--dim);margin-top:0.8rem}
+  .title-meta span{color:var(--gold);opacity:0.6}
+
+  .rating{display:flex;align-items:baseline;justify-content:center;gap:0.5rem;margin-top:0.8rem}
+  .rating-stars{font-size:1rem;color:var(--gold);letter-spacing:2px}
+  .rating-num{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--gold)}
+  .rating-total{font-size:0.8rem;color:var(--dim)}
+
+  /* ═══ PULL QUOTE ═══ */
+  .quote{padding:2rem;text-align:center;position:relative}
+  .quote::before{content:'';position:absolute;top:0;left:2rem;right:2rem;height:1px;background:linear-gradient(90deg,transparent,var(--red),transparent);opacity:0.3}
+  .quote p{font-family:'Noto Serif SC',serif;font-weight:600;font-style:italic;font-size:1.2rem;color:var(--smoke);line-height:2;max-width:400px;margin:0 auto}
+
+  /* ═══ REVIEW ═══ */
+  .review{padding:0 2rem 1.5rem}
+  .review-label{font-family:'Bebas Neue',sans-serif;font-size:0.7rem;color:var(--red);letter-spacing:0.15em;margin-bottom:1rem}
+  .review p{font-weight:300;font-size:1rem;color:rgba(200,192,176,0.55);line-height:2.2;margin-bottom:1.2rem;text-indent:2em;text-align:justify}
+
+  /* ═══ FILM INFO ═══ */
+  .info{padding:1rem 2rem;border-top:1px solid rgba(200,192,176,0.06);border-bottom:1px solid rgba(200,192,176,0.06);margin:0 0 1rem}
+  .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem 1.5rem}
+  .info-label{font-family:'Bebas Neue',sans-serif;font-size:0.6rem;color:var(--dim);letter-spacing:0.1em}
+  .info-val{font-size:0.9rem;color:var(--smoke);opacity:0.6}
+
+  /* ═══ FOOTER ═══ */
+  .footer{padding:1.5rem 2rem;text-align:center}
+  .footer-rec{font-family:'Noto Serif SC',serif;font-weight:500;font-size:0.95rem;color:var(--gold);opacity:0.5;letter-spacing:0.04em}
+  .footer-disc{font-size:0.7rem;color:var(--dim);opacity:0.3;margin-top:0.8rem}
+
+  @media(max-width:500px){
+    body{padding:0.5rem}
+    .still{height:250px}
+    .title-area,.review,.info,.footer{padding-left:1.2rem;padding-right:1.2rem}
+    .quote{padding:1.5rem 1.2rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="poster">
+
+  <!-- ═══ STILL FRAME ═══ -->
+  <div class="still">
+    <div class="badge">R · 犯罪 / 悬疑</div>
+  </div>
+
+  <!-- ═══ TITLE ═══ -->
+  <div class="title-area">
+    <h1 class="title-cn">末路狂花</h1>
+    <div class="title-en">FLOWERS OF FURY</div>
+    <div class="title-meta">导演 <span>陈墨白</span> · 2026</div>
+    <div class="rating">
+      <span class="rating-stars">★★★★☆</span>
+      <span class="rating-num">8.3</span>
+      <span class="rating-total">/ 10</span>
+    </div>
+  </div>
+
+  <!-- ═══ PULL QUOTE ═══ -->
+  <blockquote class="quote">
+    <p>"在暴雨中开枪的女人，比任何男人都危险。"</p>
+  </blockquote>
+
+  <!-- ═══ REVIEW ═══ -->
+  <section class="review">
+    <div class="review-label">REVIEW</div>
+    <p>陈墨白用一部关于三个女人逃亡的故事，重新定义了华语犯罪片的美学标准。没有多余的煽情，没有刻意的反转，只有雨夜、公路和一把生锈的手枪。女主角的眼神里藏着整部电影——那种看透一切之后的平静，比愤怒更让人害怕。</p>
+    <p>摄影是这部电影的另一个主角。全片90%的场景在夜间拍摄，每一帧都像一张被雨水浸湿的宝丽来。配乐克制到几乎沉默，反而让枪声和引擎声变成了最好的音乐。</p>
+  </section>
+
+  <!-- ═══ FILM INFO ═══ -->
+  <div class="info">
+    <div class="info-grid">
+      <div><div class="info-label">RUNTIME</div><div class="info-val">127 分钟</div></div>
+      <div><div class="info-label">LANGUAGE</div><div class="info-val">普通话 / 方言</div></div>
+      <div><div class="info-label">RELEASE</div><div class="info-val">2026.06.15</div></div>
+      <div><div class="info-label">CAST</div><div class="info-val">张默 · 李小溪 · 陈雨桐</div></div>
+    </div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-rec">如果你只看一部 2026 年的华语电影，看这部。</div>
+    <div class="footer-disc">影评来源：虚构影评 · 仅供页面展示</div>
+  </footer>
+
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>

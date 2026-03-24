@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>云南秘境 · 5日自驾 — YUNNAN ROAD TRIP</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=ZCOOL+XiaoWei&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#f5f0e8;--blue:#3a5ba0;--pink:#e8507a;--green:#00a86b;--orange:#f07830;--yellow:#f8d848;--ink:#2a2420;--dim:rgba(42,36,32,0.4)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--paper);color:var(--ink);font-family:'Noto Sans SC',sans-serif;font-size:17px;line-height:1.9;display:flex;justify-content:center;padding:2rem;-webkit-font-smoothing:antialiased}
+
+  /* Paper grain texture */
+  body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:0.035;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px 180px}
+
+  /* Halftone overlay */
+  body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9998;opacity:0.025;
+    background-image:radial-gradient(circle,var(--ink) 0.6px,transparent 0.6px);background-size:4px 4px}
+
+  .zine{max-width:540px;width:100%;animation:fadeIn 0.8s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+  /* ═══ HEADER ═══ */
+  .header{position:relative;text-align:center;padding:2.5rem 2rem 2rem;overflow:hidden}
+
+  /* Riso color block decorations */
+  .header::before{content:'';position:absolute;top:12px;left:-10px;width:120px;height:80px;background:var(--pink);mix-blend-mode:multiply;opacity:0.2;transform:rotate(-3deg);border-radius:2px}
+  .header::after{content:'';position:absolute;top:30px;right:-5px;width:100px;height:60px;background:var(--blue);mix-blend-mode:multiply;opacity:0.15;transform:rotate(2deg);border-radius:2px}
+
+  .header-tag{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:0.15em;color:var(--pink);text-transform:uppercase;margin-bottom:0.5rem}
+
+  .title-wrap{position:relative;display:inline-block}
+  .title-cn{font-family:'ZCOOL XiaoWei',serif;font-size:clamp(2.2rem,7vw,3.2rem);color:var(--ink);line-height:1.3;letter-spacing:0.06em;position:relative}
+  /* Off-register duplicate */
+  .title-cn::after{content:'云南秘境 · 5日自驾';position:absolute;top:2px;left:3px;color:var(--blue);mix-blend-mode:multiply;opacity:0.3;z-index:-1}
+
+  .title-en{font-family:'Space Mono',monospace;font-weight:700;font-size:clamp(0.75rem,2vw,0.95rem);color:var(--blue);letter-spacing:0.2em;margin-top:0.4rem;text-transform:uppercase}
+  .title-en::after{content:'YUNNAN ROAD TRIP';position:absolute;left:53%;transform:translateX(-50%);color:var(--pink);mix-blend-mode:multiply;opacity:0.35}
+  .title-en{position:relative}
+
+  .header-meta{font-size:0.9rem;color:var(--dim);margin-top:0.6rem}
+  .header-meta span{color:var(--green);font-weight:500}
+
+  /* Registration marks */
+  .reg-marks{position:absolute;top:8px;left:8px;width:12px;height:12px;border-left:1.5px solid var(--ink);border-top:1.5px solid var(--ink);opacity:0.15}
+  .reg-marks::after{content:'';position:absolute;top:0;left:6px;width:0;height:12px;border-left:0.5px solid var(--ink)}
+  .reg-marks-br{position:absolute;bottom:8px;right:8px;width:12px;height:12px;border-right:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);opacity:0.15}
+
+  /* ═══ ROUTE OVERVIEW ═══ */
+  .route{padding:1.5rem 2rem;position:relative}
+  .route-label{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;color:var(--orange);text-transform:uppercase;margin-bottom:1rem}
+
+  .route-line{display:flex;align-items:center;flex-wrap:wrap;gap:0.3rem 0;justify-content:center;position:relative}
+  .route-stop{display:flex;align-items:center;gap:0.3rem}
+  .route-dot{width:10px;height:10px;border-radius:50%;border:2px solid var(--blue);background:var(--paper);flex-shrink:0;position:relative}
+  .route-dot::after{content:'';position:absolute;top:1px;left:2px;width:10px;height:10px;border-radius:50%;background:var(--pink);mix-blend-mode:multiply;opacity:0.25}
+  .route-name{font-family:'ZCOOL XiaoWei',serif;font-size:1rem;color:var(--ink)}
+  .route-arrow{font-family:'Space Mono',monospace;color:var(--dim);font-size:0.8rem;margin:0 0.2rem}
+
+  .route-divider{width:100%;height:1px;margin:1.5rem 0 0;background:repeating-linear-gradient(90deg,var(--ink) 0,var(--ink) 4px,transparent 4px,transparent 8px);opacity:0.08}
+
+  /* ═══ DAY SECTIONS ═══ */
+  .days{padding:0 2rem}
+
+  .day{position:relative;padding:1.5rem 0 1.5rem 3.2rem;border-bottom:1px dashed rgba(42,36,32,0.06)}
+  .day:last-child{border-bottom:none}
+
+  /* Day number marker */
+  .day-num{position:absolute;left:0;top:1.5rem;width:2.4rem;height:2.4rem;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-weight:700;font-size:0.85rem;color:var(--paper);background:var(--blue);border-radius:3px;transform:rotate(-1deg)}
+  .day-num::after{content:'';position:absolute;inset:0;background:var(--pink);mix-blend-mode:multiply;opacity:0.15;border-radius:3px;transform:translate(2px,1.5px)}
+
+  /* Connecting line between days */
+  .day::before{content:'';position:absolute;left:1.15rem;top:0;bottom:0;width:1.5px;background:repeating-linear-gradient(to bottom,var(--blue) 0,var(--blue) 3px,transparent 3px,transparent 7px);opacity:0.2}
+  .day:first-child::before{top:1.5rem}
+  .day:last-child::before{bottom:calc(100% - 3.9rem)}
+
+  .day-header{margin-bottom:0.5rem}
+  .day-route{font-family:'ZCOOL XiaoWei',serif;font-size:1.2rem;color:var(--ink);line-height:1.4}
+  .day-dist{font-family:'Space Mono',monospace;font-size:0.7rem;color:var(--orange);letter-spacing:0.05em;margin-top:0.15rem}
+
+  .day-spots{list-style:none;margin-top:0.4rem}
+  .day-spots li{font-weight:300;font-size:1rem;color:var(--dim);line-height:2;padding-left:1.2rem;position:relative}
+  .day-spots li::before{content:'◉';position:absolute;left:0;color:var(--green);font-size:0.6rem;top:0.1rem}
+
+  .day-tip{font-family:'Space Mono',monospace;font-size:0.75rem;color:var(--pink);margin-top:0.4rem;padding:0.4em 0.7em;background:rgba(232,80,122,0.06);border-radius:3px;display:inline-block}
+
+  /* Color accent blocks per day */
+  .day:nth-child(1) .day-num{background:var(--blue)}
+  .day:nth-child(2) .day-num{background:var(--green)}
+  .day:nth-child(2) .day-num::after{background:var(--yellow)}
+  .day:nth-child(3) .day-num{background:var(--orange)}
+  .day:nth-child(3) .day-num::after{background:var(--blue);opacity:0.12}
+  .day:nth-child(4) .day-num{background:var(--pink)}
+  .day:nth-child(4) .day-num::after{background:var(--blue)}
+  .day:nth-child(5) .day-num{background:var(--ink)}
+  .day:nth-child(5) .day-num::after{background:var(--green)}
+
+  /* ═══ PACKING ═══ */
+  .packing{margin:1rem 2rem;padding:1.5rem;background:rgba(58,91,160,0.04);border:1.5px dashed rgba(58,91,160,0.12);border-radius:4px;position:relative}
+  .packing::before{content:'';position:absolute;inset:0;background:rgba(0,168,107,0.02);border-radius:4px;transform:translate(2px,2px);z-index:-1;mix-blend-mode:multiply}
+  .packing-title{font-family:'ZCOOL XiaoWei',serif;font-size:1.05rem;color:var(--blue);margin-bottom:0.6rem}
+  .packing-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.3rem 1.5rem}
+  .pack-item{font-size:0.95rem;color:var(--dim);line-height:1.9;position:relative;padding-left:1.4rem}
+  .pack-item::before{content:'□';position:absolute;left:0;font-family:'Space Mono',monospace;color:var(--orange);font-size:0.85rem}
+
+  /* ═══ FOOTER ═══ */
+  .footer{padding:1.5rem 2rem;text-align:center;position:relative}
+  .footer::before{content:'';display:block;width:60px;height:3px;background:var(--pink);mix-blend-mode:multiply;margin:0 auto 1rem;opacity:0.3}
+  .footer::after{content:'';display:block;width:60px;height:3px;background:var(--blue);mix-blend-mode:multiply;margin:-14px auto 1rem;transform:translateX(3px);opacity:0.2}
+
+  .footer-print{font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--dim);letter-spacing:0.08em;opacity:0.5}
+  .footer-marks{margin-top:0.8rem;display:flex;justify-content:center;gap:1.5rem;opacity:0.12}
+  .footer-marks span{width:14px;height:14px;border:1px solid var(--ink);border-radius:50%;position:relative}
+  .footer-marks span::before{content:'';position:absolute;top:50%;left:-3px;right:-3px;height:0.5px;background:var(--ink)}
+  .footer-marks span::after{content:'';position:absolute;left:50%;top:-3px;bottom:-3px;width:0.5px;background:var(--ink)}
+
+  /* Riso color swatch strip */
+  .color-strip{display:flex;justify-content:center;gap:6px;margin-top:1rem;opacity:0.35}
+  .color-strip i{display:block;width:12px;height:12px;border-radius:1px}
+
+  @media(max-width:500px){
+    body{padding:0.5rem}
+    .header{padding:2rem 1.2rem 1.5rem}
+    .route,.days>div,.packing,.footer{padding-left:1.2rem;padding-right:1.2rem}
+    .route{padding:1.2rem}
+    .days{padding:0 1.2rem}
+    .packing{margin:1rem 1.2rem}
+    .packing-grid{grid-template-columns:1fr}
+    .day{padding-left:2.8rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="zine">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="reg-marks"></div>
+    <div class="reg-marks-br"></div>
+    <div class="header-tag">Travel Zine · Vol.08 · 2026</div>
+    <div class="title-wrap">
+      <h1 class="title-cn">云南秘境 · 5日自驾</h1>
+    </div>
+    <div class="title-en">YUNNAN ROAD TRIP</div>
+    <div class="header-meta">2026年4月 · <span>昆明</span>出发 · 自驾环线</div>
+  </header>
+
+  <!-- ═══ ROUTE OVERVIEW ═══ -->
+  <div class="route">
+    <div class="route-label">Route Overview · 行程总览</div>
+    <div class="route-line">
+      <span class="route-stop"><span class="route-dot"></span><span class="route-name">昆明</span></span>
+      <span class="route-arrow">→</span>
+      <span class="route-stop"><span class="route-dot"></span><span class="route-name">大理</span></span>
+      <span class="route-arrow">→</span>
+      <span class="route-stop"><span class="route-dot"></span><span class="route-name">喜洲</span></span>
+      <span class="route-arrow">→</span>
+      <span class="route-stop"><span class="route-dot"></span><span class="route-name">沙溪</span></span>
+      <span class="route-arrow">→</span>
+      <span class="route-stop"><span class="route-dot"></span><span class="route-name">丽江</span></span>
+      <span class="route-arrow">→</span>
+      <span class="route-stop"><span class="route-dot"></span><span class="route-name">泸沽湖</span></span>
+    </div>
+    <div class="route-divider"></div>
+  </div>
+
+  <!-- ═══ DAYS ═══ -->
+  <div class="days">
+
+    <!-- Day 1 -->
+    <div class="day">
+      <div class="day-num">D1</div>
+      <div class="day-header">
+        <div class="day-route">昆明 → 大理</div>
+        <div class="day-dist">380 km · ~5h drive · G56高速</div>
+      </div>
+      <ul class="day-spots">
+        <li>洱海环海西路骑行，风吹稻浪与蓝天连线</li>
+        <li>大理古城漫步，人民路淘手工银饰</li>
+        <li>苍山脚下白族民宿，推荐才村码头附近</li>
+      </ul>
+      <div class="day-tip">TIP: 环海路电动车租金约50元/天</div>
+    </div>
+
+    <!-- Day 2 -->
+    <div class="day">
+      <div class="day-num">D2</div>
+      <div class="day-header">
+        <div class="day-route">大理 → 喜洲 → 沙溪</div>
+        <div class="day-dist">120 km · 半日慢行 · 国道214</div>
+      </div>
+      <ul class="day-spots">
+        <li>喜洲古镇吃一个刚出炉的喜洲粑粑</li>
+        <li>周城白族扎染体验，亲手染一块蓝布</li>
+        <li>沙溪古镇寺登街，茶马古道上最安静的集市</li>
+      </ul>
+      <div class="day-tip">TIP: 沙溪周五有赶集，当地人卖菌子和核桃</div>
+    </div>
+
+    <!-- Day 3 -->
+    <div class="day">
+      <div class="day-num">D3</div>
+      <div class="day-header">
+        <div class="day-route">沙溪 → 丽江</div>
+        <div class="day-dist">140 km · ~3h · 山路弯多减速</div>
+      </div>
+      <ul class="day-spots">
+        <li>束河古镇比大研安静十倍，青石板路走到尽头有惊喜</li>
+        <li>黑龙潭公园拍玉龙雪山倒影（免费入园）</li>
+        <li>大研古城夜景，灯火和流水声交织</li>
+      </ul>
+      <div class="day-tip">TIP: 丽江古维费已取消，自由出入</div>
+    </div>
+
+    <!-- Day 4 -->
+    <div class="day">
+      <div class="day-num">D4</div>
+      <div class="day-header">
+        <div class="day-route">丽江 → 泸沽湖</div>
+        <div class="day-dist">200 km · ~4h · 山路180弯</div>
+      </div>
+      <ul class="day-spots">
+        <li>环湖骑行，湖水蓝到失真，像打翻了颜料盘</li>
+        <li>里格半岛看日落，水性杨花开满湖面</li>
+        <li>摩梭走婚桥散步，听当地阿妈讲走婚故事</li>
+      </ul>
+      <div class="day-tip">TIP: 山路晕车备好晕车贴，提前30分钟贴上</div>
+    </div>
+
+    <!-- Day 5 -->
+    <div class="day">
+      <div class="day-num">D5</div>
+      <div class="day-header">
+        <div class="day-route">泸沽湖 → 返程</div>
+        <div class="day-dist">返回丽江 · 200 km · ~4h</div>
+      </div>
+      <ul class="day-spots">
+        <li>6:30 起床看日出，湖面金光碎成一万片</li>
+        <li>草海划猪槽船，穿过芦苇荡到对岸</li>
+        <li>午饭后返回丽江，结束云南秘境之旅</li>
+      </ul>
+      <div class="day-tip">TIP: 猪槽船约30元/人，建议清晨无风时划</div>
+    </div>
+
+  </div>
+
+  <!-- ═══ PACKING ═══ -->
+  <div class="packing">
+    <div class="packing-title">行前清单 · PACKING LIST</div>
+    <div class="packing-grid">
+      <div class="pack-item">防晒霜 SPF50+（高原紫外线强）</div>
+      <div class="pack-item">墨镜（湖面反光刺眼）</div>
+      <div class="pack-item">厚外套（早晚温差 15°C+）</div>
+      <div class="pack-item">晕车药 / 晕车贴</div>
+      <div class="pack-item">现金（部分古镇无信号）</div>
+      <div class="pack-item">充电宝（山路无服务区）</div>
+      <div class="pack-item">舒适徒步鞋</div>
+      <div class="pack-item">保温杯（高原多喝热水）</div>
+    </div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-print">印刷：虚构旅行社 · RISOGRAPH 2-COLOR · 仅供页面展示</div>
+    <div class="footer-marks">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="color-strip">
+      <i style="background:var(--blue)"></i>
+      <i style="background:var(--pink)"></i>
+      <i style="background:var(--green)"></i>
+      <i style="background:var(--orange)"></i>
+      <i style="background:var(--yellow)"></i>
+    </div>
+  </footer>
+
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>
