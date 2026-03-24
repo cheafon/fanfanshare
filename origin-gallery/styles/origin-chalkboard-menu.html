@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>拾巷 RUELLETTE — 藏在弄堂里的法式小酒馆</title>
+<link href="https://fonts.googleapis.com/css2?family=Sacramento&family=ZCOOL+XiaoWei&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --board:#1a2a1a;--board-light:#2a3a28;--chalk:#e8e4d8;--yellow:#e8d88c;
+    --pink:#d4928a;--dim:rgba(232,228,216,0.35);--dots:rgba(232,228,216,0.15);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--board);color:var(--chalk);font-family:'Noto Sans SC',sans-serif;font-size:17px;line-height:1.8;-webkit-font-smoothing:antialiased}
+
+  /* Board texture */
+  body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:0.015;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size:200px 200px}
+
+  .menu{max-width:600px;margin:0 auto;padding:3rem 2rem}
+
+  /* Wavy hand-drawn divider */
+  .wavy{text-align:center;padding:1.5rem 0;font-size:0.6rem;letter-spacing:4px;color:var(--dim);overflow:hidden;max-height:20px}
+
+  /* Section title */
+  .sec-en{font-family:'Sacramento',cursive;font-size:2.2rem;color:var(--yellow);text-align:center;line-height:1}
+  .sec-cn{font-family:'ZCOOL XiaoWei',serif;font-size:1rem;color:var(--dim);text-align:center;letter-spacing:0.15em;margin-top:0.2rem;margin-bottom:1.5rem}
+
+  /* Menu item with leader dots */
+  .item{display:flex;align-items:baseline;margin-bottom:1rem;gap:0.5rem}
+  .item-name{font-family:'ZCOOL XiaoWei',serif;font-size:1.1rem;color:var(--chalk);white-space:nowrap;opacity:0.9}
+  .item-dots{flex:1;border-bottom:1px dotted var(--dots);margin:0 0.3rem;min-width:20px;align-self:baseline;margin-bottom:4px}
+  .item-price{font-family:'Sacramento',cursive;font-size:1.3rem;color:var(--yellow);white-space:nowrap}
+  .item-desc{font-size:0.88rem;font-weight:300;color:var(--dim);margin-top:-0.5rem;margin-bottom:1.2rem;padding-left:0.5rem;line-height:1.8}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;padding:3rem 0 1rem}
+  .header-en{font-family:'Sacramento',cursive;font-size:3.5rem;color:var(--chalk);line-height:1}
+  .header-cn{font-family:'ZCOOL XiaoWei',serif;font-size:1.8rem;color:var(--yellow);letter-spacing:0.2em;margin-top:0.2rem}
+  .header-sub{font-family:'ZCOOL XiaoWei',serif;font-size:0.9rem;color:var(--dim);margin-top:0.8rem;letter-spacing:0.06em}
+  .header-info{font-size:0.8rem;color:var(--dim);margin-top:1rem;line-height:2;opacity:0.6}
+
+  /* ═══ SPECIAL ═══ */
+  .special{background:var(--board-light);border:1px dashed var(--dim);padding:1.5rem 2rem;margin:1.5rem 0;text-align:center;position:relative}
+  .special::before{content:'★ 今日推荐 ★';position:absolute;top:-10px;left:50%;transform:translateX(-50%);font-family:'ZCOOL XiaoWei',serif;font-size:0.7rem;color:var(--board);background:var(--yellow);padding:0.1em 1em;letter-spacing:0.1em}
+  .special-name{font-family:'ZCOOL XiaoWei',serif;font-size:1.3rem;color:var(--chalk);margin-top:0.5rem}
+  .special-desc{font-size:0.9rem;color:var(--dim);margin-top:0.5rem;line-height:2}
+  .special-price{font-family:'Sacramento',cursive;font-size:1.8rem;color:var(--pink);margin-top:0.5rem}
+
+  /* ═══ BOTTOM ═══ */
+  .bottom{text-align:center;padding:2rem 0 1rem}
+  .bottom-text{font-family:'Sacramento',cursive;font-size:2rem;color:var(--pink)}
+  .bottom-cn{font-family:'ZCOOL XiaoWei',serif;font-size:0.9rem;color:var(--dim);margin-top:0.3rem;letter-spacing:0.1em}
+  .bottom-note{font-size:0.7rem;color:var(--dim);opacity:0.4;margin-top:1.5rem;line-height:1.8}
+
+  @media(max-width:600px){
+    .menu{padding:2rem 1.2rem}
+    .header-en{font-size:2.5rem}
+    .header-cn{font-size:1.3rem}
+    .special{padding:1.2rem 1rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="menu">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <h1 class="header-en">Ruellette</h1>
+    <div class="header-cn">拾巷</div>
+    <div class="header-sub">藏在弄堂里的法式小酒馆</div>
+    <div class="header-info">
+      周二至周日 17:00 — 23:00 · 周一休息<br>
+      上海市静安区愚园路 388 弄 12 号
+    </div>
+  </header>
+
+  <div class="wavy">〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰</div>
+
+  <!-- ═══ CHEF'S SPECIAL ═══ -->
+  <div class="special">
+    <div class="special-name">慢炖勃艮第红酒牛肉</div>
+    <div class="special-desc">选用澳洲安格斯牛肩肉，配以勃艮第黑皮诺红酒慢炖6小时，配手打土豆泥</div>
+    <div class="special-price">¥168</div>
+  </div>
+
+  <div class="wavy">〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰</div>
+
+  <!-- ═══ ENTRÉES ═══ -->
+  <div class="sec-en">Entrées</div>
+  <div class="sec-cn">前菜</div>
+
+  <div class="item">
+    <span class="item-name">鹅肝慕斯配无花果酱</span>
+    <span class="item-dots"></span>
+    <span class="item-price">¥88</span>
+  </div>
+
+  <div class="item">
+    <span class="item-name">尼斯沙拉配油封金枪鱼</span>
+    <span class="item-dots"></span>
+    <span class="item-price">¥68</span>
+  </div>
+
+  <div class="item">
+    <span class="item-name">法式洋葱汤配芝士面包</span>
+    <span class="item-dots"></span>
+    <span class="item-price">¥58</span>
+  </div>
+
+  <div class="wavy">〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰</div>
+
+  <!-- ═══ PLATS ═══ -->
+  <div class="sec-en">Plats</div>
+  <div class="sec-cn">主菜</div>
+
+  <div class="item">
+    <span class="item-name">香煎鸭胸配樱桃酱汁</span>
+    <span class="item-dots"></span>
+    <span class="item-price">¥158</span>
+  </div>
+
+  <div class="item">
+    <span class="item-name">白葡萄酒煮青口配薯条</span>
+    <span class="item-dots"></span>
+    <span class="item-price">¥128</span>
+  </div>
+
+  <div class="item">
+    <span class="item-name">黑松露奶油意面</span>
+    <span class="item-dots"></span>
+    <span class="item-price">¥138</span>
+  </div>
+
+  <div class="wavy">〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰</div>
+
+  <!-- ═══ DESSERTS ═══ -->
+  <div class="sec-en">Desserts</div>
+  <div class="sec-cn">甜品</div>
+
+  <div class="item">
+    <span class="item-name">焦糖布蕾</span>
+    <span class="item-dots"></span>
+    <span class="item-price">¥48</span>
+  </div>
+
+  <div class="item">
+    <span class="item-name">巧克力熔岩蛋糕</span>
+    <span class="item-dots"></span>
+    <span class="item-price">¥58</span>
+  </div>
+
+  <div class="item">
+    <span class="item-name">柠檬挞配马斯卡彭</span>
+    <span class="item-dots"></span>
+    <span class="item-price">¥52</span>
+  </div>
+
+  <div class="wavy">〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰</div>
+
+  <!-- ═══ BOISSONS ═══ -->
+  <div class="sec-en">Boissons</div>
+  <div class="sec-cn">酒水</div>
+
+  <div class="item">
+    <span class="item-name">今日红酒 · 勃艮第黑皮诺</span>
+    <span class="item-dots"></span>
+    <span class="item-price">¥68/杯</span>
+  </div>
+
+  <div class="item">
+    <span class="item-name">今日白酒 · 卢瓦尔长相思</span>
+    <span class="item-dots"></span>
+    <span class="item-price">¥58/杯</span>
+  </div>
+
+  <div class="item">
+    <span class="item-name">法式 75 鸡尾酒</span>
+    <span class="item-dots"></span>
+    <span class="item-price">¥78</span>
+  </div>
+
+  <div class="wavy">〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰</div>
+
+  <!-- ═══ BOTTOM ═══ -->
+  <div class="bottom">
+    <div class="bottom-text">Bon Appétit</div>
+    <div class="bottom-cn">请慢用</div>
+    <div class="bottom-note">所有价格含税含服务费<br>如有食物过敏请告知服务员</div>
+  </div>
+
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>
