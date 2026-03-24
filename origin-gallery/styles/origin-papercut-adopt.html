@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>年糕 NIANGAO — 等待一个家 · 毛球收容站</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=ZCOOL+KuaiLe&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#f8f5f0;--orange:#e8a060;--mint:#88c8a8;--sky:#78b8d8;--pink:#e8a8a0;--brown:#3a2a20;--dim:rgba(58,42,32,0.4);
+    --paper-shadow:0 2px 0 #e8e2d8,0 4px 0 #e0d8c8,0 6px 12px rgba(0,0,0,0.06)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#ede8e0;color:var(--brown);font-family:'Noto Sans SC',sans-serif;font-size:17px;line-height:1.8;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:2rem;-webkit-font-smoothing:antialiased}
+
+  .card{max-width:480px;width:100%;background:var(--paper);border-radius:24px;box-shadow:var(--paper-shadow);padding:0;overflow:hidden;position:relative;
+    animation:fadeUp 0.6s ease}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+
+  /* ═══ PHOTO AREA ═══ */
+  .photo{position:relative;height:280px;background:linear-gradient(135deg,#e8b878,#d89858,#e8c088);border-radius:24px 24px 0 0;overflow:hidden}
+
+  /* Sticker */
+  .sticker{position:absolute;top:16px;right:16px;background:var(--orange);color:#fff;font-family:'ZCOOL KuaiLe',cursive;font-size:0.85rem;
+    padding:0.4em 1em;border-radius:12px;transform:rotate(3deg);box-shadow:2px 3px 6px rgba(0,0,0,0.1)}
+
+  /* Name tag */
+  .name-tag{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);background:var(--paper);
+    padding:0.6rem 2rem;border-radius:16px;box-shadow:var(--paper-shadow);text-align:center;z-index:2;white-space:nowrap}
+  .name-cn{font-family:'ZCOOL KuaiLe',cursive;font-size:1.6rem;color:var(--brown)}
+  .name-en{font-family:'Baloo 2',cursive;font-weight:500;font-size:0.75rem;color:var(--dim);letter-spacing:0.06em}
+
+  /* Cat emoji decoration */
+  .photo::after{content:'🐱';position:absolute;bottom:30px;left:50%;transform:translateX(-50%);font-size:4rem;opacity:0.2}
+
+  /* ═══ BODY ═══ */
+  .body{padding:2.5rem 2rem 2rem}
+
+  /* Info tags */
+  .tags{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1.5rem;justify-content:center}
+  .tag{padding:0.35em 0.9em;border-radius:10px;font-size:0.82rem;font-weight:500;box-shadow:0 1px 0 rgba(0,0,0,0.04),0 2px 4px rgba(0,0,0,0.03)}
+  .tag-orange{background:rgba(232,160,96,0.15);color:#a07040}
+  .tag-mint{background:rgba(136,200,168,0.15);color:#4a8a5a}
+  .tag-sky{background:rgba(120,184,216,0.15);color:#4a7a9a}
+  .tag-pink{background:rgba(232,168,160,0.15);color:#a06060}
+
+  /* Story */
+  .story{margin-bottom:1.5rem}
+  .story-title{font-family:'ZCOOL KuaiLe',cursive;font-size:1.1rem;color:var(--orange);margin-bottom:0.5rem}
+  .story-text{font-weight:300;font-size:1rem;color:var(--dim);line-height:2.2}
+
+  /* Requirements */
+  .reqs{background:rgba(136,200,168,0.08);border-radius:16px;padding:1.2rem 1.5rem;margin-bottom:1.5rem;
+    box-shadow:inset 0 2px 4px rgba(0,0,0,0.02)}
+  .reqs-title{font-family:'ZCOOL KuaiLe',cursive;font-size:0.95rem;color:var(--mint);margin-bottom:0.5rem}
+  .req{font-size:0.95rem;line-height:2;color:var(--dim)}
+  .req-no{color:var(--pink);font-weight:500}
+
+  /* CTA */
+  .cta-area{text-align:center}
+  .cta-btn{display:inline-block;font-family:'ZCOOL KuaiLe',cursive;font-size:1.15rem;color:#fff;
+    background:var(--orange);padding:0.8em 2.5em;border-radius:16px;border:none;cursor:pointer;
+    box-shadow:0 4px 0 #c88040,0 6px 12px rgba(232,160,96,0.2);transition:all 0.15s;text-decoration:none}
+  .cta-btn:active{transform:translateY(2px);box-shadow:0 2px 0 #c88040,0 3px 6px rgba(232,160,96,0.15)}
+  .cta-btn:hover{background:#d89050}
+
+  .cta-wechat{font-size:0.85rem;color:var(--dim);margin-top:0.8rem}
+
+  /* Footer */
+  .footer{text-align:center;padding:1.5rem 2rem;border-top:1px dashed rgba(58,42,32,0.08);margin-top:1rem}
+  .footer-brand{font-family:'Baloo 2',cursive;font-weight:600;font-size:0.8rem;color:var(--dim);opacity:0.5}
+  .footer-motto{font-family:'ZCOOL KuaiLe',cursive;font-size:0.85rem;color:var(--mint);margin-top:0.2rem}
+
+  /* Decorative paper layers */
+  .card::before{content:'';position:absolute;bottom:-4px;left:8px;right:8px;height:100%;border-radius:24px;
+    background:var(--paper);z-index:-1;box-shadow:0 4px 8px rgba(0,0,0,0.04);opacity:0.6}
+  .card::after{content:'';position:absolute;bottom:-8px;left:16px;right:16px;height:100%;border-radius:24px;
+    background:var(--paper);z-index:-2;box-shadow:0 4px 8px rgba(0,0,0,0.03);opacity:0.3}
+
+  @media(max-width:500px){
+    body{padding:1rem}
+    .photo{height:220px}
+    .body{padding:2rem 1.5rem 1.5rem}
+    .name-tag{padding:0.5rem 1.5rem}
+    .name-cn{font-size:1.3rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <!-- ═══ PHOTO ═══ -->
+  <div class="photo">
+    <div class="sticker">🧡 等待领养中</div>
+  </div>
+  <div class="name-tag">
+    <div class="name-cn">年糕</div>
+    <div class="name-en">NIANGAO · 橘猫 · ♂</div>
+  </div>
+
+  <!-- ═══ BODY ═══ -->
+  <div class="body">
+
+    <!-- Info tags -->
+    <div class="tags">
+      <span class="tag tag-orange">约 2 岁</span>
+      <span class="tag tag-mint">5.2 kg（有点胖）</span>
+      <span class="tag tag-sky">亲人 · 贪吃 · 爱呼噜</span>
+      <span class="tag tag-mint">已绝育 · 已驱虫 · 已疫苗 ✅</span>
+      <span class="tag tag-pink">特技：握手 · 翻肚皮</span>
+    </div>
+
+    <!-- Story -->
+    <div class="story">
+      <div class="story-title">年糕的故事 🐾</div>
+      <p class="story-text">年糕是去年冬天在小区垃圾桶旁边被发现的。当时又瘦又脏，但看到志愿者的第一反应不是逃跑，而是蹭过来求摸。来到收容站后，他用三天时间吃胖了一公斤，用一周时间学会了握手。他最喜欢趴在窗台上看鸟，以及——吃。他真的很能吃。</p>
+    </div>
+
+    <!-- Requirements -->
+    <div class="reqs">
+      <div class="reqs-title">领养条件</div>
+      <div class="req">✅ 有稳定住所（租房需房东同意养宠）</div>
+      <div class="req">✅ 承诺科学喂养和定期体检</div>
+      <div class="req">✅ 同意家访和回访</div>
+      <div class="req">✅ 接受签署领养协议</div>
+      <div class="req req-no">❌ 不接受笼养 · 不接受散养</div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-area">
+      <a href="#" class="cta-btn">🧡 给年糕一个家</a>
+      <div class="cta-wechat">微信联系：furball_shelter</div>
+    </div>
+
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <div class="footer">
+    <div class="footer-brand">FURBALL SHELTER · 毛球收容站</div>
+    <div class="footer-motto">领养代替购买 · 用爱回家</div>
+  </div>
+
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>
