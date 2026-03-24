@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>暗语密室 WHISPER ROOMS — 沉浸式实景密室逃脱</title>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Cinzel+Decorative:wght@400;700;900&family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--velvet:#1a0a0a;--blood:#6b1a1a;--gold:#c8a848;--bone:#e8ddd0;--purple:#2a1a30;--candle:#d89040;--black:#0a0808;--dim:rgba(232,221,208,0.3)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--velvet);color:var(--bone);font-family:'Noto Sans SC',sans-serif;font-size:17px;line-height:1.9;display:flex;justify-content:center;padding:2rem;-webkit-font-smoothing:antialiased;position:relative}
+
+  /* Velvet noise texture */
+  body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9998;opacity:0.04;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:200px 200px}
+
+  /* Deep red vignette */
+  body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9997;
+    background:radial-gradient(ellipse at center,transparent 30%,rgba(26,10,10,0.6) 100%)}
+
+  .manor{max-width:520px;width:100%;position:relative;z-index:1;animation:reveal 1.2s ease}
+  @keyframes reveal{from{opacity:0}to{opacity:1}}
+
+  /* ═══ ORNAMENTAL DIVIDERS ═══ */
+  .orn{text-align:center;padding:1rem 0;color:var(--gold);font-size:0.9rem;letter-spacing:0.3em;opacity:0.4;
+    text-shadow:0 0 8px rgba(200,168,72,0.2)}
+  .orn-lg{font-family:'UnifrakturMaguntia',cursive;font-size:1.2rem;opacity:0.3}
+
+  .rule{border:none;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.15;margin:0}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;padding:1.5rem 0 0.5rem;position:relative}
+
+  /* Candle glow */
+  .candle{position:absolute;top:0;left:50%;transform:translateX(-50%);width:6px;height:6px;border-radius:50%;background:var(--candle);
+    box-shadow:0 0 20px 8px rgba(216,144,64,0.3),0 0 60px 20px rgba(216,144,64,0.1);
+    animation:glow 3s ease-in-out infinite}
+  @keyframes glow{0%,100%{box-shadow:0 0 20px 8px rgba(216,144,64,0.3),0 0 60px 20px rgba(216,144,64,0.1)}50%{box-shadow:0 0 30px 12px rgba(216,144,64,0.45),0 0 80px 30px rgba(216,144,64,0.15)}}
+
+  .shop-name{font-family:'Ma Shan Zheng',cursive;font-size:clamp(2.6rem,8vw,3.6rem);color:var(--gold);line-height:1.2;letter-spacing:0.1em;margin-top:1.5rem;
+    text-shadow:0 0 20px rgba(200,168,72,0.2),0 2px 4px rgba(0,0,0,0.5)}
+  .shop-en{font-family:'Cinzel Decorative',serif;font-weight:400;font-size:clamp(0.7rem,2vw,0.9rem);color:var(--bone);letter-spacing:0.3em;margin-top:0.4rem;opacity:0.4}
+  .shop-sub{font-size:0.85rem;color:var(--dim);margin-top:0.5rem;letter-spacing:0.08em}
+
+  /* ═══ ROOM CARDS ═══ */
+  .rooms{padding:0.5rem 0}
+  .room{background:linear-gradient(170deg,rgba(42,26,48,0.5),rgba(26,10,10,0.8));border:1px solid rgba(200,168,72,0.12);padding:1.5rem;margin-bottom:1.2rem;position:relative;overflow:hidden}
+
+  /* Gothic arch top decoration */
+  .room::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:40px;height:20px;border-bottom-left-radius:20px 20px;border-bottom-right-radius:20px 20px;border-bottom:1px solid rgba(200,168,72,0.2);border-left:1px solid rgba(200,168,72,0.2);border-right:1px solid rgba(200,168,72,0.2)}
+
+  .room-name{font-family:'Ma Shan Zheng',cursive;font-size:1.6rem;color:var(--gold);text-align:center;
+    text-shadow:0 0 15px rgba(200,168,72,0.15)}
+  .room-meta{text-align:center;margin:0.5rem 0;font-size:0.85rem;color:var(--dim)}
+  .room-stars{color:var(--candle);letter-spacing:2px;font-size:0.9rem}
+  .room-stars-off{opacity:0.2}
+  .room-diff{font-family:'Cinzel Decorative',serif;font-size:0.65rem;color:var(--bone);letter-spacing:0.1em;opacity:0.4;margin-left:0.4rem}
+
+  .room-desc{font-weight:300;font-size:1rem;color:rgba(232,221,208,0.5);line-height:2.2;margin:0.8rem 0;text-indent:2em;text-align:justify}
+
+  .room-tags{display:flex;justify-content:center;gap:1rem;font-size:0.8rem}
+  .room-tag{color:var(--dim)}
+  .room-tag span{color:var(--candle)}
+  .room-tag-high span{color:var(--gold)}
+
+  .room-badge{text-align:center;margin-top:0.8rem;font-family:'Ma Shan Zheng',cursive;font-size:0.9rem;color:var(--blood);
+    background:linear-gradient(90deg,transparent,rgba(200,168,72,0.08),transparent);padding:0.3em 0;letter-spacing:0.05em;
+    color:var(--candle);opacity:0.7}
+
+  /* Room accent colors */
+  .room-1{border-left:2px solid rgba(42,74,58,0.3)}
+  .room-2{border-left:2px solid rgba(107,26,26,0.4)}
+  .room-3{border-left:2px solid rgba(200,168,72,0.25)}
+
+  /* ═══ BOOKING NOTES ═══ */
+  .notes{padding:1.2rem 1.5rem;border:1px solid rgba(200,168,72,0.08);background:rgba(42,26,48,0.2);margin-bottom:1rem}
+  .notes-title{font-family:'Cinzel Decorative',serif;font-size:0.7rem;color:var(--gold);letter-spacing:0.2em;margin-bottom:0.8rem;text-align:center;opacity:0.6}
+  .note{font-size:0.95rem;color:var(--dim);line-height:2;padding-left:1.2rem;position:relative}
+  .note::before{content:'†';position:absolute;left:0;color:var(--gold);opacity:0.4;font-size:0.85rem}
+  .note-safe{font-family:'Ma Shan Zheng',cursive;font-size:1rem;color:var(--bone);text-align:center;margin-top:1rem;opacity:0.5;
+    text-shadow:0 0 10px rgba(200,168,72,0.1)}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;padding:1rem 0 0.5rem}
+  .footer-phone{font-family:'Cinzel Decorative',serif;font-size:0.75rem;color:var(--gold);letter-spacing:0.1em;opacity:0.5}
+  .footer-addr{font-size:0.85rem;color:var(--dim);opacity:0.4;margin-top:0.3rem}
+  .footer-dare{font-family:'Ma Shan Zheng',cursive;font-size:1.3rem;color:var(--blood);margin-top:0.8rem;
+    text-shadow:0 0 15px rgba(107,26,26,0.3);animation:flicker 4s ease-in-out infinite}
+  @keyframes flicker{0%,100%{opacity:0.7}30%{opacity:0.6}50%{opacity:0.8}70%{opacity:0.5}90%{opacity:0.75}}
+  .footer-disc{font-size:0.72rem;color:var(--dim);opacity:0.2;margin-top:1rem}
+
+  @media(max-width:500px){
+    body{padding:0.8rem}
+    .room{padding:1.2rem}
+    .notes{padding:1rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="manor">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="candle"></div>
+    <h1 class="shop-name">暗语密室</h1>
+    <div class="shop-en">Whisper Rooms</div>
+    <div class="shop-sub">沉浸式实景密室 · 上海静安</div>
+  </header>
+
+  <hr class="rule">
+  <div class="orn">— ✦ ✧ ✦ —</div>
+  <hr class="rule">
+
+  <!-- ═══ ROOMS ═══ -->
+  <section class="rooms">
+
+    <div class="room room-1">
+      <div class="room-name">失忆药剂师</div>
+      <div class="room-meta">
+        <span class="room-stars">★★★<span class="room-stars-off">★★</span></span>
+        <span class="room-diff">MEDIUM</span>
+        <br>2–4 人 · 60 分钟
+      </div>
+      <p class="room-desc">你醒来时发现自己在一间废弃的药房里，桌上散落着不明液体和一封写给你的信。信上说：你有60分钟想起一切，否则——</p>
+      <div class="room-tags">
+        <span class="room-tag">恐怖 <span>低</span></span>
+        <span class="room-tag room-tag-high">推理 <span>高</span></span>
+      </div>
+    </div>
+
+    <div class="room room-2">
+      <div class="room-name">伯爵的晚宴</div>
+      <div class="room-meta">
+        <span class="room-stars">★★★★<span class="room-stars-off">★</span></span>
+        <span class="room-diff">HARD</span>
+        <br>4–6 人 · 75 分钟
+      </div>
+      <p class="room-desc">你收到了一封匿名邀请函，邀你参加城堡里的晚宴。到达时你发现：所有宾客都戴着面具，而主人已经死了。</p>
+      <div class="room-tags">
+        <span class="room-tag">恐怖 <span>中</span></span>
+        <span class="room-tag room-tag-high">推理 <span>高</span></span>
+      </div>
+    </div>
+
+    <div class="room room-3">
+      <div class="room-name">地下铁的最后一班</div>
+      <div class="room-meta">
+        <span class="room-stars">★★★★★</span>
+        <span class="room-diff">HELL</span>
+        <br>3–6 人 · 90 分钟
+      </div>
+      <p class="room-desc">末班地铁，车厢里只有你们几个人。列车驶过了终点站却没有停下。车窗外是不应该存在的站台，广播里传来的声音——不是人类的。</p>
+      <div class="room-tags">
+        <span class="room-tag">恐怖 <span>极高</span></span>
+        <span class="room-tag">推理 <span>中</span></span>
+      </div>
+      <div class="room-badge">本馆最受欢迎 · 胆小者慎入</div>
+    </div>
+
+  </section>
+
+  <hr class="rule">
+  <div class="orn-lg">❦</div>
+  <hr class="rule">
+
+  <!-- ═══ BOOKING NOTES ═══ -->
+  <div class="notes">
+    <div class="notes-title">BOOKING NOTICE · 预约须知</div>
+    <div class="note">营业时间：周二至周日 14:00 – 22:00（周一闭馆）</div>
+    <div class="note">请提前 24 小时预约 · 迟到 15 分钟视为放弃</div>
+    <div class="note">12 岁以下谢绝入场 · 心脏病 / 幽闭恐惧症患者请慎重</div>
+    <div class="note-safe">所有房间均可中途退出，你的安全永远是第一位的</div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-phone">TEL: 021-XXXX-XXXX</div>
+    <div class="footer-addr">上海市静安区某某路 666 号 B1</div>
+    <div class="footer-dare">如果你敢的话。</div>
+    <div class="orn">— ✦ —</div>
+    <div class="footer-disc">页面来源：虚构密室 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>
