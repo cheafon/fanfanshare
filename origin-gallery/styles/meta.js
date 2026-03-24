@@ -20,4 +20,5 @@ window.__NAV_META = {
   'retro-podcast': { name: '深夜电台 · 复古播客', desc: '播客节目主页 — 深棕木纹+广播琥珀+旋钮红+电子管暖光、Abril Fatface+ZCOOL小薇体、模拟收音机面板+CSS频率刻度盘+指针摆动+指示灯呼吸+节目预设列表、50s广播时代', tags: ['dark','retro','podcast','radio','amber','vintage','animated'] },
   'bauhaus-weather': { name: '晴雨表 CLIMA · 包豪斯天气', desc: '天气仪表盘 — 严格红蓝黄+黑白三原色、Bebas Neue全大写+Noto Sans SC 900、几何形状装数据(红圆温度/蓝方AQI/黄圆UV)+conic-gradient湿度环+24h横排+7日列表、包豪斯构成', tags: ['light','bauhaus','weather','dashboard','geometric','primary','data'] },
   'handdrawn-recipe': { name: '厨房手记 · 手绘食谱', desc: '红烧肉菜谱详情 — 方格纸白+铅笔灰+水彩红绿+牛皮纸、Caveat手写+ZCOOL小薇体、横线纸背景+红色装订线+勾选框配料+手绘编号步骤+便签小贴士、手帐笔记风', tags: ['light','handdrawn','recipe','notebook','handwritten','warm','static'] },
+  'destijl-exhibition': { name: '格子之外 · 蒙德里安展览', desc: '艺术展导览页 — 严格红蓝黄黑白蒙德里安五色、Archivo Black全大写+Noto Sans SC 900、CSS Grid蒙德里安构成+6px粗黑线框+不等分色块矩形+内容嵌入色块、De Stijl风格派', tags: ['light','destijl','exhibition','mondrian','grid','primary','art','static'] },
 };

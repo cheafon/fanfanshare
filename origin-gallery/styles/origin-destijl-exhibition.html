@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>格子之外 — 当代几何抽象艺术展 · MOCA SHANGHAI</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Noto+Sans+SC:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{--red:#d40000;--blue:#0000c8;--yellow:#f0d800;--white:#fff;--black:#000;--b:6px}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--black);font-family:'Noto Sans SC',sans-serif;font-size:17px;font-weight:700;-webkit-font-smoothing:antialiased;min-height:100vh}
+
+  /* ═══ MONDRIAN GRID ═══ */
+  .mondrian{
+    display:grid;
+    grid-template-columns:3fr 1.2fr 1fr;
+    grid-template-rows:auto auto 80px auto 60px auto 50px;
+    gap:var(--b);
+    padding:var(--b);
+    min-height:100vh;
+    background:var(--black);
+  }
+
+  .cell{padding:1.5rem;display:flex;flex-direction:column;justify-content:center}
+
+  /* ═══ CELLS ═══ */
+
+  /* Title — large white, spans 2 cols */
+  .c-title{background:var(--white);color:var(--black);grid-column:1/3;grid-row:1/2;padding:3rem 2.5rem;justify-content:flex-end}
+  .c-title h1{font-weight:900;font-size:clamp(3rem,8vw,5.5rem);line-height:1.1;letter-spacing:0.02em}
+  .c-title-en{font-family:'Archivo Black',sans-serif;font-size:clamp(1rem,2.5vw,1.6rem);letter-spacing:0.06em;margin-top:0.5rem;text-transform:uppercase}
+  .c-title-sub{font-weight:400;font-size:1rem;margin-top:0.8rem;opacity:0.5}
+
+  /* Red — date */
+  .c-date{background:var(--red);color:var(--white);grid-column:3/4;grid-row:1/2;text-align:center;justify-content:center}
+  .c-date-val{font-family:'Archivo Black',sans-serif;font-size:1.8rem;letter-spacing:0.04em;line-height:1.3}
+  .c-date-label{font-weight:400;font-size:0.75rem;opacity:0.6;margin-top:0.5rem;letter-spacing:0.08em}
+
+  /* Blue — venue, spans 2 cols */
+  .c-venue{background:var(--blue);color:var(--white);grid-column:1/2;grid-row:2/3}
+  .c-venue-name{font-weight:900;font-size:1.2rem;letter-spacing:0.04em}
+  .c-venue-addr{font-weight:400;font-size:0.9rem;opacity:0.6;margin-top:0.3rem}
+
+  /* Yellow — tickets */
+  .c-tickets{background:var(--yellow);color:var(--black);grid-column:2/4;grid-row:2/3}
+  .c-tickets-title{font-family:'Archivo Black',sans-serif;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.5rem}
+  .c-tickets-info{font-weight:900;font-size:1.1rem;line-height:1.8}
+
+  /* White strip — artists */
+  .c-artists{background:var(--white);color:var(--black);grid-column:1/4;grid-row:3/4;flex-direction:row;align-items:center;gap:1rem;flex-wrap:wrap;padding:0.8rem 1.5rem}
+  .c-artists-label{font-family:'Archivo Black',sans-serif;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;opacity:0.3;flex-shrink:0}
+  .c-artists-list{font-weight:400;font-size:0.95rem;letter-spacing:0.04em;opacity:0.6}
+
+  /* Description — white */
+  .c-desc{background:var(--white);color:var(--black);grid-column:1/2;grid-row:4/5;padding:2rem}
+  .c-desc p{font-weight:400;font-size:1.05rem;line-height:2.2;opacity:0.6}
+
+  /* Black block — logo */
+  .c-logo{background:var(--black);color:var(--white);grid-column:2/3;grid-row:4/5;text-align:center;justify-content:center}
+  .c-logo-text{font-family:'Archivo Black',sans-serif;font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;line-height:1.8}
+
+  /* Red small — hours */
+  .c-hours{background:var(--red);color:var(--white);grid-column:3/4;grid-row:4/5;text-align:center;justify-content:center;font-size:0.85rem;line-height:1.8}
+  .c-hours-label{font-family:'Archivo Black',sans-serif;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;opacity:0.5;margin-bottom:0.3rem}
+
+  /* Yellow — button */
+  .c-cta{background:var(--yellow);color:var(--black);grid-column:1/2;grid-row:5/6;flex-direction:row;align-items:center;justify-content:center;padding:0.5rem}
+  .c-cta a{font-family:'Archivo Black',sans-serif;font-size:0.9rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--black);text-decoration:none}
+
+  /* Blue small */
+  .c-blue-sm{background:var(--blue);grid-column:2/4;grid-row:5/6}
+
+  /* White — extra info */
+  .c-extra{background:var(--white);color:var(--black);grid-column:1/3;grid-row:6/7;padding:1.5rem 2rem}
+  .c-extra p{font-weight:400;font-size:0.92rem;line-height:2;opacity:0.4}
+
+  /* Red accent */
+  .c-red-sm{background:var(--red);grid-column:3/4;grid-row:6/7}
+
+  /* Footer strip */
+  .c-footer{background:var(--white);color:var(--black);grid-column:1/4;grid-row:7/8;flex-direction:row;align-items:center;justify-content:space-between;padding:0.5rem 1.5rem;font-size:0.75rem;opacity:0.3}
+  .c-footer a{color:var(--black);text-decoration:none}
+
+  @media(max-width:700px){
+    .mondrian{
+      grid-template-columns:1fr;
+      grid-template-rows:auto;
+    }
+    .c-title,.c-date,.c-venue,.c-tickets,.c-artists,.c-desc,.c-logo,.c-hours,.c-cta,.c-blue-sm,.c-extra,.c-red-sm,.c-footer{
+      grid-column:1/2;grid-row:auto;
+    }
+    .c-title{padding:2rem 1.5rem}
+    .c-title h1{font-size:2.5rem}
+    .c-artists{flex-direction:column;align-items:flex-start;gap:0.3rem}
+    .c-blue-sm{min-height:20px}
+    .c-red-sm{min-height:20px}
+    .c-footer{flex-direction:column;gap:0.3rem;text-align:center}
+  }
+</style>
+</head>
+<body>
+
+<div class="mondrian">
+
+  <!-- Title -->
+  <div class="cell c-title">
+    <h1>格子之外</h1>
+    <div class="c-title-en">Beyond the Grid</div>
+    <div class="c-title-sub">当代几何抽象艺术展</div>
+  </div>
+
+  <!-- Date -->
+  <div class="cell c-date">
+    <div class="c-date-val">2026<br>04.12<br>—<br>07.20</div>
+    <div class="c-date-label">展期</div>
+  </div>
+
+  <!-- Venue -->
+  <div class="cell c-venue">
+    <div class="c-venue-name">上海当代艺术馆</div>
+    <div class="c-venue-addr">南京西路 231 号</div>
+  </div>
+
+  <!-- Tickets -->
+  <div class="cell c-tickets">
+    <div class="c-tickets-title">Tickets</div>
+    <div class="c-tickets-info">成人 ¥80<br>学生 ¥40<br>周三免费</div>
+  </div>
+
+  <!-- Artists strip -->
+  <div class="cell c-artists">
+    <span class="c-artists-label">ARTISTS</span>
+    <span class="c-artists-list">蒙德里安 · 马列维奇 · 赵无极 · 草间弥生 · 丁乙 · 刘韡</span>
+  </div>
+
+  <!-- Description -->
+  <div class="cell c-desc">
+    <p>本次展览汇集了从风格派到当代的 36 位艺术家作品，探讨几何抽象在百年间的演变。从蒙德里安的格子到草间弥生的圆点，从冷抽象到热抽象，格子之外是无限的可能。</p>
+  </div>
+
+  <!-- Logo -->
+  <div class="cell c-logo">
+    <div class="c-logo-text">MOCA<br>SHANGHAI</div>
+  </div>
+
+  <!-- Hours -->
+  <div class="cell c-hours">
+    <div class="c-hours-label">HOURS</div>
+    周二至周日<br>10:00 — 18:00<br>周一闭馆
+  </div>
+
+  <!-- CTA -->
+  <div class="cell c-cta">
+    <a href="#">预约参观 →</a>
+  </div>
+
+  <!-- Blue small -->
+  <div class="cell c-blue-sm"></div>
+
+  <!-- Extra -->
+  <div class="cell c-extra">
+    <p>策展人：陈默 · 联合策展：东京都现代美术馆 · 巡展第三站</p>
+  </div>
+
+  <!-- Red small -->
+  <div class="cell c-red-sm"></div>
+
+  <!-- Footer -->
+  <div class="cell c-footer">
+    <span>© 2026 MOCA SHANGHAI · 上海当代艺术馆</span>
+    <a href="mailto:info@mocashanghai.org">info@mocashanghai.org</a>
+  </div>
+
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>
