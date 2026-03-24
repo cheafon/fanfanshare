@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — 维度迷失</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0a0e1a;--cyan:#00f0ff;--mag:#ff0080;--purple:#1a0a2e;--steel:#2a2a3a;--text:rgba(255,255,255,0.85)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:'Noto Sans SC',sans-serif;font-size:17px;min-height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center}
+
+  /* CRT scanlines */
+  .scanlines{position:fixed;inset:0;pointer-events:none;z-index:100;
+    background:repeating-linear-gradient(to bottom,transparent 0px,transparent 2px,rgba(0,0,0,0.1) 2px,rgba(0,0,0,0.1) 4px)}
+
+  /* Noise */
+  .noise{position:fixed;inset:0;pointer-events:none;z-index:99;opacity:0.03;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:200px 200px}
+
+  /* Rain */
+  .rain{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden}
+  .drop{position:absolute;width:1px;background:linear-gradient(to bottom,transparent,rgba(0,240,255,0.15),transparent);animation:fall linear infinite}
+  @keyframes fall{0%{transform:translateY(-100vh)}100%{transform:translateY(100vh)}}
+
+  /* City glow at bottom */
+  .city-glow{position:fixed;bottom:0;left:0;right:0;height:200px;pointer-events:none;z-index:2;
+    background:radial-gradient(ellipse at 50% 100%,rgba(0,240,255,0.06) 0%,rgba(255,0,128,0.03) 30%,transparent 70%)}
+
+  /* City skyline */
+  .skyline{position:fixed;bottom:0;left:0;right:0;height:80px;pointer-events:none;z-index:3;display:flex;align-items:flex-end;justify-content:center;gap:3px;padding:0 10%}
+  .bldg{background:var(--steel);opacity:0.3;flex-shrink:0}
+
+  /* ═══ MAIN ═══ */
+  .main{text-align:center;position:relative;z-index:10;padding:2rem}
+
+  /* Glitch 404 */
+  .glitch{font-family:'Orbitron',sans-serif;font-weight:900;font-size:clamp(8rem,20vw,16rem);line-height:0.9;color:var(--cyan);position:relative;
+    text-shadow:0 0 20px rgba(0,240,255,0.4),0 0 60px rgba(0,240,255,0.15);animation:neonFlicker 4s ease-in-out infinite}
+
+  .glitch::before,.glitch::after{content:'404';position:absolute;top:0;left:0;right:0;overflow:hidden}
+  .glitch::before{color:var(--mag);z-index:-1;animation:glitchTop 3s infinite linear alternate-reverse;clip-path:inset(0 0 60% 0)}
+  .glitch::after{color:var(--cyan);z-index:-1;animation:glitchBot 2.5s infinite linear alternate-reverse;clip-path:inset(60% 0 0 0)}
+
+  @keyframes glitchTop{
+    0%{transform:translate(0)}5%{transform:translate(-3px,-2px)}10%{transform:translate(3px,1px)}15%{transform:translate(0)}
+    50%{transform:translate(0)}55%{transform:translate(2px,-1px)}60%{transform:translate(-2px,2px)}65%{transform:translate(0)}100%{transform:translate(0)}
+  }
+  @keyframes glitchBot{
+    0%{transform:translate(0)}10%{transform:translate(2px,1px)}20%{transform:translate(-3px,-1px)}30%{transform:translate(0)}
+    70%{transform:translate(0)}80%{transform:translate(-2px,2px)}90%{transform:translate(3px,-1px)}100%{transform:translate(0)}
+  }
+  @keyframes neonFlicker{
+    0%,100%{opacity:1}92%{opacity:1}93%{opacity:0.7}94%{opacity:1}96%{opacity:0.8}97%{opacity:1}
+  }
+
+  .subtitle{font-weight:900;font-size:1.8rem;color:#fff;margin-top:1rem;letter-spacing:0.06em}
+  .desc{font-weight:300;font-size:1.1rem;color:rgba(255,255,255,0.4);margin-top:0.8rem}
+  .error-code{font-family:'Orbitron',sans-serif;font-size:0.7rem;color:var(--mag);letter-spacing:0.12em;margin-top:1.5rem;opacity:0.5}
+
+  .btns{display:flex;gap:1rem;justify-content:center;margin-top:2.5rem;flex-wrap:wrap}
+  .btn{font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:0.95rem;padding:0.8em 2em;cursor:pointer;text-decoration:none;transition:all 0.3s;border:none}
+  .btn-cyan{color:var(--cyan);background:transparent;border:2px solid var(--cyan);box-shadow:0 0 15px rgba(0,240,255,0.15),inset 0 0 15px rgba(0,240,255,0.05)}
+  .btn-cyan:hover{background:rgba(0,240,255,0.1);box-shadow:0 0 25px rgba(0,240,255,0.25),inset 0 0 20px rgba(0,240,255,0.08)}
+  .btn-mag{color:#fff;background:var(--mag);box-shadow:0 0 15px rgba(255,0,128,0.2)}
+  .btn-mag:hover{box-shadow:0 0 30px rgba(255,0,128,0.35);transform:translateY(-2px)}
+
+  .note{font-size:0.82rem;color:rgba(255,255,255,0.2);margin-top:2.5rem;max-width:350px;display:inline-block;line-height:1.8}
+
+  @media(max-width:600px){.btns{flex-direction:column;align-items:center}}
+</style>
+</head>
+<body>
+
+<div class="scanlines"></div>
+<div class="noise"></div>
+<div class="city-glow"></div>
+
+<!-- Rain particles -->
+<div class="rain" id="rain"></div>
+
+<!-- City skyline -->
+<div class="skyline" id="skyline"></div>
+
+<!-- ═══ MAIN ═══ -->
+<div class="main">
+  <div class="glitch">404</div>
+  <div class="subtitle">页面未找到</div>
+  <p class="desc">你来到了一个不存在的维度</p>
+  <div class="error-code">ERROR: DIMENSION_NOT_FOUND</div>
+
+  <div class="btns">
+    <a href="/" class="btn btn-cyan">返回首页</a>
+    <button class="btn btn-mag" onclick="location.href='https://cheafon.github.io/fanfanshare/origin-gallery/'">随机传送</button>
+  </div>
+
+  <p class="note">如果你一直看到这个页面，可能是宇宙在暗示你该休息了</p>
+</div>
+
+<script>
+// Generate rain drops
+const rain = document.getElementById('rain');
+for(let i=0;i<60;i++){
+  const d=document.createElement('div');
+  d.className='drop';
+  d.style.left=Math.random()*100+'%';
+  d.style.height=(40+Math.random()*80)+'px';
+  d.style.animationDuration=(1+Math.random()*2)+'s';
+  d.style.animationDelay=(Math.random()*3)+'s';
+  d.style.opacity=0.2+Math.random()*0.4;
+  rain.appendChild(d);
+}
+
+// Generate skyline buildings
+const skyline = document.getElementById('skyline');
+for(let i=0;i<40;i++){
+  const b=document.createElement('div');
+  b.className='bldg';
+  b.style.width=(4+Math.random()*12)+'px';
+  b.style.height=(10+Math.random()*60)+'px';
+  skyline.appendChild(b);
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

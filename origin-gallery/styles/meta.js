@@ -6,4 +6,5 @@ window.__NAV_META = {
   'artdeco-wedding': { name: '晓晨&雨桐 · Art Deco婚礼', desc: '婚礼电子邀请函 — 深墨绿+香槟金+玫瑰金、Cinzel Decorative+霞鹜文楷、对称居中+几何扇形边框+烫金质感+时间轴、1920s上海Art Deco', tags: ['dark','artdeco','wedding','gold','invitation','elegant','static'] },
   'brutalist-resume': { name: '赵一鸣 · 粗野简历', desc: '创意总监个人简历 — 严格黑白红三色、Space Mono等宽+Noto Sans SC 900超粗、编号项目列表+粗黑边框+反白标题栏+零装饰、Web粗野主义', tags: ['light','brutalist','resume','portfolio','monochrome','monospace','static'] },
   'chalkboard-menu': { name: '拾巷 RUELLETTE · 黑板菜单', desc: '法式小酒馆在线菜单 — 黑板深绿+粉笔白黄粉、Sacramento手写花体+ZCOOL小薇体、菜品价格对齐leader dots+波浪线分隔+粉笔纹理、完全静态', tags: ['dark','chalkboard','restaurant','menu','handwritten','french','static'] },
+  'cyber404': { name: '赛博404 · 维度迷失', desc: '404错误页 — 深黑蓝+霓虹青+品红、Orbitron方形数字+Noto Sans SC 900、glitch色差动画+雨滴粒子+CRT扫描线+城市天际线剪影、赛博朋克', tags: ['dark','cyberpunk','404','neon','glitch','rain','animated'] },
 };
