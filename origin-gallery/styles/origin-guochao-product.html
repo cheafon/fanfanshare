@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>墨研 MOYAN — 山月 · 手工松烟墨</title>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@200;300;400;500;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--black:#0a0a0a;--red:#c0392b;--gold:#c4a35a;--paper:#f5f0e0;--gray:#4a4a4a;--gold-dim:rgba(196,163,90,0.2)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--black);color:var(--paper);font-family:'Noto Sans SC',sans-serif;font-size:17px;line-height:1.9;-webkit-font-smoothing:antialiased}
+
+  .rv{opacity:0;transform:translateY(20px);transition:opacity 0.8s ease,transform 0.8s ease}
+  .rv.vis{opacity:1;transform:translateY(0)}
+
+  /* ═══ OPENING — Full black ═══ */
+  .opening{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4rem 2rem;position:relative}
+  .opening-brand{font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:0.75rem;letter-spacing:0.4em;color:var(--gold);opacity:0.5;margin-bottom:3rem}
+  .opening-title{font-family:'Ma Shan Zheng',cursive;font-size:clamp(5rem,15vw,10rem);color:var(--paper);line-height:1;letter-spacing:0.08em}
+  .opening-sub{font-family:'Noto Serif SC',serif;font-weight:200;font-size:1.1rem;color:var(--gold);margin-top:1.5rem;letter-spacing:0.12em}
+  .opening-edition{font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:0.8rem;color:rgba(245,240,224,0.25);margin-top:1rem;letter-spacing:0.08em}
+
+  /* Vertical decorative text */
+  .opening::after{content:'松烟墨';position:absolute;right:3rem;top:50%;transform:translateY(-50%);writing-mode:vertical-rl;font-family:'Ma Shan Zheng',cursive;font-size:1.2rem;color:rgba(196,163,90,0.08);letter-spacing:0.5em}
+
+  /* ═══ HIGHLIGHTS — Paper white ═══ */
+  .highlights{background:var(--paper);color:var(--black);padding:5rem 2rem}
+  .highlights-inner{max-width:860px;margin:0 auto}
+  .hl-label{font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:0.7rem;letter-spacing:0.3em;color:var(--red);text-align:center;margin-bottom:2rem}
+  .hl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3rem}
+  .hl-item{text-align:center}
+  .hl-name{font-family:'Ma Shan Zheng',cursive;font-size:1.6rem;color:var(--black);margin-bottom:0.5rem}
+  .hl-desc{font-family:'Noto Serif SC',serif;font-weight:300;font-size:0.95rem;color:var(--gray);line-height:2.2}
+  .hl-rule{width:30px;height:2px;background:var(--red);margin:1rem auto}
+
+  /* ═══ CRAFT — Black + gold ═══ */
+  .craft{padding:5rem 2rem;text-align:center}
+  .craft-inner{max-width:600px;margin:0 auto}
+  .craft-title{font-family:'Ma Shan Zheng',cursive;font-size:2rem;color:var(--gold);margin-bottom:2.5rem;letter-spacing:0.06em}
+  .craft-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem 3rem;text-align:left}
+  .craft-item{}
+  .craft-label{font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:0.7rem;letter-spacing:0.15em;color:var(--gold);opacity:0.5;margin-bottom:0.2rem}
+  .craft-value{font-family:'Noto Serif SC',serif;font-weight:400;font-size:1rem;color:rgba(245,240,224,0.7);line-height:1.9}
+
+  /* ═══ PRICE — Paper white ═══ */
+  .price-section{background:var(--paper);color:var(--black);padding:4rem 2rem;text-align:center}
+  .price-amount{font-family:'Ma Shan Zheng',cursive;font-size:4rem;color:var(--red);line-height:1}
+  .price-unit{font-family:'Noto Serif SC',serif;font-weight:300;font-size:1rem;color:var(--gray);margin-top:0.3rem}
+  .price-limit{font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:0.85rem;color:var(--red);margin-top:1rem;letter-spacing:0.06em;opacity:0.7}
+  .price-btn{display:inline-block;margin-top:2rem;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:1rem;letter-spacing:0.08em;color:var(--paper);background:var(--red);border:none;padding:0.9em 3em;cursor:pointer;transition:background 0.3s}
+  .price-btn:hover{background:#a02e24}
+  .price-gift{font-family:'Noto Serif SC',serif;font-weight:300;font-size:0.85rem;color:var(--gray);margin-top:1.5rem;line-height:2}
+
+  /* ═══ STORY — Black ═══ */
+  .story{padding:5rem 2rem}
+  .story-inner{max-width:560px;margin:0 auto;text-align:center}
+  .story-label{font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:0.7rem;letter-spacing:0.3em;color:var(--gold);opacity:0.4;margin-bottom:1.5rem}
+  .story-text{font-family:'Noto Serif SC',serif;font-weight:300;font-size:1.05rem;color:rgba(245,240,224,0.55);line-height:2.5}
+  .story-text em{font-style:normal;color:var(--gold);opacity:0.8}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;padding:3rem 2rem 2rem;border-top:1px solid rgba(196,163,90,0.1)}
+  .footer-brand{font-family:'Ma Shan Zheng',cursive;font-size:1.2rem;color:var(--gold);opacity:0.4}
+  .footer-addr{font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:0.8rem;color:rgba(245,240,224,0.2);margin-top:0.3rem}
+  .footer-email a{font-size:0.8rem;color:var(--gold);text-decoration:none;opacity:0.3}
+
+  @media(max-width:700px){
+    .hl-grid{grid-template-columns:1fr;gap:2rem;max-width:360px;margin:0 auto}
+    .craft-grid{grid-template-columns:1fr}
+    .opening::after{display:none}
+    .opening-title{font-size:5rem}
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ OPENING ═══ -->
+<section class="opening rv">
+  <div class="opening-brand">墨研 MOYAN</div>
+  <h1 class="opening-title">山月</h1>
+  <div class="opening-sub">手工松烟墨 · 限定款</div>
+  <div class="opening-edition">壬寅年冬至制 · 编号 No.0247</div>
+</section>
+
+<!-- ═══ HIGHLIGHTS ═══ -->
+<section class="highlights">
+  <div class="highlights-inner rv">
+    <div class="hl-label">匠心三绝</div>
+    <div class="hl-grid">
+      <div class="hl-item">
+        <div class="hl-name">百年古法</div>
+        <div class="hl-rule"></div>
+        <div class="hl-desc">取黄山千年松，燃烧取烟，二十八道工序，历时六个月成墨</div>
+      </div>
+      <div class="hl-item">
+        <div class="hl-name">手工描金</div>
+        <div class="hl-rule"></div>
+        <div class="hl-desc">墨面「山月」二字由书法家手书，以金粉逐一描绘</div>
+      </div>
+      <div class="hl-item">
+        <div class="hl-name">天然药香</div>
+        <div class="hl-rule"></div>
+        <div class="hl-desc">加入麝香、冰片、珍珠粉，研磨时散发清幽药香</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CRAFT ═══ -->
+<section class="craft rv">
+  <div class="craft-inner">
+    <div class="craft-title">制墨详情</div>
+    <div class="craft-grid">
+      <div class="craft-item">
+        <div class="craft-label">材料</div>
+        <div class="craft-value">千年松烟 · 古法阿胶<br>天然麝香 · 冰片 · 珍珠粉</div>
+      </div>
+      <div class="craft-item">
+        <div class="craft-label">规格</div>
+        <div class="craft-value">二两（约 62g）<br>长 10cm × 宽 3cm × 厚 1.5cm</div>
+      </div>
+      <div class="craft-item">
+        <div class="craft-label">工期</div>
+        <div class="craft-value">取烟 30 天 · 和胶 7 天<br>捶打 2000 次 · 阴干 180 天</div>
+      </div>
+      <div class="craft-item">
+        <div class="craft-label">适用</div>
+        <div class="craft-value">书法创作 · 国画写意<br>收藏鉴赏</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PRICE ═══ -->
+<section class="price-section rv">
+  <div class="price-amount">¥680</div>
+  <div class="price-unit">每锭</div>
+  <div class="price-limit">本批限量 300 锭，售完即止</div>
+  <button class="price-btn">加入购物车</button>
+  <div class="price-gift">每锭附赠手写鉴定证书 + 桐木礼盒</div>
+</section>
+
+<!-- ═══ STORY ═══ -->
+<section class="story rv">
+  <div class="story-inner">
+    <div class="story-label">制墨人的话</div>
+    <p class="story-text">墨研工作室藏于安徽歙县深山，主理人<em>陈墨之</em>是家族第四代制墨人。他说：<em>「好墨是有生命的，它需要时间去呼吸。」</em>每年产量不超过一千锭，每一锭都有独立编号。</p>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <div class="footer-brand">墨研 MOYAN</div>
+  <div class="footer-addr">安徽歙县 · 手工制墨</div>
+  <div class="footer-email"><a href="mailto:hello@moyan.ink">hello@moyan.ink</a></div>
+</footer>
+
+<script>
+const rvs=document.querySelectorAll('.rv');
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')})},{threshold:0.1});
+rvs.forEach(el=>obs.observe(el));
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
