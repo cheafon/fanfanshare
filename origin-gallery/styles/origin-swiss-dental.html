@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>皓齿 BRIGHTSMILE — 让每一次微笑都自信绽放</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --white:#ffffff;--black:#111111;--blue:#0066cc;--gray-light:#f5f5f5;
+    --gray-mid:#888888;--gray-rule:rgba(17,17,17,0.08);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--white);color:var(--black);font-family:'Noto Sans SC',sans-serif;font-size:17px;font-weight:400;line-height:1.8;-webkit-font-smoothing:antialiased}
+
+  .grid{max-width:960px;margin:0 auto;padding:0 48px}
+
+  /* Section numbering */
+  .sec-num{font-family:'Outfit',sans-serif;font-weight:300;font-size:0.75rem;color:var(--gray-mid);letter-spacing:0.1em;margin-bottom:8px}
+
+  .sec-title{font-weight:700;font-size:1.6rem;color:var(--black);margin-bottom:32px;letter-spacing:-0.01em}
+
+  hr{border:none;border-top:1px solid var(--gray-rule);margin:64px 0}
+
+  /* ═══ HERO ═══ */
+  .hero{padding:120px 0 80px}
+  .hero-en{font-family:'Outfit',sans-serif;font-weight:700;font-size:3.5rem;letter-spacing:-0.02em;color:var(--black);line-height:1.1}
+  .hero-cn{font-weight:700;font-size:1.5rem;color:var(--blue);margin-top:8px;letter-spacing:0.06em}
+  .hero-sub{font-weight:300;font-size:1.15rem;color:var(--gray-mid);margin-top:32px;max-width:400px;line-height:2}
+  .hero-cta{display:inline-block;margin-top:40px;font-family:'Outfit',sans-serif;font-weight:600;font-size:0.9rem;letter-spacing:0.06em;color:var(--white);background:var(--blue);border:none;padding:14px 40px;cursor:pointer;text-decoration:none;transition:background 0.2s}
+  .hero-cta:hover{background:#0052a3}
+
+  /* ═══ SERVICES ═══ */
+  .services{padding:16px 0}
+  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:48px}
+  .svc{border-top:3px solid var(--black);padding-top:24px}
+  .svc:nth-child(2){border-color:var(--blue)}
+  .svc-idx{font-family:'Outfit',sans-serif;font-weight:300;font-size:2.5rem;color:var(--gray-light);line-height:1;margin-bottom:16px;letter-spacing:-0.02em}
+  .svc:nth-child(2) .svc-idx{color:rgba(0,102,204,0.12)}
+  .svc-name{font-weight:700;font-size:1.15rem;margin-bottom:8px}
+  .svc-desc{font-weight:300;font-size:0.95rem;color:var(--gray-mid);line-height:1.9;margin-bottom:16px}
+  .svc-price{font-family:'Outfit',sans-serif;font-weight:600;font-size:1.1rem;color:var(--blue)}
+  .svc-price span{font-weight:300;font-size:0.8rem;color:var(--gray-mid)}
+
+  /* ═══ STORY ═══ */
+  .story{padding:16px 0}
+  .story-layout{display:grid;grid-template-columns:280px 1fr;gap:64px;align-items:start}
+  .story-text{font-weight:300;font-size:1.05rem;color:var(--gray-mid);line-height:2.4}
+  .story-stats{display:flex;flex-direction:column;gap:32px}
+  .stat-num{font-family:'Outfit',sans-serif;font-weight:700;font-size:2.8rem;color:var(--black);line-height:1;letter-spacing:-0.02em}
+  .stat-num .accent{color:var(--blue)}
+  .stat-label{font-size:0.8rem;color:var(--gray-mid);margin-top:4px}
+
+  /* ═══ PRICING ═══ */
+  .pricing{padding:16px 0}
+  .plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+  .plan{padding:40px 32px;border-right:1px solid var(--gray-rule)}
+  .plan:last-child{border-right:none}
+  .plan.featured{background:var(--gray-light)}
+  .plan-tier{font-family:'Outfit',sans-serif;font-weight:300;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gray-mid);margin-bottom:8px}
+  .plan-name{font-weight:700;font-size:1.15rem;margin-bottom:16px}
+  .plan-price{font-family:'Outfit',sans-serif;font-weight:700;font-size:2.2rem;color:var(--black);line-height:1;letter-spacing:-0.02em}
+  .plan.featured .plan-price{color:var(--blue)}
+  .plan-period{font-family:'Outfit',sans-serif;font-weight:300;font-size:0.8rem;color:var(--gray-mid);margin-top:4px;margin-bottom:24px}
+  .plan-rule{width:24px;height:2px;background:var(--black);margin-bottom:16px}
+  .plan.featured .plan-rule{background:var(--blue)}
+  .plan-desc{font-weight:300;font-size:0.92rem;color:var(--gray-mid);line-height:1.8}
+
+  /* ═══ FOOTER ═══ */
+  .footer{background:var(--black);color:var(--white);padding:48px;margin-top:64px}
+  .footer-inner{max-width:960px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+  .footer-brand{font-family:'Outfit',sans-serif;font-weight:600;font-size:0.85rem;letter-spacing:0.08em}
+  .footer-email a{font-family:'Outfit',sans-serif;font-size:0.85rem;color:var(--blue);text-decoration:none}
+  .footer-social{display:flex;gap:16px}
+  .footer-social a{font-family:'Outfit',sans-serif;font-size:0.75rem;font-weight:500;color:var(--gray-mid);text-decoration:none;letter-spacing:0.04em;transition:color 0.2s}
+  .footer-social a:hover{color:var(--white)}
+
+  @media(max-width:768px){
+    .grid{padding:0 24px}
+    .hero{padding:80px 0 48px}
+    .hero-en{font-size:2.2rem}
+    .svc-grid{grid-template-columns:1fr;gap:40px}
+    .story-layout{grid-template-columns:1fr;gap:32px}
+    .story-stats{flex-direction:row;gap:24px;flex-wrap:wrap}
+    .plan-grid{grid-template-columns:1fr}
+    .plan{border-right:none;border-bottom:1px solid var(--gray-rule)}
+    .plan:last-child{border-bottom:none}
+    .footer-inner{flex-direction:column;text-align:center}
+    hr{margin:48px 0}
+  }
+</style>
+</head>
+<body>
+
+<div class="grid">
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <h1 class="hero-en">BRIGHTSMILE</h1>
+    <div class="hero-cn">皓齿</div>
+    <p class="hero-sub">让每一次微笑都自信绽放</p>
+    <a href="#services" class="hero-cta">预约咨询</a>
+  </section>
+
+  <hr>
+
+  <!-- ═══ SERVICES ═══ -->
+  <section id="services">
+    <div class="sec-num">01 — Services</div>
+    <h2 class="sec-title">专业服务</h2>
+    <div class="svc-grid">
+      <div class="svc">
+        <div class="svc-idx">01</div>
+        <div class="svc-name">美学正畸</div>
+        <div class="svc-desc">隐形矫正 + 数字化方案设计，不知不觉间拥有整齐牙列，成人矫正首选</div>
+        <div class="svc-price">¥18,000 <span>起</span></div>
+      </div>
+      <div class="svc">
+        <div class="svc-idx">02</div>
+        <div class="svc-name">种植修复</div>
+        <div class="svc-desc">瑞士ITI种植体 + 3D导板精准植入，像真牙一样自然，终身维护</div>
+        <div class="svc-price">¥12,000 <span>起/颗</span></div>
+      </div>
+      <div class="svc">
+        <div class="svc-idx">03</div>
+        <div class="svc-name">美白贴面</div>
+        <div class="svc-desc">德国VITA瓷块 + 微创备牙，0.3mm极薄贴面，即刻拥有明星同款笑容</div>
+        <div class="svc-price">¥3,800 <span>起/颗</span></div>
+      </div>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- ═══ STORY ═══ -->
+  <section>
+    <div class="sec-num">02 — About</div>
+    <h2 class="sec-title">关于皓齿</h2>
+    <div class="story-layout">
+      <div class="story-stats">
+        <div>
+          <div class="stat-num"><span class="accent">3</span>位</div>
+          <div class="stat-label">海归口腔医学博士</div>
+        </div>
+        <div>
+          <div class="stat-num">200<span class="accent">h</span></div>
+          <div class="stat-label">年均进修时长</div>
+        </div>
+        <div>
+          <div class="stat-num">Top <span class="accent">3</span></div>
+          <div class="stat-label">全球品牌材料</div>
+        </div>
+      </div>
+      <p class="story-text">我们相信口腔健康是生活品质的起点。皓齿由三位海归口腔医学博士创立于2018年，坚持只用全球Top 3品牌的材料和设备。每位医生年均进修不少于200小时，诊室配备CBCT和口扫一体化数字流程。不是流水线式的快速看牙，是为每一颗牙齿定制的精准方案。</p>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- ═══ PRICING ═══ -->
+  <section>
+    <div class="sec-num">03 — Plans</div>
+    <h2 class="sec-title">会员方案</h2>
+    <div class="plan-grid">
+      <div class="plan">
+        <div class="plan-tier">基础</div>
+        <div class="plan-name">基础洁牙</div>
+        <div class="plan-price">¥298</div>
+        <div class="plan-period">单次</div>
+        <div class="plan-rule"></div>
+        <div class="plan-desc">超声波洁牙 + 抛光<br>+ 口腔检查报告</div>
+      </div>
+      <div class="plan featured">
+        <div class="plan-tier">推荐</div>
+        <div class="plan-name">年度会员</div>
+        <div class="plan-price">¥1,888</div>
+        <div class="plan-period">每年</div>
+        <div class="plan-rule"></div>
+        <div class="plan-desc">4次洁牙 + 年度全口检查<br>+ 美白体验 + 专属医生</div>
+      </div>
+      <div class="plan">
+        <div class="plan-tier">家庭</div>
+        <div class="plan-name">家庭套餐</div>
+        <div class="plan-price">¥4,888</div>
+        <div class="plan-period">每年</div>
+        <div class="plan-rule"></div>
+        <div class="plan-desc">全家4人共享 + 儿童窝沟封闭<br>+ 正畸评估 + 优先预约</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">皓齿 BRIGHTSMILE · 口腔健康管理</div>
+    <div class="footer-email"><a href="mailto:hello@brightsmile.clinic">hello@brightsmile.clinic</a></div>
+    <div class="footer-social">
+      <a href="#">微信</a>
+      <a href="#">美团</a>
+      <a href="#">大众点评</a>
+    </div>
+  </div>
+</footer>
+
+<script src="nav.js"></script>
+</body>
+</html>
