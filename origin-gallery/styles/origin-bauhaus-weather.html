@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>晴雨表 CLIMA — 上海天气</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{--red:#e63946;--blue:#1d3557;--yellow:#f4d35e;--white:#fefefe;--black:#0a0a0a}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--white);color:var(--black);font-family:'Noto Sans SC',sans-serif;font-size:17px;font-weight:500;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+  .dash{max-width:900px;margin:0 auto;padding:2rem}
+
+  /* ═══ HEADER ═══ */
+  .header{display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:1.5rem;border-bottom:4px solid var(--black);margin-bottom:2rem;flex-wrap:wrap;gap:0.5rem}
+  .header-brand{font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.15em;color:var(--red)}
+  .header-city{font-weight:900;font-size:1.5rem;letter-spacing:0.04em}
+  .header-date{font-family:'Bebas Neue',sans-serif;font-size:0.85rem;color:var(--blue);letter-spacing:0.06em}
+
+  /* ═══ MAIN DATA ═══ */
+  .main-data{display:grid;grid-template-columns:240px 1fr;gap:2rem;margin-bottom:2rem;align-items:start}
+
+  /* Temperature circle */
+  .temp-circle{width:240px;height:240px;border-radius:50%;background:var(--red);display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--white);position:relative}
+  .temp-num{font-family:'Bebas Neue',sans-serif;font-size:8rem;line-height:0.85;letter-spacing:-0.02em}
+  .temp-unit{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;position:absolute;top:3rem;right:3rem;opacity:0.6}
+
+  .main-info{display:flex;flex-direction:column;gap:1rem}
+
+  /* Status blue block */
+  .status-block{background:var(--blue);color:var(--white);padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between}
+  .status-text{font-weight:900;font-size:1.8rem;letter-spacing:0.04em}
+  .status-en{font-family:'Bebas Neue',sans-serif;font-size:0.8rem;opacity:0.5;letter-spacing:0.1em}
+
+  /* Feels like yellow tag */
+  .feels{background:var(--yellow);color:var(--black);padding:1rem 2rem;display:flex;align-items:center;gap:1rem}
+  .feels-label{font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.12em}
+  .feels-val{font-family:'Bebas Neue',sans-serif;font-size:2.5rem}
+
+  /* ═══ DETAIL GRID ═══ */
+  .details{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-bottom:2rem}
+
+  .detail{text-align:center;padding:1.5rem 1rem;position:relative}
+
+  /* Humidity — circular */
+  .d-humid{border-radius:50%;width:160px;height:160px;margin:0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    background:conic-gradient(var(--blue) 0deg,var(--blue) 259deg,rgba(29,53,87,0.1) 259deg);
+    animation:fillCircle 2s ease forwards}
+  @keyframes fillCircle{from{background:conic-gradient(var(--blue) 0deg,rgba(29,53,87,0.1) 0deg)}to{background:conic-gradient(var(--blue) 259deg,rgba(29,53,87,0.1) 259deg)}}
+  .d-humid-inner{width:120px;height:120px;border-radius:50%;background:var(--white);display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .d-humid-val{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--blue);line-height:1}
+  .d-humid-label{font-size:0.7rem;color:var(--blue);opacity:0.5;margin-top:0.2rem}
+
+  /* Wind — red rect */
+  .d-wind{background:var(--red);color:var(--white);padding:2rem 1rem}
+  .d-wind-val{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;line-height:1}
+  .d-wind-unit{font-family:'Bebas Neue',sans-serif;font-size:0.7rem;opacity:0.5;margin-top:0.2rem}
+  .d-wind-dir{font-weight:700;font-size:0.85rem;margin-top:0.5rem;opacity:0.8}
+  .d-wind-label{font-size:0.65rem;opacity:0.4;margin-top:0.3rem}
+
+  /* UV — yellow circle */
+  .d-uv{width:160px;height:160px;border-radius:50%;background:var(--yellow);color:var(--black);margin:0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .d-uv-val{font-family:'Bebas Neue',sans-serif;font-size:3rem;line-height:1}
+  .d-uv-label{font-size:0.7rem;opacity:0.5;margin-top:0.2rem}
+  .d-uv-level{font-weight:700;font-size:0.85rem;margin-top:0.3rem}
+
+  /* AQI — blue rect */
+  .d-aqi{background:var(--blue);color:var(--white);padding:2rem 1rem}
+  .d-aqi-val{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;line-height:1}
+  .d-aqi-label{font-size:0.65rem;opacity:0.4;margin-top:0.2rem}
+  .d-aqi-level{font-weight:700;font-size:0.9rem;margin-top:0.5rem;color:var(--yellow)}
+
+  /* ═══ 24H FORECAST ═══ */
+  .forecast-24{border-top:4px solid var(--black);border-bottom:4px solid var(--black);padding:1.5rem 0;margin-bottom:2rem}
+  .f24-label{font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.15em;color:var(--red);margin-bottom:1rem}
+  .f24-row{display:grid;grid-template-columns:repeat(6,1fr);gap:0.5rem;text-align:center}
+  .f24-item{}
+  .f24-time{font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:var(--blue);margin-bottom:0.3rem}
+  .f24-icon{font-size:1.3rem;margin-bottom:0.2rem}
+  .f24-temp{font-family:'Bebas Neue',sans-serif;font-size:1.4rem}
+
+  /* ═══ 7-DAY FORECAST ═══ */
+  .forecast-7{margin-bottom:2rem}
+  .f7-label{font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.15em;color:var(--blue);margin-bottom:1rem}
+  .f7-item{display:grid;grid-template-columns:80px 1fr 100px;gap:1rem;align-items:center;padding:0.6rem 0;border-bottom:1px solid rgba(10,10,10,0.06)}
+  .f7-item:last-child{border-bottom:none}
+  .f7-day{font-weight:700;font-size:0.95rem}
+  .f7-desc{font-size:0.9rem;color:var(--blue);opacity:0.6}
+  .f7-temps{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;text-align:right}
+  .f7-temps span{opacity:0.3}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;padding-top:1.5rem;border-top:4px solid var(--black)}
+  .footer-brand{font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.12em;color:var(--red)}
+  .footer-tag{font-weight:900;font-size:0.85rem;color:var(--black);margin-top:0.2rem;opacity:0.3}
+
+  @media(max-width:700px){
+    .main-data{grid-template-columns:1fr}
+    .temp-circle{width:180px;height:180px;margin:0 auto}
+    .temp-num{font-size:5rem}
+    .details{grid-template-columns:1fr 1fr;gap:1rem}
+    .d-humid,.d-uv{width:130px;height:130px}
+    .d-humid-inner{width:100px;height:100px}
+    .f24-row{grid-template-columns:repeat(3,1fr);gap:1rem}
+    .header{flex-direction:column;align-items:flex-start}
+  }
+</style>
+</head>
+<body>
+
+<div class="dash">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div>
+      <div class="header-brand">CLIMA · 晴雨表</div>
+      <div class="header-city">上海</div>
+    </div>
+    <div class="header-date">2026年3月25日 · 星期三</div>
+  </header>
+
+  <!-- ═══ MAIN DATA ═══ -->
+  <section class="main-data">
+    <div class="temp-circle">
+      <div class="temp-unit">°C</div>
+      <div class="temp-num">18</div>
+    </div>
+    <div class="main-info">
+      <div class="status-block">
+        <div>
+          <div class="status-text">多云转晴</div>
+          <div class="status-en">PARTLY CLOUDY → CLEAR</div>
+        </div>
+      </div>
+      <div class="feels">
+        <div class="feels-label">FEELS LIKE</div>
+        <div class="feels-val">15°</div>
+        <div style="font-weight:700;font-size:0.9rem">体感温度</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ DETAILS ═══ -->
+  <section class="details">
+    <div class="detail">
+      <div class="d-humid">
+        <div class="d-humid-inner">
+          <div class="d-humid-val">72%</div>
+          <div class="d-humid-label">湿度</div>
+        </div>
+      </div>
+    </div>
+    <div class="detail d-wind">
+      <div class="d-wind-val">12</div>
+      <div class="d-wind-unit">KM/H</div>
+      <div class="d-wind-dir">东南风</div>
+      <div class="d-wind-label">WIND</div>
+    </div>
+    <div class="detail">
+      <div class="d-uv">
+        <div class="d-uv-val">3</div>
+        <div class="d-uv-label">UV INDEX</div>
+        <div class="d-uv-level">弱</div>
+      </div>
+    </div>
+    <div class="detail d-aqi">
+      <div class="d-aqi-val">58</div>
+      <div class="d-aqi-label">AIR QUALITY</div>
+      <div class="d-aqi-level">良</div>
+    </div>
+  </section>
+
+  <!-- ═══ 24H FORECAST ═══ -->
+  <section class="forecast-24">
+    <div class="f24-label">24-HOUR FORECAST</div>
+    <div class="f24-row">
+      <div class="f24-item"><div class="f24-time">现在</div><div class="f24-icon">⛅</div><div class="f24-temp">18°</div></div>
+      <div class="f24-item"><div class="f24-time">14:00</div><div class="f24-icon">🌤</div><div class="f24-temp">20°</div></div>
+      <div class="f24-item"><div class="f24-time">17:00</div><div class="f24-icon">☁️</div><div class="f24-temp">17°</div></div>
+      <div class="f24-item"><div class="f24-time">20:00</div><div class="f24-icon">🌙</div><div class="f24-temp">15°</div></div>
+      <div class="f24-item"><div class="f24-time">23:00</div><div class="f24-icon">🌙</div><div class="f24-temp">13°</div></div>
+      <div class="f24-item"><div class="f24-time">明天</div><div class="f24-icon">🌧</div><div class="f24-temp">12°</div></div>
+    </div>
+  </section>
+
+  <!-- ═══ 7-DAY FORECAST ═══ -->
+  <section class="forecast-7">
+    <div class="f7-label">7-DAY FORECAST</div>
+    <div class="f7-item"><div class="f7-day">周三</div><div class="f7-desc">⛅ 多云</div><div class="f7-temps">18° <span>/ 12°</span></div></div>
+    <div class="f7-item"><div class="f7-day">周四</div><div class="f7-desc">🌧 小雨</div><div class="f7-temps">15° <span>/ 10°</span></div></div>
+    <div class="f7-item"><div class="f7-day">周五</div><div class="f7-desc">☀️ 晴</div><div class="f7-temps">20° <span>/ 13°</span></div></div>
+    <div class="f7-item"><div class="f7-day">周六</div><div class="f7-desc">☀️ 晴</div><div class="f7-temps">22° <span>/ 15°</span></div></div>
+    <div class="f7-item"><div class="f7-day">周日</div><div class="f7-desc">☁️ 阴</div><div class="f7-temps">19° <span>/ 14°</span></div></div>
+    <div class="f7-item"><div class="f7-day">周一</div><div class="f7-desc">🌧 雨</div><div class="f7-temps">16° <span>/ 11°</span></div></div>
+    <div class="f7-item"><div class="f7-day">周二</div><div class="f7-desc">⛅ 多云</div><div class="f7-temps">17° <span>/ 12°</span></div></div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-brand">CLIMA · 晴雨表</div>
+    <div class="footer-tag">用几何看天气</div>
+  </footer>
+
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>
