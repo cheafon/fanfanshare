@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>订阅成功 — 字节周刊 BYTE WEEKLY</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--indigo:#0a1628;--blue:#2878f0;--cyan:#00d4ff;--light:#e8eef8;--purple:#8040e0;--green:#28d898;--panel:#1a2840;--dim:rgba(232,238,248,0.25)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--indigo);color:var(--light);font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:17px;line-height:1.9;display:flex;justify-content:center;padding:2rem;-webkit-font-smoothing:antialiased;position:relative;overflow-x:hidden}
+
+  /* Isometric grid bg */
+  body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.03;
+    background:
+      repeating-linear-gradient(60deg,var(--cyan) 0,var(--cyan) 1px,transparent 1px,transparent 30px),
+      repeating-linear-gradient(-60deg,var(--cyan) 0,var(--cyan) 1px,transparent 1px,transparent 30px),
+      repeating-linear-gradient(0deg,var(--cyan) 0,var(--cyan) 1px,transparent 1px,transparent 52px)}
+
+  .page{max-width:520px;width:100%;position:relative;z-index:1}
+
+  /* ═══ HERO ═══ */
+  .hero{text-align:center;padding:2rem 0 2.5rem;position:relative;animation:fadeIn .8s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+
+  /* SVG Checkmark */
+  .check-wrap{width:70px;height:70px;margin:0 auto 1.5rem;position:relative}
+  .check-ring{width:70px;height:70px;border-radius:50%;border:2px solid var(--green);position:relative;
+    box-shadow:0 0 20px rgba(40,216,152,0.15)}
+  .check-svg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:32px;height:32px}
+  .check-path{stroke:var(--green);stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round;
+    stroke-dasharray:40;stroke-dashoffset:40;animation:drawCheck .6s .4s ease forwards}
+  @keyframes drawCheck{to{stroke-dashoffset:0}}
+
+  .hero-title{font-weight:700;font-size:clamp(1.8rem,5vw,2.4rem);color:var(--light);letter-spacing:0.04em}
+  .hero-en{font-family:'Sora',sans-serif;font-weight:400;font-size:0.7rem;color:var(--cyan);letter-spacing:0.2em;margin-top:0.2rem}
+  .hero-count{font-size:0.9rem;color:var(--dim);margin-top:0.6rem}
+  .hero-count span{font-family:'Sora',sans-serif;font-weight:600;color:var(--blue)}
+
+  /* ═══ DETAILS CARD ═══ */
+  .details{background:var(--panel);border:1px solid rgba(40,120,240,0.1);padding:1.5rem;margin-bottom:1.5rem;
+    position:relative;transform:perspective(800px) rotateX(1deg);
+    box-shadow:0 10px 30px rgba(0,0,0,0.3)}
+  .details::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--cyan),var(--purple))}
+
+  .det-row{display:flex;gap:0.6rem;margin-bottom:0.5rem;align-items:baseline}
+  .det-key{font-family:'Sora',sans-serif;font-size:0.6rem;color:var(--cyan);letter-spacing:0.1em;width:50px;flex-shrink:0}
+  .det-val{font-size:0.95rem;color:rgba(232,238,248,0.6)}
+  .det-next{margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid rgba(40,120,240,0.08)}
+  .det-next-label{font-family:'Sora',sans-serif;font-size:0.55rem;color:var(--purple);letter-spacing:0.12em;margin-bottom:0.3rem}
+  .det-next-title{font-weight:500;font-size:1rem;color:var(--light)}
+
+  /* ═══ PAST ISSUES ═══ */
+  .past{margin-bottom:1.5rem}
+  .past-label{font-family:'Sora',sans-serif;font-size:0.55rem;color:var(--dim);letter-spacing:0.15em;margin-bottom:0.8rem}
+  .issue{display:flex;gap:0.7rem;align-items:center;padding:0.7rem 1rem;background:rgba(26,40,64,0.5);border-left:3px solid var(--blue);margin-bottom:0.6rem;
+    transition:transform .2s,border-color .2s;cursor:default}
+  .issue:hover{transform:translateX(4px);border-color:var(--cyan)}
+  .issue-num{font-family:'Sora',sans-serif;font-weight:600;font-size:0.7rem;color:var(--blue);flex-shrink:0}
+  .issue-title{font-size:0.95rem;color:rgba(232,238,248,0.5)}
+
+  /* ═══ ISOMETRIC CUBES ═══ */
+  .cubes{display:flex;justify-content:center;gap:2rem;padding:1.5rem 0;margin-bottom:1rem}
+  .cube{width:40px;height:40px;position:relative;transform-style:preserve-3d;animation:cubeFloat 3s ease-in-out infinite var(--d,0s)}
+  @keyframes cubeFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+  /* Isometric cube faces */
+  .cube-top,.cube-left,.cube-right{position:absolute;width:40px;height:40px}
+  .cube-top{background:var(--blue);transform:rotateX(60deg) rotateZ(45deg) translateZ(14px);opacity:0.9}
+  .cube-left{background:rgba(40,120,240,0.5);transform:rotateY(-30deg) skewY(30deg) translateX(-20px) translateY(5px) scaleY(0.86);width:40px;height:46px}
+  .cube-right{background:rgba(40,120,240,0.3);transform:rotateY(30deg) skewY(-30deg) translateX(20px) translateY(5px) scaleY(0.86);width:40px;height:46px}
+
+  .cube:nth-child(2) .cube-top{background:var(--purple)}
+  .cube:nth-child(2) .cube-left{background:rgba(128,64,224,0.5)}
+  .cube:nth-child(2) .cube-right{background:rgba(128,64,224,0.3)}
+  .cube:nth-child(3) .cube-top{background:var(--cyan)}
+  .cube:nth-child(3) .cube-left{background:rgba(0,212,255,0.5)}
+  .cube:nth-child(3) .cube-right{background:rgba(0,212,255,0.3)}
+
+  /* ═══ TIPS ═══ */
+  .tips{padding:1.2rem;border:1px dashed rgba(40,120,240,0.1);margin-bottom:1.5rem}
+  .tips-label{font-family:'Sora',sans-serif;font-size:0.55rem;color:var(--dim);letter-spacing:0.12em;margin-bottom:0.5rem}
+  .tip{font-size:0.9rem;color:rgba(232,238,248,0.4);line-height:2;padding-left:1.2rem;position:relative}
+  .tip::before{content:'→';position:absolute;left:0;color:var(--cyan);font-family:'Sora',sans-serif;font-size:0.8rem}
+  .tip-last{font-style:normal;color:rgba(232,238,248,0.3);margin-top:0.4rem;padding-left:1.2rem;font-size:0.85rem}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;padding:1rem 0}
+  .footer-brand{font-family:'Sora',sans-serif;font-weight:600;font-size:0.8rem;color:var(--blue);letter-spacing:0.12em}
+  .footer-motto{font-size:0.9rem;color:var(--dim);margin-top:0.2rem;opacity:0.5}
+  .footer-disc{font-size:0.68rem;color:var(--dim);opacity:0.2;margin-top:0.8rem}
+
+  @media(max-width:500px){
+    body{padding:1rem}
+    .details{transform:none}
+    .cubes{gap:1.5rem}
+    .cube{width:32px;height:32px}
+    .cube-top,.cube-left,.cube-right{width:32px;height:32px}
+    .cube-left,.cube-right{height:37px}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <div class="check-wrap">
+      <div class="check-ring">
+        <svg class="check-svg" viewBox="0 0 32 32">
+          <path class="check-path" d="M8 16 L14 22 L24 10"/>
+        </svg>
+      </div>
+    </div>
+    <h1 class="hero-title">订阅成功！</h1>
+    <div class="hero-en">SUBSCRIPTION CONFIRMED</div>
+    <div class="hero-count">你已加入字节周刊的 <span>12,847</span> 位读者</div>
+  </section>
+
+  <!-- ═══ DETAILS ═══ -->
+  <div class="details">
+    <div class="det-row"><span class="det-key">EMAIL</span><span class="det-val">reader@example.com</span></div>
+    <div class="det-row"><span class="det-key">FREQ</span><span class="det-val">每周三 09:00</span></div>
+    <div class="det-row"><span class="det-key">TOPIC</span><span class="det-val">互联网趋势 · 科技深度 · 产品拆解 · 独立开发</span></div>
+    <div class="det-next">
+      <div class="det-next-label">NEXT ISSUE · 下一期预告</div>
+      <div class="det-next-title">第 128 期 — AI Agent 会取代产品经理吗？</div>
+    </div>
+  </div>
+
+  <!-- ═══ PAST ISSUES ═══ -->
+  <section class="past">
+    <div class="past-label">PAST ISSUES · 往期精选</div>
+    <div class="issue"><span class="issue-num">#127</span><span class="issue-title">为什么所有 App 都在做社区？</span></div>
+    <div class="issue"><span class="issue-num">#125</span><span class="issue-title">独立开发者的第一个 ¥10,000</span></div>
+    <div class="issue"><span class="issue-num">#121</span><span class="issue-title">Figma vs 本土设计工具：一场迟来的战争</span></div>
+  </section>
+
+  <!-- ═══ CUBES ═══ -->
+  <div class="cubes">
+    <div class="cube" style="--d:0s"><div class="cube-top"></div><div class="cube-left"></div><div class="cube-right"></div></div>
+    <div class="cube" style="--d:0.4s"><div class="cube-top"></div><div class="cube-left"></div><div class="cube-right"></div></div>
+    <div class="cube" style="--d:0.8s"><div class="cube-top"></div><div class="cube-left"></div><div class="cube-right"></div></div>
+  </div>
+
+  <!-- ═══ TIPS ═══ -->
+  <div class="tips">
+    <div class="tips-label">QUICK TIPS</div>
+    <div class="tip">请检查收件箱（包括垃圾邮件文件夹），确认邮件可能已在路上</div>
+    <div class="tip">添加 hello@byteweekly.com 到联系人，避免被拦截</div>
+    <div class="tip-last">随时可以退订，但我们希望你留下来 :)</div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-brand">BYTE WEEKLY · 字节周刊</div>
+    <div class="footer-motto">每周三，一封值得打开的邮件</div>
+    <div class="footer-disc">页面来源：虚构周刊 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>

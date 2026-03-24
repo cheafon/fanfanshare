@@ -38,4 +38,5 @@ window.__NAV_META = {
   'tropical-surf': { name: '浪花学校 · 热带冲浪', desc: '冲浪学校课程页 — 深海蓝+日落橙+芒果黄+海水青+珊瑚粉、Lilita One超粗圆+ZCOOL快乐体、SVG波浪动画+彩色卡片hover浮起+大圆角20px+彩色box-shadow+大色块撞色+倾斜元素、Tropical Maximalist热带极繁', tags: ['light','tropical','surf','summer','colorful','playful','bold','beach'] },
   'celestial-stargazing': { name: '银河营地 · 星空观星', desc: '天文观星活动页 — 深空黑+星云紫+银河蓝+彗星青+火星橙、Orbitron太空字体+Noto Serif SC、JS随机星星twinkle+radial-gradient星云+conic-gradient月相+微光box-shadow脉动+天文数据仪表盘、Celestial Dark星空深邃', tags: ['dark','celestial','astronomy','stargazing','space','animated','immersive','data'] },
   'botanical-plantcare': { name: '琴叶榕 · 植物图鉴', desc: '植物养护卡 — 亚麻米+墨绿+标本棕+铜版绿+枯叶黄、DM Serif Display+Source Sans 3+Noto Serif SC、CSS线描叶片(border+border-radius)+微风摇曳动画+双层细边框标本夹+养护参数条+拉丁学名斜体+快速诊断网格、Botanical Line Art植物线描', tags: ['light','botanical','plant','specimen','natural','lineart','elegant','museum'] },
+  'iso-subscribe': { name: '字节周刊 · 等距订阅', desc: '邮件订阅确认页 — 深靛蓝+电光蓝+亮青+霓虹紫+成功绿、Sora几何无衬线+Noto Sans SC、SVG勾号stroke-dasharray描边动画+CSS等距方块浮动+等距菱形网格背景+透视悬浮卡片+渐变顶条+往期hover滑动、Isometric 3D等距立体', tags: ['dark','isometric','3d','tech','subscribe','animated','geometric','futuristic'] },
 };
