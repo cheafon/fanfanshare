@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>潮汐 TIDE — 在声音里，找到你的平静</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--blue:#60a5fa;--purple:#a78bfa;--lavender:#c4b5fd;--glass:rgba(255,255,255,0.06);--glass-border:rgba(255,255,255,0.1);--text:rgba(255,255,255,0.9);--dim:rgba(255,255,255,0.4)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:linear-gradient(135deg,#0f0c29 0%,#302b63 50%,#24243e 100%);color:var(--text);font-family:'Noto Sans SC',sans-serif;font-size:17px;line-height:1.8;min-height:100vh;overflow-x:hidden}
+
+  /* Floating orbs */
+  .orb{position:fixed;border-radius:50%;pointer-events:none;z-index:0;filter:blur(80px)}
+  .orb-1{width:400px;height:400px;background:rgba(96,165,250,0.12);top:-5%;left:-10%;animation:drift 18s ease-in-out infinite}
+  .orb-2{width:350px;height:350px;background:rgba(167,139,250,0.1);bottom:10%;right:-8%;animation:drift 22s ease-in-out infinite reverse}
+  .orb-3{width:300px;height:300px;background:rgba(196,181,253,0.08);top:40%;left:50%;animation:drift 20s ease-in-out infinite 3s}
+  @keyframes drift{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,-20px)}}
+
+  .page{position:relative;z-index:1;max-width:800px;margin:0 auto;padding:2rem}
+
+  /* Glass card */
+  .glass{background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--glass-border);border-radius:20px;transition:transform 0.3s,box-shadow 0.3s}
+  .glass:hover{transform:translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,0.15)}
+
+  /* ═══ HERO ═══ */
+  .hero{text-align:center;padding:5rem 2rem 3rem}
+
+  .hero-tag{font-family:'Plus Jakarta Sans',sans-serif;font-weight:500;font-size:0.75rem;letter-spacing:0.15em;color:var(--lavender);
+    display:inline-block;padding:0.4em 1.2em;border:1px solid rgba(196,181,253,0.2);border-radius:999px;margin-bottom:2rem}
+
+  .hero-en{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:clamp(2.5rem,6vw,4rem);letter-spacing:-0.02em;
+    background:linear-gradient(135deg,var(--blue),var(--purple),var(--lavender));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1}
+  .hero-cn{font-weight:700;font-size:1.5rem;color:var(--text);margin-top:0.3rem;letter-spacing:0.08em}
+  .hero-sub{font-weight:300;font-size:1.1rem;color:var(--dim);margin-top:1.5rem;max-width:380px;display:inline-block;line-height:2}
+
+  .hero-btns{display:flex;gap:0.8rem;justify-content:center;margin-top:2rem;flex-wrap:wrap}
+  .dl-btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.8em 1.8em;border-radius:14px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:0.9rem;text-decoration:none;transition:all 0.3s;border:none;cursor:pointer}
+  .dl-btn-primary{background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--glass-border);color:#fff}
+  .dl-btn-primary:hover{background:rgba(255,255,255,0.12);box-shadow:0 8px 30px rgba(96,165,250,0.15)}
+  .dl-btn-icon{font-size:1.2rem}
+
+  /* Phone mockup */
+  .phone{width:220px;height:440px;margin:3rem auto 0;border-radius:36px;border:3px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.04);
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);position:relative;overflow:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,0.2);animation:phoneFloat 6s ease-in-out infinite}
+  @keyframes phoneFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+  .phone-notch{width:100px;height:24px;background:rgba(0,0,0,0.3);border-radius:0 0 14px 14px;margin:0 auto;position:relative;z-index:1}
+  .phone-screen{padding:2rem 1.5rem;text-align:center}
+  .phone-title{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:1rem;color:rgba(255,255,255,0.7)}
+  .phone-wave{font-size:2.5rem;margin:1rem 0;opacity:0.5}
+  .phone-label{font-size:0.75rem;color:rgba(255,255,255,0.3);letter-spacing:0.06em}
+  .phone-bar{width:80%;height:4px;border-radius:2px;background:rgba(255,255,255,0.08);margin:1.5rem auto 0}
+  .phone-bar-fill{width:65%;height:100%;border-radius:2px;background:linear-gradient(90deg,var(--blue),var(--purple))}
+
+  /* ═══ FEATURES ═══ */
+  .features{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:3rem 0}
+  .feat{padding:2rem 1.5rem;border-radius:20px;text-align:center}
+  .feat-icon{font-size:2.5rem;margin-bottom:0.8rem;display:block}
+  .feat-name{font-weight:700;font-size:1.1rem;margin-bottom:0.4rem}
+  .feat-desc{font-weight:300;font-size:0.92rem;color:var(--dim);line-height:1.8}
+
+  /* ═══ STATS ═══ */
+  .stats{display:flex;justify-content:center;gap:2.5rem;padding:2rem 0;margin:1rem 0;flex-wrap:wrap}
+  .stat-num{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.8rem;
+    background:linear-gradient(135deg,var(--blue),var(--lavender));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+  .stat-label{font-size:0.78rem;color:var(--dim);margin-top:0.3rem}
+
+  /* ═══ REVIEWS ═══ */
+  .reviews{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:2rem 0}
+  .review{padding:1.8rem;border-radius:20px}
+  .review-text{font-weight:300;font-size:1rem;color:rgba(255,255,255,0.6);line-height:2;font-style:italic}
+  .review-text::before{content:'"';font-size:2rem;color:var(--purple);line-height:0;vertical-align:-0.3em;margin-right:0.2em}
+  .review-author{font-weight:500;font-size:0.85rem;color:var(--lavender);margin-top:1rem}
+
+  /* ═══ BOTTOM CTA ═══ */
+  .bottom-cta{text-align:center;padding:3rem 0 1rem}
+  .bottom-title{font-weight:700;font-size:1.5rem;margin-bottom:1.5rem}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;padding:2rem 0 1rem}
+  .footer-brand{font-family:'Plus Jakarta Sans',sans-serif;font-weight:500;font-size:0.8rem;color:var(--dim);letter-spacing:0.08em}
+  .footer-email a{font-size:0.85rem;color:var(--purple);text-decoration:none;opacity:0.6}
+  .footer-social{display:flex;justify-content:center;gap:0.8rem;margin-top:0.8rem}
+  .footer-social a{width:32px;height:32px;border-radius:10px;background:var(--glass);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--glass-border);display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:600;color:var(--dim);text-decoration:none;transition:all 0.2s}
+  .footer-social a:hover{border-color:var(--purple);color:var(--purple)}
+
+  @media(max-width:700px){
+    .features{grid-template-columns:1fr;max-width:360px;margin-left:auto;margin-right:auto}
+    .reviews{grid-template-columns:1fr}
+    .phone{width:180px;height:360px}
+    .stats{gap:1.5rem}
+    .stat-num{font-size:1.4rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<div class="page">
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <div class="hero-tag">百万用户的助眠选择</div>
+    <h1 class="hero-en">TIDE</h1>
+    <div class="hero-cn">潮汐</div>
+    <p class="hero-sub">在声音里，找到你的平静</p>
+
+    <div class="hero-btns">
+      <a href="#" class="dl-btn dl-btn-primary"><span class="dl-btn-icon"></span> App Store</a>
+      <a href="#" class="dl-btn dl-btn-primary"><span class="dl-btn-icon">▶</span> Google Play</a>
+    </div>
+
+    <!-- Phone mockup -->
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="phone-title">正在播放</div>
+        <div class="phone-wave">🌊</div>
+        <div class="phone-label">海浪 · 深度睡眠</div>
+        <div class="phone-bar"><div class="phone-bar-fill"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FEATURES ═══ -->
+  <div class="features">
+    <div class="feat glass">
+      <span class="feat-icon">🌊</span>
+      <div class="feat-name">自然白噪音</div>
+      <div class="feat-desc">雨声、海浪、森林、篝火……超过 200 种高品质音景</div>
+    </div>
+    <div class="feat glass">
+      <span class="feat-icon">🧘</span>
+      <div class="feat-name">冥想课程</div>
+      <div class="feat-desc">从 3 分钟到 30 分钟，专业导师引导你找到内心的锚点</div>
+    </div>
+    <div class="feat glass">
+      <span class="feat-icon">😴</span>
+      <div class="feat-name">睡眠故事</div>
+      <div class="feat-desc">温柔的声音陪你入眠，告别失眠的夜晚</div>
+    </div>
+  </div>
+
+  <!-- ═══ STATS ═══ -->
+  <div class="stats">
+    <div class="stat"><div class="stat-num">2,000,000+</div><div class="stat-label">用户</div></div>
+    <div class="stat"><div class="stat-num">4.9 ★</div><div class="stat-label">评分</div></div>
+    <div class="stat"><div class="stat-num">200+</div><div class="stat-label">音景</div></div>
+    <div class="stat"><div class="stat-num">50+</div><div class="stat-label">冥想课程</div></div>
+  </div>
+
+  <!-- ═══ REVIEWS ═══ -->
+  <div class="reviews">
+    <div class="review glass">
+      <div class="review-text">用了潮汐之后，我的入睡时间从 40 分钟缩短到 10 分钟。</div>
+      <div class="review-author">— 小鱼，北京</div>
+    </div>
+    <div class="review glass">
+      <div class="review-text">每天午休听 15 分钟冥想，下午的工作效率明显提升。</div>
+      <div class="review-author">— 阿杰，深圳</div>
+    </div>
+  </div>
+
+  <!-- ═══ BOTTOM CTA ═══ -->
+  <section class="bottom-cta">
+    <div class="bottom-title">今晚，用潮汐入眠</div>
+    <div class="hero-btns">
+      <a href="#" class="dl-btn dl-btn-primary"><span class="dl-btn-icon"></span> App Store</a>
+      <a href="#" class="dl-btn dl-btn-primary"><span class="dl-btn-icon">▶</span> Google Play</a>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-brand">潮汐 TIDE · 在声音里找到平静</div>
+    <div class="footer-email"><a href="mailto:hello@tide.fm">hello@tide.fm</a></div>
+    <div class="footer-social">
+      <a href="#">Wx</a>
+      <a href="#">Wb</a>
+      <a href="#">Ig</a>
+    </div>
+  </footer>
+
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>
