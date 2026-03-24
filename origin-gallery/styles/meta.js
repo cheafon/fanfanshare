@@ -19,4 +19,5 @@ window.__NAV_META = {
   'organic-bnb': { name: '山隐 SHANYIN · 有机民宿', desc: '民宿房型展示 — 泥土棕+森林绿+沙色+陶土、Fraunces有机衬线+Noto Serif SC、交替左右色块模拟房间照片+有机曲线分隔+体验项目+山间呼吸感、自然泥土色系', tags: ['light','organic','bnb','nature','earth','serif','warm'] },
   'retro-podcast': { name: '深夜电台 · 复古播客', desc: '播客节目主页 — 深棕木纹+广播琥珀+旋钮红+电子管暖光、Abril Fatface+ZCOOL小薇体、模拟收音机面板+CSS频率刻度盘+指针摆动+指示灯呼吸+节目预设列表、50s广播时代', tags: ['dark','retro','podcast','radio','amber','vintage','animated'] },
   'bauhaus-weather': { name: '晴雨表 CLIMA · 包豪斯天气', desc: '天气仪表盘 — 严格红蓝黄+黑白三原色、Bebas Neue全大写+Noto Sans SC 900、几何形状装数据(红圆温度/蓝方AQI/黄圆UV)+conic-gradient湿度环+24h横排+7日列表、包豪斯构成', tags: ['light','bauhaus','weather','dashboard','geometric','primary','data'] },
+  'handdrawn-recipe': { name: '厨房手记 · 手绘食谱', desc: '红烧肉菜谱详情 — 方格纸白+铅笔灰+水彩红绿+牛皮纸、Caveat手写+ZCOOL小薇体、横线纸背景+红色装订线+勾选框配料+手绘编号步骤+便签小贴士、手帐笔记风', tags: ['light','handdrawn','recipe','notebook','handwritten','warm','static'] },
 };
