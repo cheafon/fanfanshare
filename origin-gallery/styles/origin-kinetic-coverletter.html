@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>苏晚 SU WAN — 视觉设计师</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&family=Noto+Sans+SC:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{--black:#0a0a0a;--white:#f5f5f5;--red:#ff2020;--gray:#888;--light:#ccc}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--black);color:var(--white);font-family:'Noto Sans SC',sans-serif;font-size:17px;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+  .page{max-width:100%;padding:3rem 2rem 2rem}
+
+  /* Staggered reveal */
+  .r{opacity:0;transform:translateY(40px);animation:reveal 0.7s ease forwards}
+  @keyframes reveal{to{opacity:1;transform:translateY(0)}}
+
+  /* ═══ SECTION 1: OPENING ═══ */
+  .s1{padding:0 0 3rem;max-width:800px}
+  .s1-pre{font-weight:100;font-size:0.8rem;color:var(--gray);letter-spacing:0.1em;animation-delay:0.1s}
+  .s1-name{font-weight:900;font-size:clamp(100px,22vw,220px);line-height:0.85;letter-spacing:-0.03em;color:var(--white);animation-delay:0.25s}
+  .s1-en{font-family:'Outfit',sans-serif;font-weight:200;font-size:clamp(1rem,3vw,1.6rem);color:var(--gray);letter-spacing:0.25em;margin-top:0.3rem;animation-delay:0.4s}
+  .s1-role{font-weight:900;font-size:clamp(1.2rem,3.5vw,1.8rem);color:var(--red);letter-spacing:0.06em;margin-top:0.8rem;animation-delay:0.55s}
+
+  /* ═══ SECTION 2: BELIEF ═══ */
+  .s2{padding:2rem 0 3rem;max-width:800px;overflow:hidden}
+  .s2-pre{font-weight:100;font-size:0.75rem;color:var(--gray);letter-spacing:0.08em;animation-delay:0.7s}
+  .s2-big{font-weight:900;font-size:clamp(80px,18vw,180px);line-height:0.82;letter-spacing:-0.04em;color:var(--white);animation-delay:0.85s}
+  .s2-mid{font-weight:300;font-size:clamp(1.2rem,3vw,1.8rem);color:var(--light);margin:0.3rem 0;animation-delay:1s}
+  .s2-red{font-weight:900;font-size:clamp(80px,18vw,180px);line-height:0.82;letter-spacing:-0.04em;color:var(--red);animation-delay:1.15s;
+    transition:color 0.3s}
+  .s2-red:hover{color:var(--white)}
+
+  /* ═══ SECTION 3: ABOUT ═══ */
+  .s3{padding:2rem 0 3rem;max-width:560px}
+  .s3 p{font-weight:300;font-size:1.05rem;color:rgba(245,245,245,0.45);line-height:2.2;margin-bottom:1.2rem;animation-delay:var(--d)}
+
+  /* ═══ SECTION 4: SKILLS ═══ */
+  .s4{padding:1rem 0 3rem;max-width:800px;overflow:hidden}
+  .s4-word{font-weight:900;line-height:0.88;letter-spacing:-0.03em;display:block;animation-delay:var(--d)}
+  .s4-huge{font-size:clamp(60px,14vw,140px);color:var(--white)}
+  .s4-med{font-size:clamp(30px,7vw,70px);color:var(--gray)}
+  .s4-red{font-size:clamp(30px,7vw,70px);color:var(--red)}
+  .s4-en{font-family:'Outfit',sans-serif}
+
+  /* ═══ SECTION 5: WHY ═══ */
+  .s5{padding:2rem 0 3rem;max-width:560px}
+  .s5-label{font-family:'Outfit',sans-serif;font-weight:100;font-size:0.7rem;color:var(--gray);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.8rem;animation-delay:2.2s}
+  .s5 p{font-weight:300;font-size:1.05rem;color:rgba(245,245,245,0.45);line-height:2.2;animation-delay:2.35s}
+
+  /* ═══ SECTION 6: CONTACT ═══ */
+  .s6{padding:2rem 0 3rem;max-width:560px}
+  .s6-label{font-family:'Outfit',sans-serif;font-weight:100;font-size:0.7rem;color:var(--gray);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.8rem;animation-delay:2.5s}
+  .s6-item{font-family:'Outfit',sans-serif;font-weight:400;font-size:1rem;color:var(--light);line-height:2.2;animation-delay:var(--d)}
+  .s6-item span{color:var(--gray);font-weight:200;font-size:0.85rem}
+
+  /* ═══ FOOTER ═══ */
+  .footer{padding:4rem 0 1rem;display:flex;justify-content:space-between;align-items:baseline;max-width:800px}
+  .footer-date{font-family:'Outfit',sans-serif;font-weight:100;font-size:0.65rem;color:var(--gray);letter-spacing:0.1em;opacity:0.4}
+  .footer-disc{font-size:0.65rem;color:var(--gray);opacity:0.2}
+
+  /* Hover on big text */
+  .s1-name,.s2-big,.s4-huge{transition:color 0.3s,letter-spacing 0.4s}
+  .s1-name:hover{letter-spacing:0.01em;color:var(--red)}
+  .s2-big:hover{color:var(--light)}
+  .s4-huge:hover{color:var(--red)}
+
+  @media(max-width:500px){
+    .page{padding:2rem 1rem 1.5rem}
+    .s3,.s5,.s6{max-width:100%}
+    .footer{flex-direction:column;gap:0.3rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ OPENING ═══ -->
+  <section class="s1">
+    <div class="s1-pre r" style="animation-delay:0.1s">我是</div>
+    <div class="s1-name r" style="animation-delay:0.25s">苏晚</div>
+    <div class="s1-en r" style="animation-delay:0.4s">SU WAN</div>
+    <div class="s1-role r" style="animation-delay:0.55s">视觉设计师</div>
+  </section>
+
+  <!-- ═══ BELIEF ═══ -->
+  <section class="s2">
+    <div class="s2-pre r" style="animation-delay:0.7s">我相信</div>
+    <div class="s2-big r" style="animation-delay:0.85s">好设计</div>
+    <div class="s2-mid r" style="animation-delay:1s">不需要</div>
+    <div class="s2-red r" style="animation-delay:1.15s">解释</div>
+  </section>
+
+  <!-- ═══ ABOUT ═══ -->
+  <section class="s3">
+    <p class="r" style="--d:1.3s;animation-delay:var(--d)">六年视觉设计经验。从海报到品牌，从UI到动效。我不喜欢把设计说得很玄，好的设计就是——用户不需要想第二遍。</p>
+    <p class="r" style="--d:1.45s;animation-delay:var(--d)">之前在两家创业公司做过设计负责人。带过3人小团队。做过从0到1的品牌视觉系统。最满意的作品是帮一家咖啡店做的整套VI——老板说开业那天有人专门为了「好看」来喝咖啡。</p>
+  </section>
+
+  <!-- ═══ SKILLS ═══ -->
+  <section class="s4">
+    <span class="s4-word s4-huge r" style="--d:1.6s;animation-delay:var(--d)">品牌设计</span>
+    <span class="s4-word s4-huge s4-en r" style="--d:1.7s;animation-delay:var(--d)">UI/UX</span>
+    <span class="s4-word s4-red r" style="--d:1.8s;animation-delay:var(--d)">动效</span>
+    <span class="s4-word s4-huge r" style="--d:1.9s;animation-delay:var(--d)">排版</span>
+    <span class="s4-word s4-med r" style="--d:2s;animation-delay:var(--d)">插画</span>
+  </section>
+
+  <!-- ═══ WHY ═══ -->
+  <section class="s5">
+    <div class="s5-label r" style="animation-delay:2.1s">Why Your Company</div>
+    <p class="r" style="animation-delay:2.2s">因为你们的产品值得更好的设计。我看了你们最近三个版本的迭代，能感觉到团队在认真做事。我想成为让它变得更好看的那个人。</p>
+  </section>
+
+  <!-- ═══ CONTACT ═══ -->
+  <section class="s6">
+    <div class="s6-label r" style="animation-delay:2.35s">Contact</div>
+    <div class="s6-item r" style="--d:2.45s;animation-delay:var(--d)">suwan@email.com</div>
+    <div class="s6-item r" style="--d:2.55s;animation-delay:var(--d)"><span>作品集</span> suwan.design</div>
+    <div class="s6-item r" style="--d:2.65s;animation-delay:var(--d)"><span>微信</span> suwan_design</div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer r" style="animation-delay:2.8s">
+    <span class="footer-date">2026.03</span>
+    <span class="footer-disc">页面来源：虚构求职者 · 仅供展示</span>
+  </footer>
+
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>
