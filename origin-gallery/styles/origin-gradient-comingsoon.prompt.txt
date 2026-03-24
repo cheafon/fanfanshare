@@ -1,0 +1,50 @@
+请生成一个单页 HTML 网页，要求如下：
+
+【网页类型】Coming Soon 启动页 / 产品即将上线预告页
+【品牌】拾光 MOMENTO — 一款AI记忆整理应用
+【主题】一个即将上线的AI产品预告页，收集早期用户邮箱
+
+【视觉风格】渐变流体 Gradient Mesh / 液态色彩
+- 色调：深夜蓝 (#0a0a2e)、流体紫 (#7c3aed)、流体粉 (#ec4899)、流体蓝 (#3b82f6)、流体橙 (#f97316)、白色文字
+- 字体：Outfit 600/700（现代几何圆角，英文标题）、Noto Sans SC 500/700（中文 17px+）
+- 布局：全屏居中，一个核心信息+邮箱输入框，背景是缓慢流动的渐变色彩 mesh（多个 radial-gradient 叠加+动画移动），极简内容但视觉极丰富
+- 动效：高 — 背景渐变 mesh 缓慢流动（CSS background-position 动画循环），文字渐入，邮箱输入框 focus 发光，倒计时数字翻动
+- 文化语境：科技产品预发布 / Apple 发布会预告风 / 未来感
+
+【页面结构】（Coming Soon 启动页，极简但沉浸）
+
+1. 全屏背景：
+   - 深夜蓝底色
+   - 3-4个大型 radial-gradient 色块（紫/粉/蓝/橙），叠加 mix-blend-mode
+   - 整体背景以 CSS animation 缓慢移动，产生液态流动感
+   - 微妙的噪点纹理覆盖
+
+2. 居中主内容：
+   - 小标签："即将上线 · COMING SOON"
+   - 品牌名 "拾光 MOMENTO"（大标题）
+   - 一句话描述："AI 帮你整理记忆，让每一刻都不被遗忘"
+   - 倒计时：距离上线还有 XX 天 XX 小时 XX 分 XX 秒（JS 实时倒计时到 2026-06-01）
+
+3. 邮箱订阅：
+   - 输入框 + "抢先体验" 按钮
+   - 小字："已有 2,847 人加入等待名单"
+
+4. 三个亮点预告（小卡片/标签）：
+   - 🧠 AI 记忆整理 — 自动归类你的照片、笔记和对话
+   - ⏳ 时间轴回忆 — 按时间线浏览你的人生故事
+   - 🔒 端到端加密 — 你的记忆只属于你
+
+5. 底部：
+   - "拾光 MOMENTO · 记忆，值得被善待"
+   - 社交图标
+
+【技术要求】
+- 单个 HTML 文件，所有 CSS 和 JS 内联
+- 使用 Google Fonts：Outfit、Noto Sans SC
+- 响应式设计，适配手机和桌面
+- 中文为主，正文字号至少 17px
+- 生产级品质
+- 渐变流体：多个 radial-gradient 叠加 + background-size 放大 + background-position 动画循环产生流动感，噪点覆盖，发光输入框
+
+【参考】这个提示词来自 HTML 创意工坊：https://cheafon.github.io/fanfanshare/origin-gallery/
+风格名称：Gradient Coming Soon 渐变启动页
