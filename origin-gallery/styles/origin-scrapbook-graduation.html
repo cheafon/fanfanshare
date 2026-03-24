@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>我们毕业啦 — 计算机科学 2022 级 3 班</title>
+<link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#f8f0d8;--film:#e8d0a0;--ink:#2848a0;--red:#d04040;--pencil:#6a6a68;--denim:#485878;--note-y:#fff8c0;--note-b:#d0e0f8;--note-p:#f8d0d8;--note-g:#d0f0d0}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--paper);color:#2a2820;font-family:'Noto Sans SC',sans-serif;font-size:17px;line-height:1.8;padding:1.5rem;-webkit-font-smoothing:antialiased;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E")}
+
+  .album{max-width:560px;margin:0 auto;animation:fadeIn .8s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* ═══ TITLE ═══ */
+  .title-area{text-align:center;padding:1rem 0 2rem;position:relative}
+
+  /* Tape decoration */
+  .tape{position:absolute;top:-2px;left:50%;transform:translateX(-50%) rotate(-2deg);width:70px;height:16px;background:rgba(240,232,200,0.5);border:0.5px solid rgba(0,0,0,0.03)}
+
+  .title-cn{font-family:'Ma Shan Zheng',cursive;font-size:clamp(2.4rem,8vw,3.2rem);color:var(--ink);line-height:1.2;margin-top:1rem}
+  .title-en{font-family:'Indie Flower',cursive;font-size:clamp(1rem,3vw,1.3rem);color:var(--denim);margin-top:0.2rem}
+  .title-sub{font-size:0.9rem;color:var(--pencil);margin-top:0.4rem}
+
+  /* ═══ CLASS PHOTO ═══ */
+  .photo-area{position:relative;margin-bottom:2rem}
+  .polaroid-big{background:#fff;padding:10px 10px 40px;box-shadow:3px 4px 10px rgba(0,0,0,0.08);transform:rotate(-1deg);display:inline-block;width:100%}
+  .polaroid-big-img{width:100%;height:200px;background:linear-gradient(135deg,var(--film),#d8c090,#e8d8b0);position:relative}
+  .polaroid-big-img::after{content:'';position:absolute;inset:0;background:rgba(232,208,160,0.1)}
+  .polaroid-big-caption{font-family:'Indie Flower',cursive;font-size:0.9rem;color:var(--pencil);text-align:center;margin-top:8px}
+
+  /* Sticker */
+  .sticker-best{position:absolute;top:15px;right:15px;font-family:'Indie Flower',cursive;font-size:0.7rem;color:#fff;
+    background:var(--red);padding:0.3em 0.8em;transform:rotate(8deg);border-radius:2px;box-shadow:1px 2px 4px rgba(0,0,0,0.1)}
+
+  /* Tape on photo */
+  .tape-photo{position:absolute;top:-3px;left:20px;width:50px;height:14px;background:rgba(240,232,200,0.5);border:0.5px solid rgba(0,0,0,0.03);transform:rotate(3deg)}
+
+  /* ═══ MESSAGES ═══ */
+  .messages{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:2rem}
+
+  .msg{padding:1rem;position:relative;box-shadow:1px 2px 6px rgba(0,0,0,0.06);min-height:130px}
+  .msg::before{content:'';position:absolute;top:6px;left:50%;transform:translateX(-50%);width:10px;height:10px;border-radius:50%;
+    background:radial-gradient(circle at 40% 35%,#d88080,#b04040);box-shadow:0 1px 2px rgba(0,0,0,0.15)}
+
+  .msg-y{background:var(--note-y);transform:rotate(-2deg)}
+  .msg-b{background:var(--note-b);transform:rotate(3deg)}
+  .msg-p{background:var(--note-p);transform:rotate(-1deg)}
+  .msg-g{background:var(--note-g);transform:rotate(2deg)}
+  .msg-y2{background:var(--note-y);transform:rotate(-3deg)}
+  .msg-b2{background:var(--note-b);transform:rotate(1deg)}
+
+  .msg-name{font-family:'Ma Shan Zheng',cursive;font-size:1.1rem;color:var(--ink);margin-top:0.6rem}
+  .msg-text{font-family:'Indie Flower',cursive;font-size:0.92rem;color:rgba(42,40,32,0.6);line-height:1.6;margin-top:0.3rem}
+  .msg-text-cn{font-size:0.92rem;color:rgba(42,40,32,0.55);line-height:1.9;margin-top:0.3rem}
+
+  /* ═══ TIMELINE ═══ */
+  .timeline{padding:1rem 0 1.5rem;border-top:1px dashed rgba(42,40,32,0.1);margin-bottom:1rem}
+  .tl-title{font-family:'Indie Flower',cursive;font-size:1rem;color:var(--denim);text-align:center;margin-bottom:1rem}
+
+  .tl-item{display:flex;gap:0.8rem;margin-bottom:0.8rem;align-items:flex-start}
+  .tl-year{font-family:'Indie Flower',cursive;font-weight:700;font-size:0.85rem;color:var(--ink);flex-shrink:0;width:60px;text-align:right}
+  .tl-dot{width:8px;height:8px;border-radius:50%;background:var(--red);flex-shrink:0;margin-top:8px}
+  .tl-text{font-size:0.9rem;color:var(--pencil);line-height:1.7}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;padding:1.5rem 0 0.5rem;border-top:1px dashed rgba(42,40,32,0.08)}
+  .footer-motto{font-family:'Ma Shan Zheng',cursive;font-size:1.2rem;color:var(--ink);opacity:0.4}
+  .footer-disc{font-size:0.68rem;color:var(--pencil);opacity:0.2;margin-top:0.6rem}
+
+  /* Doodle hearts decoration */
+  .footer::before{content:'❤';display:block;font-size:1rem;color:var(--red);opacity:0.2;margin-bottom:0.5rem}
+
+  @media(max-width:500px){
+    body{padding:0.8rem}
+    .messages{grid-template-columns:1fr;gap:0.8rem}
+    .polaroid-big-img{height:160px}
+    .msg{min-height:auto}
+  }
+</style>
+</head>
+<body>
+
+<div class="album">
+
+  <!-- ═══ TITLE ═══ -->
+  <header class="title-area">
+    <div class="tape"></div>
+    <h1 class="title-cn">我们毕业啦</h1>
+    <div class="title-en">CLASS OF 2026</div>
+    <div class="title-sub">计算机科学 · 2022 级 3 班 · 32 个人的四年</div>
+  </header>
+
+  <!-- ═══ CLASS PHOTO ═══ -->
+  <div class="photo-area">
+    <div class="tape-photo"></div>
+    <div class="sticker-best">BEST CLASS EVER</div>
+    <div class="polaroid-big">
+      <div class="polaroid-big-img"></div>
+      <div class="polaroid-big-caption">2026.06.20 · 图书馆门口 · 最后一张合影</div>
+    </div>
+  </div>
+
+  <!-- ═══ MESSAGES ═══ -->
+  <div class="messages">
+
+    <div class="msg msg-y">
+      <div class="msg-name">王小明</div>
+      <div class="msg-text-cn">四年最后悔的事：大一没去表白。四年最不后悔的事：每天和你们一起吃食堂。后会有期，各位。</div>
+    </div>
+
+    <div class="msg msg-b">
+      <div class="msg-name">李思思</div>
+      <div class="msg-text-cn">感谢室友们容忍我凌晨三点还在敲代码。下辈子还做室友（但我保证不熬夜了）。</div>
+    </div>
+
+    <div class="msg msg-p">
+      <div class="msg-name">张大力</div>
+      <div class="msg-text-cn">毕业不是结束，是终于可以不用上早八了。开玩笑的，我会想你们的。</div>
+    </div>
+
+    <div class="msg msg-g">
+      <div class="msg-name">陈小雨</div>
+      <div class="msg-text-cn">大学教会我最重要的事不是编程，是怎么和 32 个不同的人成为朋友。祝大家前程似锦。</div>
+    </div>
+
+    <div class="msg msg-y2">
+      <div class="msg-name">赵一一</div>
+      <div class="msg-text-cn">如果多年后你在某个城市迷路了，记得打电话给我。我可能也迷路了，但至少我们可以一起迷路。</div>
+    </div>
+
+    <div class="msg msg-b2">
+      <div class="msg-name">周老师</div>
+      <div class="msg-text-cn">你们是我带过最闹的一届，也是最好的一届。出去了别给学校丢人就行。——永远的周老师</div>
+    </div>
+
+  </div>
+
+  <!-- ═══ TIMELINE ═══ -->
+  <section class="timeline">
+    <div class="tl-title">Four Years in Moments</div>
+
+    <div class="tl-item">
+      <span class="tl-year">2022.09</span>
+      <span class="tl-dot"></span>
+      <span class="tl-text">入学，军训晒成碳</span>
+    </div>
+    <div class="tl-item">
+      <span class="tl-year">2023.05</span>
+      <span class="tl-dot"></span>
+      <span class="tl-text">课程设计通宵，全班第二天集体迟到</span>
+    </div>
+    <div class="tl-item">
+      <span class="tl-year">2024.12</span>
+      <span class="tl-dot"></span>
+      <span class="tl-text">拿了 ACM 区域赛铜牌，虽然只是铜牌但我们哭了</span>
+    </div>
+    <div class="tl-item">
+      <span class="tl-year">2026.06</span>
+      <span class="tl-dot"></span>
+      <span class="tl-text">毕业，散伙饭喝到凌晨四点</span>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">2022–2026 · 四年不长，刚好够想念一辈子</div>
+    <div class="footer-disc">页面来源：虚构班级 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>
