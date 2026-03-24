@@ -1,0 +1,44 @@
+请生成一个单页 HTML 网页，要求如下：
+
+【网页类型】音乐节/电子音乐活动海报页
+【品牌】回声 ECHO FEST — 2026 城市电子音乐节
+【内容主题】一个为期两天的户外电子音乐节活动宣传页
+
+【视觉风格】Acid Graphics / 酸性反设计
+- 色调：纯黑底 (#0a0a0a)、荧光黄绿 (#c8ff00)、荧光粉 (#ff00aa)、酸性紫 (#8b00ff)、警告橙 (#ff6600)
+- 字体：Dela Gothic One（极粗日式哥特体，英文标题）、ZCOOL QingKe HuangYou 站酷庆科黄油体（中文标题，潮流圆润）、Noto Sans SC 17px+（正文）
+- 布局：反设计/打破常规 — 文字倾斜旋转、元素重叠、marquee 滚动文字条、故意的「混乱」但有控制的构成、全屏色块切换
+- 动效：高密度 — marquee 无限滚动文字条、荧光色闪烁脉冲、hover 抖动/glitch 效果、背景色块缓慢移动
+- 文化语境：地下电子音乐/rave 文化/酸性图形设计运动
+
+【页面结构】（音乐节海报，不是商业模板）
+
+1. 顶部滚动条：重复文字 "ECHO FEST 2026 · 回声电子音乐节 · 10.18-19 · 上海西岸" 无限 marquee 滚动
+2. 主视觉区：
+   - "ECHO" 超大字（荧光黄绿，倾斜 -5deg）
+   - "回声" 中文叠加（荧光粉）
+   - "2026 城市电子音乐节" 副标题
+   - 日期地点："10月18-19日 · 上海西岸艺术中心"
+   - CTA："立即购票"
+3. 演出阵容（3组）：
+   - 夜行者 NIGHTWALKER — 深圳 · Techno / Dark Ambient · "用节拍重建城市的黑夜"
+   - 云端实验室 CLOUDLAB — 北京 · Future Bass / Synth Pop · "在合成器里种一朵云"
+   - DJ MOMO × 低频诗人 — 上海 · House / Lo-fi · "让身体替大脑做决定"
+4. 票务信息：
+   - 早鸟票 ¥288 — 单日通票，限量500张
+   - 双日票 ¥488 — 全程通票+纪念手环
+   - VIP ¥1,288 — 双日+前排区+艺人见面+限定周边
+5. 底部信息条：
+   - "回声 ECHO FEST · 让城市震动"
+   - 再来一条 marquee 滚动
+
+【技术要求】
+- 单个 HTML 文件，所有 CSS 和 JS 内联
+- 使用 Google Fonts：Dela Gothic One、ZCOOL QingKe HuangYou、Noto Sans SC
+- 响应式设计，适配手机和桌面
+- 中文为主，正文字号至少 17px
+- 生产级品质
+- 酸性风格：荧光色、marquee 滚动、倾斜文字、glitch hover、高对比、反设计但有序
+
+【参考】这个提示词来自 HTML 创意工坊：https://cheafon.github.io/fanfanshare/origin-gallery/
+风格名称：Acid Festival 酸性音乐节

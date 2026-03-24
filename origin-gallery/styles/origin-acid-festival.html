@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>回声 ECHO FEST 2026 — 城市电子音乐节</title>
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=ZCOOL+QingKe+HuangYou&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black:#0a0a0a;--lime:#c8ff00;--pink:#ff00aa;--purple:#8b00ff;--orange:#ff6600;
+    --dim:rgba(255,255,255,0.3);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--black);color:#fff;font-family:'Noto Sans SC',sans-serif;font-size:17px;line-height:1.7;overflow-x:hidden}
+
+  /* ═══ MARQUEE BAR ═══ */
+  .marquee{overflow:hidden;white-space:nowrap;background:var(--lime);color:var(--black);padding:10px 0;font-family:'Dela Gothic One',sans-serif;font-size:0.8rem;letter-spacing:0.08em}
+  .marquee-inner{display:inline-block;animation:scroll 15s linear infinite}
+  .marquee-inner span{padding:0 3rem}
+  @keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+  .marquee.pink{background:var(--pink);color:var(--black)}
+  .marquee.purple{background:var(--purple);color:var(--lime)}
+
+  /* ═══ HERO ═══ */
+  .hero{min-height:90vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;padding:4rem 2rem;overflow:hidden}
+
+  /* Floating color blocks */
+  .blob{position:absolute;border-radius:0;pointer-events:none;mix-blend-mode:screen;opacity:0.15}
+  .blob-1{width:400px;height:400px;background:var(--pink);top:-10%;left:-10%;transform:rotate(15deg);animation:drift1 20s ease-in-out infinite}
+  .blob-2{width:300px;height:300px;background:var(--purple);bottom:10%;right:-5%;transform:rotate(-10deg);animation:drift2 18s ease-in-out infinite}
+  .blob-3{width:250px;height:250px;background:var(--orange);top:40%;left:60%;transform:rotate(5deg);animation:drift1 22s ease-in-out infinite reverse}
+  @keyframes drift1{0%,100%{transform:rotate(15deg) translate(0,0)}50%{transform:rotate(20deg) translate(30px,-20px)}}
+  @keyframes drift2{0%,100%{transform:rotate(-10deg) translate(0,0)}50%{transform:rotate(-15deg) translate(-20px,30px)}}
+
+  .hero-en{font-family:'Dela Gothic One',sans-serif;font-size:clamp(5rem,18vw,12rem);color:var(--lime);line-height:0.85;transform:rotate(-5deg);position:relative;z-index:1;
+    text-shadow:0 0 40px rgba(200,255,0,0.3),0 0 80px rgba(200,255,0,0.15)}
+  .hero-cn{font-family:'ZCOOL QingKe HuangYou',cursive;font-size:clamp(2rem,6vw,4rem);color:var(--pink);margin-top:-0.5rem;transform:rotate(-5deg) translateX(20px);position:relative;z-index:1;
+    text-shadow:0 0 30px rgba(255,0,170,0.3)}
+  .hero-sub{font-family:'ZCOOL QingKe HuangYou',cursive;font-size:1.2rem;color:var(--dim);margin-top:2rem;letter-spacing:0.1em;position:relative;z-index:1}
+  .hero-date{font-family:'Dela Gothic One',sans-serif;font-size:0.85rem;color:var(--orange);letter-spacing:0.15em;margin-top:0.8rem;position:relative;z-index:1}
+  .hero-cta{display:inline-block;margin-top:2.5rem;font-family:'ZCOOL QingKe HuangYou',cursive;font-size:1.3rem;color:var(--black);background:var(--lime);padding:0.8em 2.5em;text-decoration:none;position:relative;z-index:1;transition:all 0.15s;border:none;cursor:pointer}
+  .hero-cta:hover{background:var(--pink);color:#fff;transform:rotate(2deg) scale(1.05);box-shadow:0 0 30px rgba(255,0,170,0.3)}
+
+  /* Glitch hover */
+  @keyframes glitch{0%,100%{transform:rotate(-5deg)}25%{transform:rotate(-5deg) translate(-2px,1px)}50%{transform:rotate(-5deg) translate(2px,-1px)}75%{transform:rotate(-5deg) translate(-1px,-2px)}}
+  .hero-en:hover{animation:glitch 0.15s ease infinite}
+
+  /* ═══ LINEUP ═══ */
+  .lineup{padding:4rem 2rem;max-width:900px;margin:0 auto}
+  .lineup-label{font-family:'Dela Gothic One',sans-serif;font-size:0.7rem;color:var(--lime);letter-spacing:0.2em;margin-bottom:2rem}
+
+  .act{padding:2rem 0;border-bottom:1px solid rgba(255,255,255,0.06);display:grid;grid-template-columns:auto 1fr;gap:1.5rem;align-items:start;transition:background 0.3s}
+  .act:hover{background:rgba(200,255,0,0.02)}
+  .act-num{font-family:'Dela Gothic One',sans-serif;font-size:3rem;line-height:1;opacity:0.08}
+  .act-name{font-family:'ZCOOL QingKe HuangYou',cursive;font-size:1.5rem;color:#fff;margin-bottom:0.2rem}
+  .act-en{font-family:'Dela Gothic One',sans-serif;font-size:0.7rem;color:var(--lime);letter-spacing:0.1em;opacity:0.6;margin-bottom:0.4rem}
+  .act-meta{font-size:0.85rem;color:var(--dim);margin-bottom:0.3rem}
+  .act-meta span{color:var(--orange)}
+  .act-quote{font-size:0.95rem;color:rgba(255,255,255,0.5);font-style:italic}
+  .act-quote::before{content:'"';color:var(--pink)}
+  .act-quote::after{content:'"';color:var(--pink)}
+
+  /* ═══ TICKETS ═══ */
+  .tickets{padding:4rem 2rem;max-width:900px;margin:0 auto}
+  .tickets-label{font-family:'Dela Gothic One',sans-serif;font-size:0.7rem;color:var(--pink);letter-spacing:0.2em;margin-bottom:2rem}
+
+  .ticket-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+  .ticket{border:2px solid rgba(255,255,255,0.06);padding:2rem 1.5rem;text-align:center;position:relative;transition:all 0.3s}
+  .ticket:hover{border-color:var(--lime);box-shadow:0 0 20px rgba(200,255,0,0.06)}
+  .ticket.hot{border-color:var(--pink)}
+  .ticket.hot::before{content:'🔥 热门';position:absolute;top:-12px;left:50%;transform:translateX(-50%);font-family:'ZCOOL QingKe HuangYou',cursive;font-size:0.75rem;background:var(--pink);color:#fff;padding:0.2em 1em}
+
+  .ticket-name{font-family:'ZCOOL QingKe HuangYou',cursive;font-size:1.2rem;margin-bottom:0.8rem}
+  .ticket-price{font-family:'Dela Gothic One',sans-serif;font-size:2.5rem;line-height:1}
+  .ticket:nth-child(1) .ticket-price{color:var(--lime)}
+  .ticket:nth-child(2) .ticket-price{color:var(--pink)}
+  .ticket:nth-child(3) .ticket-price{color:var(--orange)}
+  .ticket-period{font-size:0.8rem;color:var(--dim);margin-top:0.3rem;margin-bottom:1rem}
+  .ticket-desc{font-size:0.9rem;color:var(--dim);line-height:1.7}
+
+  /* ═══ BOTTOM ═══ */
+  .bottom{text-align:center;padding:3rem 2rem 1.5rem}
+  .bottom-brand{font-family:'ZCOOL QingKe HuangYou',cursive;font-size:1rem;color:var(--dim);letter-spacing:0.08em}
+  .bottom-tagline{font-family:'Dela Gothic One',sans-serif;font-size:0.65rem;color:var(--lime);letter-spacing:0.2em;margin-top:0.3rem;opacity:0.4}
+
+  @media(max-width:700px){
+    .hero-en{font-size:4rem;transform:rotate(-3deg)}
+    .hero-cn{font-size:2rem;transform:rotate(-3deg) translateX(10px)}
+    .ticket-grid{grid-template-columns:1fr;max-width:320px;margin:0 auto}
+    .act{grid-template-columns:1fr}
+    .act-num{display:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ MARQUEE TOP ═══ -->
+<div class="marquee">
+  <div class="marquee-inner">
+    <span>ECHO FEST 2026 · 回声电子音乐节 · 10.18-19 · 上海西岸</span>
+    <span>ECHO FEST 2026 · 回声电子音乐节 · 10.18-19 · 上海西岸</span>
+    <span>ECHO FEST 2026 · 回声电子音乐节 · 10.18-19 · 上海西岸</span>
+    <span>ECHO FEST 2026 · 回声电子音乐节 · 10.18-19 · 上海西岸</span>
+    <span>ECHO FEST 2026 · 回声电子音乐节 · 10.18-19 · 上海西岸</span>
+    <span>ECHO FEST 2026 · 回声电子音乐节 · 10.18-19 · 上海西岸</span>
+  </div>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <h1 class="hero-en">ECHO</h1>
+  <div class="hero-cn">回声</div>
+  <div class="hero-sub">2026 城市电子音乐节</div>
+  <div class="hero-date">10月18-19日 · 上海西岸艺术中心</div>
+  <button class="hero-cta" onclick="document.querySelector('.lineup').scrollIntoView({behavior:'smooth'})">⚡ 立即购票</button>
+</section>
+
+<!-- ═══ MARQUEE PINK ═══ -->
+<div class="marquee pink">
+  <div class="marquee-inner">
+    <span>TECHNO · HOUSE · FUTURE BASS · AMBIENT · SYNTH POP · LO-FI ·</span>
+    <span>TECHNO · HOUSE · FUTURE BASS · AMBIENT · SYNTH POP · LO-FI ·</span>
+    <span>TECHNO · HOUSE · FUTURE BASS · AMBIENT · SYNTH POP · LO-FI ·</span>
+    <span>TECHNO · HOUSE · FUTURE BASS · AMBIENT · SYNTH POP · LO-FI ·</span>
+  </div>
+</div>
+
+<!-- ═══ LINEUP ═══ -->
+<section class="lineup">
+  <div class="lineup-label">LINEUP 演出阵容</div>
+
+  <div class="act">
+    <div class="act-num">01</div>
+    <div>
+      <div class="act-name">夜行者</div>
+      <div class="act-en">NIGHTWALKER</div>
+      <div class="act-meta"><span>深圳</span> · Techno / Dark Ambient</div>
+      <div class="act-quote">用节拍重建城市的黑夜</div>
+    </div>
+  </div>
+
+  <div class="act">
+    <div class="act-num">02</div>
+    <div>
+      <div class="act-name">云端实验室</div>
+      <div class="act-en">CLOUDLAB</div>
+      <div class="act-meta"><span>北京</span> · Future Bass / Synth Pop</div>
+      <div class="act-quote">在合成器里种一朵云</div>
+    </div>
+  </div>
+
+  <div class="act">
+    <div class="act-num">03</div>
+    <div>
+      <div class="act-name">DJ MOMO × 低频诗人</div>
+      <div class="act-en">DJ MOMO × LOWFREQ POET</div>
+      <div class="act-meta"><span>上海</span> · House / Lo-fi</div>
+      <div class="act-quote">让身体替大脑做决定</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MARQUEE PURPLE ═══ -->
+<div class="marquee purple">
+  <div class="marquee-inner">
+    <span>让城市震动 · LET THE CITY SHAKE · 让城市震动 · LET THE CITY SHAKE ·</span>
+    <span>让城市震动 · LET THE CITY SHAKE · 让城市震动 · LET THE CITY SHAKE ·</span>
+    <span>让城市震动 · LET THE CITY SHAKE · 让城市震动 · LET THE CITY SHAKE ·</span>
+  </div>
+</div>
+
+<!-- ═══ TICKETS ═══ -->
+<section class="tickets">
+  <div class="tickets-label">TICKETS 票务</div>
+  <div class="ticket-grid">
+    <div class="ticket">
+      <div class="ticket-name">早鸟票</div>
+      <div class="ticket-price">¥288</div>
+      <div class="ticket-period">单日通票</div>
+      <div class="ticket-desc">限量 500 张<br>先到先得</div>
+    </div>
+    <div class="ticket hot">
+      <div class="ticket-name">双日票</div>
+      <div class="ticket-price">¥488</div>
+      <div class="ticket-period">全程通票</div>
+      <div class="ticket-desc">含纪念手环<br>完整体验</div>
+    </div>
+    <div class="ticket">
+      <div class="ticket-name">VIP</div>
+      <div class="ticket-price">¥1,288</div>
+      <div class="ticket-period">双日尊享</div>
+      <div class="ticket-desc">前排区 + 艺人见面<br>+ 限定周边</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ BOTTOM ═══ -->
+<div class="bottom">
+  <div class="bottom-brand">回声 ECHO FEST · 让城市震动</div>
+  <div class="bottom-tagline">SHANGHAI WEST BUND · OCT 18-19 2026</div>
+</div>
+
+<!-- ═══ MARQUEE BOTTOM ═══ -->
+<div class="marquee" style="background:var(--orange)">
+  <div class="marquee-inner">
+    <span>BUY TICKETS NOW · 立即购票 · BUY TICKETS NOW · 立即购票 ·</span>
+    <span>BUY TICKETS NOW · 立即购票 · BUY TICKETS NOW · 立即购票 ·</span>
+    <span>BUY TICKETS NOW · 立即购票 · BUY TICKETS NOW · 立即购票 ·</span>
+    <span>BUY TICKETS NOW · 立即购票 · BUY TICKETS NOW · 立即购票 ·</span>
+  </div>
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>
