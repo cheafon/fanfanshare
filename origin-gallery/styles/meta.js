@@ -16,4 +16,5 @@ window.__NAV_META = {
   'terminal-course': { name: '字节道场 · 终端课程', desc: '编程训练营课程页 — 终端黑+终端绿+琥珀黄、JetBrains Mono等宽+Noto Sans SC、模拟命令行界面+$提示符+JSON代码块+ls目录+pip安装+光标闪烁、复古终端', tags: ['dark','terminal','course','hacker','monospace','coding','animated'] },
   'cinematic-portfolio': { name: '陆远 · 电影作品集', desc: '摄影师作品集 — 纯黑+暖白+电影红+烟灰、Cormorant Garamond极细衬线+Noto Sans SC 300、大面积色块模拟照片+不同灰度比例+展览列表+极简负空间、暗黑电影感', tags: ['dark','cinematic','portfolio','photography','serif','minimal','gallery'] },
   'y2k-quiz': { name: '星球研究所 · 千禧测试', desc: '互动趣味测试 — 深蓝黑+钢蓝+千禧粉+全息紫、Audiowide+ZCOOL庆科黄油体、JS真实问答逻辑5题+3种结果+分享+进度条+选项hover发光、Y2K千禧互联网', tags: ['dark','y2k','quiz','interactive','neon','animated','fun'] },
+  'organic-bnb': { name: '山隐 SHANYIN · 有机民宿', desc: '民宿房型展示 — 泥土棕+森林绿+沙色+陶土、Fraunces有机衬线+Noto Serif SC、交替左右色块模拟房间照片+有机曲线分隔+体验项目+山间呼吸感、自然泥土色系', tags: ['light','organic','bnb','nature','earth','serif','warm'] },
 };
