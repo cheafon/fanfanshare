@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>搭个车 RIDE TOGETHER — 城市拼车信息板</title>
+<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Caveat:wght@400;500;600;700&family=ZCOOL+KuaiLe&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--cork:#c8a878;--note-y:#fff8a0;--note-p:#ffc0d0;--note-b:#c0e0ff;--note-g:#c0f0c0;--dark:#2a2a28;--neon-y:#e8e820;--neon-p:#ff3090;--neon-g:#30e850;--blue:#30a0ff}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:linear-gradient(135deg,#b89868,#c8a878,#b89060);color:var(--dark);font-family:'Noto Sans SC',sans-serif;font-size:17px;line-height:1.7;min-height:100vh;padding:1.5rem;-webkit-font-smoothing:antialiased;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E")}
+
+  .board{max-width:600px;margin:0 auto;animation:fadeIn .6s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;padding:1rem 0 1.5rem;position:relative}
+  .header-title{font-family:'ZCOOL KuaiLe',cursive;font-size:clamp(2.2rem,7vw,3rem);color:var(--dark);
+    text-shadow:3px 3px 0 var(--neon-y),-1px -1px 0 var(--neon-p)}
+  .header-en{font-family:'Permanent Marker',cursive;font-size:clamp(0.8rem,2.5vw,1rem);color:var(--dark);letter-spacing:0.1em;opacity:0.6;margin-top:0.1rem}
+  .header-sub{font-size:0.9rem;color:rgba(42,42,40,0.5);margin-top:0.3rem}
+
+  /* Mini stickers */
+  .sticker{display:inline-block;font-family:'Permanent Marker',cursive;font-size:0.6rem;padding:0.2em 0.6em;border-radius:3px;transform:rotate(var(--r,0deg));position:relative;top:-2px;margin:0 0.2rem}
+  .sticker-hot{background:var(--neon-p);color:#fff;--r:-5deg}
+  .sticker-new{background:var(--neon-g);color:var(--dark);--r:3deg}
+
+  /* ═══ NOTES GRID ═══ */
+  .notes{display:grid;grid-template-columns:1fr 1fr;gap:1rem;padding:0.5rem 0}
+
+  .note{padding:1.2rem 1rem;position:relative;box-shadow:2px 3px 8px rgba(0,0,0,0.12);
+    transition:transform .2s,box-shadow .2s;cursor:default;min-height:180px}
+  .note:hover{transform:translateY(-4px) rotate(0deg) !important;box-shadow:3px 6px 16px rgba(0,0,0,0.18)}
+
+  /* Pushpin */
+  .note::before{content:'';position:absolute;top:8px;left:50%;transform:translateX(-50%);width:12px;height:12px;border-radius:50%;
+    background:radial-gradient(circle at 40% 35%,#e04040,#a02020);box-shadow:0 2px 3px rgba(0,0,0,0.2);z-index:1}
+
+  .note-y{background:var(--note-y);transform:rotate(-3deg)}
+  .note-p{background:var(--note-p);transform:rotate(2deg)}
+  .note-b{background:var(--note-b);transform:rotate(-1deg)}
+  .note-g{background:var(--note-g);transform:rotate(4deg)}
+  .note-y2{background:var(--note-y);transform:rotate(-2deg)}
+  .note-p2{background:var(--note-p);transform:rotate(1deg)}
+
+  .note-route{font-family:'ZCOOL KuaiLe',cursive;font-size:1.1rem;color:var(--dark);margin-top:0.5rem}
+  .note-tag{font-family:'Permanent Marker',cursive;font-size:0.55rem;display:inline-block;padding:0.15em 0.5em;border-radius:2px;margin-bottom:0.3rem}
+  .tag-find{background:var(--neon-y);color:var(--dark)}
+  .tag-daily{background:var(--blue);color:#fff}
+
+  .note-info{font-size:0.88rem;color:rgba(42,42,40,0.6);line-height:1.7}
+  .note-handwrite{font-family:'Caveat',cursive;font-size:1rem;color:var(--dark);margin-top:0.5rem;line-height:1.4;opacity:0.7}
+  .note-contact{font-family:'Caveat',cursive;font-size:0.85rem;color:rgba(42,42,40,0.4);margin-top:0.3rem}
+
+  /* ═══ CTA ═══ */
+  .cta{text-align:center;padding:1.5rem 1rem;margin-top:0.5rem;background:var(--note-y);transform:rotate(-1deg);
+    box-shadow:2px 3px 8px rgba(0,0,0,0.1);position:relative}
+  .cta::before{content:'';position:absolute;top:8px;left:50%;transform:translateX(-50%);width:12px;height:12px;border-radius:50%;
+    background:radial-gradient(circle at 40% 35%,#40a040,#208020);box-shadow:0 2px 3px rgba(0,0,0,0.2)}
+  .cta-text{font-family:'ZCOOL KuaiLe',cursive;font-size:1.2rem;color:var(--dark);margin-top:0.5rem}
+  .cta-contact{font-family:'Caveat',cursive;font-size:1rem;color:rgba(42,42,40,0.5);margin-top:0.3rem}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;padding:1.5rem 0 0.5rem}
+  .footer-motto{font-family:'ZCOOL KuaiLe',cursive;font-size:1rem;color:rgba(42,42,40,0.4)}
+  .footer-disc{font-size:0.7rem;color:rgba(42,42,40,0.2);margin-top:0.5rem}
+
+  @media(max-width:500px){
+    body{padding:0.8rem}
+    .notes{grid-template-columns:1fr;gap:1rem}
+    .note{min-height:auto}
+    .note:hover{transform:translateY(-3px) !important}
+  }
+</style>
+</head>
+<body>
+
+<div class="board">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <h1 class="header-title">搭个车</h1>
+    <div class="header-en">RIDE TOGETHER</div>
+    <div class="header-sub">城市拼车信息板 · 找搭子就贴这里 <span class="sticker sticker-hot">HOT!</span> <span class="sticker sticker-new">NEW</span></div>
+  </header>
+
+  <!-- ═══ NOTES ═══ -->
+  <div class="notes">
+
+    <div class="note note-y">
+      <div class="note-route">上海 → 杭州</div>
+      <div class="note-info">
+        本周六 3/29 · 早上 8:00 出发<br>
+        Tesla Model 3 · 还有 2 个座位<br>
+        AA制 · 预计每人 ¥80
+      </div>
+      <div class="note-handwrite">不抽烟不晕车优先！高速不堵2小时到～</div>
+      <div class="note-contact">WeChat: driver_zhou</div>
+    </div>
+
+    <div class="note note-p">
+      <div class="note-route">北京 → 天津</div>
+      <div class="note-info">
+        每周五下班后 18:30 左右<br>
+        比亚迪汉 · 固定拼车<br>
+        每次 ¥50/人
+      </div>
+      <div class="note-handwrite">长期固定搭子，最好住在国贸附近的</div>
+      <div class="note-contact">WeChat: friday_rider</div>
+    </div>
+
+    <div class="note note-b">
+      <div class="note-route">深圳 → 广州</div>
+      <div class="note-info">
+        4月2日（周三）下午 3:00<br>
+        丰田凯美瑞 · 3 个空座<br>
+        每人 ¥60
+      </div>
+      <div class="note-handwrite">可以在广州南站放你们下车</div>
+      <div class="note-contact">WeChat: sz2gz_ride</div>
+    </div>
+
+    <div class="note note-g">
+      <div class="note-route">成都 → 重庆</div>
+      <div class="note-info">
+        清明节 4/4 · 早上 7:00<br>
+        大众途观 · 2 个座位<br>
+        每人 ¥100（含高速费）
+      </div>
+      <div class="note-handwrite">带了一后备箱特产，行李别太多哈</div>
+      <div class="note-contact">WeChat: cq_holiday</div>
+    </div>
+
+    <div class="note note-y2">
+      <div class="note-tag tag-find">LOOKING FOR RIDE</div>
+      <div class="note-route">【找车】杭州 → 上海</div>
+      <div class="note-info">
+        3/30（周日）下午时间灵活<br>
+        1 人 · 女生 · 行李不多<br>
+        可以 AA 或者请吃饭
+      </div>
+      <div class="note-handwrite">周末去杭州玩，求一个回程搭子！</div>
+      <div class="note-contact">WeChat: back_to_sh</div>
+    </div>
+
+    <div class="note note-p2">
+      <div class="note-tag tag-daily">DAILY COMMUTE</div>
+      <div class="note-route">【每日】昆山 → 上海</div>
+      <div class="note-info">
+        工作日 早 7:00 · 晚 18:30 返程<br>
+        本田思域 · 1 个座位<br>
+        月付 ¥800
+      </div>
+      <div class="note-handwrite">听播客不聊天的那种搭子最好</div>
+      <div class="note-contact">WeChat: ks_commute</div>
+    </div>
+
+  </div>
+
+  <!-- ═══ CTA ═══ -->
+  <div class="cta">
+    <div class="cta-text">你也有拼车信息？贴上来！</div>
+    <div class="cta-contact">WeChat: ride_together_admin</div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">搭个车 · 少开一辆车，多认识一个人</div>
+    <div class="footer-disc">页面来源：虚构社区 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>
