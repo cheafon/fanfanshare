@@ -45,4 +45,5 @@ window.__NAV_META = {
   'ukiyoe-fortune': { name: '御神籤 · 浮世绘签文', desc: '运势抽签页 — 靛蓝+朱红+金箔+和纸白+樱粉、Shippori Mincho B1明朝体+Noto Serif SC 900、CSS鸟居剪影+金箔渐变shimmer+朱红印章"福"+和纸纹理签纸+JS抽签5种运势+签诗+运势解读+SVG波浪、Ukiyo-e Modern浮世绘现代', tags: ['dark','ukiyoe','fortune','japanese','interactive','gold','wafuu','animated'] },
   'clay-package': { name: '小盒快递 · 粘土快递', desc: '快递取件通知页 — 奶油底+糖果蓝粉绿黄紫+巧克力色、Nunito超圆+ZCOOL快乐体、粘土box-shadow(外凸+内光)+超圆角20px+CSS包裹盒子弹跳+内凹hover按钮+圆角进度条+取件码大数字+柔和渐变卡片、Claymorphism粘土态', tags: ['light','clay','package','notification','cute','rounded','3d','candy'] },
   'soviet-lostfound': { name: '朝阳街道 · 苏联失物', desc: '失物招领启事 — 苏联红+金黄+深棕黑+米白、Oswald紧凑粗体+Noto Sans SC 900、五角星clip-path+金色对角线条纹(45deg)+粗体skewY倾斜标语+4px粗边框+版画SVG噪声+公告编号№格式+红金交替边框、Soviet Propaganda苏联宣传画', tags: ['light','soviet','propaganda','lostfound','bold','geometric','retro','community'] },
+  'opart-voting': { name: '街边小吃 · 欧普投票', desc: '社区投票评选页 — 纯黑+纯白+电光紫+荧光橙+亮黄、Anton超粗紧凑+Noto Sans SC 900、密集黑白条纹背景(repeating-linear-gradient+动画偏移)+同心圆波纹装饰+荧光色进度条+JS投票交互(点击票数+1百分比重算)+超大百分比数字、Op Art欧普艺术', tags: ['dark','opart','voting','interactive','bw','geometric','optical','bold'] },
 };

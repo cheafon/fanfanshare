@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 上海最佳街边小吃评选</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{--black:#0a0a0a;--white:#f5f5f5;--purple:#8020f0;--orange:#ff6020;--yellow:#f0e020}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--black);color:var(--white);font-family:'Noto Sans SC',sans-serif;font-size:17px;line-height:1.8;overflow-x:hidden;-webkit-font-smoothing:antialiased;position:relative}
+
+  /* Op Art stripe background */
+  body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.04;
+    background:repeating-linear-gradient(90deg,var(--white) 0,var(--white) 3px,transparent 3px,transparent 6px);
+    animation:stripeShift 8s linear infinite}
+  @keyframes stripeShift{0%{background-position:0 0}100%{background-position:6px 0}}
+
+  .page{max-width:540px;margin:0 auto;padding:2rem 1.5rem;position:relative;z-index:1}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;padding:1.5rem 0 2rem;position:relative}
+
+  /* Concentric ripple decoration */
+  .ripple{width:100px;height:100px;margin:0 auto 1rem;position:relative;opacity:0.08;
+    background:repeating-radial-gradient(circle,var(--white) 0,var(--white) 2px,transparent 2px,transparent 6px)}
+
+  .header-title{font-weight:900;font-size:clamp(1.8rem,6vw,2.4rem);letter-spacing:0.04em;line-height:1.2;
+    animation:fadeIn .6s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .header-en{font-family:'Anton',sans-serif;font-size:clamp(0.8rem,2.5vw,1.1rem);color:var(--purple);letter-spacing:0.15em;margin-top:0.2rem}
+  .header-count{font-size:0.9rem;color:rgba(245,245,245,0.35);margin-top:0.5rem}
+  .header-count span{font-family:'Anton',sans-serif;color:var(--orange);font-size:1.1rem}
+
+  /* ═══ OPTIONS ═══ */
+  .options{display:flex;flex-direction:column;gap:0.8rem}
+
+  .option{background:rgba(245,245,245,0.03);border:2px solid rgba(245,245,245,0.08);padding:1rem 1.2rem;position:relative;
+    transition:border-color .2s;cursor:default}
+  .option:hover{border-color:rgba(245,245,245,0.15)}
+
+  .opt-top{display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem}
+  .opt-info{flex:1;min-width:0}
+  .opt-name{font-weight:900;font-size:1.15rem;color:var(--white);line-height:1.3}
+  .opt-shop{font-size:0.8rem;color:rgba(245,245,245,0.3);margin-top:0.1rem}
+  .opt-desc{font-size:0.88rem;color:rgba(245,245,245,0.35);margin-top:0.2rem}
+
+  .opt-pct{font-family:'Anton',sans-serif;font-size:clamp(1.8rem,5vw,2.2rem);color:var(--white);line-height:1;flex-shrink:0;min-width:60px;text-align:right}
+  .opt-votes{font-family:'Anton',sans-serif;font-size:0.6rem;color:rgba(245,245,245,0.25);text-align:right;letter-spacing:0.05em}
+
+  /* Progress bar */
+  .opt-bar{height:6px;background:rgba(245,245,245,0.06);margin-top:0.6rem;position:relative;overflow:hidden}
+  .opt-bar-fill{height:100%;transition:width .6s ease;position:absolute;left:0;top:0}
+  .bar-purple{background:var(--purple)}
+  .bar-orange{background:var(--orange)}
+  .bar-yellow{background:var(--yellow)}
+
+  /* Vote button */
+  .opt-vote{position:absolute;top:50%;right:1.2rem;transform:translateY(-50%);font-family:'Anton',sans-serif;font-size:0.65rem;
+    color:var(--black);background:var(--white);border:none;padding:0.4em 1em;cursor:pointer;letter-spacing:0.1em;
+    transition:all .15s;display:none}
+  .option:hover .opt-vote{display:block}
+  .opt-vote:hover{background:var(--purple);color:var(--white)}
+  .opt-vote:active{transform:translateY(-50%) scale(0.95)}
+
+  /* Rank indicator */
+  .opt-rank{font-family:'Anton',sans-serif;font-size:0.55rem;color:var(--purple);letter-spacing:0.08em;margin-bottom:0.3rem}
+  .opt-rank-1{color:var(--orange)}
+
+  /* ═══ RULES ═══ */
+  .rules{margin-top:2rem;padding:1rem;border-top:2px solid rgba(245,245,245,0.06);border-bottom:2px solid rgba(245,245,245,0.06)}
+  .rules-title{font-family:'Anton',sans-serif;font-size:0.6rem;color:rgba(245,245,245,0.2);letter-spacing:0.15em;margin-bottom:0.4rem}
+  .rule{font-size:0.88rem;color:rgba(245,245,245,0.3);line-height:2}
+
+  /* Op art decoration between sections */
+  .op-deco{height:20px;margin:1.5rem 0;opacity:0.06;
+    background:repeating-linear-gradient(45deg,var(--white) 0,var(--white) 2px,transparent 2px,transparent 4px)}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;padding:1.5rem 0 0.5rem}
+  .footer-motto{font-weight:900;font-size:1rem;color:rgba(245,245,245,0.2);letter-spacing:0.06em}
+  .footer-disc{font-size:0.68rem;color:rgba(245,245,245,0.08);margin-top:0.5rem}
+
+  @media(max-width:500px){
+    .page{padding:1.5rem 1rem}
+    .opt-vote{display:block;position:static;transform:none;margin-top:0.5rem}
+    .opt-vote:active{transform:scale(0.95)}
+    .opt-pct{font-size:1.6rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="ripple"></div>
+    <h1 class="header-title">2026 上海最佳街边小吃</h1>
+    <div class="header-en">BEST STREET FOOD SHANGHAI</div>
+    <div class="header-count">已有 <span id="totalVotes">3,847</span> 人参与投票</div>
+  </header>
+
+  <div class="op-deco"></div>
+
+  <!-- ═══ OPTIONS ═══ -->
+  <div class="options" id="options">
+
+    <div class="option" data-votes="1203">
+      <div class="opt-rank opt-rank-1">#1</div>
+      <div class="opt-top">
+        <div class="opt-info">
+          <div class="opt-name">生煎包</div>
+          <div class="opt-shop">小杨生煎</div>
+          <div class="opt-desc">底脆汁多，一口一个小火山</div>
+        </div>
+        <div style="text-align:right">
+          <div class="opt-pct">31.3<span style="font-size:0.6em">%</span></div>
+          <div class="opt-votes"><span class="vote-count">1,203</span> 票</div>
+        </div>
+      </div>
+      <div class="opt-bar"><div class="opt-bar-fill bar-purple" style="width:31.3%"></div></div>
+      <button class="opt-vote" onclick="vote(this)">VOTE</button>
+    </div>
+
+    <div class="option" data-votes="892">
+      <div class="opt-rank">#2</div>
+      <div class="opt-top">
+        <div class="opt-info">
+          <div class="opt-name">葱油饼</div>
+          <div class="opt-shop">阿大葱油饼</div>
+          <div class="opt-desc">排队两小时，饼脆得能听到声音</div>
+        </div>
+        <div style="text-align:right">
+          <div class="opt-pct">23.2<span style="font-size:0.6em">%</span></div>
+          <div class="opt-votes"><span class="vote-count">892</span> 票</div>
+        </div>
+      </div>
+      <div class="opt-bar"><div class="opt-bar-fill bar-orange" style="width:23.2%"></div></div>
+      <button class="opt-vote" onclick="vote(this)">VOTE</button>
+    </div>
+
+    <div class="option" data-votes="634">
+      <div class="opt-rank">#3</div>
+      <div class="opt-top">
+        <div class="opt-info">
+          <div class="opt-name">烤冷面</div>
+          <div class="opt-shop">路边摊（无名）</div>
+          <div class="opt-desc">深夜两点的温暖，加蛋加肠加一切</div>
+        </div>
+        <div style="text-align:right">
+          <div class="opt-pct">16.5<span style="font-size:0.6em">%</span></div>
+          <div class="opt-votes"><span class="vote-count">634</span> 票</div>
+        </div>
+      </div>
+      <div class="opt-bar"><div class="opt-bar-fill bar-yellow" style="width:16.5%"></div></div>
+      <button class="opt-vote" onclick="vote(this)">VOTE</button>
+    </div>
+
+    <div class="option" data-votes="487">
+      <div class="opt-rank">#4</div>
+      <div class="opt-top">
+        <div class="opt-info">
+          <div class="opt-name">蟹壳黄</div>
+          <div class="opt-shop">王家沙</div>
+          <div class="opt-desc">酥到掉渣的上海点心之王</div>
+        </div>
+        <div style="text-align:right">
+          <div class="opt-pct">12.7<span style="font-size:0.6em">%</span></div>
+          <div class="opt-votes"><span class="vote-count">487</span> 票</div>
+        </div>
+      </div>
+      <div class="opt-bar"><div class="opt-bar-fill bar-purple" style="width:12.7%"></div></div>
+      <button class="opt-vote" onclick="vote(this)">VOTE</button>
+    </div>
+
+    <div class="option" data-votes="389">
+      <div class="opt-rank">#5</div>
+      <div class="opt-top">
+        <div class="opt-info">
+          <div class="opt-name">臭豆腐</div>
+          <div class="opt-shop">长沙臭名远扬</div>
+          <div class="opt-desc">闻着臭吃着香，真理从不改变</div>
+        </div>
+        <div style="text-align:right">
+          <div class="opt-pct">10.1<span style="font-size:0.6em">%</span></div>
+          <div class="opt-votes"><span class="vote-count">389</span> 票</div>
+        </div>
+      </div>
+      <div class="opt-bar"><div class="opt-bar-fill bar-orange" style="width:10.1%"></div></div>
+      <button class="opt-vote" onclick="vote(this)">VOTE</button>
+    </div>
+
+    <div class="option" data-votes="242">
+      <div class="opt-rank">#6</div>
+      <div class="opt-top">
+        <div class="opt-info">
+          <div class="opt-name">煎饼果子</div>
+          <div class="opt-shop">天津来的大姐</div>
+          <div class="opt-desc">要不要辣椒？不要也给你加一点</div>
+        </div>
+        <div style="text-align:right">
+          <div class="opt-pct">6.3<span style="font-size:0.6em">%</span></div>
+          <div class="opt-votes"><span class="vote-count">242</span> 票</div>
+        </div>
+      </div>
+      <div class="opt-bar"><div class="opt-bar-fill bar-yellow" style="width:6.3%"></div></div>
+      <button class="opt-vote" onclick="vote(this)">VOTE</button>
+    </div>
+
+  </div>
+
+  <!-- ═══ RULES ═══ -->
+  <div class="rules">
+    <div class="rules-title">RULES · 投票规则</div>
+    <div class="rule">每人每天限投 1 票 · 投票截止 2026 年 4 月 15 日</div>
+    <div class="rule">第一名将获得「街头之王」称号，结果 4 月 20 日公布</div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">吃货联盟 · 用嘴投票</div>
+    <div class="footer-disc">页面来源：虚构评选 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+function vote(btn){
+  var opt=btn.closest('.option');
+  var v=parseInt(opt.dataset.votes)+1;
+  opt.dataset.votes=v;
+  // Recalculate all
+  var all=document.querySelectorAll('.option');
+  var total=0;
+  all.forEach(function(o){total+=parseInt(o.dataset.votes)});
+  document.getElementById('totalVotes').textContent=total.toLocaleString();
+  all.forEach(function(o){
+    var votes=parseInt(o.dataset.votes);
+    var pct=(votes/total*100).toFixed(1);
+    o.querySelector('.opt-pct').innerHTML=pct+'<span style="font-size:0.6em">%</span>';
+    o.querySelector('.vote-count').textContent=votes.toLocaleString();
+    o.querySelector('.opt-bar-fill').style.width=pct+'%';
+  });
+  btn.textContent='VOTED!';
+  btn.style.background='var(--purple)';
+  btn.style.color='#fff';
+  btn.disabled=true;
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
