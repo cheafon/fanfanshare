@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>陆远 LU YUAN — 纪实 · 街头 · 上海</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--black:#000;--deep:#111;--warm:#e8e0d0;--red:#c44030;--smoke:#888880;--dim:rgba(232,224,208,0.3)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--black);color:var(--warm);font-family:'Noto Sans SC',sans-serif;font-size:17px;font-weight:300;line-height:1.9;-webkit-font-smoothing:antialiased}
+
+  .rv{opacity:0;transform:translateY(10px);transition:opacity 1.2s ease,transform 1.2s ease}
+  .rv.vis{opacity:1;transform:translateY(0)}
+
+  .gallery{max-width:1000px;margin:0 auto;padding:0 2rem}
+
+  /* ═══ TITLE ═══ */
+  .title{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+  .title-en{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(3rem,8vw,5.5rem);letter-spacing:0.2em;color:var(--warm);line-height:1}
+  .title-cn{font-weight:300;font-size:1.2rem;color:var(--dim);letter-spacing:0.3em;margin-top:0.5rem}
+  .title-tags{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:0.85rem;color:var(--smoke);letter-spacing:0.1em;margin-top:2rem}
+  .title-years{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:0.8rem;color:rgba(232,224,208,0.15);letter-spacing:0.2em;margin-top:0.5rem}
+
+  /* ═══ BIO ═══ */
+  .bio{max-width:520px;margin:0 auto;padding:4rem 0 6rem;text-align:center}
+  .bio-text{font-weight:300;font-size:1.05rem;color:var(--dim);line-height:2.4}
+
+  /* ═══ WORKS ═══ */
+  /* Photo placeholder blocks */
+  .photo{position:relative;margin-bottom:6rem;overflow:hidden}
+  .photo-block{width:100%;position:relative}
+  .photo-block::after{content:'';display:block}
+
+  /* Aspect ratios */
+  .photo-wide .photo-block::after{padding-bottom:56%}
+  .photo-narrow .photo-block::after{padding-bottom:75%;max-width:500px;margin:0 auto}
+  .photo-narrow .photo-block{max-width:500px;margin:0 auto}
+
+  /* Color fills simulating different photos */
+  .photo-1 .photo-block{background:linear-gradient(135deg,#4a4540,#3a3530,#5a5248)}
+  .photo-2 .photo-block{background:linear-gradient(180deg,#2a2828,#1a1818,#2a2a28)}
+  .photo-3 .photo-block{background:linear-gradient(90deg,#3a3838,#484440,#3a3535)}
+  .photo-5 .photo-block{background:linear-gradient(135deg,#1a1818,#222020,#181616)}
+  .photo-6 .photo-block{background:linear-gradient(180deg,#5a4a3a,#4a3a2a,#6a5848)}
+
+  /* Two-up grid */
+  .photo-pair{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:6rem}
+  .photo-pair .photo{margin-bottom:0}
+  .photo-pair .photo-block::after{padding-bottom:100%}
+  .photo-pair .photo:nth-child(1) .photo-block{background:linear-gradient(135deg,#3a3530,#2a2520)}
+  .photo-pair .photo:nth-child(2) .photo-block{background:linear-gradient(135deg,#2a2a30,#1a1a22)}
+
+  /* Caption */
+  .photo-caption{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:0.85rem;color:var(--smoke);margin-top:1rem;letter-spacing:0.04em}
+  .photo-caption .red{color:var(--red)}
+
+  /* ═══ EXHIBITIONS ═══ */
+  .exhibitions{padding:4rem 0;max-width:520px;margin:0 auto}
+  .exh-label{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:0.8rem;color:var(--smoke);letter-spacing:0.15em;margin-bottom:2rem}
+  .exh-item{display:grid;grid-template-columns:80px 1fr;gap:1.5rem;padding:1.2rem 0;border-bottom:1px solid rgba(232,224,208,0.04)}
+  .exh-item:last-child{border-bottom:none}
+  .exh-year{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:1.1rem;color:var(--red);opacity:0.7}
+  .exh-title{font-weight:500;font-size:1rem;margin-bottom:0.15rem}
+  .exh-venue{font-weight:300;font-size:0.88rem;color:var(--smoke)}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;padding:6rem 0 3rem}
+  .footer-cta{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:1.3rem;color:var(--dim);letter-spacing:0.04em}
+  .footer-email{margin-top:1.5rem}
+  .footer-email a{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:0.95rem;color:var(--red);text-decoration:none;letter-spacing:0.04em;opacity:0.7;transition:opacity 0.3s}
+  .footer-email a:hover{opacity:1}
+  .footer-social{display:flex;justify-content:center;gap:1.5rem;margin-top:1rem}
+  .footer-social a{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.8rem;color:var(--smoke);text-decoration:none;letter-spacing:0.04em;transition:color 0.3s}
+  .footer-social a:hover{color:var(--warm)}
+
+  @media(max-width:600px){
+    .photo-pair{grid-template-columns:1fr}
+    .photo{margin-bottom:4rem}
+    .title-en{letter-spacing:0.1em}
+  }
+</style>
+</head>
+<body>
+
+<div class="gallery">
+
+  <!-- ═══ TITLE ═══ -->
+  <section class="title rv">
+    <h1 class="title-en">LU YUAN</h1>
+    <div class="title-cn">陆远</div>
+    <div class="title-tags">纪实 · 街头 · 上海</div>
+    <div class="title-years">2019 — 2026</div>
+  </section>
+
+  <!-- ═══ BIO ═══ -->
+  <div class="bio rv">
+    <p class="bio-text">十年前拿起相机那天，我不知道自己在找什么。现在我知道了——我在找那些即将消失的瞬间。没有摆拍，没有后期美化，只有真实。每一张照片都是一次呼吸。</p>
+  </div>
+
+  <!-- ═══ WORKS ═══ -->
+
+  <div class="photo photo-wide photo-1 rv">
+    <div class="photo-block"></div>
+    <div class="photo-caption">弄堂晨光 · 上海静安 · <span class="red">2024</span> — 黑白</div>
+  </div>
+
+  <div class="photo photo-narrow photo-2 rv">
+    <div class="photo-block"></div>
+    <div class="photo-caption">雨中的修鞋匠 · 南京西路 · <span class="red">2023</span></div>
+  </div>
+
+  <div class="photo photo-wide photo-3 rv">
+    <div class="photo-block"></div>
+    <div class="photo-caption">末班地铁 · 2号线 · <span class="red">2025</span> — 彩色</div>
+  </div>
+
+  <div class="photo-pair">
+    <div class="photo rv">
+      <div class="photo-block"></div>
+      <div class="photo-caption">菜场阿姨的手 · <span class="red">2022</span></div>
+    </div>
+    <div class="photo rv">
+      <div class="photo-block"></div>
+      <div class="photo-caption">立交桥下的少年 · <span class="red">2024</span></div>
+    </div>
+  </div>
+
+  <div class="photo photo-wide photo-5 rv">
+    <div class="photo-block"></div>
+    <div class="photo-caption">拆迁前的最后一户 · 杨浦区 · <span class="red">2023</span></div>
+  </div>
+
+  <div class="photo photo-narrow photo-6 rv">
+    <div class="photo-block"></div>
+    <div class="photo-caption">外滩日落 · <span class="red">2026</span></div>
+  </div>
+
+  <!-- ═══ EXHIBITIONS ═══ -->
+  <section class="exhibitions rv">
+    <div class="exh-label">Exhibitions & Publications</div>
+    <div class="exh-item">
+      <div class="exh-year">2025</div>
+      <div>
+        <div class="exh-title">"消失的附近" 个展</div>
+        <div class="exh-venue">上海摄影艺术中心</div>
+      </div>
+    </div>
+    <div class="exh-item">
+      <div class="exh-year">2024</div>
+      <div>
+        <div class="exh-title">《城市呼吸》摄影集出版</div>
+        <div class="exh-venue">浙江摄影出版社</div>
+      </div>
+    </div>
+    <div class="exh-item">
+      <div class="exh-year">2023</div>
+      <div>
+        <div class="exh-title">Magnum Photos 入选</div>
+        <div class="exh-venue">年度新锐摄影师</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer rv">
+    <div class="footer-cta">如果你有一个故事需要被看见</div>
+    <div class="footer-email"><a href="mailto:luyuan@photo.studio">luyuan@photo.studio</a></div>
+    <div class="footer-social">
+      <a href="#">Instagram</a>
+      <a href="#">微博</a>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+const rvs=document.querySelectorAll('.rv');
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')})},{threshold:0.05});
+rvs.forEach(el=>obs.observe(el));
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
