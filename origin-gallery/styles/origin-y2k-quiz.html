@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>你是哪种咖啡？☕ — 星球研究所</title>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=ZCOOL+QingKe+HuangYou&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0a0a1a;--blue:#4a8cc8;--silver:#c0c8d0;--pink:#ffa0c8;--purple:#a060ff;--shine:#f0f0ff;--dim:rgba(240,240,255,0.3)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--shine);font-family:'Noto Sans SC',sans-serif;font-size:17px;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+
+  /* Background decorations */
+  body::before{content:'';position:fixed;inset:0;pointer-events:none;
+    background:radial-gradient(ellipse at 20% 30%,rgba(74,140,200,0.08) 0%,transparent 50%),
+    radial-gradient(ellipse at 80% 70%,rgba(160,96,255,0.06) 0%,transparent 50%),
+    radial-gradient(ellipse at 50% 90%,rgba(255,160,200,0.05) 0%,transparent 40%)}
+
+  .app{width:100%;max-width:520px;padding:2rem;position:relative}
+
+  /* Stars decoration */
+  .stars{position:fixed;pointer-events:none;z-index:0;font-size:0.8rem;color:var(--pink);opacity:0.15}
+
+  /* Screen (each step) */
+  .screen{display:none;text-align:center;animation:fadeIn 0.5s ease}
+  .screen.active{display:block}
+  @keyframes fadeIn{from{opacity:0;transform:scale(0.95) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+
+  /* Chrome card */
+  .card{background:rgba(255,255,255,0.03);border:1.5px solid rgba(192,200,208,0.15);border-radius:20px;padding:2.5rem 2rem;
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 0 40px rgba(74,140,200,0.05)}
+
+  .brand{font-family:'Audiowide',cursive;font-size:0.7rem;color:var(--silver);letter-spacing:0.15em;opacity:0.4;margin-bottom:1.5rem}
+
+  /* Cover */
+  .cover-emoji{font-size:4rem;margin-bottom:1rem;display:block;animation:float 3s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+  .cover-title{font-family:'ZCOOL QingKe HuangYou',cursive;font-size:2.2rem;color:var(--shine);margin-bottom:0.3rem}
+  .cover-sub{font-weight:300;font-size:1rem;color:var(--dim);margin-bottom:2rem}
+  .cover-meta{font-size:0.8rem;color:var(--silver);opacity:0.4;margin-bottom:2rem}
+
+  /* Buttons */
+  .btn{font-family:'ZCOOL QingKe HuangYou',cursive;font-size:1.1rem;color:var(--bg);padding:0.8em 2.5em;border:none;border-radius:14px;cursor:pointer;transition:all 0.3s;display:inline-block;text-decoration:none}
+  .btn-primary{background:linear-gradient(135deg,var(--pink),var(--purple));color:#fff;box-shadow:0 0 20px rgba(255,160,200,0.2);animation:pulse 2s ease-in-out infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 20px rgba(255,160,200,0.2)}50%{box-shadow:0 0 30px rgba(255,160,200,0.35)}}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 35px rgba(255,160,200,0.4)}
+  .btn-secondary{background:rgba(255,255,255,0.06);color:var(--shine);border:1px solid rgba(255,255,255,0.1)}
+  .btn-secondary:hover{background:rgba(255,255,255,0.1)}
+
+  /* Question */
+  .q-num{font-family:'Audiowide',cursive;font-size:0.75rem;color:var(--blue);letter-spacing:0.1em;margin-bottom:0.8rem}
+  .q-progress{display:flex;gap:6px;justify-content:center;margin-bottom:1.5rem}
+  .q-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.08)}
+  .q-dot.done{background:var(--pink)}
+  .q-dot.current{background:var(--purple);box-shadow:0 0 8px var(--purple)}
+
+  .q-text{font-family:'ZCOOL QingKe HuangYou',cursive;font-size:1.4rem;color:var(--shine);margin-bottom:2rem;line-height:1.6}
+
+  .options{display:flex;flex-direction:column;gap:0.8rem}
+  .option{padding:1rem 1.5rem;border:1.5px solid rgba(255,255,255,0.08);border-radius:14px;cursor:pointer;text-align:left;transition:all 0.25s;font-size:1rem;font-weight:400;background:rgba(255,255,255,0.02)}
+  .option:hover{border-color:var(--purple);background:rgba(160,96,255,0.06);box-shadow:0 0 15px rgba(160,96,255,0.1);transform:translateX(4px)}
+  .option-label{font-family:'Audiowide',cursive;font-size:0.7rem;color:var(--pink);margin-right:0.5rem}
+
+  /* Result */
+  .result-emoji{font-size:5rem;margin-bottom:1rem;display:block}
+  .result-type{font-family:'ZCOOL QingKe HuangYou',cursive;font-size:2rem;margin-bottom:0.3rem}
+  .result-name{font-family:'Audiowide',cursive;font-size:0.85rem;letter-spacing:0.1em;margin-bottom:1.5rem}
+  .result-a .result-type{color:var(--blue)}
+  .result-b .result-type{color:var(--pink)}
+  .result-c .result-type{color:var(--purple)}
+  .result-desc{font-weight:300;font-size:1.05rem;color:var(--dim);line-height:2;margin-bottom:2rem;max-width:380px;display:inline-block}
+  .result-btns{display:flex;gap:0.8rem;justify-content:center;flex-wrap:wrap}
+
+  @media(max-width:500px){
+    .app{padding:1rem}
+    .card{padding:2rem 1.2rem}
+    .cover-title{font-size:1.8rem}
+    .q-text{font-size:1.2rem}
+  }
+</style>
+</head>
+<body>
+
+<!-- Decorative stars -->
+<div class="stars" style="top:10%;left:8%">✦</div>
+<div class="stars" style="top:25%;right:12%">✧</div>
+<div class="stars" style="bottom:20%;left:15%">✦</div>
+<div class="stars" style="bottom:35%;right:8%">✧</div>
+<div class="stars" style="top:60%;left:5%">✦</div>
+
+<div class="app">
+
+  <!-- COVER -->
+  <div class="screen active" id="cover">
+    <div class="card">
+      <div class="brand">PLANETLAB · 星球研究所</div>
+      <span class="cover-emoji">☕</span>
+      <h1 class="cover-title">你是哪种咖啡？</h1>
+      <p class="cover-sub">5 道题，60 秒，发现你的咖啡人格</p>
+      <div class="cover-meta">✦ 已有 28,472 人完成测试 ✦</div>
+      <button class="btn btn-primary" onclick="startQuiz()">开始测试 →</button>
+    </div>
+  </div>
+
+  <!-- QUESTIONS -->
+  <div class="screen" id="q1">
+    <div class="card">
+      <div class="q-num">QUESTION 01/05</div>
+      <div class="q-progress"><div class="q-dot current"></div><div class="q-dot"></div><div class="q-dot"></div><div class="q-dot"></div><div class="q-dot"></div></div>
+      <div class="q-text">周一早上，你的第一反应是？</div>
+      <div class="options">
+        <div class="option" onclick="answer(1,'a')"><span class="option-label">A.</span> 闹钟响第一下就起床</div>
+        <div class="option" onclick="answer(1,'b')"><span class="option-label">B.</span> 再睡5分钟…好吧再5分钟</div>
+        <div class="option" onclick="answer(1,'c')"><span class="option-label">C.</span> 直接请假</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen" id="q2">
+    <div class="card">
+      <div class="q-num">QUESTION 02/05</div>
+      <div class="q-progress"><div class="q-dot done"></div><div class="q-dot current"></div><div class="q-dot"></div><div class="q-dot"></div><div class="q-dot"></div></div>
+      <div class="q-text">朋友约你尝试一家新餐厅，你会？</div>
+      <div class="options">
+        <div class="option" onclick="answer(2,'a')"><span class="option-label">A.</span> 立刻答应，越新奇越好</div>
+        <div class="option" onclick="answer(2,'b')"><span class="option-label">B.</span> 先看看大众点评评分</div>
+        <div class="option" onclick="answer(2,'c')"><span class="option-label">C.</span> 我有固定去的三家店就够了</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen" id="q3">
+    <div class="card">
+      <div class="q-num">QUESTION 03/05</div>
+      <div class="q-progress"><div class="q-dot done"></div><div class="q-dot done"></div><div class="q-dot current"></div><div class="q-dot"></div><div class="q-dot"></div></div>
+      <div class="q-text">你的桌面通常是什么状态？</div>
+      <div class="options">
+        <div class="option" onclick="answer(3,'a')"><span class="option-label">A.</span> 一尘不染，所有东西都有固定位置</div>
+        <div class="option" onclick="answer(3,'b')"><span class="option-label">B.</span> 有点乱但我知道东西在哪</div>
+        <div class="option" onclick="answer(3,'c')"><span class="option-label">C.</span> 别问，问就是创意工作环境</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen" id="q4">
+    <div class="card">
+      <div class="q-num">QUESTION 04/05</div>
+      <div class="q-progress"><div class="q-dot done"></div><div class="q-dot done"></div><div class="q-dot done"></div><div class="q-dot current"></div><div class="q-dot"></div></div>
+      <div class="q-text">深夜12点你最可能在做什么？</div>
+      <div class="options">
+        <div class="option" onclick="answer(4,'a')"><span class="option-label">A.</span> 已经睡了</div>
+        <div class="option" onclick="answer(4,'b')"><span class="option-label">B.</span> 刷手机 / 追剧</div>
+        <div class="option" onclick="answer(4,'c')"><span class="option-label">C.</span> 在做一个疯狂的 side project</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen" id="q5">
+    <div class="card">
+      <div class="q-num">QUESTION 05/05</div>
+      <div class="q-progress"><div class="q-dot done"></div><div class="q-dot done"></div><div class="q-dot done"></div><div class="q-dot done"></div><div class="q-dot current"></div></div>
+      <div class="q-text">选一个词形容自己：</div>
+      <div class="options">
+        <div class="option" onclick="answer(5,'a')"><span class="option-label">A.</span> 稳定</div>
+        <div class="option" onclick="answer(5,'b')"><span class="option-label">B.</span> 温暖</div>
+        <div class="option" onclick="answer(5,'c')"><span class="option-label">C.</span> 有趣</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="screen" id="result">
+    <div class="card" id="result-card">
+      <!-- Filled by JS -->
+    </div>
+  </div>
+
+</div>
+
+<script>
+let answers = [];
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function startQuiz() {
+  answers = [];
+  showScreen('q1');
+}
+
+function answer(qNum, choice) {
+  answers.push(choice);
+  if (qNum < 5) {
+    showScreen('q' + (qNum + 1));
+  } else {
+    showResult();
+  }
+}
+
+function showResult() {
+  const count = { a: 0, b: 0, c: 0 };
+  answers.forEach(a => count[a]++);
+  let type = 'a';
+  if (count.b >= count.a && count.b >= count.c) type = 'b';
+  if (count.c >= count.a && count.c >= count.b) type = 'c';
+
+  const results = {
+    a: { emoji: '☕', title: '美式黑咖啡', en: 'AMERICANO', cls: 'result-a',
+      desc: '简单直接，不废话。你是团队里最靠谱的那个人，效率就是你的信仰。虽然有时候被说太严肃，但你知道自己的节奏。' },
+    b: { emoji: '🥛', title: '燕麦拿铁', en: 'OAT LATTE', cls: 'result-b',
+      desc: '温暖包容，人间理想型。你是朋友圈里的氛围担当，能让任何场合都变得舒服。偶尔优柔寡断，但这叫深思熟虑。' },
+    c: { emoji: '🍫', title: '脏脏摩卡', en: 'DIRTY MOCHA', cls: 'result-c',
+      desc: '不走寻常路的创意怪才。你的脑子里永远有新点子，混乱是你的燃料。别人觉得你疯狂，你觉得别人无聊。' }
+  };
+
+  const r = results[type];
+  document.getElementById('result-card').className = 'card ' + r.cls;
+  document.getElementById('result-card').innerHTML = `
+    <div class="brand">PLANETLAB · 你的测试结果</div>
+    <span class="result-emoji">${r.emoji}</span>
+    <div class="result-type">你是 ${r.title}</div>
+    <div class="result-name">${r.en}</div>
+    <p class="result-desc">${r.desc}</p>
+    <div class="result-btns">
+      <button class="btn btn-primary" onclick="startQuiz()">重新测试</button>
+      <button class="btn btn-secondary" onclick="navigator.clipboard.writeText('我在「你是哪种咖啡」测试中得到了${r.title}！来试试：' + location.href).then(()=>this.textContent='✅ 已复制').catch(()=>{})">分享结果</button>
+    </div>
+  `;
+  showScreen('result');
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
