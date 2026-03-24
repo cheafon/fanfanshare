@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>周然 ZHOU RAN — 独立产品设计师</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#e0e5ec;--shadow:#a3b1c6;--light:#ffffff;--text:#2d3436;--blue:#4a90d9;--dim:rgba(45,52,54,0.4);
+    --neu:8px 8px 16px var(--shadow),-8px -8px 16px var(--light);
+    --neu-sm:4px 4px 8px var(--shadow),-4px -4px 8px var(--light);
+    --neu-in:inset 4px 4px 8px var(--shadow),inset -4px -4px 8px var(--light)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:'Noto Sans SC',sans-serif;font-size:17px;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;-webkit-font-smoothing:antialiased}
+
+  .vcard{width:100%;max-width:400px;padding:2.5rem 2rem;border-radius:24px;box-shadow:var(--neu);text-align:center;animation:fadeIn 0.8s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+  /* ═══ AVATAR ═══ */
+  .avatar{width:120px;height:120px;border-radius:50%;box-shadow:var(--neu);margin:0 auto 1.5rem;display:flex;align-items:center;justify-content:center;font-size:2.5rem;background:var(--bg);color:var(--dim)}
+
+  .name-cn{font-weight:700;font-size:1.8rem;letter-spacing:0.04em}
+  .name-en{font-family:'Poppins',sans-serif;font-weight:600;font-size:0.85rem;color:var(--dim);letter-spacing:0.08em;margin-top:0.1rem}
+  .title{font-weight:400;font-size:0.95rem;color:var(--dim);margin-top:0.5rem}
+  .location{font-family:'Poppins',sans-serif;font-weight:500;font-size:0.75rem;color:var(--blue);margin-top:0.3rem;letter-spacing:0.04em}
+
+  /* ═══ BIO ═══ */
+  .bio{margin:1.5rem 0;padding:1rem;border-radius:16px;box-shadow:var(--neu-in);font-weight:300;font-size:0.92rem;color:var(--dim);line-height:1.9}
+
+  /* ═══ LINKS ═══ */
+  .links{display:flex;flex-direction:column;gap:0.6rem;margin:1.5rem 0}
+  .link-btn{display:flex;align-items:center;gap:0.8rem;padding:0.9rem 1.2rem;border-radius:16px;box-shadow:var(--neu-sm);cursor:pointer;text-decoration:none;color:var(--text);font-weight:500;font-size:0.95rem;transition:box-shadow 0.15s,transform 0.15s;background:var(--bg);border:none;font-family:inherit;width:100%;text-align:left}
+  .link-btn:active{box-shadow:var(--neu-in);transform:scale(0.98)}
+  .link-btn:hover{color:var(--blue)}
+  .link-icon{font-size:1.1rem;width:24px;text-align:center;flex-shrink:0}
+  .link-label{flex:1}
+  .link-arrow{font-size:0.8rem;color:var(--dim);opacity:0.3}
+
+  /* ═══ SKILLS ═══ */
+  .skills{display:flex;flex-wrap:wrap;gap:0.5rem;justify-content:center;margin:1.5rem 0}
+  .skill{padding:0.4em 1em;border-radius:999px;box-shadow:var(--neu-sm);font-size:0.78rem;font-weight:500;color:var(--dim);background:var(--bg)}
+
+  /* ═══ STATUS ═══ */
+  .status{display:flex;align-items:center;gap:0.6rem;justify-content:center;padding:1rem;border-radius:16px;box-shadow:var(--neu-in);margin:1rem 0}
+  .status-dot{width:10px;height:10px;border-radius:50%;background:#27ae60;box-shadow:0 0 8px rgba(39,174,96,0.4);animation:pulse 2s ease-in-out infinite;flex-shrink:0}
+  @keyframes pulse{0%,100%{box-shadow:0 0 8px rgba(39,174,96,0.4)}50%{box-shadow:0 0 14px rgba(39,174,96,0.6)}}
+  .status-text{font-size:0.88rem;font-weight:500}
+  .status-spec{font-size:0.8rem;color:var(--dim);margin-top:0.5rem;text-align:center}
+
+  /* ═══ FOOTER ═══ */
+  .footer{margin-top:1.5rem}
+  .qr-placeholder{width:80px;height:80px;border-radius:12px;box-shadow:var(--neu-sm);margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:0.65rem;color:var(--dim)}
+  .footer-copy{font-family:'Poppins',sans-serif;font-size:0.7rem;color:var(--dim);opacity:0.4;margin-top:0.8rem}
+
+  @media(max-width:440px){
+    body{padding:1rem}
+    .vcard{padding:2rem 1.5rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="vcard">
+
+  <!-- ═══ AVATAR ═══ -->
+  <div class="avatar">👤</div>
+  <div class="name-cn">周然</div>
+  <div class="name-en">ZHOU RAN</div>
+  <div class="title">独立产品设计师 & UX 顾问</div>
+  <div class="location">上海 · 远程可用</div>
+
+  <!-- ═══ BIO ═══ -->
+  <div class="bio">8年产品设计经验，专注 B端 SaaS 与工具类产品。相信好的设计是让用户不用思考。</div>
+
+  <!-- ═══ LINKS ═══ -->
+  <div class="links">
+    <a href="#" class="link-btn"><span class="link-icon">📂</span><span class="link-label">作品集 Portfolio</span><span class="link-arrow">→</span></a>
+    <a href="#" class="link-btn"><span class="link-icon">💼</span><span class="link-label">LinkedIn</span><span class="link-arrow">→</span></a>
+    <a href="#" class="link-btn"><span class="link-icon">🐦</span><span class="link-label">Twitter / X</span><span class="link-arrow">→</span></a>
+    <a href="#" class="link-btn"><span class="link-icon">📝</span><span class="link-label">设计博客</span><span class="link-arrow">→</span></a>
+    <a href="mailto:zhouran@design.me" class="link-btn"><span class="link-icon">📧</span><span class="link-label">zhouran@design.me</span><span class="link-arrow">→</span></a>
+  </div>
+
+  <!-- ═══ SKILLS ═══ -->
+  <div class="skills">
+    <span class="skill">UX设计</span>
+    <span class="skill">UI系统</span>
+    <span class="skill">Design System</span>
+    <span class="skill">用户研究</span>
+    <span class="skill">Figma</span>
+    <span class="skill">产品策略</span>
+  </div>
+
+  <!-- ═══ STATUS ═══ -->
+  <div class="status">
+    <div class="status-dot"></div>
+    <span class="status-text">目前接受新项目</span>
+  </div>
+  <div class="status-spec">擅长：SaaS产品 · B端工具 · 设计系统搭建</div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <div class="footer">
+    <div class="qr-placeholder">扫码加微信</div>
+    <div class="footer-copy">© 2026 周然</div>
+  </div>
+
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>

@@ -22,4 +22,5 @@ window.__NAV_META = {
   'handdrawn-recipe': { name: '厨房手记 · 手绘食谱', desc: '红烧肉菜谱详情 — 方格纸白+铅笔灰+水彩红绿+牛皮纸、Caveat手写+ZCOOL小薇体、横线纸背景+红色装订线+勾选框配料+手绘编号步骤+便签小贴士、手帐笔记风', tags: ['light','handdrawn','recipe','notebook','handwritten','warm','static'] },
   'destijl-exhibition': { name: '格子之外 · 蒙德里安展览', desc: '艺术展导览页 — 严格红蓝黄黑白蒙德里安五色、Archivo Black全大写+Noto Sans SC 900、CSS Grid蒙德里安构成+6px粗黑线框+不等分色块矩形+内容嵌入色块、De Stijl风格派', tags: ['light','destijl','exhibition','mondrian','grid','primary','art','static'] },
   'watercolor-charity': { name: '萤火虫计划 · 水彩公益', desc: '公益众筹页 — 水彩暖白+蓝橙绿粉柔和色、Amatic SC手写+ZCOOL快乐体、conic-gradient进度环67%动画+水彩洇染分隔+圆形数据+捐赠档位、温暖水彩插画', tags: ['light','watercolor','charity','warm','handwritten','progress','emotional'] },
+  'neumorphic-vcard': { name: '周然 · 新拟态名片', desc: '数字名片vCard — 柔和灰白+双向阴影凸起、Poppins+Noto Sans SC、新拟态dual box-shadow所有元素+active凹陷+圆形头像+药丸标签+链接按钮+状态指示、Soft UI', tags: ['light','neumorphic','vcard','card','softui','compact','designer'] },
 };
