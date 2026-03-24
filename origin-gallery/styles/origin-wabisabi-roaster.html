@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>山雾 MISTY — 每一颗豆子，都带着山间的呼吸</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Noto+Serif+SC:wght@200;300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rice: #f5f0e8;
+    --ink: #2a2a2a;
+    --brown: #8b6d4c;
+    --green: #7a8a6a;
+    --paper: #faf8f2;
+    --dim: rgba(42,42,42,0.4);
+    --rule: rgba(42,42,42,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--rice);
+    color: var(--ink);
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 2;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .vessel {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 2.5rem;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 5rem 0;
+  }
+
+  /* ═══ HERO ═══ */
+  .hero {
+    padding: 10rem 0 5rem;
+  }
+
+  .hero-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 3.2rem;
+    letter-spacing: 0.12em;
+    color: var(--ink);
+    line-height: 1.1;
+  }
+
+  .hero-cn {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 200;
+    font-size: 1.4rem;
+    color: var(--brown);
+    letter-spacing: 0.2em;
+    margin-top: 0.3rem;
+  }
+
+  .hero-sub {
+    font-weight: 300;
+    font-size: 1.05rem;
+    color: var(--dim);
+    margin-top: 3rem;
+    max-width: 320px;
+    line-height: 2.2;
+  }
+
+  .hero-cta {
+    display: inline-block;
+    margin-top: 2.5rem;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 400;
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    color: var(--ink);
+    background: transparent;
+    border: 1px solid var(--ink);
+    padding: 0.7em 2em;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  /* ═══ PRODUCTS ═══ */
+  .products {
+    padding: 2rem 0;
+  }
+
+  .section-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    color: var(--dim);
+    margin-bottom: 3rem;
+  }
+
+  .product {
+    margin-bottom: 4rem;
+  }
+
+  .product-name {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: var(--ink);
+    letter-spacing: 0.06em;
+  }
+
+  .product-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--brown);
+    margin-top: 0.2rem;
+    letter-spacing: 0.04em;
+  }
+
+  .product-desc {
+    font-weight: 300;
+    font-size: 1rem;
+    color: var(--dim);
+    margin-top: 0.8rem;
+    line-height: 2;
+    max-width: 480px;
+  }
+
+  .product-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: var(--ink);
+    margin-top: 0.8rem;
+  }
+
+  .product-price span {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 300;
+    font-size: 0.8rem;
+    color: var(--dim);
+  }
+
+  /* ═══ STORY ═══ */
+  .story {
+    padding: 2rem 0;
+  }
+
+  .story-text {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 300;
+    font-size: 1.05rem;
+    color: var(--ink);
+    line-height: 2.5;
+    max-width: 500px;
+  }
+
+  .story-stats {
+    display: flex;
+    gap: 3rem;
+    margin-top: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 2rem;
+    color: var(--brown);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.78rem;
+    font-weight: 300;
+    color: var(--dim);
+    margin-top: 0.3rem;
+  }
+
+  /* ═══ PRICING ═══ */
+  .pricing {
+    padding: 2rem 0;
+  }
+
+  .plan {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 1.8rem 0;
+    border-bottom: 1px solid var(--rule);
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .plan:last-child { border-bottom: none; }
+
+  .plan-name {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--ink);
+  }
+
+  .plan-desc {
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: var(--dim);
+    flex: 1;
+    margin-left: 1rem;
+  }
+
+  .plan-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 1.3rem;
+    color: var(--brown);
+    white-space: nowrap;
+  }
+
+  /* ═══ FOOTER ═══ */
+  .footer {
+    padding: 5rem 0 4rem;
+    text-align: center;
+  }
+
+  .footer-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 0.85rem;
+    color: var(--dim);
+    letter-spacing: 0.15em;
+  }
+
+  .footer-email {
+    margin-top: 0.5rem;
+  }
+
+  .footer-email a {
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: var(--brown);
+    text-decoration: none;
+  }
+
+  .footer-social {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1rem;
+  }
+
+  .footer-social a {
+    font-size: 0.78rem;
+    font-weight: 300;
+    color: var(--dim);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+  }
+
+  .footer-note {
+    font-size: 0.7rem;
+    color: var(--rule);
+    margin-top: 2rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* ═══ RESPONSIVE ═══ */
+  @media (max-width: 640px) {
+    .vessel { padding: 0 1.5rem; }
+    .hero { padding: 6rem 0 3rem; }
+    .hero-en { font-size: 2.2rem; }
+    .hero-cn { font-size: 1.1rem; }
+    hr { margin: 3rem 0; }
+    .plan { flex-direction: column; gap: 0.3rem; }
+    .plan-desc { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="vessel">
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <h1 class="hero-en">MISTY</h1>
+    <div class="hero-cn">山雾</div>
+    <p class="hero-sub">每一颗豆子，都带着山间的呼吸</p>
+    <a href="#products" class="hero-cta">探索豆单</a>
+  </section>
+
+  <hr>
+
+  <!-- ═══ PRODUCTS ═══ -->
+  <section class="products" id="products">
+    <div class="section-label">Offerings</div>
+
+    <div class="product">
+      <div class="product-name">晨雾拼配</div>
+      <div class="product-sub">Morning Mist Blend</div>
+      <div class="product-desc">埃塞俄比亚与哥伦比亚的温柔相遇，柑橘与焦糖交织，适合每一个清晨</div>
+      <div class="product-price">¥68 <span>/200g</span></div>
+    </div>
+
+    <div class="product">
+      <div class="product-name">云顶单品</div>
+      <div class="product-sub">Cloud Peak Single Origin</div>
+      <div class="product-desc">来自海拔2100米的耶加雪菲，茉莉花香与蜂蜜余韵，限量手选</div>
+      <div class="product-price">¥98 <span>/200g</span></div>
+    </div>
+
+    <div class="product">
+      <div class="product-name">深林深烘</div>
+      <div class="product-sub">Forest Dark Roast</div>
+      <div class="product-desc">苏门答腊曼特宁，烟熏与黑巧克力的深沉对话，法压壶挚爱</div>
+      <div class="product-price">¥78 <span>/200g</span></div>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- ═══ STORY ═══ -->
+  <section class="story">
+    <div class="section-label">Our Story</div>
+    <p class="story-text">我们相信咖啡是一门安静的手艺。山雾诞生于浙江莫干山脚下一间改造的老石屋里，主理人每天凌晨四点起床烘焙，只为在最安静的时刻与豆子对话。每批次不超过5公斤，从生豆筛选到包装封袋全程手工。不是效率至上的工业咖啡，是一封写给慢生活的情书。</p>
+    <div class="story-stats">
+      <div><div class="stat-num">5kg</div><div class="stat-label">每批限量</div></div>
+      <div><div class="stat-num">04:00</div><div class="stat-label">每日烘焙</div></div>
+      <div><div class="stat-num">100%</div><div class="stat-label">手工制作</div></div>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- ═══ PRICING ═══ -->
+  <section class="pricing">
+    <div class="section-label">Subscriptions</div>
+
+    <div class="plan">
+      <span class="plan-name">尝味装</span>
+      <span class="plan-desc">3款各50g试饮装 + 手写风味卡</span>
+      <span class="plan-price">¥58</span>
+    </div>
+
+    <div class="plan">
+      <span class="plan-name">月度订阅</span>
+      <span class="plan-desc">每月1袋200g当季精选 + 烘焙日志</span>
+      <span class="plan-price">¥128/月</span>
+    </div>
+
+    <div class="plan">
+      <span class="plan-name">山雾之友</span>
+      <span class="plan-desc">每月2袋 + 限定款优先 + 庄园溯源卡 + 品鉴会</span>
+      <span class="plan-price">¥328/月</span>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-brand">山雾 MISTY · 手工烘焙</div>
+    <div class="footer-email"><a href="mailto:hello@misty.coffee">hello@misty.coffee</a></div>
+    <div class="footer-social">
+      <a href="#">微信</a>
+      <a href="#">小红书</a>
+      <a href="#">Instagram</a>
+    </div>
+    <div class="footer-note">莫干山 · 手工烘焙 · 慢生活</div>
+  </footer>
+
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>

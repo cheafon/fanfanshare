@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>毛毛家 PAWHAUS — 让毛孩子也有度假的权利</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=ZCOOL+KuaiLe&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream:#FFF8E7;--pink:#FF6B9D;--teal:#4ECDC4;--yellow:#FFE156;
+    --coral:#FF6B6B;--purple:#2D2B55;--ink:#1a1a2e;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--cream);color:var(--ink);font-family:'Noto Sans SC',sans-serif;font-size:17px;line-height:1.8;overflow-x:hidden}
+
+  /* Dots bg */
+  .dots{position:fixed;inset:0;pointer-events:none;z-index:0;
+    background-image:radial-gradient(var(--ink) 1px,transparent 1px);background-size:22px 22px;opacity:0.03}
+
+  /* Geometric decorations */
+  .geo{position:absolute;pointer-events:none;z-index:0}
+
+  /* Bounce reveal */
+  .bv{opacity:0;transform:translateY(30px) scale(0.95);transition:opacity 0.5s ease,transform 0.6s cubic-bezier(0.34,1.56,0.64,1)}
+  .bv.vis{opacity:1;transform:translateY(0) scale(1)}
+
+  .page{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 2rem}
+
+  /* ═══ HERO ═══ */
+  .hero{text-align:center;padding:5rem 0 3rem;position:relative;overflow:visible}
+  .hero-bg{position:absolute;top:-10%;right:-8%;width:50%;height:120%;background:var(--yellow);transform:rotate(-6deg);z-index:0;opacity:0.3}
+  .hero-circle{position:absolute;bottom:10%;left:-5%;width:140px;height:140px;border-radius:50%;background:var(--teal);opacity:0.15;z-index:0}
+  .hero-tri{position:absolute;top:15%;right:10%;width:0;height:0;border-left:40px solid transparent;border-right:40px solid transparent;border-bottom:70px solid var(--pink);opacity:0.12;z-index:0;transform:rotate(15deg)}
+
+  .hero-badge{display:inline-block;font-family:'Fredoka One',cursive;font-size:0.7rem;letter-spacing:0.1em;background:var(--teal);color:var(--cream);padding:0.4em 1.2em;border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink);margin-bottom:1.5rem;position:relative;z-index:1}
+  .hero-en{font-family:'Fredoka One',cursive;font-size:3.5rem;color:var(--purple);line-height:1.1;position:relative;z-index:1;text-shadow:3px 3px 0 rgba(0,0,0,0.06)}
+  .hero-cn{font-family:'ZCOOL KuaiLe',cursive;font-size:2.2rem;color:var(--pink);margin-top:0.2rem;position:relative;z-index:1;letter-spacing:0.08em}
+  .hero-sub{font-size:1.15rem;color:var(--ink);opacity:0.5;margin-top:1rem;position:relative;z-index:1;font-weight:400}
+  .hero-cta{display:inline-block;margin-top:2rem;font-family:'ZCOOL KuaiLe',cursive;font-size:1.15rem;color:var(--ink);background:var(--yellow);border:3px solid var(--ink);padding:0.7em 2.5em;cursor:pointer;box-shadow:4px 4px 0 var(--ink);position:relative;z-index:1;text-decoration:none;transition:transform 0.15s,box-shadow 0.15s}
+  .hero-cta:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+
+  /* ═══ SERVICES ═══ */
+  .services{padding:4rem 0}
+  .sec-label{font-family:'Fredoka One',cursive;font-size:0.7rem;letter-spacing:0.12em;color:var(--teal);margin-bottom:0.3rem}
+  .sec-title{font-family:'ZCOOL KuaiLe',cursive;font-size:2rem;color:var(--purple);margin-bottom:2rem}
+
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+  .card{background:#fff;border:3px solid var(--ink);padding:2rem 1.5rem;position:relative;transition:transform 0.2s;box-shadow:5px 5px 0 var(--ink)}
+  .card:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--ink)}
+
+  .card:nth-child(1){transform:rotate(-1.5deg)}.card:nth-child(1):hover{transform:rotate(-1.5deg) translate(-2px,-2px)}
+  .card:nth-child(2){transform:rotate(1deg)}.card:nth-child(2):hover{transform:rotate(1deg) translate(-2px,-2px)}
+  .card:nth-child(3){transform:rotate(-0.5deg)}.card:nth-child(3):hover{transform:rotate(-0.5deg) translate(-2px,-2px)}
+
+  .card-icon{font-size:2.5rem;margin-bottom:0.8rem;display:block}
+  .card-color{position:absolute;top:0;left:0;right:0;height:6px}
+  .card:nth-child(1) .card-color{background:var(--pink)}
+  .card:nth-child(2) .card-color{background:var(--teal)}
+  .card:nth-child(3) .card-color{background:var(--yellow)}
+
+  .card-name{font-family:'ZCOOL KuaiLe',cursive;font-size:1.3rem;color:var(--ink);margin-bottom:0.3rem}
+  .card-desc{font-size:0.95rem;color:var(--ink);opacity:0.5;line-height:1.9;margin-bottom:0.8rem}
+  .card-price{font-family:'Fredoka One',cursive;font-size:1.2rem}
+  .card:nth-child(1) .card-price{color:var(--pink)}
+  .card:nth-child(2) .card-price{color:var(--teal)}
+  .card:nth-child(3) .card-price{color:var(--coral)}
+  .card-price span{font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:0.8rem;color:var(--ink);opacity:0.4}
+
+  /* ═══ STORY ═══ */
+  .story{padding:4rem 0;position:relative}
+  .story-box{background:var(--purple);color:var(--cream);padding:3rem;clip-path:polygon(0 5%,100% 0%,100% 95%,0% 100%);position:relative}
+  .story-box::before{content:'🐾';position:absolute;top:2rem;right:2.5rem;font-size:2rem;opacity:0.15}
+  .story-title{font-family:'ZCOOL KuaiLe',cursive;font-size:1.6rem;color:var(--yellow);margin-bottom:1rem;text-align:center}
+  .story-text{font-size:1.05rem;font-weight:300;line-height:2.2;text-align:center;max-width:600px;margin:0 auto;opacity:0.8}
+  .story-stats{display:flex;justify-content:center;gap:3rem;margin-top:2rem;flex-wrap:wrap}
+  .ss-num{font-family:'Fredoka One',cursive;font-size:1.8rem;color:var(--yellow);line-height:1}
+  .ss-label{font-size:0.8rem;opacity:0.5;margin-top:0.2rem}
+
+  /* ═══ PRICING ═══ */
+  .pricing{padding:4rem 0}
+  .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2rem}
+  .plan{background:#fff;border:3px solid var(--ink);text-align:center;padding:2rem 1.2rem;position:relative;box-shadow:5px 5px 0 var(--ink);transition:transform 0.2s}
+  .plan:hover{transform:translateY(-4px)}
+  .plan.featured{border-color:var(--pink);box-shadow:5px 5px 0 var(--pink)}
+  .plan.featured::before{content:'🌟 推荐';position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-family:'ZCOOL KuaiLe',cursive;font-size:0.75rem;background:var(--pink);color:#fff;padding:0.2em 1em;border:2px solid var(--ink)}
+
+  .plan-name{font-family:'ZCOOL KuaiLe',cursive;font-size:1.2rem;margin-bottom:0.5rem}
+  .plan-price{font-family:'Fredoka One',cursive;font-size:2.2rem;line-height:1;margin-bottom:0.2rem}
+  .plan:nth-child(1) .plan-price{color:var(--teal)}
+  .plan:nth-child(2) .plan-price{color:var(--pink)}
+  .plan:nth-child(3) .plan-price{color:var(--coral)}
+  .plan-period{font-size:0.8rem;color:var(--ink);opacity:0.4;margin-bottom:1rem}
+  .plan-rule{width:30px;height:3px;margin:0 auto 0.8rem;border-radius:2px}
+  .plan:nth-child(1) .plan-rule{background:var(--teal)}
+  .plan:nth-child(2) .plan-rule{background:var(--pink)}
+  .plan:nth-child(3) .plan-rule{background:var(--coral)}
+  .plan-desc{font-size:0.92rem;color:var(--ink);opacity:0.5;line-height:1.7}
+
+  /* ═══ FOOTER ═══ */
+  .footer{background:var(--purple);color:var(--cream);padding:2.5rem;display:flex;justify-content:space-between;align-items:center;clip-path:polygon(0 15%,100% 0%,100% 100%,0% 100%);padding-top:3.5rem;margin-top:2rem;flex-wrap:wrap;gap:1rem}
+  .footer-brand{font-family:'Fredoka One',cursive;font-size:0.95rem;color:var(--yellow)}
+  .footer-email a{font-size:0.85rem;color:rgba(255,248,231,0.5);text-decoration:none;border-bottom:2px dashed var(--teal)}
+  .footer-email a:hover{color:var(--teal)}
+  .footer-social{display:flex;gap:0.6rem}
+  .footer-social a{width:36px;height:36px;border:3px solid var(--cream);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:800;color:var(--cream);text-decoration:none;transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1)}
+  .footer-social a:hover{background:var(--yellow);border-color:var(--yellow);color:var(--purple);transform:scale(1.2) rotate(-10deg)}
+
+  @media(max-width:768px){
+    .hero-en{font-size:2.2rem}.hero-cn{font-size:1.6rem}
+    .hero-bg{display:none}
+    .cards,.plans{grid-template-columns:1fr;max-width:380px;margin-left:auto;margin-right:auto}
+    .card{transform:none!important}
+    .card:hover{transform:translate(-2px,-2px)!important}
+    .story-box{clip-path:polygon(0 2%,100% 0%,100% 98%,0% 100%);padding:2.5rem 1.5rem}
+    .footer{flex-direction:column;text-align:center;clip-path:polygon(0 6%,100% 0%,100% 100%,0% 100%)}
+  }
+</style>
+</head>
+<body>
+<div class="dots"></div>
+
+<div class="page">
+
+  <!-- Decorative shapes -->
+  <div class="geo" style="width:80px;height:80px;border-radius:50%;background:var(--pink);opacity:0.08;top:150px;right:5%"></div>
+  <div class="geo" style="width:50px;height:50px;background:var(--teal);opacity:0.08;top:400px;left:3%;transform:rotate(30deg)"></div>
+  <div class="geo" style="width:60px;height:60px;border-radius:50%;background:var(--yellow);opacity:0.1;top:700px;right:8%"></div>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero bv">
+    <div class="hero-bg"></div>
+    <div class="hero-circle"></div>
+    <div class="hero-tri"></div>
+    <div class="hero-badge">🐾 PET HOTEL</div>
+    <h1 class="hero-en">PAWHAUS</h1>
+    <div class="hero-cn">毛毛家</div>
+    <p class="hero-sub">让毛孩子也有度假的权利</p>
+    <a href="#services" class="hero-cta">🐕 立即预约</a>
+  </section>
+
+  <!-- ═══ SERVICES ═══ -->
+  <section class="services" id="services">
+    <div class="sec-label">OUR SERVICES</div>
+    <h2 class="sec-title">三大明星服务</h2>
+    <div class="cards">
+      <div class="card bv">
+        <div class="card-color"></div>
+        <span class="card-icon">🏠</span>
+        <div class="card-name">日托乐园</div>
+        <div class="card-desc">专业看护 + 户外草坪 + 社交游戏，让你安心上班毛孩子开心玩耍</div>
+        <div class="card-price">¥128 <span>/天</span></div>
+      </div>
+      <div class="card bv">
+        <div class="card-color"></div>
+        <span class="card-icon">🛏️</span>
+        <div class="card-name">度假套房</div>
+        <div class="card-desc">独立空调房间 + 实时摄像头 + 专属管家，像家一样舒适</div>
+        <div class="card-price">¥268 <span>/晚</span></div>
+      </div>
+      <div class="card bv">
+        <div class="card-color"></div>
+        <span class="card-icon">✨</span>
+        <div class="card-name">SPA 美容</div>
+        <div class="card-desc">洗护 + 造型 + 指甲修剪 + 耳道清洁，做全场最靓的崽</div>
+        <div class="card-price">¥198 <span>起</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ STORY ═══ -->
+  <section class="story bv">
+    <div class="story-box">
+      <div class="story-title">🐾 毛毛家的故事</div>
+      <p class="story-text">我们相信宠物不是附属品，是家人。毛毛家诞生于一次出差——创始人找不到一家让人放心的寄养店，于是决定自己开一家。每间房都按五星级标准设计，每位管家都经过200小时专业培训。三年来照顾过 3,000+ 只毛孩子，零事故记录。不是冷冰冰的笼子，是毛孩子的第二个家。</p>
+      <div class="story-stats">
+        <div><div class="ss-num">3,000+</div><div class="ss-label">毛孩子</div></div>
+        <div><div class="ss-num">200h</div><div class="ss-label">管家培训</div></div>
+        <div><div class="ss-num">0</div><div class="ss-label">事故记录</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PRICING ═══ -->
+  <section class="pricing">
+    <div class="sec-label">PLANS</div>
+    <h2 class="sec-title">选择你的方案</h2>
+    <div class="plans">
+      <div class="plan bv">
+        <div class="plan-name">散客体验</div>
+        <div class="plan-price">¥128</div>
+        <div class="plan-period">起 / 次</div>
+        <div class="plan-rule"></div>
+        <div class="plan-desc">日托或单次美容<br>随到随约</div>
+      </div>
+      <div class="plan featured bv">
+        <div class="plan-name">月卡会员</div>
+        <div class="plan-price">¥888</div>
+        <div class="plan-period">每月</div>
+        <div class="plan-rule"></div>
+        <div class="plan-desc">8次日托 + 2次美容<br>+ 接送服务</div>
+      </div>
+      <div class="plan bv">
+        <div class="plan-name">年度挚友</div>
+        <div class="plan-price">¥6,888</div>
+        <div class="plan-period">每年</div>
+        <div class="plan-rule"></div>
+        <div class="plan-desc">无限日托 + 每月美容<br>+ 寄养8折 + 生日派对</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <div class="footer-brand">毛毛家 PAWHAUS · 宠物寄养</div>
+  <div class="footer-email"><a href="mailto:hello@pawhaus.pet">hello@pawhaus.pet</a></div>
+  <div class="footer-social">
+    <a href="#">Wx</a>
+    <a href="#">Xhs</a>
+    <a href="#">Dy</a>
+  </div>
+</footer>
+
+<script>
+const bvs = document.querySelectorAll('.bv');
+const obs = new IntersectionObserver(es => {
+  es.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+}, { threshold: 0.1 });
+bvs.forEach(el => obs.observe(el));
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

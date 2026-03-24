@@ -1,0 +1,2752 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>班主任手册</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=ZCOOL+XiaoWei&family=Ma+Shan+Zheng&family=ZCOOL+QingKe+HuangYou&family=Long+Cang&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&family=Space+Mono:wght@400;700&family=Crimson+Pro:wght@400;600&family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ========== RESET & BASE ========== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-size: 16px; -webkit-tap-highlight-color: transparent; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg-main);
+  color: var(--text-primary);
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  transition: background 0.5s, color 0.5s;
+}
+
+/* ========== CSS VARIABLES (Default Theme) ========== */
+:root {
+  --font-display: 'Noto Sans SC', sans-serif;
+  --font-body: 'Noto Sans SC', sans-serif;
+  --bg-main: #f0f4f0;
+  --bg-card: #ffffff;
+  --bg-nav: #ffffff;
+  --bg-header: #4a9e6f;
+  --bg-accent: #e8f5e9;
+  --text-primary: #1a2e1a;
+  --text-secondary: #5a7a5a;
+  --text-on-header: #ffffff;
+  --accent: #4a9e6f;
+  --accent-light: #c8e6c9;
+  --accent-gradient: linear-gradient(135deg, #4a9e6f, #66bb6a);
+  --danger: #e74c3c;
+  --warning: #f39c12;
+  --border: #e0e8e0;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+  --radius: 14px;
+  --radius-sm: 8px;
+  --nav-height: 64px;
+  --header-height: 56px;
+  --status-bar: 44px;
+  --card-bg-texture: none;
+  --bg-pattern: none;
+  --nav-indicator: var(--accent);
+  --tag-bg: var(--accent-light);
+  --tag-text: var(--accent);
+  --input-bg: #f5f8f5;
+  --skeleton-bg: #e8ece8;
+}
+
+/* ========== PHONE FRAME ========== */
+.phone-frame {
+  position: relative;
+  width: 390px;
+  height: 844px;
+  margin: 0 auto;
+  overflow: hidden;
+  background: var(--bg-main);
+  transition: all 0.5s ease;
+}
+@media (max-width: 420px) {
+  .phone-frame { width: 100vw; height: 100vh; }
+}
+
+/* ========== STATUS BAR ========== */
+.status-bar {
+  height: var(--status-bar);
+  background: var(--bg-header);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  color: var(--text-on-header);
+  font-size: 14px;
+  font-weight: 600;
+  position: relative;
+  z-index: 100;
+  transition: background 0.5s;
+}
+.status-bar .time { font-variant-numeric: tabular-nums; }
+.status-bar .icons { display: flex; gap: 6px; align-items: center; }
+.status-bar .icons svg { width: 16px; height: 16px; fill: currentColor; }
+
+/* ========== HEADER ========== */
+.app-header {
+  height: var(--header-height);
+  background: var(--bg-header);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  color: var(--text-on-header);
+  position: relative;
+  z-index: 90;
+  transition: background 0.5s;
+}
+.app-header h1 {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.app-header .header-actions { display: flex; gap: 16px; align-items: center; }
+.app-header .header-actions svg { width: 22px; height: 22px; fill: currentColor; cursor: pointer; opacity: 0.9; }
+.app-header .header-actions svg:hover { opacity: 1; }
+
+/* ========== CLASS SELECTOR ========== */
+.class-selector {
+  background: var(--bg-header);
+  padding: 0 20px 12px;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  transition: background 0.5s;
+}
+.class-selector::-webkit-scrollbar { display: none; }
+.class-pill {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  background: rgba(255,255,255,0.15);
+  color: var(--text-on-header);
+  border: 1px solid rgba(255,255,255,0.2);
+  transition: all 0.3s;
+}
+.class-pill.active {
+  background: rgba(255,255,255,0.95);
+  color: var(--accent);
+  border-color: transparent;
+  font-weight: 600;
+}
+
+/* ========== CONTENT AREA ========== */
+.content-area {
+  height: calc(100% - var(--status-bar) - var(--header-height) - var(--nav-height));
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+}
+.content-area::-webkit-scrollbar { display: none; }
+.content-area.with-class-selector {
+  height: calc(100% - var(--status-bar) - var(--header-height) - var(--nav-height) - 40px);
+}
+
+/* ========== SCREEN PAGES ========== */
+.screen {
+  display: none;
+  padding: 16px 16px 24px;
+  animation: fadeSlideIn 0.35s ease;
+}
+.screen.active { display: block; }
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ========== HOME SCREEN ========== */
+.greeting-card {
+  background: var(--accent-gradient);
+  border-radius: var(--radius);
+  padding: 20px;
+  color: #fff;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+}
+.greeting-card::after {
+  content: '';
+  position: absolute;
+  right: -20px;
+  bottom: -20px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+}
+.greeting-card .greeting-text { font-size: 15px; opacity: 0.9; margin-bottom: 4px; }
+.greeting-card .greeting-name { font-family: var(--font-display); font-size: 22px; font-weight: 700; }
+.greeting-card .greeting-stats {
+  display: flex;
+  gap: 20px;
+  margin-top: 16px;
+}
+.greeting-card .stat-item { text-align: center; }
+.greeting-card .stat-num { font-size: 24px; font-weight: 700; }
+.greeting-card .stat-label { font-size: 11px; opacity: 0.8; }
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 700;
+  margin: 20px 0 12px;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.section-title .more {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--accent);
+  cursor: pointer;
+}
+
+/* Birthday cards on home */
+.birthday-list { display: flex; flex-direction: column; gap: 10px; }
+.birthday-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.birthday-card:hover { transform: translateY(-1px); box-shadow: var(--shadow-lg); }
+.birthday-card .avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 600;
+  flex-shrink: 0;
+  color: #fff;
+}
+.birthday-card .info { flex: 1; }
+.birthday-card .info .name { font-weight: 600; font-size: 15px; }
+.birthday-card .info .date { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+.birthday-card .badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.badge-today { background: #fff3e0; color: #e65100; }
+.badge-tomorrow { background: #e3f2fd; color: #1565c0; }
+.badge-upcoming { background: var(--tag-bg); color: var(--tag-text); }
+.badge-blessed { background: #e8f5e9; color: #2e7d32; }
+
+/* Quick actions */
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.quick-action {
+  background: var(--bg-card);
+  border-radius: var(--radius-sm);
+  padding: 16px 8px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.quick-action:hover { transform: translateY(-2px); }
+.quick-action .icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  margin: 0 auto 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+.quick-action .label { font-size: 12px; font-weight: 500; color: var(--text-secondary); }
+
+/* ========== STUDENT LIST ========== */
+.search-bar {
+  background: var(--input-bg);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  border: 1px solid var(--border);
+}
+.search-bar svg { width: 18px; height: 18px; fill: var(--text-secondary); flex-shrink: 0; }
+.search-bar input {
+  border: none;
+  background: none;
+  font-size: 14px;
+  color: var(--text-primary);
+  width: 100%;
+  outline: none;
+  font-family: var(--font-body);
+}
+.search-bar input::placeholder { color: var(--text-secondary); opacity: 0.6; }
+
+.student-item {
+  background: var(--bg-card);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.student-item:hover { transform: translateX(4px); }
+.student-item .avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  flex-shrink: 0;
+}
+.student-item .info { flex: 1; }
+.student-item .info .name { font-weight: 600; font-size: 15px; }
+.student-item .info .meta { font-size: 12px; color: var(--text-secondary); margin-top: 3px; }
+.student-item .tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
+.student-item .tag {
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 10px;
+  background: var(--tag-bg);
+  color: var(--tag-text);
+  font-weight: 500;
+}
+.student-item .tag.warn { background: #fff3e0; color: #e65100; }
+.student-item .arrow { color: var(--text-secondary); opacity: 0.4; font-size: 18px; }
+
+/* Group header */
+.group-header {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding: 8px 4px 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.group-header::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ========== CALENDAR SCREEN ========== */
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.calendar-header .month {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+}
+.calendar-header .nav-arrows { display: flex; gap: 12px; }
+.calendar-header .nav-arrows button {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  font-size: 16px;
+}
+
+.calendar-grid {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+  margin-bottom: 16px;
+}
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  margin-bottom: 8px;
+}
+.calendar-weekdays span {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding: 4px 0;
+}
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+.calendar-day {
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 14px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s;
+}
+.calendar-day:hover { background: var(--bg-accent); }
+.calendar-day.today {
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+}
+.calendar-day.has-birthday::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--danger);
+  position: absolute;
+  bottom: 2px;
+}
+.calendar-day.empty { cursor: default; }
+.calendar-day.empty:hover { background: none; }
+
+/* ========== MANAGEMENT SCREEN ========== */
+.manage-tabs {
+  display: flex;
+  gap: 0;
+  background: var(--input-bg);
+  border-radius: var(--radius-sm);
+  padding: 3px;
+  margin-bottom: 16px;
+}
+.manage-tab {
+  flex: 1;
+  padding: 8px 12px;
+  text-align: center;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: all 0.3s;
+}
+.manage-tab.active {
+  background: var(--bg-card);
+  color: var(--accent);
+  font-weight: 600;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+/* Talk record item */
+.record-item {
+  background: var(--bg-card);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  margin-bottom: 10px;
+  box-shadow: var(--shadow);
+  border-left: 3px solid var(--accent);
+}
+.record-item .record-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.record-item .record-header .student-name { font-weight: 600; font-size: 15px; }
+.record-item .record-header .record-date { font-size: 12px; color: var(--text-secondary); }
+.record-item .record-reason {
+  font-size: 13px;
+  color: var(--accent);
+  background: var(--tag-bg);
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+.record-item .record-content { font-size: 14px; line-height: 1.6; color: var(--text-secondary); }
+.record-item .record-followup {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border);
+  font-size: 12px;
+  color: var(--warning);
+}
+
+/* Todo items */
+.todo-item {
+  background: var(--bg-card);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+  box-shadow: var(--shadow);
+}
+.todo-checkbox {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  flex-shrink: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+.todo-checkbox.checked {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.todo-checkbox.checked::after {
+  content: '\2713';
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+}
+.todo-item.done .todo-text { text-decoration: line-through; opacity: 0.5; }
+.todo-text { flex: 1; font-size: 14px; }
+
+/* Award items */
+.award-item {
+  background: var(--bg-card);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  margin-bottom: 8px;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.award-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.award-icon.positive { background: #e8f5e9; }
+.award-icon.negative { background: #ffebee; }
+.award-info { flex: 1; }
+.award-info .award-title { font-weight: 600; font-size: 14px; }
+.award-info .award-meta { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+
+/* ========== PROFILE SCREEN ========== */
+.profile-header {
+  text-align: center;
+  padding: 20px 0;
+}
+.profile-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--accent-gradient);
+  color: #fff;
+  font-size: 28px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+}
+.profile-name { font-family: var(--font-display); font-size: 20px; font-weight: 700; }
+.profile-subtitle { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+
+.menu-group {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  margin-bottom: 14px;
+}
+.menu-item {
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+  border-bottom: 1px solid var(--border);
+}
+.menu-item:last-child { border-bottom: none; }
+.menu-item:hover { background: var(--bg-accent); }
+.menu-item .menu-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.menu-item .menu-label { flex: 1; font-size: 15px; }
+.menu-item .menu-arrow { color: var(--text-secondary); opacity: 0.4; }
+
+/* ========== BOTTOM NAV ========== */
+.bottom-nav {
+  height: var(--nav-height);
+  background: var(--bg-nav);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-top: 1px solid var(--border);
+  position: relative;
+  z-index: 100;
+  transition: background 0.5s, border-color 0.5s;
+}
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  padding: 4px 16px;
+  color: var(--text-secondary);
+  transition: color 0.3s;
+  position: relative;
+}
+.nav-item.active { color: var(--accent); }
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  width: 24px;
+  height: 3px;
+  border-radius: 0 0 3px 3px;
+  background: var(--nav-indicator);
+}
+.nav-item svg { width: 24px; height: 24px; fill: currentColor; }
+.nav-item span { font-size: 11px; font-weight: 500; }
+
+/* ========== FAB ========== */
+.fab {
+  position: absolute;
+  bottom: 80px;
+  right: 20px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--accent-gradient);
+  color: #fff;
+  border: none;
+  font-size: 26px;
+  cursor: pointer;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 80;
+  transition: transform 0.3s;
+}
+.fab:hover { transform: scale(1.1); }
+
+/* ========== THEME SWITCHER ========== */
+.theme-switcher-btn {
+  position: fixed;
+  bottom: 90px;
+  left: 20px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(102,126,234,0.4);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s;
+  animation: pulse-glow 2s infinite;
+}
+.theme-switcher-btn:hover { transform: scale(1.15); }
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 4px 20px rgba(102,126,234,0.4); }
+  50% { box-shadow: 0 4px 30px rgba(102,126,234,0.6); }
+}
+
+.theme-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(8px);
+  z-index: 10000;
+  display: none;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  animation: fadeIn 0.3s;
+}
+.theme-panel.open { display: block; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.theme-panel-content {
+  background: #1a1a2e;
+  border-radius: 20px;
+  padding: 20px 18px;
+  width: 320px;
+  margin: 20px auto;
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.theme-panel-content::-webkit-scrollbar { display: none; }
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.theme-panel-title {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.theme-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.theme-option {
+  border-radius: 10px;
+  padding: 8px 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.3s;
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+.theme-option:hover { transform: translateY(-2px); }
+.theme-option.active { border-color: #fff; }
+.theme-option.active::after {
+  content: '\2713';
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  background: rgba(0,0,0,0.4);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.theme-option .theme-preview {
+  width: 100%;
+  height: 36px;
+  border-radius: 6px;
+  margin-bottom: 4px;
+}
+.theme-option .theme-name {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+}
+.theme-close {
+  display: block;
+  margin: 16px auto 0;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  border: none;
+  padding: 10px 32px;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* ========== PHOTO GRID ========== */
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+.photo-grid .photo-item {
+  aspect-ratio: 1;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+}
+.photo-grid .photo-item .photo-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  background: var(--input-bg);
+}
+
+/* ========== STUDENT DETAIL OVERLAY ========== */
+.detail-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-main);
+  z-index: 200;
+  display: none;
+  animation: slideInRight 0.3s ease;
+}
+.detail-overlay.open { display: block; }
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+.detail-header {
+  height: calc(var(--status-bar) + var(--header-height));
+  background: var(--bg-header);
+  display: flex;
+  align-items: flex-end;
+  padding: 0 16px 12px;
+  color: var(--text-on-header);
+  gap: 12px;
+}
+.detail-header .back-btn {
+  background: none;
+  border: none;
+  color: var(--text-on-header);
+  font-size: 22px;
+  cursor: pointer;
+  padding: 4px;
+}
+.detail-body {
+  padding: 16px;
+  height: calc(100% - var(--status-bar) - var(--header-height));
+  overflow-y: auto;
+}
+.detail-profile {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.detail-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin: 0 auto 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: 700;
+  color: #fff;
+}
+.detail-name { font-family: var(--font-display); font-size: 22px; font-weight: 700; }
+.detail-id { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
+
+.info-card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow);
+}
+.info-card .card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 14px;
+}
+.info-row .label { color: var(--text-secondary); }
+.info-row .value { font-weight: 500; }
+.special-note {
+  background: #fff8e1;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #f57f17;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+/* ========== ANIMATIONS ========== */
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.1s; }
+.stagger-3 { animation-delay: 0.15s; }
+.stagger-4 { animation-delay: 0.2s; }
+.stagger-5 { animation-delay: 0.25s; }
+
+/* ========== EMPTY STATE ========== */
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-secondary);
+}
+.empty-state .empty-icon { font-size: 48px; margin-bottom: 12px; }
+.empty-state .empty-text { font-size: 14px; }
+
+/* ========== EXPORT SCREEN (in profile) ========== */
+.export-card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.export-card:hover { transform: translateX(4px); }
+.export-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.export-info { flex: 1; }
+.export-info .export-title { font-weight: 600; font-size: 15px; }
+.export-info .export-desc { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+</style>
+</head>
+<body>
+
+<!-- Theme Switcher Button -->
+<button class="theme-switcher-btn" onclick="toggleThemePanel()" title="切换风格">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+  </svg>
+</button>
+
+<!-- Theme Panel -->
+<div class="theme-panel" id="themePanel" onclick="if(event.target===this)toggleThemePanel()">
+  <div class="theme-panel-content">
+    <div class="theme-panel-title">选择 App 风格</div>
+    <div class="theme-grid" id="themeGrid"></div>
+    <button class="theme-close" onclick="toggleThemePanel()">关闭</button>
+  </div>
+</div>
+
+<!-- Phone Frame -->
+<div class="phone-frame" id="phoneFrame">
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <span class="time">9:41</span>
+    <div class="icons">
+      <svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <div class="app-header">
+    <h1 id="headerTitle">班主任手册</h1>
+    <div class="header-actions">
+      <svg viewBox="0 0 24 24" id="headerBackBtn" style="display:none;cursor:pointer" onclick="goBack()"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+      <svg viewBox="0 0 24 24" onclick="switchTab(1)"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      <span style="position:relative;display:inline-flex" onclick="toggleNotifications()">
+        <svg viewBox="0 0 24 24" style="cursor:pointer"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+        <span class="notif-badge" id="notifBadge" style="display:none">0</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- Class Selector -->
+  <div class="class-selector" id="classSelector">
+    <div class="class-pill active" onclick="selectClass(this)">全部</div>
+    <div class="class-pill" onclick="selectClass(this)">三年1班</div>
+    <div class="class-pill" onclick="selectClass(this)">三年2班</div>
+    <div class="class-pill" onclick="selectClass(this)">四年1班</div>
+  </div>
+
+  <!-- Content Area -->
+  <div class="content-area with-class-selector" id="contentArea">
+
+    <!-- HOME -->
+    <div class="screen active" id="screen-home">
+      <div class="greeting-card">
+        <div class="greeting-text">早上好</div>
+        <div class="greeting-name">王老师</div>
+        <div class="greeting-stats">
+          <div class="stat-item"><div class="stat-num">128</div><div class="stat-label">学生总数</div></div>
+          <div class="stat-item"><div class="stat-num">3</div><div class="stat-label">本周生日</div></div>
+          <div class="stat-item"><div class="stat-num">5</div><div class="stat-label">待办事项</div></div>
+        </div>
+      </div>
+
+      <div class="quick-actions">
+        <div class="quick-action" onclick="switchTab(1)">
+          <div class="icon" style="background:#e3f2fd">&#128100;</div>
+          <div class="label">学生管理</div>
+        </div>
+        <div class="quick-action" onclick="switchTab(3);switchManageTab(document.querySelector('.manage-tab'),'talk')">
+          <div class="icon" style="background:#fce4ec">&#128172;</div>
+          <div class="label">谈心记录</div>
+        </div>
+        <div class="quick-action" onclick="switchTab(3);switchManageTab(document.querySelectorAll('.manage-tab')[1],'award')">
+          <div class="icon" style="background:#fff8e1">&#127942;</div>
+          <div class="label">奖惩记录</div>
+        </div>
+        <div class="quick-action" onclick="switchTab(4)">
+          <div class="icon" style="background:#e8f5e9">&#128229;</div>
+          <div class="label">数据导出</div>
+        </div>
+      </div>
+
+      <div class="section-title">
+        &#127874; 近期生日
+        <span class="more" onclick="switchTab(2)">查看全部 &rarr;</span>
+      </div>
+      <div class="birthday-list">
+        <div class="birthday-card" onclick="openDetail('刘雨萱')">
+          <div class="avatar" style="background:linear-gradient(135deg,#ff6b6b,#ee5a24)">萱</div>
+          <div class="info">
+            <div class="name">刘雨萱</div>
+            <div class="date">今天 &middot; 三年1班</div>
+          </div>
+          <div class="badge badge-today">今天生日</div>
+        </div>
+        <div class="birthday-card" onclick="openDetail('张浩宇')">
+          <div class="avatar" style="background:linear-gradient(135deg,#4facfe,#00f2fe)">宇</div>
+          <div class="info">
+            <div class="name">张浩宇</div>
+            <div class="date">明天 &middot; 三年2班</div>
+          </div>
+          <div class="badge badge-tomorrow">明天</div>
+        </div>
+        <div class="birthday-card" onclick="openDetail('陈思琪')">
+          <div class="avatar" style="background:linear-gradient(135deg,#a18cd1,#fbc2eb)">琪</div>
+          <div class="info">
+            <div class="name">陈思琪</div>
+            <div class="date">3月3日 &middot; 四年1班</div>
+          </div>
+          <div class="badge badge-upcoming">3天后</div>
+        </div>
+      </div>
+
+      <div class="section-title">&#9989; 待办事项<span class="more" onclick="switchTab(3);switchManageTab(document.querySelectorAll('.manage-tab')[2],'todo')">查看全部 &rarr;</span></div>
+      <div id="home-todos"></div>
+    </div>
+
+    <!-- STUDENTS -->
+    <div class="screen" id="screen-students">
+      <div class="search-bar">
+        <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+        <input type="text" placeholder="搜索姓名、学号...">
+      </div>
+
+      <!-- Dynamic student list rendered by renderStudentList() -->
+    </div>
+
+    <!-- CALENDAR -->
+    <div class="screen" id="screen-calendar">
+      <div class="calendar-header">
+        <div class="nav-arrows"><button onclick="calPrev()">&lsaquo;</button></div>
+        <div class="month" id="calMonth">2026年2月</div>
+        <div class="nav-arrows"><button onclick="calNext()">&rsaquo;</button></div>
+      </div>
+      <div class="calendar-grid">
+        <div class="calendar-weekdays">
+          <span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
+        </div>
+        <div class="calendar-days" id="calendarDays"></div>
+      </div>
+      <div class="section-title" id="calendarDayTitle">&#127874; 2月28日 &middot; 今天</div>
+      <div id="calendarDayList" class="calendar-birthday-list"></div>
+
+      <div class="section-title" style="margin-top:16px">提醒设置</div>
+      <div class="info-card">
+        <div class="info-row">
+          <span class="label">提前提醒</span>
+          <select id="reminderDaysSelect" onchange="reminderDays=this.value;showToast('提醒设置已更新')" style="border:1px solid var(--border);border-radius:4px;padding:4px 8px;font-size:13px;background:var(--input-bg);color:var(--accent);font-weight:600">
+            <option>当天</option><option selected>1天</option><option>2天</option><option>3天</option><option>7天</option>
+          </select>
+        </div>
+        <div class="info-row">
+          <span class="label">提醒时间</span>
+          <input type="time" id="reminderTimeInput" value="09:00" onchange="reminderTime=this.value;showToast('提醒时间已更新')" style="border:1px solid var(--border);border-radius:4px;padding:4px 8px;font-size:13px;background:var(--input-bg);color:var(--accent);font-weight:600">
+        </div>
+        <div class="info-row">
+          <span class="label" id="blessingYearLabel">2026年祝福进度</span>
+          <span class="value" id="blessingProgress" style="color:var(--accent)">0/11</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- MANAGEMENT -->
+    <div class="screen" id="screen-manage">
+      <div class="manage-tabs">
+        <div class="manage-tab active" onclick="switchManageTab(this, 'talk')">谈心记录</div>
+        <div class="manage-tab" onclick="switchManageTab(this, 'award')">奖惩记录</div>
+        <div class="manage-tab" onclick="switchManageTab(this, 'todo')">待办事项</div>
+        <div class="manage-tab" onclick="switchManageTab(this, 'album')">班级相册</div>
+      </div>
+
+      <div class="manage-content" id="manage-talk"></div>
+      <div class="manage-content" id="manage-award" style="display:none"></div>
+      <div class="manage-content" id="manage-todo" style="display:none"></div>
+
+      <!-- Album -->
+      <div class="manage-content" id="manage-album" style="display:none"></div>
+      <input type="file" id="photoFileInput" accept="image/*" style="display:none" onchange="handlePhotoUpload(this)">
+    </div>
+
+    <!-- PROFILE -->
+    <div class="screen" id="screen-profile">
+      <div class="profile-header">
+        <div class="profile-avatar">王</div>
+        <div class="profile-name">王老师</div>
+        <div class="profile-subtitle" id="profileSubtitle">管理 3 个班级 &middot; 128 名学生</div>
+      </div>
+
+      <div class="section-title">&#128229; 数据导出</div>
+      <div class="export-card" onclick="showExportByStudent()">
+        <div class="export-icon" style="background:#e3f2fd">&#128196;</div>
+        <div class="export-info">
+          <div class="export-title">按学生导出</div>
+          <div class="export-desc">导出单个学生的完整档案（谈心、奖惩、祝福）</div>
+        </div>
+        <span style="color:var(--text-secondary);opacity:0.4">&rsaquo;</span>
+      </div>
+      <div class="export-card" onclick="showExportByClass()">
+        <div class="export-icon" style="background:#fce4ec">&#128202;</div>
+        <div class="export-info">
+          <div class="export-title">按班级导出</div>
+          <div class="export-desc">导出整班学期报告汇总</div>
+        </div>
+        <span style="color:var(--text-secondary);opacity:0.4">&rsaquo;</span>
+      </div>
+      <div class="export-card" onclick="showExportSemesterReport()">
+        <div class="export-icon" style="background:#e8f5e9">&#128218;</div>
+        <div class="export-info">
+          <div class="export-title">一键生成学期报告</div>
+          <div class="export-desc">包含谈心汇总、奖惩记录、生日祝福（PDF/Word）</div>
+        </div>
+        <span style="color:var(--text-secondary);opacity:0.4">&rsaquo;</span>
+      </div>
+
+      <div class="section-title" style="margin-top:24px">&#9881;&#65039; 设置</div>
+      <div class="menu-group">
+        <div class="menu-item" onclick="toggleAppLock()">
+          <div class="menu-icon" style="background:#e8eaf6">&#128274;</div>
+          <div class="menu-label">应用锁</div>
+          <div class="toggle-switch" id="appLockToggle"></div>
+        </div>
+        <div class="menu-item" onclick="showClassManageModal()">
+          <div class="menu-icon" style="background:#fce4ec">&#127979;</div>
+          <div class="menu-label">班级管理</div>
+          <span class="menu-arrow">&rsaquo;</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-icon" style="background:#e0f7fa">&#128197;</div>
+          <div class="menu-label">学年/学期切换</div>
+          <select class="settings-select" onchange="showToast('已切换到 '+this.value)">
+            <option>2025-2026 第二学期</option><option>2025-2026 第一学期</option><option>2024-2025 第二学期</option><option>2024-2025 第一学期</option>
+          </select>
+        </div>
+        <div class="menu-item" onclick="simulateBackup()">
+          <div class="menu-icon" style="background:#fff8e1">&#128230;</div>
+          <div class="menu-label">数据备份与恢复</div>
+          <span class="menu-arrow">&rsaquo;</span>
+        </div>
+        <div class="menu-item" onclick="document.getElementById('importFileInput').click()">
+          <div class="menu-icon" style="background:#e8f5e9">&#128229;</div>
+          <div class="menu-label">批量导入学生</div>
+          <span class="menu-arrow">&rsaquo;</span>
+        </div>
+      </div>
+      <input type="file" id="importFileInput" accept=".csv,.xlsx,.xls" style="display:none" onchange="handleImportFile(this)">
+    </div>
+  </div>
+
+  <!-- Student Detail Overlay -->
+  <div class="detail-overlay" id="detailOverlay">
+    <div class="detail-header">
+      <button class="back-btn" onclick="closeDetail()">&larr;</button>
+      <h1 style="font-size:18px;flex:1" id="detailTitle">学生详情</h1>
+      <span class="detail-action" onclick="showEditStudentModal(currentDetailStudentId)">编辑</span>
+      <span class="detail-action danger" onclick="confirmDeleteStudent(currentDetailStudentId)">删除</span>
+    </div>
+    <div class="detail-body"></div>
+  </div>
+
+  <!-- Notification Panel -->
+  <div class="detail-overlay" id="notifPanel">
+    <div class="detail-header">
+      <button class="back-btn" onclick="closeNotifications()">&larr;</button>
+      <h1 style="font-size:18px">通知中心</h1>
+    </div>
+    <div class="detail-body" id="notifBody"></div>
+  </div>
+
+  <!-- Modal Overlay -->
+  <div class="detail-overlay" id="modalOverlay">
+    <div class="detail-header">
+      <button class="back-btn" onclick="closeModal()">&larr;</button>
+      <h1 style="font-size:18px" id="modalTitle">新增</h1>
+    </div>
+    <div class="detail-body" id="modalBody"></div>
+  </div>
+
+  <!-- FAB -->
+  <button class="fab" id="fab" onclick="showAddMenu()">+</button>
+
+  <!-- Bottom Nav -->
+  <div class="bottom-nav">
+    <div class="nav-item active" onclick="switchTab(0)">
+      <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      <span>首页</span>
+    </div>
+    <div class="nav-item" onclick="switchTab(1)">
+      <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+      <span>学生</span>
+    </div>
+    <div class="nav-item" onclick="switchTab(2)">
+      <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM9 10H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z"/></svg>
+      <span>日历</span>
+    </div>
+    <div class="nav-item" onclick="switchTab(3)">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+      <span>管理</span>
+    </div>
+    <div class="nav-item" onclick="switchTab(4)">
+      <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+      <span>我的</span>
+    </div>
+  </div>
+</div>
+
+<style>
+/* Additional styles for modals & notifications */
+.notif-item { background:var(--bg-card); border-radius:var(--radius-sm); padding:14px 16px; margin-bottom:8px; box-shadow:var(--shadow); }
+.notif-item .notif-time { font-size:11px; color:var(--text-secondary); margin-top:4px; }
+.notif-item .notif-msg { font-size:14px; }
+.notif-item.unread { border-left:3px solid var(--accent); }
+.modal-form { display:flex; flex-direction:column; gap:12px; }
+.modal-form label { font-size:13px; font-weight:600; color:var(--text-secondary); }
+.modal-form input, .modal-form select, .modal-form textarea {
+  width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:var(--radius-sm);
+  font-size:14px; font-family:var(--font-body); background:var(--input-bg); color:var(--text-primary); outline:none;
+}
+.modal-form textarea { min-height:80px; resize:vertical; }
+.modal-form .btn-primary {
+  background:var(--accent-gradient); color:#fff; border:none; padding:12px; border-radius:var(--radius-sm);
+  font-size:15px; font-weight:600; cursor:pointer; margin-top:8px;
+}
+.add-menu { display:flex; flex-direction:column; gap:8px; position:absolute; bottom:140px; right:20px; z-index:85; animation:fadeSlideIn 0.2s ease; }
+.add-menu .add-option {
+  background:var(--bg-card); padding:10px 16px; border-radius:var(--radius-sm); box-shadow:var(--shadow-lg);
+  font-size:14px; cursor:pointer; display:flex; align-items:center; gap:8px; white-space:nowrap; transition:transform 0.2s;
+}
+.add-menu .add-option:hover { transform:translateX(-4px); }
+.calendar-day.selected { background:var(--accent-light); font-weight:600; }
+.calendar-birthday-list { margin-top:8px; }
+.detail-action { cursor:pointer; font-size:13px; padding:4px 10px; border-radius:4px; background:rgba(255,255,255,0.15); white-space:nowrap; }
+.detail-action:hover { background:rgba(255,255,255,0.25); }
+.detail-action.danger { color:#ffcdd2; }
+.confirm-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:99998; display:flex; align-items:center; justify-content:center; animation:fadeIn 0.2s; }
+.confirm-dialog { background:var(--bg-card); border-radius:var(--radius); padding:24px; width:280px; box-shadow:var(--shadow-lg); text-align:center; }
+.confirm-dialog .confirm-title { font-weight:700; font-size:16px; margin-bottom:8px; }
+.confirm-dialog .confirm-msg { font-size:14px; color:var(--text-secondary); margin-bottom:20px; line-height:1.5; }
+.confirm-dialog .confirm-btns { display:flex; gap:10px; }
+.confirm-dialog .confirm-btns button { flex:1; padding:10px; border:none; border-radius:var(--radius-sm); font-size:14px; font-weight:600; cursor:pointer; }
+.confirm-dialog .btn-cancel { background:var(--input-bg); color:var(--text-primary); }
+.confirm-dialog .btn-danger { background:#e74c3c; color:#fff; }
+.parent-group { background:var(--input-bg); border-radius:var(--radius-sm); padding:12px; margin-top:4px; }
+.parent-group label { margin-top:8px; display:block; }
+.parent-group label:first-child { margin-top:0; }
+.record-actions { display:flex; gap:8px; margin-top:10px; padding-top:8px; border-top:1px solid var(--border); }
+.record-actions button { padding:5px 14px; border:none; border-radius:4px; font-size:12px; cursor:pointer; font-weight:500; }
+.record-actions .btn-edit { background:var(--tag-bg); color:var(--accent); }
+.record-actions .btn-delete { background:#ffebee; color:#e74c3c; }
+.todo-actions { display:flex; gap:2px; flex-shrink:0; }
+.todo-actions button { background:none; border:none; cursor:pointer; font-size:14px; opacity:0.4; padding:2px 4px; transition:opacity 0.2s; }
+.todo-actions button:hover { opacity:1; }
+.notif-actions { display:flex; gap:8px; margin-top:8px; }
+.notif-actions button { padding:4px 10px; border:none; border-radius:4px; font-size:11px; cursor:pointer; font-weight:500; }
+.notif-actions .btn-read { background:var(--tag-bg); color:var(--accent); }
+.notif-actions .btn-del { background:#ffebee; color:#e74c3c; }
+.notif-header-actions { display:flex; gap:8px; margin-bottom:12px; }
+.notif-header-actions button { padding:6px 14px; border:none; border-radius:var(--radius-sm); font-size:12px; cursor:pointer; font-weight:500; background:var(--tag-bg); color:var(--accent); }
+.photo-overlay-view { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:99997; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; animation:fadeIn 0.3s; }
+.photo-overlay-view img, .photo-overlay-view .photo-placeholder-lg { max-width:90%; max-height:60vh; border-radius:8px; object-fit:contain; }
+.photo-placeholder-lg { width:240px; height:240px; display:flex; align-items:center; justify-content:center; font-size:72px; border-radius:12px; }
+.photo-overlay-view .photo-caption { color:#fff; font-size:16px; }
+.photo-overlay-view .photo-actions-bar { display:flex; gap:12px; }
+.photo-overlay-view .photo-actions-bar button { padding:10px 24px; border:none; border-radius:8px; cursor:pointer; font-size:14px; font-weight:500; }
+.photo-overlay-view .btn-close-photo { background:rgba(255,255,255,0.2); color:#fff; }
+.photo-overlay-view .btn-delete-photo { background:#e74c3c; color:#fff; }
+.add-photo-btn { aspect-ratio:1; border-radius:6px; border:2px dashed var(--border); display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; color:var(--text-secondary); font-size:24px; transition:all 0.2s; gap:4px; }
+.add-photo-btn:hover { border-color:var(--accent); color:var(--accent); }
+.add-photo-btn span { font-size:11px; }
+.photo-item img { width:100%; height:100%; object-fit:cover; }
+.toggle-switch { position:relative; width:44px; height:24px; border-radius:12px; background:var(--border); cursor:pointer; transition:background 0.3s; flex-shrink:0; }
+.toggle-switch.on { background:var(--accent); }
+.toggle-switch::after { content:''; position:absolute; top:2px; left:2px; width:20px; height:20px; border-radius:50%; background:#fff; transition:transform 0.3s; box-shadow:0 1px 3px rgba(0,0,0,0.2); }
+.toggle-switch.on::after { transform:translateX(20px); }
+.settings-select { border:1px solid var(--border); border-radius:var(--radius-sm); padding:4px 8px; font-size:12px; background:var(--input-bg); color:var(--accent); font-weight:500; max-width:180px; }
+.export-checkbox { display:flex; align-items:center; gap:8px; font-weight:400; font-size:14px; cursor:pointer; }
+.export-checkbox input { width:16px; height:16px; accent-color:var(--accent); }
+.toast-notification {
+  position:fixed; bottom:100px; left:50%; transform:translateX(-50%) translateY(20px);
+  background:rgba(0,0,0,0.8); color:#fff; padding:10px 24px; border-radius:20px;
+  font-size:14px; z-index:99999; opacity:0; transition:all 0.3s ease;
+  pointer-events:none; white-space:nowrap; max-width:80%;
+}
+.toast-notification.show { opacity:1; transform:translateX(-50%) translateY(0); }
+.notif-badge {
+  position:absolute; top:-4px; right:-6px; background:var(--danger); color:#fff;
+  font-size:10px; font-weight:700; min-width:16px; height:16px; border-radius:8px;
+  display:flex; align-items:center; justify-content:center; padding:0 4px;
+}
+</style>
+<script>
+// ========== DATA ==========
+const students = [
+  { id:'20230101', name:'刘雨萱', gender:'女', birthday:'02-28', class:'三年1班', group:'第一小组',
+    avatar:{char:'萱',bg:'linear-gradient(135deg,#ff6b6b,#ee5a24)'},
+    parents:[{role:'妈妈',name:'刘芳',phone:'138****5678'},{role:'爸爸',name:'刘强',phone:'139****1234'}],
+    notes:'花生过敏，午餐需特别注意', tags:['花生过敏'] },
+  { id:'20230102', name:'张浩宇', gender:'男', birthday:'03-01', class:'三年2班', group:'第二小组',
+    avatar:{char:'宇',bg:'linear-gradient(135deg,#4facfe,#00f2fe)'},
+    parents:[{role:'妈妈',name:'张丽',phone:'137****9876'}],
+    notes:'', tags:[] },
+  { id:'20230103', name:'李欣怡', gender:'女', birthday:'06-15', class:'三年1班', group:'第一小组',
+    avatar:{char:'怡',bg:'linear-gradient(135deg,#f093fb,#f5576c)'},
+    parents:[{role:'妈妈',name:'李梅',phone:'135****4321'}],
+    notes:'单亲家庭，需要多关注', tags:['单亲家庭'] },
+  { id:'20230104', name:'王子轩', gender:'男', birthday:'09-22', class:'三年1班', group:'第三小组',
+    avatar:{char:'轩',bg:'linear-gradient(135deg,#43e97b,#38f9d7)'},
+    parents:[{role:'爸爸',name:'王明',phone:'136****5555'},{role:'妈妈',name:'赵红',phone:'138****6666'}],
+    notes:'', tags:[] },
+  { id:'20230105', name:'赵诗涵', gender:'女', birthday:'11-08', class:'三年1班', group:'第二小组',
+    avatar:{char:'涵',bg:'linear-gradient(135deg,#ffecd2,#fcb69f)'},
+    parents:[{role:'妈妈',name:'赵兰',phone:'139****7777'}],
+    notes:'', tags:[] },
+  { id:'20230201', name:'周子墨', gender:'男', birthday:'04-12', class:'三年2班', group:'第一小组',
+    avatar:{char:'墨',bg:'linear-gradient(135deg,#667eea,#764ba2)'},
+    parents:[{role:'爸爸',name:'周刚',phone:'133****8888'}],
+    notes:'', tags:[] },
+  { id:'20230202', name:'陈思琪', gender:'女', birthday:'03-03', class:'四年1班', group:'第一小组',
+    avatar:{char:'琪',bg:'linear-gradient(135deg,#a18cd1,#fbc2eb)'},
+    parents:[{role:'妈妈',name:'陈华',phone:'131****9999'}],
+    notes:'乳糖不耐受', tags:['乳糖不耐受'] },
+  { id:'20230203', name:'黄梓豪', gender:'男', birthday:'02-03', class:'三年2班', group:'第二小组',
+    avatar:{char:'豪',bg:'linear-gradient(135deg,#f6d365,#fda085)'},
+    parents:[{role:'爸爸',name:'黄伟',phone:'132****1111'}],
+    notes:'', tags:[] },
+  { id:'20230301', name:'吴佳琪', gender:'女', birthday:'02-10', class:'四年1班', group:'第二小组',
+    avatar:{char:'琪',bg:'linear-gradient(135deg,#89f7fe,#66a6ff)'},
+    parents:[{role:'妈妈',name:'吴丽',phone:'130****2222'}],
+    notes:'', tags:[] },
+  { id:'20230302', name:'孙浩然', gender:'男', birthday:'02-15', class:'四年1班', group:'第三小组',
+    avatar:{char:'然',bg:'linear-gradient(135deg,#a8edea,#fed6e3)'},
+    parents:[{role:'爸爸',name:'孙强',phone:'134****3333'}],
+    notes:'轻度近视，需坐前排', tags:['近视'] },
+  { id:'20230204', name:'林雨桐', gender:'女', birthday:'02-22', class:'三年2班', group:'第三小组',
+    avatar:{char:'桐',bg:'linear-gradient(135deg,#fbc2eb,#a6c1ee)'},
+    parents:[{role:'妈妈',name:'林芳',phone:'136****4444'}],
+    notes:'', tags:[] },
+];
+
+let talkRecords = [
+  { studentId:'20230103', date:'2026-02-27', reason:'学习状态下降', content:'近期上课注意力不集中，作业完成质量下降。经了解，父母近期工作变动，家庭氛围不太好，对孩子情绪有影响。', followup:'下周再谈一次，联系家长了解情况' },
+  { studentId:'20230102', date:'2026-02-25', reason:'同学矛盾', content:'与王子轩发生争执，起因是体育课分组问题。已分别谈话，双方表示理解，愿意和解。', followup:'观察一周，确认关系恢复正常' },
+  { studentId:'20230101', date:'2026-02-20', reason:'表扬鼓励', content:'本次数学竞赛获得年级第一名，进行鼓励谈话。孩子表示对数学很感兴趣，希望参加更多竞赛。', followup:'' },
+  { studentId:'20230101', date:'2026-02-01', reason:'学期初谈话', content:'了解新学期目标和想法，状态良好。', followup:'' },
+];
+
+let awards = [
+  { studentId:'20230101', date:'2026-02-20', title:'数学竞赛年级第一', type:'positive' },
+  { studentId:'20230104', date:'2026-02-15', title:'三好学生', type:'positive' },
+  { studentId:'20230201', date:'2026-02-18', title:'迟到3次', type:'negative' },
+];
+
+let todoList = [
+  { text:'明天收保险费', done:false },
+  { text:'下周家长会准备材料', done:false },
+  { text:'安排春游活动方案', done:false },
+  { text:'更新学生健康档案', done:false },
+  { text:'交学生体检表', done:true },
+];
+
+const blessingRecords = {
+  '20230101': { '2026':true, '2025':true },
+  '20230203': { '2026':true },
+};
+
+const notifications = [
+  { msg:'刘雨萱今天过生日，记得送上祝福！', time:'今天 9:00', unread:true },
+  { msg:'张浩宇明天过生日', time:'今天 9:00', unread:true },
+  { msg:'李欣怡的谈心跟进提醒：联系家长了解情况', time:'昨天 9:00', unread:false },
+  { msg:'本周有3位同学过生日', time:'周一 9:00', unread:false },
+];
+
+const classes = ['全部','三年1班','三年2班','四年1班'];
+let currentClass = '全部';
+let navHistory = [];
+let currentTab = 0;
+let addMenuOpen = false;
+let currentDetailStudentId = null;
+let selectedCalendarDay = new Date().getDate();
+let calendarYear = 2026;
+let calendarMonth = 2;
+let reminderDays = '1天';
+let reminderTime = '09:00';
+let photos = [
+  { id:1, src:null, emoji:'&#127881;', bg:'linear-gradient(135deg,#ffecd2,#fcb69f)', caption:'元旦联欢' },
+  { id:2, src:null, emoji:'&#127796;', bg:'linear-gradient(135deg,#a1c4fd,#c2e9fb)', caption:'春游' },
+  { id:3, src:null, emoji:'&#9917;', bg:'linear-gradient(135deg,#d4fc79,#96e6a1)', caption:'运动会' },
+  { id:4, src:null, emoji:'&#127915;', bg:'linear-gradient(135deg,#f093fb,#f5576c)', caption:'文艺汇演' },
+  { id:5, src:null, emoji:'&#127749;', bg:'linear-gradient(135deg,#4facfe,#00f2fe)', caption:'秋游' },
+  { id:6, src:null, emoji:'&#127793;', bg:'linear-gradient(135deg,#43e97b,#38f9d7)', caption:'植树节' },
+];
+let nextPhotoId = 7;
+
+// ========== THEMES ==========
+const themes = [
+  {
+    name: '清新校园',
+    vars: {
+      '--font-display': "'Noto Sans SC', sans-serif",
+      '--font-body': "'Noto Sans SC', sans-serif",
+      '--bg-main': '#f0f4f0',
+      '--bg-card': '#ffffff',
+      '--bg-nav': '#ffffff',
+      '--bg-header': '#4a9e6f',
+      '--bg-accent': '#e8f5e9',
+      '--text-primary': '#1a2e1a',
+      '--text-secondary': '#5a7a5a',
+      '--text-on-header': '#ffffff',
+      '--accent': '#4a9e6f',
+      '--accent-light': '#c8e6c9',
+      '--accent-gradient': 'linear-gradient(135deg, #4a9e6f, #66bb6a)',
+      '--border': '#e0e8e0',
+      '--shadow': '0 2px 12px rgba(0,0,0,0.08)',
+      '--radius': '14px',
+      '--radius-sm': '8px',
+      '--input-bg': '#f5f8f5',
+      '--tag-bg': '#e8f5e9',
+      '--tag-text': '#2e7d32',
+      '--nav-indicator': '#4a9e6f',
+    },
+    preview: 'linear-gradient(135deg, #4a9e6f 0%, #81c784 50%, #e8f5e9 100%)'
+  },
+  {
+    name: '温暖手记',
+    vars: {
+      '--font-display': "'ZCOOL XiaoWei', serif",
+      '--font-body': "'Noto Sans SC', sans-serif",
+      '--bg-main': '#faf6f0',
+      '--bg-card': '#fffcf5',
+      '--bg-nav': '#fffcf5',
+      '--bg-header': '#c6854a',
+      '--bg-accent': '#fff3e0',
+      '--text-primary': '#3e2723',
+      '--text-secondary': '#8d6e63',
+      '--text-on-header': '#fff8f0',
+      '--accent': '#c6854a',
+      '--accent-light': '#ffe0b2',
+      '--accent-gradient': 'linear-gradient(135deg, #c6854a, #e6a96a)',
+      '--border': '#ecdcc8',
+      '--shadow': '0 2px 12px rgba(139,90,43,0.1)',
+      '--radius': '10px',
+      '--radius-sm': '6px',
+      '--input-bg': '#f5efe6',
+      '--tag-bg': '#fff3e0',
+      '--tag-text': '#bf360c',
+      '--nav-indicator': '#c6854a',
+    },
+    preview: 'linear-gradient(135deg, #c6854a 0%, #e6a96a 50%, #faf6f0 100%)'
+  },
+  {
+    name: '专业深蓝',
+    vars: {
+      '--font-display': "'DM Sans', sans-serif",
+      '--font-body': "'DM Sans', 'Noto Sans SC', sans-serif",
+      '--bg-main': '#0d1b2a',
+      '--bg-card': '#1b2838',
+      '--bg-nav': '#152238',
+      '--bg-header': '#1565c0',
+      '--bg-accent': '#1a3a5c',
+      '--text-primary': '#e0e6ed',
+      '--text-secondary': '#8899aa',
+      '--text-on-header': '#ffffff',
+      '--accent': '#42a5f5',
+      '--accent-light': '#1a3a5c',
+      '--accent-gradient': 'linear-gradient(135deg, #1565c0, #42a5f5)',
+      '--border': '#2a3f55',
+      '--shadow': '0 2px 16px rgba(0,0,0,0.3)',
+      '--radius': '12px',
+      '--radius-sm': '8px',
+      '--input-bg': '#152238',
+      '--tag-bg': '#1a3a5c',
+      '--tag-text': '#64b5f6',
+      '--nav-indicator': '#42a5f5',
+    },
+    preview: 'linear-gradient(135deg, #0d1b2a 0%, #1565c0 50%, #42a5f5 100%)'
+  },
+  {
+    name: '活力橙光',
+    vars: {
+      '--font-display': "'Outfit', sans-serif",
+      '--font-body': "'Outfit', 'Noto Sans SC', sans-serif",
+      '--bg-main': '#fff5f0',
+      '--bg-card': '#ffffff',
+      '--bg-nav': '#ffffff',
+      '--bg-header': '#ff6d00',
+      '--bg-accent': '#fff3e0',
+      '--text-primary': '#2d1b06',
+      '--text-secondary': '#9e7a5a',
+      '--text-on-header': '#ffffff',
+      '--accent': '#ff6d00',
+      '--accent-light': '#ffe0b2',
+      '--accent-gradient': 'linear-gradient(135deg, #ff6d00, #ff9e40)',
+      '--border': '#ffe0cc',
+      '--shadow': '0 3px 16px rgba(255,109,0,0.1)',
+      '--radius': '18px',
+      '--radius-sm': '10px',
+      '--input-bg': '#fff5f0',
+      '--tag-bg': '#fff3e0',
+      '--tag-text': '#e65100',
+      '--nav-indicator': '#ff6d00',
+    },
+    preview: 'linear-gradient(135deg, #ff6d00 0%, #ff9e40 50%, #fff5f0 100%)'
+  },
+  {
+    name: '水墨丹青',
+    vars: {
+      '--font-display': "'Ma Shan Zheng', cursive",
+      '--font-body': "'Noto Serif SC', serif",
+      '--bg-main': '#f5f0e8',
+      '--bg-card': '#faf7f0',
+      '--bg-nav': '#f5f0e8',
+      '--bg-header': '#4a4a4a',
+      '--bg-accent': '#ece5d8',
+      '--text-primary': '#2c2c2c',
+      '--text-secondary': '#7a7a6e',
+      '--text-on-header': '#f0ead8',
+      '--accent': '#8b4513',
+      '--accent-light': '#e8dcc8',
+      '--accent-gradient': 'linear-gradient(135deg, #4a4a4a, #6a6a6a)',
+      '--border': '#d8d0c0',
+      '--shadow': '0 2px 8px rgba(0,0,0,0.06)',
+      '--radius': '4px',
+      '--radius-sm': '2px',
+      '--input-bg': '#ece5d8',
+      '--tag-bg': '#e8dcc8',
+      '--tag-text': '#8b4513',
+      '--nav-indicator': '#8b4513',
+    },
+    preview: 'linear-gradient(135deg, #4a4a4a 0%, #8b4513 50%, #f5f0e8 100%)'
+  },
+  {
+    name: '梦幻星空',
+    vars: {
+      '--font-display': "'Sora', sans-serif",
+      '--font-body': "'Sora', 'Noto Sans SC', sans-serif",
+      '--bg-main': '#0f0c29',
+      '--bg-card': '#1a1540',
+      '--bg-nav': '#12102e',
+      '--bg-header': '#302b63',
+      '--bg-accent': '#24204a',
+      '--text-primary': '#e8e4f8',
+      '--text-secondary': '#9a8ec0',
+      '--text-on-header': '#e8e4f8',
+      '--accent': '#b388ff',
+      '--accent-light': '#24204a',
+      '--accent-gradient': 'linear-gradient(135deg, #667eea, #764ba2)',
+      '--border': '#2a2555',
+      '--shadow': '0 4px 20px rgba(102,126,234,0.15)',
+      '--radius': '16px',
+      '--radius-sm': '10px',
+      '--input-bg': '#1a1540',
+      '--tag-bg': '#24204a',
+      '--tag-text': '#b388ff',
+      '--nav-indicator': '#b388ff',
+    },
+    preview: 'linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)'
+  },
+  {
+    name: '简约纯白',
+    vars: {
+      '--font-display': "'Crimson Pro', serif",
+      '--font-body': "'Noto Sans SC', sans-serif",
+      '--bg-main': '#fafafa',
+      '--bg-card': '#ffffff',
+      '--bg-nav': '#ffffff',
+      '--bg-header': '#ffffff',
+      '--bg-accent': '#f5f5f5',
+      '--text-primary': '#1a1a1a',
+      '--text-secondary': '#999999',
+      '--text-on-header': '#1a1a1a',
+      '--accent': '#1a1a1a',
+      '--accent-light': '#f0f0f0',
+      '--accent-gradient': 'linear-gradient(135deg, #333333, #555555)',
+      '--border': '#eeeeee',
+      '--shadow': '0 1px 4px rgba(0,0,0,0.04)',
+      '--radius': '8px',
+      '--radius-sm': '4px',
+      '--input-bg': '#f5f5f5',
+      '--tag-bg': '#f0f0f0',
+      '--tag-text': '#555555',
+      '--nav-indicator': '#1a1a1a',
+    },
+    preview: 'linear-gradient(135deg, #ffffff 0%, #f0f0f0 50%, #e0e0e0 100%)'
+  },
+  {
+    name: '复古黑板',
+    vars: {
+      '--font-display': "'ZCOOL QingKe HuangYou', cursive",
+      '--font-body': "'Noto Sans SC', sans-serif",
+      '--bg-main': '#2d4a3e',
+      '--bg-card': '#365548',
+      '--bg-nav': '#2a4439',
+      '--bg-header': '#1e352a',
+      '--bg-accent': '#3d5e4f',
+      '--text-primary': '#e8e0d0',
+      '--text-secondary': '#a8c0a8',
+      '--text-on-header': '#f0e8d8',
+      '--accent': '#f0c040',
+      '--accent-light': '#3d5e4f',
+      '--accent-gradient': 'linear-gradient(135deg, #f0c040, #e8a020)',
+      '--border': '#4a6e5a',
+      '--shadow': '0 2px 8px rgba(0,0,0,0.2)',
+      '--radius': '6px',
+      '--radius-sm': '4px',
+      '--input-bg': '#365548',
+      '--tag-bg': '#3d5e4f',
+      '--tag-text': '#f0c040',
+      '--nav-indicator': '#f0c040',
+    },
+    preview: 'linear-gradient(135deg, #1e352a 0%, #2d4a3e 50%, #f0c040 100%)'
+  },
+  {
+    name: '糖果甜心',
+    vars: {
+      '--font-display': "'Long Cang', cursive",
+      '--font-body': "'Noto Sans SC', sans-serif",
+      '--bg-main': '#fef0f5',
+      '--bg-card': '#ffffff',
+      '--bg-nav': '#ffffff',
+      '--bg-header': '#ec407a',
+      '--bg-accent': '#fce4ec',
+      '--text-primary': '#3a1a2a',
+      '--text-secondary': '#b06080',
+      '--text-on-header': '#ffffff',
+      '--accent': '#ec407a',
+      '--accent-light': '#f8bbd0',
+      '--accent-gradient': 'linear-gradient(135deg, #ec407a, #f48fb1)',
+      '--border': '#f8d0e0',
+      '--shadow': '0 3px 14px rgba(236,64,122,0.1)',
+      '--radius': '20px',
+      '--radius-sm': '12px',
+      '--input-bg': '#fef0f5',
+      '--tag-bg': '#fce4ec',
+      '--tag-text': '#c2185b',
+      '--nav-indicator': '#ec407a',
+    },
+    preview: 'linear-gradient(135deg, #ec407a 0%, #f48fb1 50%, #fef0f5 100%)'
+  },
+  {
+    name: '深邃学院',
+    vars: {
+      '--font-display': "'Playfair Display', serif",
+      '--font-body': "'Noto Sans SC', sans-serif",
+      '--bg-main': '#1a1520',
+      '--bg-card': '#252030',
+      '--bg-nav': '#1e1928',
+      '--bg-header': '#6d1a36',
+      '--bg-accent': '#2e2838',
+      '--text-primary': '#e8ddd0',
+      '--text-secondary': '#a09088',
+      '--text-on-header': '#f0e0d0',
+      '--accent': '#c77d50',
+      '--accent-light': '#2e2838',
+      '--accent-gradient': 'linear-gradient(135deg, #6d1a36, #a0304a)',
+      '--border': '#3a3345',
+      '--shadow': '0 4px 20px rgba(0,0,0,0.3)',
+      '--radius': '6px',
+      '--radius-sm': '4px',
+      '--input-bg': '#252030',
+      '--tag-bg': '#2e2838',
+      '--tag-text': '#c77d50',
+      '--nav-indicator': '#c77d50',
+    },
+    preview: 'linear-gradient(135deg, #1a1520 0%, #6d1a36 50%, #c77d50 100%)'
+  }
+];
+
+let currentTheme = 0;
+
+function applyTheme(index) {
+  currentTheme = index;
+  const theme = themes[index];
+  const root = document.documentElement;
+  Object.entries(theme.vars).forEach(([key, value]) => root.style.setProperty(key, value));
+  document.querySelectorAll('.theme-option').forEach((el, i) => el.classList.toggle('active', i === index));
+}
+
+function renderThemeGrid() {
+  const grid = document.getElementById('themeGrid');
+  grid.innerHTML = themes.map((t, i) => `
+    <div class="theme-option ${i === 0 ? 'active' : ''}" onclick="applyTheme(${i})">
+      <div class="theme-preview" style="background:${t.preview}"></div>
+      <div class="theme-name">${t.name}</div>
+    </div>
+  `).join('');
+}
+
+function toggleThemePanel() {
+  document.getElementById('themePanel').classList.toggle('open');
+}
+
+// ========== TOAST ==========
+function showToast(msg, duration = 2000) {
+  let toast = document.querySelector('.toast-notification');
+  if (!toast) { toast = document.createElement('div'); toast.className = 'toast-notification'; document.body.appendChild(toast); }
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => toast.classList.remove('show'), duration);
+}
+
+// ========== HELPERS ==========
+function getStudent(id) { return students.find(s => s.id === id); }
+function getStudentByName(name) { return students.find(s => s.name === name); }
+function getStudentTalks(id) { return talkRecords.filter(r => r.studentId === id); }
+function getStudentAwards(id) { return awards.filter(a => a.studentId === id); }
+function getBirthdayStudents(monthDay) {
+  return students.filter(s => s.birthday === monthDay);
+}
+function getBirthdayDays() {
+  return students.map(s => parseInt(s.birthday.split('-')[1])).filter(d => students.some(s => s.birthday.startsWith('02-') && parseInt(s.birthday.split('-')[1]) === d));
+}
+
+// ========== NAVIGATION ==========
+const screens = ['screen-home', 'screen-students', 'screen-calendar', 'screen-manage', 'screen-profile'];
+const titles = ['班主任手册', '学生管理', '生日日历', '日常管理', '我的'];
+
+function switchTab(index, pushHistory = true) {
+  if (pushHistory && currentTab !== index) navHistory.push(currentTab);
+  currentTab = index;
+  screens.forEach(id => document.getElementById(id).classList.remove('active'));
+  document.getElementById(screens[index]).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach((el, i) => el.classList.toggle('active', i === index));
+  document.getElementById('headerTitle').textContent = titles[index];
+  const cs = document.getElementById('classSelector');
+  const ca = document.getElementById('contentArea');
+  if (index <= 1) { cs.style.display = 'flex'; ca.classList.add('with-class-selector'); }
+  else { cs.style.display = 'none'; ca.classList.remove('with-class-selector'); }
+  document.getElementById('headerBackBtn').style.display = navHistory.length > 0 ? 'block' : 'none';
+  closeAddMenu();
+  document.querySelector('.content-area').scrollTop = 0;
+  if (index === 1) { setTimeout(() => { const si = document.querySelector('#screen-students .search-bar input'); if (si) si.focus(); }, 100); }
+}
+
+function goBack() {
+  if (document.getElementById('detailOverlay').classList.contains('open')) { closeDetail(); return; }
+  if (document.getElementById('notifPanel').classList.contains('open')) { closeNotifications(); return; }
+  if (document.getElementById('modalOverlay').classList.contains('open')) { closeModal(); return; }
+  if (navHistory.length > 0) { switchTab(navHistory.pop(), false); }
+  document.getElementById('headerBackBtn').style.display = navHistory.length > 0 ? 'block' : 'none';
+}
+
+// ========== CLASS SELECTOR ==========
+function selectClass(el) {
+  document.querySelectorAll('.class-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  currentClass = el.textContent;
+  renderStudentList();
+  renderHomeBirthdays();
+  renderHomeStats();
+}
+
+// ========== SEARCH ==========
+function setupSearch() {
+  const input = document.querySelector('#screen-students .search-bar input');
+  input.addEventListener('input', () => renderStudentList(input.value.trim()));
+}
+
+// ========== RENDER: STUDENT LIST ==========
+function renderStudentList(query = '') {
+  const container = document.getElementById('screen-students');
+  const searchBar = container.querySelector('.search-bar');
+  // Remove old dynamic content
+  container.querySelectorAll('.group-header, .student-item, .empty-state').forEach(el => el.remove());
+  let filtered = students;
+  if (query) {
+    const q = query.toLowerCase();
+    filtered = filtered.filter(s => s.name.includes(q) || s.id.includes(q));
+  } else if (currentClass !== '全部') {
+    filtered = filtered.filter(s => s.class === currentClass);
+  }
+  if (filtered.length === 0) {
+    searchBar.insertAdjacentHTML('afterend', '<div class="empty-state"><div class="empty-icon">&#128269;</div><div class="empty-text">没有找到匹配的学生</div></div>');
+    return;
+  }
+  // Group by class
+  const groups = {};
+  filtered.forEach(s => { if (!groups[s.class]) groups[s.class] = []; groups[s.class].push(s); });
+  let html = '';
+  Object.entries(groups).forEach(([cls, sts]) => {
+    html += `<div class="group-header">${cls} &middot; ${sts.length}人</div>`;
+    sts.forEach(s => {
+      const tagHtml = s.tags.map(t => `<span class="tag warn">${t}</span>`).join('') + `<span class="tag">${s.group}</span>`;
+      html += `<div class="student-item" onclick="openDetail('${s.id}')">
+        <div class="avatar" style="background:${s.avatar.bg}">${s.avatar.char}</div>
+        <div class="info"><div class="name">${s.name}</div><div class="meta">学号 ${s.id} &middot; ${s.gender}</div><div class="tags">${tagHtml}</div></div>
+        <span class="arrow">&rsaquo;</span></div>`;
+    });
+  });
+  searchBar.insertAdjacentHTML('afterend', html);
+}
+
+// ========== RENDER: STUDENT DETAIL ==========
+function openDetail(idOrName) {
+  const s = students.find(x => x.id === idOrName || x.name === idOrName);
+  if (!s) return;
+  currentDetailStudentId = s.id;
+  const overlay = document.getElementById('detailOverlay');
+  overlay.classList.add('open');
+  document.getElementById('detailTitle').textContent = s.name;
+  // Rebuild detail body
+  const body = overlay.querySelector('.detail-body');
+  const talks = getStudentTalks(s.id);
+  const stuAwards = getStudentAwards(s.id);
+  const blessings = blessingRecords[s.id] || {};
+  let html = `<div class="detail-profile">
+    <div class="detail-avatar" style="background:${s.avatar.bg}">${s.avatar.char}</div>
+    <div class="detail-name">${s.name}</div>
+    <div class="detail-id">学号 ${s.id} · ${s.class}</div></div>`;
+  // Basic info
+  html += `<div class="info-card"><div class="card-title">基本信息</div>
+    <div class="info-row"><span class="label">性别</span><span class="value">${s.gender}</span></div>
+    <div class="info-row"><span class="label">生日</span><span class="value">${s.birthday.replace('-','月')}日</span></div>
+    <div class="info-row"><span class="label">小组</span><span class="value">${s.group}</span></div></div>`;
+  // Parents
+  html += `<div class="info-card"><div class="card-title">家长联系人</div>`;
+  s.parents.forEach(p => { html += `<div class="info-row"><span class="label">${p.role} · ${p.name}</span><span class="value" style="color:var(--accent)">${p.phone}</span></div>`; });
+  html += `</div>`;
+  // Special notes
+  if (s.notes) {
+    html += `<div class="info-card"><div class="card-title">特殊备注</div><div class="special-note">&#9888;&#65039; ${s.notes}</div></div>`;
+  }
+  // Talk records
+  if (talks.length) {
+    html += `<div class="info-card"><div class="card-title">谈心记录（${talks.length}次）</div>`;
+    talks.forEach((t,i) => {
+      html += `<div class="record-item" style="box-shadow:none;margin:0;padding:12px 0;border-left:none;${i < talks.length-1 ? 'border-bottom:1px solid var(--border)':''}">
+        <div class="record-header"><span class="record-reason" style="margin:0">${t.reason}</span><span class="record-date">${t.date}</span></div>
+        <div class="record-content" style="margin-top:6px">${t.content}</div>
+        ${t.followup ? `<div class="record-followup">&#128204; 跟进：${t.followup}</div>` : ''}</div>`;
+    });
+    html += `</div>`;
+  }
+  // Awards
+  if (stuAwards.length) {
+    html += `<div class="info-card"><div class="card-title">奖惩记录</div>`;
+    stuAwards.forEach(a => {
+      html += `<div class="award-item" style="box-shadow:none;padding:8px 0">
+        <div class="award-icon ${a.type}">${a.type === 'positive' ? '&#127942;' : '&#9888;&#65039;'}</div>
+        <div class="award-info"><div class="award-title">${a.title}</div><div class="award-meta">${a.date}</div></div></div>`;
+    });
+    html += `</div>`;
+  }
+  // Blessings
+  html += `<div class="info-card"><div class="card-title">生日祝福 <span style="font-size:11px;font-weight:400;color:var(--text-secondary)">点击切换状态</span></div>`;
+  ['2026','2025'].forEach(y => {
+    const blessed = blessings[y];
+    html += `<div class="info-row"><span class="label">${y}年</span><span class="value"><span class="badge ${blessed ? 'badge-blessed' : 'badge-upcoming'}" style="cursor:pointer" onclick="event.stopPropagation();toggleBlessing('${s.id}','${y}')">${blessed ? '&#10003; 已祝福' : '&#9744; 未祝福'}</span></span></div>`;
+  });
+  html += `</div>`;
+  body.innerHTML = html;
+}
+
+function closeDetail() {
+  document.getElementById('detailOverlay').classList.remove('open');
+}
+
+// ========== RENDER: HOME BIRTHDAYS ==========
+function renderHomeBirthdays() {
+  const list = document.querySelector('#screen-home .birthday-list');
+  const today = '02-28';
+  const upcoming = [
+    { day:'02-28', label:'今天', badgeClass:'badge-today', badgeText:'今天生日' },
+    { day:'03-01', label:'明天', badgeClass:'badge-tomorrow', badgeText:'明天' },
+    { day:'03-03', label:'3月3日', badgeClass:'badge-upcoming', badgeText:'3天后' },
+  ];
+  let html = '';
+  upcoming.forEach(u => {
+    const sts = getBirthdayStudents(u.day);
+    sts.forEach(s => {
+      html += `<div class="birthday-card" onclick="openDetail('${s.id}')">
+        <div class="avatar" style="background:${s.avatar.bg}">${s.avatar.char}</div>
+        <div class="info"><div class="name">${s.name}</div><div class="date">${u.label} &middot; ${s.class}</div></div>
+        <div class="badge ${u.badgeClass}">${u.badgeText}</div></div>`;
+    });
+  });
+  list.innerHTML = html;
+}
+
+// ========== RENDER: HOME STATS ==========
+function renderHomeStats() {
+  const filtered = currentClass === '全部' ? students : students.filter(s => s.class === currentClass);
+  const statNums = document.querySelectorAll('#screen-home .stat-num');
+  statNums[0].textContent = filtered.length;
+  const bdayCount = filtered.filter(s => ['02-28','03-01','03-03'].includes(s.birthday)).length;
+  statNums[1].textContent = bdayCount;
+  statNums[2].textContent = todoList.filter(t => !t.done).length;
+}
+
+// ========== RENDER: TODOS ==========
+function renderTodos(containerId) {
+  const container = document.getElementById(containerId);
+  const isManage = containerId === 'manage-todo';
+  container.innerHTML = todoList.map((t, i) => `
+    <div class="todo-item ${t.done ? 'done' : ''}">
+      <div class="todo-checkbox ${t.done ? 'checked' : ''}" onclick="toggleTodoItem(${i}, '${containerId}')"></div>
+      <div class="todo-text" onclick="toggleTodoItem(${i}, '${containerId}')" style="cursor:pointer">${t.text}</div>
+      ${isManage ? `<div class="todo-actions">
+        <button onclick="editTodoItem(${i})" title="编辑">✏️</button>
+        <button onclick="deleteTodoItem(${i})" title="删除" style="color:var(--danger)">✕</button>
+      </div>` : ''}
+    </div>`).join('');
+  if (isManage && todoList.length === 0) container.innerHTML = '<div class="empty-state"><div class="empty-icon">&#9989;</div><div class="empty-text">暂无待办事项</div></div>';
+}
+
+function toggleTodoItem(index, containerId) {
+  todoList[index].done = !todoList[index].done;
+  renderTodos(containerId);
+  renderHomeStats();
+  // Also sync the other container
+  if (containerId === 'manage-todo') renderHomeTodos();
+  else renderTodos('manage-todo');
+}
+
+function renderHomeTodos() {
+  const container = document.getElementById('home-todos');
+  container.innerHTML = todoList.slice(0, 3).map((t, i) => `
+    <div class="todo-item ${t.done ? 'done' : ''}" onclick="toggleTodoItem(${i}, 'home-todos')">
+      <div class="todo-checkbox ${t.done ? 'checked' : ''}"></div>
+      <div class="todo-text">${t.text}</div>
+    </div>`).join('');
+}
+
+// ========== RENDER: TALK RECORDS ==========
+function renderTalkRecords() {
+  const container = document.getElementById('manage-talk');
+  container.innerHTML = talkRecords.map((r, i) => {
+    const s = getStudent(r.studentId);
+    return `<div class="record-item">
+      <div class="record-header" style="cursor:pointer" onclick="openDetail('${r.studentId}')"><span class="student-name">${s ? s.name : '未知'}</span><span class="record-date">${r.date}</span></div>
+      <div class="record-reason">${r.reason}</div>
+      <div class="record-content">${r.content}</div>
+      ${r.followup ? `<div class="record-followup">&#128204; 跟进：${r.followup}</div>` : ''}
+      <div class="record-actions">
+        <button class="btn-edit" onclick="showEditTalkModal(${i})">编辑</button>
+        <button class="btn-delete" onclick="deleteTalkRecord(${i})">删除</button>
+      </div></div>`;
+  }).join('');
+  if (talkRecords.length === 0) container.innerHTML = '<div class="empty-state"><div class="empty-icon">&#128172;</div><div class="empty-text">暂无谈心记录</div></div>';
+}
+
+// ========== RENDER: AWARDS ==========
+function renderAwards() {
+  const container = document.getElementById('manage-award');
+  container.innerHTML = awards.map((a, i) => {
+    const s = getStudent(a.studentId);
+    return `<div class="award-item" style="flex-wrap:wrap">
+      <div class="award-icon ${a.type}">${a.type === 'positive' ? '&#127942;' : '&#9888;&#65039;'}</div>
+      <div class="award-info" style="cursor:pointer" onclick="openDetail('${a.studentId}')"><div class="award-title">${s ? s.name : ''} &middot; ${a.title}</div><div class="award-meta">${a.date} &middot; ${s ? s.class : ''}</div></div>
+      <div class="record-actions" style="border:none;margin:0;padding:0;width:auto">
+        <button class="btn-edit" onclick="showEditAwardModal(${i})">编辑</button>
+        <button class="btn-delete" onclick="deleteAward(${i})">删除</button>
+      </div></div>`;
+  }).join('');
+  if (awards.length === 0) container.innerHTML = '<div class="empty-state"><div class="empty-icon">&#127942;</div><div class="empty-text">暂无奖惩记录</div></div>';
+}
+
+// ========== CALENDAR ==========
+function calPrev() {
+  calendarMonth--;
+  if (calendarMonth < 1) { calendarMonth = 12; calendarYear--; }
+  selectedCalendarDay = null;
+  renderCalendar();
+  renderCalendarDetail(null);
+}
+
+function calNext() {
+  calendarMonth++;
+  if (calendarMonth > 12) { calendarMonth = 1; calendarYear++; }
+  selectedCalendarDay = null;
+  renderCalendar();
+  renderCalendarDetail(null);
+}
+
+function renderCalendar() {
+  const container = document.getElementById('calendarDays');
+  document.getElementById('calMonth').textContent = `${calendarYear}年${calendarMonth}月`;
+  const firstDay = new Date(calendarYear, calendarMonth - 1, 1).getDay();
+  const daysInMonth = new Date(calendarYear, calendarMonth, 0).getDate();
+  const mm = String(calendarMonth).padStart(2, '0');
+  const bdayDays = [];
+  students.forEach(s => {
+    if (s.birthday.startsWith(mm + '-')) bdayDays.push(parseInt(s.birthday.split('-')[1]));
+  });
+  const now = new Date();
+  const todayDay = (now.getFullYear() === calendarYear && now.getMonth() + 1 === calendarMonth) ? now.getDate() : -1;
+  let html = '';
+  for (let i = 0; i < firstDay; i++) html += '<div class="calendar-day empty"></div>';
+  for (let d = 1; d <= daysInMonth; d++) {
+    const isToday = d === todayDay;
+    const hasBday = bdayDays.includes(d);
+    const isSelected = d === selectedCalendarDay;
+    html += `<div class="calendar-day${isToday ? ' today' : ''}${hasBday ? ' has-birthday' : ''}${isSelected && !isToday ? ' selected' : ''}" onclick="selectCalendarDay(${d})">${d}</div>`;
+  }
+  container.innerHTML = html;
+  renderBlessingProgress();
+}
+
+function selectCalendarDay(day) {
+  selectedCalendarDay = day;
+  renderCalendar();
+  renderCalendarDetail(day);
+}
+
+function renderCalendarDetail(day) {
+  const mm = String(calendarMonth).padStart(2, '0');
+  const titleEl = document.getElementById('calendarDayTitle');
+  const listEl = document.getElementById('calendarDayList');
+  if (!day) {
+    titleEl.innerHTML = `&#127874; ${calendarMonth}月`;
+    listEl.innerHTML = '<div class="empty-state" style="padding:20px"><div class="empty-text">点击日期查看生日详情</div></div>';
+    return;
+  }
+  const monthDay = `${mm}-${String(day).padStart(2,'0')}`;
+  const sts = getBirthdayStudents(monthDay);
+  const now = new Date();
+  const isToday = calendarYear === now.getFullYear() && calendarMonth === now.getMonth() + 1 && day === now.getDate();
+  titleEl.innerHTML = `&#127874; ${calendarMonth}月${day}日${isToday ? ' &middot; 今天' : ''}`;
+  if (sts.length === 0) {
+    listEl.innerHTML = '<div class="empty-state" style="padding:20px"><div class="empty-text">当天没有学生过生日</div></div>';
+  } else {
+    const yearStr = String(calendarYear);
+    listEl.innerHTML = sts.map(s => {
+      const blessed = (blessingRecords[s.id] || {})[yearStr];
+      return `<div class="birthday-card" onclick="openDetail('${s.id}')">
+        <div class="avatar" style="background:${s.avatar.bg}">${s.avatar.char}</div>
+        <div class="info"><div class="name">${s.name}</div><div class="date">${s.class}</div></div>
+        <div class="badge ${blessed ? 'badge-blessed' : 'badge-upcoming'}">${blessed ? '&#10003; 已祝福' : '未祝福'}</div></div>`;
+    }).join('');
+  }
+}
+
+function renderBlessingProgress() {
+  const yearStr = String(calendarYear);
+  let blessed = 0;
+  students.forEach(s => { if (blessingRecords[s.id] && blessingRecords[s.id][yearStr]) blessed++; });
+  const el = document.getElementById('blessingProgress');
+  if (el) el.textContent = `${blessed}/${students.length}`;
+  const label = document.getElementById('blessingYearLabel');
+  if (label) label.textContent = `${calendarYear}年祝福进度`;
+}
+
+function toggleBlessing(studentId, year) {
+  if (!blessingRecords[studentId]) blessingRecords[studentId] = {};
+  blessingRecords[studentId][year] = !blessingRecords[studentId][year];
+  if (!blessingRecords[studentId][year]) delete blessingRecords[studentId][year];
+  openDetail(studentId);
+  renderCalendar();
+  showToast(blessingRecords[studentId] && blessingRecords[studentId][year] ? '已标记为已祝福' : '已取消祝福标记');
+}
+
+// ========== NOTIFICATIONS ==========
+function toggleNotifications() {
+  document.getElementById('notifPanel').classList.add('open');
+  renderNotifications();
+}
+
+function renderNotifications() {
+  const body = document.getElementById('notifBody');
+  const unreadCount = notifications.filter(n => n.unread).length;
+  let html = '<div class="section-title" style="margin-top:0">通知</div>';
+  if (notifications.length > 0) {
+    html += `<div class="notif-header-actions">`;
+    if (unreadCount > 0) html += `<button onclick="markAllRead()">全部已读 (${unreadCount})</button>`;
+    html += `<button onclick="clearAllNotifications()" style="background:#ffebee;color:#e74c3c">清空全部</button></div>`;
+  }
+  html += notifications.map((n, i) =>
+    `<div class="notif-item ${n.unread ? 'unread' : ''}">
+      <div class="notif-msg">${n.msg}</div>
+      <div class="notif-time">${n.time}</div>
+      <div class="notif-actions">
+        ${n.unread ? `<button class="btn-read" onclick="markNotifRead(${i})">标记已读</button>` : ''}
+        <button class="btn-del" onclick="deleteNotification(${i})">删除</button>
+      </div>
+    </div>`
+  ).join('');
+  if (notifications.length === 0) html += '<div class="empty-state"><div class="empty-icon">&#128276;</div><div class="empty-text">暂无通知</div></div>';
+  body.innerHTML = html;
+}
+
+function markNotifRead(index) {
+  notifications[index].unread = false;
+  renderNotifications();
+  updateNotifBadge();
+  showToast('已标记为已读');
+}
+
+function markAllRead() {
+  notifications.forEach(n => n.unread = false);
+  renderNotifications();
+  updateNotifBadge();
+  showToast('已全部标记为已读');
+}
+
+function deleteNotification(index) {
+  notifications.splice(index, 1);
+  renderNotifications();
+  updateNotifBadge();
+  showToast('通知已删除');
+}
+
+function clearAllNotifications() {
+  showConfirmDialog('清空通知', '确定要清空所有通知吗？', () => {
+    notifications.length = 0;
+    renderNotifications();
+    updateNotifBadge();
+    showToast('通知已清空');
+  });
+}
+
+function closeNotifications() { document.getElementById('notifPanel').classList.remove('open'); }
+
+// ========== ALBUM ==========
+function renderAlbum() {
+  const container = document.getElementById('manage-album');
+  let html = '<div class="photo-grid">';
+  html += `<div class="add-photo-btn" onclick="document.getElementById('photoFileInput').click()">+<span>添加</span></div>`;
+  html += photos.map((p, i) => {
+    if (p.src) {
+      return `<div class="photo-item" onclick="viewPhoto(${i})"><img src="${p.src}" alt="${p.caption}"></div>`;
+    } else {
+      return `<div class="photo-item" onclick="viewPhoto(${i})"><div class="photo-placeholder" style="background:${p.bg}">${p.emoji}</div></div>`;
+    }
+  }).join('');
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+function viewPhoto(index) {
+  const p = photos[index];
+  const overlay = document.createElement('div');
+  overlay.className = 'photo-overlay-view';
+  overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
+  let imgHtml;
+  if (p.src) {
+    imgHtml = `<img src="${p.src}" alt="${p.caption}">`;
+  } else {
+    imgHtml = `<div class="photo-placeholder-lg" style="background:${p.bg}">${p.emoji}</div>`;
+  }
+  overlay.innerHTML = `${imgHtml}
+    <div class="photo-caption">${p.caption}</div>
+    <div class="photo-actions-bar">
+      <button class="btn-close-photo" onclick="this.closest('.photo-overlay-view').remove()">关闭</button>
+      <button class="btn-delete-photo" onclick="deletePhoto(${index})">删除照片</button>
+    </div>`;
+  document.body.appendChild(overlay);
+}
+
+function deletePhoto(index) {
+  document.querySelector('.photo-overlay-view')?.remove();
+  photos.splice(index, 1);
+  renderAlbum();
+  showToast('照片已删除');
+}
+
+function handlePhotoUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const caption = file.name.replace(/\.[^.]+$/, '').slice(0, 20);
+    photos.unshift({ id: nextPhotoId++, src: e.target.result, emoji: null, bg: null, caption: caption || '新照片' });
+    renderAlbum();
+    showToast('照片已添加');
+  };
+  reader.readAsDataURL(file);
+  input.value = '';
+}
+
+// ========== ADD MENU & MODALS ==========
+function showAddMenu() {
+  if (addMenuOpen) { closeAddMenu(); return; }
+  addMenuOpen = true;
+  const menu = document.createElement('div');
+  menu.className = 'add-menu';
+  menu.id = 'addMenu';
+  menu.innerHTML = `
+    <div class="add-option" onclick="showAddTalkModal()">&#128172; 新增谈心记录</div>
+    <div class="add-option" onclick="showAddAwardModal()">&#127942; 新增奖惩记录</div>
+    <div class="add-option" onclick="showAddTodoModal()">&#9989; 新增待办事项</div>
+    <div class="add-option" onclick="showAddStudentModal()">&#128100; 新增学生</div>`;
+  document.getElementById('phoneFrame').appendChild(menu);
+  document.getElementById('fab').textContent = '×';
+}
+
+function closeAddMenu() {
+  addMenuOpen = false;
+  const menu = document.getElementById('addMenu');
+  if (menu) menu.remove();
+  document.getElementById('fab').textContent = '+';
+}
+
+function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); closeAddMenu(); }
+
+function getTodayStr() { return new Date().toISOString().slice(0,10); }
+
+function showAddTalkModal() {
+  closeAddMenu();
+  document.getElementById('modalTitle').textContent = '新增谈心记录';
+  const opts = students.map(s => `<option value="${s.id}">${s.name} (${s.class})</option>`).join('');
+  document.getElementById('modalBody').innerHTML = `<div class="modal-form">
+    <label>学生</label><select id="m-student">${opts}</select>
+    <label>日期</label><input type="date" id="m-date" value="${getTodayStr()}">
+    <label>谈心原因</label><input id="m-reason" placeholder="如：学习状态下降、同学矛盾、表扬鼓励...">
+    <label>谈心内容</label><textarea id="m-content" placeholder="记录谈话的详细内容..."></textarea>
+    <label>后续跟进</label><input id="m-followup" placeholder="可选，如：下周再谈一次">
+    <button class="btn-primary" onclick="submitTalkRecord()">保存记录</button></div>`;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function submitTalkRecord() {
+  const studentId = document.getElementById('m-student').value;
+  const reason = document.getElementById('m-reason').value;
+  const content = document.getElementById('m-content').value;
+  const followup = document.getElementById('m-followup').value;
+  if (!reason || !content) { showToast('请填写谈心原因和内容'); return; }
+  const date = document.getElementById('m-date').value || getTodayStr();
+  talkRecords.unshift({ studentId, date, reason, content, followup });
+  closeModal();
+  renderTalkRecords();
+  switchTab(3, true);
+  switchManageTab(document.querySelector('.manage-tab'), 'talk');
+}
+
+function showAddAwardModal() {
+  closeAddMenu();
+  document.getElementById('modalTitle').textContent = '新增奖惩记录';
+  const opts = students.map(s => `<option value="${s.id}">${s.name} (${s.class})</option>`).join('');
+  document.getElementById('modalBody').innerHTML = `<div class="modal-form">
+    <label>学生</label><select id="m-student">${opts}</select>
+    <label>日期</label><input type="date" id="m-date" value="${getTodayStr()}">
+    <label>类型</label><select id="m-type"><option value="positive">奖励</option><option value="negative">惩罚</option></select>
+    <label>描述</label><input id="m-title" placeholder="如：数学竞赛年级第一、迟到3次...">
+    <button class="btn-primary" onclick="submitAward()">保存记录</button></div>`;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function submitAward() {
+  const studentId = document.getElementById('m-student').value;
+  const type = document.getElementById('m-type').value;
+  const title = document.getElementById('m-title').value;
+  if (!title) { showToast('请填写描述'); return; }
+  const date = document.getElementById('m-date').value || getTodayStr();
+  awards.unshift({ studentId, date, title, type });
+  closeModal();
+  renderAwards();
+  switchTab(3, true);
+  switchManageTab(document.querySelectorAll('.manage-tab')[1], 'award');
+}
+
+function showAddTodoModal() {
+  closeAddMenu();
+  document.getElementById('modalTitle').textContent = '新增待办事项';
+  document.getElementById('modalBody').innerHTML = `<div class="modal-form">
+    <label>待办内容</label><input id="m-todo" placeholder="如：明天收保险费">
+    <button class="btn-primary" onclick="submitTodo()">添加</button></div>`;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function submitTodo() {
+  const text = document.getElementById('m-todo').value;
+  if (!text) { showToast('请填写待办内容'); return; }
+  todoList.unshift({ text, done: false });
+  closeModal();
+  renderTodos('manage-todo');
+  renderHomeTodos();
+  renderHomeStats();
+}
+
+function getStudentFormHTML(s) {
+  const classOpts = ['三年1班','三年2班','四年1班'].map(c => `<option ${s && s.class===c?'selected':''}>${c}</option>`).join('');
+  const groupOpts = ['第一小组','第二小组','第三小组'].map(g => `<option ${s && s.group===g?'selected':''}>${g}</option>`).join('');
+  const p1 = s && s.parents[0] ? s.parents[0] : null;
+  const p2 = s && s.parents[1] ? s.parents[1] : null;
+  const roleOpts = (sel) => ['妈妈','爸爸','爷爷','奶奶','其他'].map(r => `<option ${sel===r?'selected':''}>${r}</option>`).join('');
+  return `
+    <label>姓名</label><input id="m-name" placeholder="学生姓名" value="${s?s.name:''}">
+    <label>性别</label><select id="m-gender"><option ${s&&s.gender==='女'?'selected':''}>女</option><option ${s&&s.gender==='男'?'selected':''}>男</option></select>
+    <label>生日（MM-DD）</label><input id="m-bday" placeholder="如：03-15" value="${s?s.birthday:''}">
+    <label>班级</label><select id="m-class">${classOpts}</select>
+    <label>小组</label><select id="m-group">${groupOpts}</select>
+    <label>特殊备注</label><input id="m-notes" placeholder="可选，如：花生过敏" value="${s?s.notes:''}">
+    <label style="font-size:14px;font-weight:700;color:var(--text-primary);margin-top:8px">家长联系人</label>
+    <div class="parent-group">
+      <label>家长1 角色</label><select id="m-p1-role"><option value="">不填</option>${roleOpts(p1?p1.role:'')}</select>
+      <label>姓名</label><input id="m-p1-name" placeholder="家长姓名" value="${p1?p1.name:''}">
+      <label>电话</label><input id="m-p1-phone" placeholder="联系电话" value="${p1?p1.phone:''}">
+    </div>
+    <div class="parent-group">
+      <label>家长2 角色</label><select id="m-p2-role"><option value="">不填</option>${roleOpts(p2?p2.role:'')}</select>
+      <label>姓名</label><input id="m-p2-name" placeholder="家长姓名" value="${p2?p2.name:''}">
+      <label>电话</label><input id="m-p2-phone" placeholder="联系电话" value="${p2?p2.phone:''}">
+    </div>`;
+}
+
+function collectParents() {
+  const parents = [];
+  const r1 = document.getElementById('m-p1-role').value;
+  if (r1) parents.push({ role:r1, name:document.getElementById('m-p1-name').value, phone:document.getElementById('m-p1-phone').value });
+  const r2 = document.getElementById('m-p2-role').value;
+  if (r2) parents.push({ role:r2, name:document.getElementById('m-p2-name').value, phone:document.getElementById('m-p2-phone').value });
+  return parents;
+}
+
+// ========== TALK RECORD EDIT/DELETE ==========
+function showEditTalkModal(index) {
+  const r = talkRecords[index];
+  if (!r) return;
+  const s = getStudent(r.studentId);
+  document.getElementById('modalTitle').textContent = '编辑谈心记录';
+  const opts = students.map(st => `<option value="${st.id}" ${st.id===r.studentId?'selected':''}>${st.name} (${st.class})</option>`).join('');
+  document.getElementById('modalBody').innerHTML = `<div class="modal-form">
+    <label>学生</label><select id="m-student">${opts}</select>
+    <label>日期</label><input type="date" id="m-date" value="${r.date}">
+    <label>谈心原因</label><input id="m-reason" value="${r.reason}">
+    <label>谈心内容</label><textarea id="m-content">${r.content}</textarea>
+    <label>后续跟进</label><input id="m-followup" value="${r.followup || ''}">
+    <button class="btn-primary" onclick="submitEditTalk(${index})">保存修改</button></div>`;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function submitEditTalk(index) {
+  const r = talkRecords[index];
+  if (!r) return;
+  r.studentId = document.getElementById('m-student').value;
+  r.date = document.getElementById('m-date').value || r.date;
+  r.reason = document.getElementById('m-reason').value;
+  r.content = document.getElementById('m-content').value;
+  r.followup = document.getElementById('m-followup').value;
+  if (!r.reason || !r.content) { showToast('请填写谈心原因和内容'); return; }
+  closeModal();
+  renderTalkRecords();
+  showToast('谈心记录已更新');
+}
+
+function deleteTalkRecord(index) {
+  const r = talkRecords[index];
+  const s = getStudent(r.studentId);
+  showConfirmDialog('删除谈心记录', `确定要删除 ${s?s.name:'该学生'} 的"${r.reason}"谈心记录吗？`, () => {
+    talkRecords.splice(index, 1);
+    renderTalkRecords();
+    showToast('谈心记录已删除');
+  });
+}
+
+// ========== AWARD EDIT/DELETE ==========
+function showEditAwardModal(index) {
+  const a = awards[index];
+  if (!a) return;
+  document.getElementById('modalTitle').textContent = '编辑奖惩记录';
+  const opts = students.map(st => `<option value="${st.id}" ${st.id===a.studentId?'selected':''}>${st.name} (${st.class})</option>`).join('');
+  document.getElementById('modalBody').innerHTML = `<div class="modal-form">
+    <label>学生</label><select id="m-student">${opts}</select>
+    <label>日期</label><input type="date" id="m-date" value="${a.date}">
+    <label>类型</label><select id="m-type"><option value="positive" ${a.type==='positive'?'selected':''}>奖励</option><option value="negative" ${a.type==='negative'?'selected':''}>惩罚</option></select>
+    <label>描述</label><input id="m-title" value="${a.title}">
+    <button class="btn-primary" onclick="submitEditAward(${index})">保存修改</button></div>`;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function submitEditAward(index) {
+  const a = awards[index];
+  if (!a) return;
+  a.studentId = document.getElementById('m-student').value;
+  a.date = document.getElementById('m-date').value || a.date;
+  a.type = document.getElementById('m-type').value;
+  a.title = document.getElementById('m-title').value;
+  if (!a.title) { showToast('请填写描述'); return; }
+  closeModal();
+  renderAwards();
+  showToast('奖惩记录已更新');
+}
+
+function deleteAward(index) {
+  const a = awards[index];
+  const s = getStudent(a.studentId);
+  showConfirmDialog('删除奖惩记录', `确定要删除 ${s?s.name:'该学生'} 的"${a.title}"记录吗？`, () => {
+    awards.splice(index, 1);
+    renderAwards();
+    showToast('奖惩记录已删除');
+  });
+}
+
+// ========== TODO EDIT/DELETE ==========
+function editTodoItem(index) {
+  const t = todoList[index];
+  document.getElementById('modalTitle').textContent = '编辑待办';
+  document.getElementById('modalBody').innerHTML = `<div class="modal-form">
+    <label>待办内容</label><input id="m-todo" value="${t.text}">
+    <button class="btn-primary" onclick="submitEditTodo(${index})">保存修改</button></div>`;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function submitEditTodo(index) {
+  const text = document.getElementById('m-todo').value;
+  if (!text) { showToast('请填写待办内容'); return; }
+  todoList[index].text = text;
+  closeModal();
+  renderTodos('manage-todo');
+  renderHomeTodos();
+  showToast('待办已更新');
+}
+
+function deleteTodoItem(index) {
+  showConfirmDialog('删除待办', `确定要删除"${todoList[index].text}"吗？`, () => {
+    todoList.splice(index, 1);
+    renderTodos('manage-todo');
+    renderHomeTodos();
+    renderHomeStats();
+    showToast('待办已删除');
+  });
+}
+
+function showAddStudentModal() {
+  closeAddMenu();
+  document.getElementById('modalTitle').textContent = '新增学生';
+  document.getElementById('modalBody').innerHTML = `<div class="modal-form">
+    ${getStudentFormHTML(null)}
+    <button class="btn-primary" onclick="submitStudent()">添加学生</button></div>`;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function submitStudent() {
+  const name = document.getElementById('m-name').value;
+  const gender = document.getElementById('m-gender').value;
+  const bday = document.getElementById('m-bday').value;
+  const cls = document.getElementById('m-class').value;
+  const group = document.getElementById('m-group').value;
+  const notes = document.getElementById('m-notes').value;
+  if (!name || !bday) { showToast('请填写姓名和生日'); return; }
+  const colors = ['#ff6b6b,#ee5a24','#4facfe,#00f2fe','#f093fb,#f5576c','#43e97b,#38f9d7','#667eea,#764ba2','#f6d365,#fda085'];
+  const bg = `linear-gradient(135deg,${colors[Math.floor(Math.random()*colors.length)]})`;
+  const id = String(Date.now()).slice(-8);
+  const parents = collectParents();
+  students.push({ id, name, gender, birthday:bday, class:cls, group, avatar:{char:name.charAt(name.length-1),bg}, parents, notes, tags: notes ? [notes] : [] });
+  closeModal();
+  renderStudentList();
+  renderHomeStats();
+  renderHomeBirthdays();
+  updateProfileStats();
+  showToast('学生添加成功');
+  switchTab(1, true);
+}
+
+function showEditStudentModal(id) {
+  const s = getStudent(id);
+  if (!s) return;
+  document.getElementById('modalTitle').textContent = '编辑学生';
+  document.getElementById('modalBody').innerHTML = `<div class="modal-form">
+    ${getStudentFormHTML(s)}
+    <button class="btn-primary" onclick="submitEditStudent('${id}')">保存修改</button></div>`;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function submitEditStudent(id) {
+  const s = getStudent(id);
+  if (!s) return;
+  const name = document.getElementById('m-name').value;
+  const gender = document.getElementById('m-gender').value;
+  const bday = document.getElementById('m-bday').value;
+  const cls = document.getElementById('m-class').value;
+  const group = document.getElementById('m-group').value;
+  const notes = document.getElementById('m-notes').value;
+  if (!name || !bday) { showToast('请填写姓名和生日'); return; }
+  s.name = name; s.gender = gender; s.birthday = bday; s.class = cls; s.group = group; s.notes = notes;
+  s.tags = notes ? [notes] : [];
+  s.avatar.char = name.charAt(name.length - 1);
+  s.parents = collectParents();
+  closeModal();
+  openDetail(id);
+  renderStudentList();
+  renderHomeStats();
+  renderHomeBirthdays();
+  updateProfileStats();
+  showToast('学生信息已更新');
+}
+
+function showConfirmDialog(title, msg, onConfirm) {
+  const overlay = document.createElement('div');
+  overlay.className = 'confirm-overlay';
+  overlay.innerHTML = `<div class="confirm-dialog">
+    <div class="confirm-title">${title}</div>
+    <div class="confirm-msg">${msg}</div>
+    <div class="confirm-btns">
+      <button class="btn-cancel" onclick="this.closest('.confirm-overlay').remove()">取消</button>
+      <button class="btn-danger" id="confirmBtn">确认删除</button>
+    </div></div>`;
+  document.body.appendChild(overlay);
+  overlay.querySelector('#confirmBtn').onclick = () => { overlay.remove(); onConfirm(); };
+  overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
+}
+
+function confirmDeleteStudent(id) {
+  const s = getStudent(id);
+  if (!s) return;
+  showConfirmDialog('删除学生', `确定要删除 ${s.name} 吗？该学生的所有谈心记录和奖惩记录也将被删除。`, () => {
+    const idx = students.findIndex(x => x.id === id);
+    if (idx >= 0) students.splice(idx, 1);
+    talkRecords = talkRecords.filter(r => r.studentId !== id);
+    awards = awards.filter(a => a.studentId !== id);
+    delete blessingRecords[id];
+    closeDetail();
+    renderStudentList();
+    renderHomeStats();
+    renderHomeBirthdays();
+    renderTalkRecords();
+    renderAwards();
+    updateProfileStats();
+    showToast(`已删除 ${s.name}`);
+  });
+}
+
+// ========== MANAGE TABS ==========
+function switchManageTab(el, tab) {
+  document.querySelectorAll('.manage-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  ['talk', 'award', 'todo', 'album'].forEach(id => {
+    document.getElementById('manage-' + id).style.display = id === tab ? 'block' : 'none';
+  });
+}
+
+// ========== SETTINGS ==========
+let appLocked = false;
+
+function toggleAppLock() {
+  appLocked = !appLocked;
+  document.getElementById('appLockToggle').classList.toggle('on', appLocked);
+  showToast(appLocked ? '应用锁已开启' : '应用锁已关闭');
+}
+
+function showClassManageModal() {
+  document.getElementById('modalTitle').textContent = '班级管理';
+  const classStats = {};
+  students.forEach(s => { classStats[s.class] = (classStats[s.class] || 0) + 1; });
+  let html = '<div class="modal-form">';
+  html += '<label style="font-size:14px;font-weight:700;color:var(--text-primary)">当前班级</label>';
+  Object.entries(classStats).forEach(([cls, count]) => {
+    html += `<div style="display:flex;align-items:center;gap:8px;background:var(--input-bg);padding:10px 12px;border-radius:var(--radius-sm)">
+      <input value="${cls}" style="flex:1;border:1px solid var(--border);border-radius:4px;padding:6px 8px;font-size:14px;font-family:var(--font-body);background:var(--bg-card);color:var(--text-primary)" onchange="renameClass('${cls}',this.value)">
+      <span style="font-size:13px;color:var(--text-secondary);white-space:nowrap">${count}人</span>
+    </div>`;
+  });
+  html += '<button class="btn-primary" onclick="showAddClassForm()">+ 添加新班级</button></div>';
+  document.getElementById('modalBody').innerHTML = html;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function renameClass(oldName, newName) {
+  if (!newName || oldName === newName) return;
+  students.forEach(s => { if (s.class === oldName) s.class = newName; });
+  const idx = classes.indexOf(oldName);
+  if (idx >= 0) classes[idx] = newName;
+  renderStudentList();
+  updateProfileStats();
+  showToast(`已将"${oldName}"重命名为"${newName}"`);
+}
+
+function showAddClassForm() {
+  closeModal();
+  document.getElementById('modalTitle').textContent = '添加班级';
+  document.getElementById('modalBody').innerHTML = `<div class="modal-form">
+    <label>班级名称</label><input id="m-new-class" placeholder="如：五年1班">
+    <button class="btn-primary" onclick="submitNewClass()">添加</button></div>`;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function submitNewClass() {
+  const name = document.getElementById('m-new-class').value;
+  if (!name) { showToast('请填写班级名称'); return; }
+  if (classes.includes(name)) { showToast('班级已存在'); return; }
+  classes.push(name);
+  const selector = document.getElementById('classSelector');
+  const pill = document.createElement('div');
+  pill.className = 'class-pill';
+  pill.onclick = function() { selectClass(this); };
+  pill.textContent = name;
+  selector.appendChild(pill);
+  closeModal();
+  updateProfileStats();
+  showToast(`已添加班级"${name}"`);
+}
+
+function simulateBackup() {
+  showToast('正在备份数据...', 1500);
+  setTimeout(() => showToast('数据备份成功！已保存到本地', 3000), 2000);
+}
+
+function handleImportFile(input) {
+  const file = input.files[0];
+  if (!file) return;
+  showToast(`正在导入 ${file.name}...`, 1500);
+  setTimeout(() => {
+    showToast(`已成功导入 ${file.name}（模拟：导入了 0 条记录）`, 3000);
+  }, 2000);
+  input.value = '';
+}
+
+// ========== EXPORTS ==========
+function showExportByStudent() {
+  document.getElementById('modalTitle').textContent = '按学生导出';
+  const opts = students.map(s => `<option value="${s.id}">${s.name} (${s.class})</option>`).join('');
+  document.getElementById('modalBody').innerHTML = `<div class="modal-form">
+    <label>选择学生</label><select id="m-export-student">${opts}</select>
+    <label>导出格式</label><select id="m-export-format"><option>PDF</option><option>Word</option><option>Excel</option></select>
+    <label>包含内容</label>
+    <label class="export-checkbox"><input type="checkbox" checked> 基本信息与家长联系人</label>
+    <label class="export-checkbox"><input type="checkbox" checked> 谈心记录</label>
+    <label class="export-checkbox"><input type="checkbox" checked> 奖惩记录</label>
+    <label class="export-checkbox"><input type="checkbox" checked> 生日祝福记录</label>
+    <button class="btn-primary" onclick="doExport('student')">生成报告</button></div>`;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function showExportByClass() {
+  document.getElementById('modalTitle').textContent = '按班级导出';
+  const opts = classes.slice(1).map(c => `<option>${c}</option>`).join('');
+  document.getElementById('modalBody').innerHTML = `<div class="modal-form">
+    <label>选择班级</label><select id="m-export-class">${opts}</select>
+    <label>导出格式</label><select id="m-export-format"><option>PDF</option><option>Word</option><option>Excel</option></select>
+    <label>包含内容</label>
+    <label class="export-checkbox"><input type="checkbox" checked> 学生名单</label>
+    <label class="export-checkbox"><input type="checkbox" checked> 谈心记录汇总</label>
+    <label class="export-checkbox"><input type="checkbox" checked> 奖惩记录汇总</label>
+    <label class="export-checkbox"><input type="checkbox" checked> 生日祝福统计</label>
+    <button class="btn-primary" onclick="doExport('class')">生成报告</button></div>`;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function showExportSemesterReport() {
+  document.getElementById('modalTitle').textContent = '一键生成学期报告';
+  document.getElementById('modalBody').innerHTML = `<div class="modal-form">
+    <label>学期</label><select><option>2025-2026 第二学期</option><option>2025-2026 第一学期</option></select>
+    <label>导出格式</label><select id="m-export-format"><option>PDF</option><option>Word</option></select>
+    <label>报告内容</label>
+    <label class="export-checkbox"><input type="checkbox" checked> 谈心记录汇总</label>
+    <label class="export-checkbox"><input type="checkbox" checked> 奖惩记录汇总</label>
+    <label class="export-checkbox"><input type="checkbox" checked> 生日祝福统计</label>
+    <label class="export-checkbox"><input type="checkbox" checked> 待办事项完成率</label>
+    <button class="btn-primary" onclick="doExport('semester')">生成学期报告</button></div>`;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function doExport(type) {
+  const format = document.getElementById('m-export-format')?.value || 'PDF';
+  closeModal();
+  showToast(`正在生成 ${format} 报告...`, 2000);
+  setTimeout(() => showToast(`${format} 报告已生成！（模拟下载完成）`, 3000), 2500);
+}
+
+// ========== PROFILE STATS ==========
+function updateProfileStats() {
+  const classSet = new Set(students.map(s => s.class));
+  document.getElementById('profileSubtitle').textContent = `管理 ${classSet.size} 个班级 · ${students.length} 名学生`;
+}
+
+// ========== NOTIFICATION BADGE ==========
+function updateNotifBadge() {
+  const count = notifications.filter(n => n.unread).length;
+  const badge = document.getElementById('notifBadge');
+  if (count > 0) { badge.textContent = count; badge.style.display = 'flex'; }
+  else { badge.style.display = 'none'; }
+}
+
+// ========== INIT ==========
+function init() {
+  renderThemeGrid();
+  applyTheme(0);
+  renderStudentList();
+  renderHomeBirthdays();
+  renderHomeStats();
+  renderHomeTodos();
+  renderTalkRecords();
+  renderAwards();
+  renderTodos('manage-todo');
+  renderCalendar();
+  renderCalendarDetail(selectedCalendarDay);
+  setupSearch();
+  renderAlbum();
+  updateProfileStats();
+  updateNotifBadge();
+}
+init();
+</script>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>Grammar Hook 配置文档</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, sans-serif; background: #0d1117; color: #c9d1d9; padding: 40px; line-height: 1.6; }
+  h1 { font-size: 1.5rem; color: #58a6ff; margin-bottom: 8px; }
+  h2 { font-size: 1.1rem; color: #79c0ff; margin: 32px 0 12px; border-bottom: 1px solid #21262d; padding-bottom: 6px; }
+  h3 { font-size: 0.9rem; color: #ffa657; margin: 16px 0 8px; }
+  p, li { font-size: 0.9rem; color: #8b949e; }
+  ul { padding-left: 20px; }
+  li { margin: 4px 0; }
+  .subtitle { color: #8b949e; font-size: 0.85rem; margin-bottom: 32px; }
+  pre { background: #161b22; border: 1px solid #21262d; border-radius: 6px; padding: 16px; overflow-x: auto; font-size: 0.8rem; line-height: 1.5; margin: 8px 0; }
+  code { font-family: 'SF Mono', Monaco, monospace; }
+  .flow { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 12px 0; }
+  .step { background: #161b22; border: 1px solid #21262d; border-radius: 6px; padding: 8px 14px; font-size: 0.8rem; color: #c9d1d9; }
+  .arrow { color: #388bfd; font-size: 1.1rem; }
+  .pitfall { background: #161b22; border: 1px solid #da3633; border-radius: 6px; padding: 14px 16px; margin: 10px 0; }
+  .pitfall-title { color: #ff7b72; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px; }
+  .pitfall-desc { color: #8b949e; font-size: 0.82rem; }
+  .pitfall-fix { color: #3fb950; font-size: 0.82rem; margin-top: 4px; }
+  .section { background: #0d1117; border: 1px solid #21262d; border-radius: 8px; padding: 20px; margin: 16px 0; }
+  .badge { display: inline-block; background: #1f6feb; color: #fff; border-radius: 4px; padding: 1px 8px; font-size: 0.72rem; margin-left: 8px; vertical-align: middle; }
+</style>
+</head>
+<body>
+
+<h1>Grammar Hook 配置文档</h1>
+<p class="subtitle">Claude Code + DeepSeek + BetterTouchTool —— 实时英文语法纠正 / 中文翻译显示在 Touch Bar（全局生效）</p>
+
+<h2>架构流程</h2>
+<div class="flow">
+  <div class="step">用户提交消息<br><small style="color:#8b949e">英文 or 中文</small></div>
+  <div class="arrow">→</div>
+  <div class="step">UserPromptSubmit Hook<br><small style="color:#8b949e">~/.claude/script/correct.sh (async)</small></div>
+  <div class="arrow">→</div>
+  <div class="step">DeepSeek API<br><small style="color:#8b949e">纠正语法 / 翻译中文</small></div>
+  <div class="arrow">→</div>
+  <div class="step">~/.claude/custom/<br>grammar_log.txt</div>
+  <div class="arrow">→</div>
+  <div class="step">curl → BTT 刷新</div>
+  <div class="arrow">→</div>
+  <div class="step">Touch Bar 显示结果</div>
+</div>
+
+<h2>文件结构</h2>
+<pre><code>~/.claude/
+├── settings.json          # 全局 Hook 配置
+├── script/
+│   └── correct.sh         # UserPromptSubmit Hook 脚本
+└── custom/
+    └── grammar_log.txt    # 历史记录（原文 → 纠正/翻译）</code></pre>
+
+<h2>配置文件</h2>
+
+<div class="section">
+  <h3>~/.claude/settings.json <span class="badge">全局</span></h3>
+  <pre><code>{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/script/correct.sh",
+            "async": true
+          }
+        ]
+      }
+    ]
+  }
+}</code></pre>
+</div>
+
+<div class="section">
+  <h3>~/.claude/script/correct.sh</h3>
+  <pre><code>#!/bin/bash
+read -r input
+user_content=$(echo "$input" | sed -E 's/.*"prompt": *"([^"]+)".*/\1/')
+[ -z "$user_content" ] && exit 0
+
+(
+  source ~/.zshrc
+
+  json_data='{"model":"deepseek-chat","messages":[{"role":"system","content":"You are a grammar corrector and translator for a software developer. The user chats with Claude Code (an AI coding assistant) in a terminal. If the input is in Chinese, translate it to natural English. If the input is in English, fix grammar and make it natural but preserve file paths, shell commands, and technical terms as-is. Output ONLY the resulting English sentence, nothing else."},{"role":"user","content":"'"$user_content"'"}],"stream":false}'
+
+  response=$(curl -s https://api.deepseek.com/chat/completions \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer ${DEEPSEEK_API_KEY}" \
+    -d "$json_data")
+
+  correction=$(python3 -c "
+import json
+data = json.loads('''$response''')
+print(data['choices'][0]['message']['content'])
+" 2>/dev/null)
+
+  if [ -n "$correction" ]; then
+    mkdir -p ~/.claude/custom
+    echo "${user_content} → ${correction}" >> ~/.claude/custom/grammar_log.txt
+    curl -s 'http://localhost:{BTT_PORT}/refresh_widget/?uuid={WIDGET_UUID}&shared_secret={BTT_SECRET}'
+  fi
+) >/dev/null 2>&1 &
+
+exit 0</code></pre>
+</div>
+
+<div class="section">
+  <h3>BTT Shell Script Widget 脚本</h3>
+  <pre><code>tail -1 ~/.claude/custom/grammar_log.txt 2>/dev/null | sed 's/.*→ //'</code></pre>
+  <p style="margin-top:8px">读取日志最后一行，只显示 <code>→</code> 右侧的纠正/翻译结果。Refresh Interval 设为 <code>0</code>，由 correct.sh 完成后主动触发刷新。</p>
+</div>
+
+<h2>踩过的坑</h2>
+
+<div class="pitfall">
+  <div class="pitfall-title">⚠️ Hook 的 stdout 被 Claude Code 静默捕获</div>
+  <div class="pitfall-desc">command 类型 hook 的标准输出不会显示给用户，无论 echo 什么内容都看不见。</div>
+  <div class="pitfall-fix">✓ 不要依赖 stdout 展示内容，使用 BTT 等外部展示方案。</div>
+</div>
+
+<div class="pitfall">
+  <div class="pitfall-title">⚠️ 写入 /dev/tty 导致 TUI 排版错乱</div>
+  <div class="pitfall-desc">Claude Code 使用全屏 TUI，Hook 执行时直接写 /dev/tty 会与 TUI 渲染冲突，内容虽写入但排版被破坏。</div>
+  <div class="pitfall-fix">✓ 不要在 Hook 中写 /dev/tty，改用 BTT。</div>
+</div>
+
+<div class="pitfall">
+  <div class="pitfall-title">⚠️ prompt 类型 Stop Hook 被抑制（无限循环保护）</div>
+  <div class="pitfall-desc">Stop Hook 使用 prompt 类型时，Claude 回复会再次触发 Stop，形成无限循环，Claude Code 会自动抑制。</div>
+  <div class="pitfall-fix">✓ Stop Hook 只用 command 类型；或直接在 correct.sh 里触发 BTT，无需 Stop Hook。</div>
+</div>
+
+<div class="pitfall">
+  <div class="pitfall-title">⚠️ macOS 通知默认样式为"横幅"（自动消失）</div>
+  <div class="pitfall-desc">osascript 和 terminal-notifier 发出的通知默认几秒后消失。</div>
+  <div class="pitfall-fix">✓ 系统设置 → 通知 → 对应 App → 样式改为"提醒"（Alert）。</div>
+</div>
+
+<div class="pitfall">
+  <div class="pitfall-title">⚠️ terminal-notifier 在新版 macOS 不出现在通知设置列表</div>
+  <div class="pitfall-desc">macOS 15 上 terminal-notifier 无法在系统通知设置中找到，无法修改通知样式。</div>
+  <div class="pitfall-fix">✓ 使用 -sender com.apple.ScriptEditor2 借用 Script Editor 身份发送通知。</div>
+</div>
+
+<div class="pitfall">
+  <div class="pitfall-title">⚠️ MTMR 不支持 Apple Silicon（M1/M2/M3）</div>
+  <div class="pitfall-desc">MTMR 是 Intel-only App，M1 需要安装 Rosetta 2，且官网下载经常失败。</div>
+  <div class="pitfall-fix">✓ 改用 BetterTouchTool（原生 Apple Silicon 支持，45 天免费试用）。</div>
+</div>
+
+<div class="pitfall">
+  <div class="pitfall-title">⚠️ open 'btt://...' 每次弹出 BTT 窗口</div>
+  <div class="pitfall-desc">使用 URL Scheme 触发 BTT 刷新会将 BTT 带到前台。</div>
+  <div class="pitfall-fix">✓ 改用 BTT 内置 Web Server，通过 curl 静默调用 API。</div>
+</div>
+
+<div class="pitfall">
+  <div class="pitfall-title">⚠️ BTT AppleScript refresh_widget 语法错误</div>
+  <div class="pitfall-desc"><code>uuid</code> 是 AppleScript 保留字，两种写法均报语法错误。</div>
+  <div class="pitfall-fix">✓ 不用 AppleScript，改用 curl 调用 BTT Web Server API。</div>
+</div>
+
+<div class="pitfall">
+  <div class="pitfall-title">⚠️ BTT Web Server 端口不是固定的 12345</div>
+  <div class="pitfall-desc">BTT 的 Web Server 端口因安装而异，硬编码 12345 会连接失败。</div>
+  <div class="pitfall-fix">✓ 去 BTT → 设置 → Advanced → Web Server 查看实际端口填写。</div>
+</div>
+
+<div class="pitfall">
+  <div class="pitfall-title">⚠️ ~ 在 settings.json 的 command 中可能不展开</div>
+  <div class="pitfall-desc">部分配置场景下 ~ 不会被 shell 展开，导致脚本找不到。</div>
+  <div class="pitfall-fix">✓ 如果 ~ 不生效，改用 $HOME 或完整绝对路径。</div>
+</div>
+
+<h2>BTT 配置要点</h2>
+<ul>
+  <li>设置 → Advanced → <strong>Enable Web Server</strong>，记录端口和 Shared Secret</li>
+  <li>Touch Bar Widget 类型选 <strong>Shell Script / Task</strong></li>
+  <li>Widget 配置为仅在特定 App（Terminal / VS Code）激活时显示</li>
+  <li>Widget Refresh Interval 设为 <strong>0</strong>（按需刷新）</li>
+  <li>右键 Widget → Copy UUID，填入 correct.sh 的 curl 命令</li>
+</ul>
+
+</body>
+</html>
