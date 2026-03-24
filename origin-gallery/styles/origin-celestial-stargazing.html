@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>银河营地 MILKY WAY CAMP — 青海德令哈天文观测</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--space:#08080f;--nebula:#2a1848;--galaxy:#1a3068;--star:#e8e4f0;--cyan:#40c8e0;--orange:#e87840;--silver:#c0b8d0;--dim:rgba(232,228,240,0.25)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--space);color:var(--star);font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:17px;line-height:1.9;overflow-x:hidden;-webkit-font-smoothing:antialiased;position:relative;min-height:100vh}
+
+  /* Nebula background layers */
+  body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:
+      radial-gradient(ellipse at 20% 20%,rgba(42,24,72,0.4) 0%,transparent 50%),
+      radial-gradient(ellipse at 80% 60%,rgba(26,48,104,0.3) 0%,transparent 45%),
+      radial-gradient(ellipse at 50% 90%,rgba(42,24,72,0.25) 0%,transparent 40%);
+    animation:nebulaDrift 30s ease-in-out infinite alternate}
+  @keyframes nebulaDrift{0%{opacity:0.8;transform:scale(1)}100%{opacity:1;transform:scale(1.05)}}
+
+  .stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .star-dot{position:absolute;width:2px;height:2px;background:var(--star);border-radius:50%;animation:twinkle var(--dur) ease-in-out infinite var(--del)}
+  .star-dot.bright{width:3px;height:3px;box-shadow:0 0 4px rgba(232,228,240,0.4)}
+  @keyframes twinkle{0%,100%{opacity:0.15}50%{opacity:0.9}}
+
+  .page{position:relative;z-index:1;max-width:560px;margin:0 auto;padding:3rem 2rem 2rem}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;padding-bottom:2.5rem;animation:fadeIn 1s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+  .camp-name{font-family:'Noto Serif SC',serif;font-weight:600;font-size:clamp(2rem,6vw,2.8rem);color:var(--star);letter-spacing:0.1em;line-height:1.3}
+  .camp-en{font-family:'Orbitron',sans-serif;font-weight:400;font-size:clamp(0.6rem,1.8vw,0.8rem);color:var(--cyan);letter-spacing:0.25em;margin-top:0.3rem}
+  .camp-loc{font-size:0.85rem;color:var(--dim);margin-top:0.6rem;letter-spacing:0.05em}
+  .camp-loc span{color:var(--cyan);font-family:'Orbitron',sans-serif;font-size:0.7rem}
+
+  /* ═══ NEXT EVENT ═══ */
+  .event{padding:1.5rem;border:1px solid rgba(64,200,224,0.12);position:relative;margin-bottom:2rem;
+    background:rgba(42,24,72,0.15);
+    box-shadow:0 0 20px rgba(64,200,224,0.05);
+    animation:glowPulse 4s ease-in-out infinite}
+  @keyframes glowPulse{0%,100%{box-shadow:0 0 20px rgba(64,200,224,0.05)}50%{box-shadow:0 0 30px rgba(64,200,224,0.12)}}
+
+  .event-badge{font-family:'Orbitron',sans-serif;font-size:0.5rem;color:var(--orange);letter-spacing:0.15em;margin-bottom:0.6rem}
+  .event-name{font-family:'Noto Serif SC',serif;font-weight:700;font-size:1.4rem;color:var(--star);line-height:1.4}
+  .event-date{font-family:'Orbitron',sans-serif;font-size:0.7rem;color:var(--cyan);letter-spacing:0.08em;margin-top:0.4rem}
+  .event-desc{font-weight:300;font-size:1rem;color:rgba(232,228,240,0.45);line-height:2.2;margin-top:0.6rem}
+  .event-meta{display:flex;justify-content:space-between;align-items:baseline;margin-top:0.8rem;padding-top:0.6rem;border-top:1px solid rgba(64,200,224,0.06);flex-wrap:wrap;gap:0.3rem}
+  .event-price{font-family:'Orbitron',sans-serif;font-weight:700;font-size:1.2rem;color:var(--orange)}
+  .event-slots{font-family:'Orbitron',sans-serif;font-size:0.6rem;color:var(--dim);letter-spacing:0.08em}
+  .event-includes{font-size:0.8rem;color:var(--dim);margin-top:0.3rem;width:100%}
+
+  /* ═══ DATA DASHBOARD ═══ */
+  .dashboard{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem}
+  .data-card{background:rgba(26,48,104,0.1);border:1px solid rgba(64,200,224,0.06);padding:1rem;text-align:center}
+  .data-label{font-family:'Orbitron',sans-serif;font-size:0.45rem;color:var(--dim);letter-spacing:0.12em;margin-bottom:0.4rem}
+  .data-value{font-family:'Orbitron',sans-serif;font-weight:700;font-size:1.1rem;color:var(--cyan)}
+  .data-note{font-size:0.78rem;color:var(--dim);margin-top:0.2rem}
+
+  /* Moon phase */
+  .moon{width:50px;height:50px;border-radius:50%;margin:0 auto 0.4rem;
+    background:conic-gradient(var(--space) 0deg,var(--space) 355deg,var(--silver) 355deg,var(--silver) 360deg);
+    box-shadow:0 0 10px rgba(192,184,208,0.08);border:1px solid rgba(192,184,208,0.08)}
+  .data-card-wide{grid-column:1/-1;display:flex;justify-content:space-around;padding:0.8rem}
+  .data-mini{text-align:center}
+  .data-mini .data-value{font-size:0.9rem}
+
+  /* ═══ GUIDE ═══ */
+  .guide{margin-bottom:2rem}
+  .sec-title{font-family:'Orbitron',sans-serif;font-size:0.5rem;color:var(--orange);letter-spacing:0.2em;margin-bottom:1rem}
+  .guide-item{display:flex;gap:0.8rem;margin-bottom:1rem;align-items:flex-start}
+  .guide-icon{font-size:1.3rem;flex-shrink:0;line-height:1;margin-top:3px}
+  .guide-info{flex:1}
+  .guide-name{font-family:'Noto Serif SC',serif;font-weight:600;font-size:1rem;color:var(--star)}
+  .guide-desc{font-size:0.9rem;color:var(--dim);line-height:1.8}
+
+  /* ═══ UPCOMING ═══ */
+  .upcoming{margin-bottom:2rem}
+  .up-item{display:flex;gap:0.8rem;align-items:baseline;padding:0.6rem 0;border-bottom:1px solid rgba(232,228,240,0.04)}
+  .up-date{font-family:'Orbitron',sans-serif;font-size:0.6rem;color:var(--cyan);flex-shrink:0;width:48px;letter-spacing:0.03em}
+  .up-name{font-size:0.95rem;color:rgba(232,228,240,0.55)}
+
+  /* ═══ CAMP INFO ═══ */
+  .info{background:rgba(42,24,72,0.1);border:1px solid rgba(232,228,240,0.04);padding:1.2rem;margin-bottom:2rem}
+  .info-row{font-size:0.9rem;color:var(--dim);line-height:2}
+  .info-row strong{color:var(--star);font-weight:400}
+  .info-amenity{font-family:'Noto Serif SC',serif;font-weight:600;font-size:0.95rem;color:var(--silver);margin-top:0.5rem;text-align:center}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;padding:1rem 0}
+  .footer-motto{font-family:'Noto Serif SC',serif;font-weight:600;font-size:1.05rem;color:var(--star);opacity:0.35;letter-spacing:0.06em}
+  .footer-disc{font-size:0.7rem;color:var(--dim);opacity:0.2;margin-top:0.8rem}
+
+  @media(max-width:500px){
+    .page{padding:2rem 1rem}
+    .dashboard{grid-template-columns:1fr 1fr}
+    .data-card-wide{flex-direction:row;flex-wrap:wrap;justify-content:center;gap:1rem}
+    .event-meta{flex-direction:column}
+  }
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <h1 class="camp-name">银河营地</h1>
+    <div class="camp-en">MILKY WAY CAMP</div>
+    <div class="camp-loc">青海德令哈 · 海拔 <span>3,200m</span> · 光污染 <span>Bortle 2</span></div>
+  </header>
+
+  <!-- ═══ NEXT EVENT ═══ -->
+  <section class="event">
+    <div class="event-badge">NEXT EVENT · 下一场</div>
+    <div class="event-name">英仙座流星雨观测之夜</div>
+    <div class="event-date">2026.08.12 WED · 21:00 — 05:00</div>
+    <p class="event-desc">每年最壮观的流星雨之一。预计每小时可见 80–100 颗流星。我们准备了 8 台望远镜、热巧克力和睡袋。你只需要带上眼睛。</p>
+    <div class="event-meta">
+      <span class="event-price">¥388<span style="font-size:0.6rem;font-weight:400;color:var(--dim)"> /人</span></span>
+      <span class="event-slots">限 20 人</span>
+      <span class="event-includes">含营地住宿 + 天文导览 + 早餐</span>
+    </div>
+  </section>
+
+  <!-- ═══ DATA DASHBOARD ═══ -->
+  <section class="dashboard">
+    <div class="data-card">
+      <div class="data-label">MOON PHASE</div>
+      <div class="moon"></div>
+      <div class="data-value">新月</div>
+      <div class="data-note">最佳观测条件</div>
+    </div>
+    <div class="data-card">
+      <div class="data-label">VISIBILITY</div>
+      <div class="data-value" style="font-size:1.6rem;margin-top:0.5rem">6.5+</div>
+      <div class="data-note">可见星等（肉眼极限）</div>
+    </div>
+    <div class="data-card-wide data-card">
+      <div class="data-mini"><div class="data-label">MILKY WAY</div><div class="data-value">极佳</div></div>
+      <div class="data-mini"><div class="data-label">SUNSET</div><div class="data-value">20:42</div></div>
+      <div class="data-mini"><div class="data-label">ASTRO TWILIGHT</div><div class="data-value">21:38</div></div>
+    </div>
+  </section>
+
+  <!-- ═══ GUIDE ═══ -->
+  <section class="guide">
+    <div class="sec-title">OBSERVATION GUIDE · 观测指南</div>
+    <div class="guide-item">
+      <span class="guide-icon">🔭</span>
+      <div class="guide-info">
+        <div class="guide-name">望远镜</div>
+        <div class="guide-desc">8 台 Celestron 8SE + 2 台双筒望远镜（免费使用）</div>
+      </div>
+    </div>
+    <div class="guide-item">
+      <span class="guide-icon">🧥</span>
+      <div class="guide-info">
+        <div class="guide-name">穿着建议</div>
+        <div class="guide-desc">8 月夜间温度约 5°C，请携带羽绒服和手套</div>
+      </div>
+    </div>
+    <div class="guide-item">
+      <span class="guide-icon">📷</span>
+      <div class="guide-info">
+        <div class="guide-name">天文摄影</div>
+        <div class="guide-desc">可带三脚架和相机，教练教你拍星轨</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ UPCOMING ═══ -->
+  <section class="upcoming">
+    <div class="sec-title">UPCOMING · 更多活动</div>
+    <div class="up-item"><span class="up-date">09.15</span><span class="up-name">中秋赏月特别场 — 月球表面详细观测</span></div>
+    <div class="up-item"><span class="up-date">10.21</span><span class="up-name">猎户座流星雨观测</span></div>
+    <div class="up-item"><span class="up-date">11.08</span><span class="up-name">月全食观测之夜</span></div>
+  </section>
+
+  <!-- ═══ CAMP INFO ═══ -->
+  <section class="info">
+    <div class="info-row"><strong>地址：</strong>青海省海西州德令哈市以南 40km</div>
+    <div class="info-row"><strong>交通：</strong>距西宁约 5 小时车程 · 可安排包车接送</div>
+    <div class="info-amenity">蒙古包住宿 · 暖气 · 独立卫浴</div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">在离星星最近的地方，看星星</div>
+    <div class="footer-disc">页面来源：虚构营地 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+// Generate star field
+(function(){
+  var c=document.getElementById('stars');
+  for(var i=0;i<90;i++){
+    var s=document.createElement('div');
+    s.className='star-dot'+(Math.random()>0.85?' bright':'');
+    s.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;--dur:'+(2+Math.random()*4)+'s;--del:'+(Math.random()*5)+'s';
+    c.appendChild(s);
+  }
+})();
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
