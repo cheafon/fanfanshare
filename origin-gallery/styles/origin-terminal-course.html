@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>字节道场 BYTEDOJO — 30天 Python 实战训练营</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0c0c0c;--green:#00ff41;--dark-green:#0a2a0a;--amber:#ffb000;--white:#e0e0e0;--dim:rgba(0,255,65,0.3);--line:rgba(0,255,65,0.06)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#1a1a1a;color:var(--green);font-family:'JetBrains Mono',monospace;font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased;padding:2rem}
+
+  /* Terminal window */
+  .terminal{max-width:800px;margin:0 auto;background:var(--bg);border-radius:12px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.5);position:relative}
+
+  /* Title bar */
+  .title-bar{background:#2a2a2a;padding:10px 16px;display:flex;align-items:center;gap:8px}
+  .dot{width:12px;height:12px;border-radius:50%}
+  .dot-red{background:#ff5f57}
+  .dot-yellow{background:#ffbd2e}
+  .dot-green{background:#28c840}
+  .title-text{font-size:0.75rem;color:#888;margin-left:auto;letter-spacing:0.04em}
+
+  /* CRT scanlines */
+  .scanlines{position:absolute;inset:0;pointer-events:none;z-index:10;
+    background:repeating-linear-gradient(to bottom,transparent 0px,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px)}
+
+  /* Terminal body */
+  .term-body{padding:1.5rem 2rem 2rem;position:relative;min-height:80vh;font-size:15px}
+
+  /* Prompt */
+  .prompt{color:var(--amber);font-weight:700}
+  .cmd{color:var(--white)}
+  .comment{color:rgba(0,255,65,0.3);font-style:italic}
+
+  /* Blinking cursor */
+  .cursor{display:inline-block;width:8px;height:16px;background:var(--green);animation:blink 1s step-end infinite;vertical-align:middle;margin-left:4px}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+  /* Output block */
+  .output{margin:0.5rem 0 1.5rem;padding-left:0}
+  .output-line{color:var(--green);opacity:0.8}
+
+  /* ASCII art */
+  .ascii{color:var(--green);font-size:11px;line-height:1.3;margin:0.5rem 0;white-space:pre;opacity:0.9}
+
+  /* JSON block */
+  .json{background:var(--dark-green);border-left:3px solid var(--green);padding:1rem 1.5rem;margin:0.5rem 0 1.5rem;border-radius:0 4px 4px 0;font-size:14px;overflow-x:auto}
+  .json-key{color:var(--amber)}
+  .json-val{color:var(--white)}
+  .json-str{color:var(--green)}
+
+  /* ls output */
+  .ls-grid{margin:0.5rem 0 1.5rem}
+  .ls-item{display:grid;grid-template-columns:100px 1fr;gap:1rem;padding:0.4rem 0;border-bottom:1px solid var(--line)}
+  .ls-item:last-child{border-bottom:none}
+  .ls-dir{color:var(--amber);font-weight:700}
+  .ls-desc{color:var(--white);opacity:0.6;font-size:14px}
+
+  /* Chinese emphasis */
+  .cn{font-family:'Noto Sans SC','JetBrains Mono',sans-serif;font-weight:700;font-size:17px}
+  .cn-lg{font-family:'Noto Sans SC',sans-serif;font-weight:900;font-size:1.8rem;color:var(--green);letter-spacing:0.04em;line-height:1.4}
+  .cn-sub{font-family:'Noto Sans SC',sans-serif;font-weight:400;font-size:1rem;color:var(--white);opacity:0.5;margin-top:0.3rem}
+
+  /* Price section */
+  .price-box{background:var(--dark-green);border:1px solid rgba(0,255,65,0.15);padding:1.5rem;margin:0.5rem 0 1.5rem;border-radius:4px;text-align:center}
+  .price-amount{font-size:2.5rem;font-weight:700;color:var(--amber);line-height:1}
+  .price-orig{font-size:0.9rem;color:var(--dim);text-decoration:line-through;margin-left:0.5rem}
+  .price-tag{font-family:'Noto Sans SC',sans-serif;font-size:0.8rem;color:var(--green);opacity:0.5;margin-top:0.5rem}
+  .price-includes{font-size:0.85rem;color:var(--white);opacity:0.4;margin-top:0.8rem;line-height:1.8}
+
+  /* Enroll button */
+  .enroll-btn{display:inline-block;margin-top:1.5rem;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:1rem;color:var(--bg);background:var(--green);border:none;padding:0.8em 2.5em;cursor:pointer;border-radius:4px;transition:all 0.2s;text-decoration:none}
+  .enroll-btn:hover{background:var(--amber);box-shadow:0 0 20px rgba(255,176,0,0.2)}
+
+  /* Divider */
+  .div{border:none;border-top:1px solid var(--line);margin:1.5rem 0}
+
+  /* Footer echo */
+  .footer-echo{margin-top:2rem;padding-top:1rem;border-top:1px solid var(--line);opacity:0.4;font-size:0.85rem}
+
+  @media(max-width:600px){
+    body{padding:0.5rem}
+    .term-body{padding:1rem;font-size:14px}
+    .ascii{font-size:8px}
+    .cn-lg{font-size:1.3rem}
+    .ls-item{grid-template-columns:1fr;gap:0.2rem}
+    .price-amount{font-size:2rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="terminal">
+  <!-- Title bar -->
+  <div class="title-bar">
+    <div class="dot dot-red"></div>
+    <div class="dot dot-yellow"></div>
+    <div class="dot dot-green"></div>
+    <div class="title-text">bytedojo@terminal ~ $</div>
+  </div>
+
+  <!-- Scanlines -->
+  <div class="scanlines"></div>
+
+  <!-- Terminal body -->
+  <div class="term-body">
+
+    <!-- Welcome -->
+    <div><span class="prompt">$ </span><span class="cmd">cat welcome.txt</span></div>
+    <div class="output">
+<pre class="ascii">
+ ____  _  _ _____ _____ ____   ___    _  ___
+| __ )| || |_   _| ____|  _ \ / _ \  | |/ _ \
+|  _ \| || |_| | |  _| | | | | | | | | | | | |
+| |_) |__   _| | | |___| |_| | |_| |_| | |_| |
+|____/   |_| |_| |_____|____/ \___/\___/ \___/
+</pre>
+      <div class="cn-lg">30天 Python 实战训练营</div>
+      <div class="cn-sub">从零基础到独立完成项目 · 适合所有想转型的职场人</div>
+    </div>
+
+    <hr class="div">
+
+    <!-- Course info -->
+    <div><span class="prompt">$ </span><span class="cmd">cat course_info.json</span></div>
+    <div class="json">
+      {<br>
+      &nbsp;&nbsp;<span class="json-key">"名称"</span>: <span class="json-str">"30天 Python 实战训练营"</span>,<br>
+      &nbsp;&nbsp;<span class="json-key">"时长"</span>: <span class="json-str">"30天 · 每天1小时"</span>,<br>
+      &nbsp;&nbsp;<span class="json-key">"形式"</span>: <span class="json-str">"录播 + 直播答疑 + 项目实战"</span>,<br>
+      &nbsp;&nbsp;<span class="json-key">"适合"</span>: <span class="json-str">"零基础 / 想转行 / 想自动化办公"</span>,<br>
+      &nbsp;&nbsp;<span class="json-key">"讲师"</span>: <span class="json-str">"陈教授 · 前字节跳动技术总监 · 10年Python经验"</span><br>
+      }
+    </div>
+
+    <hr class="div">
+
+    <!-- Syllabus -->
+    <div><span class="prompt">$ </span><span class="cmd">ls -la ./modules/</span></div>
+    <div class="ls-grid">
+      <div class="ls-item">
+        <span class="ls-dir">Week1/</span>
+        <span class="ls-desc cn">Python基础：变量、函数、循环，用代码写你的第一个小工具</span>
+      </div>
+      <div class="ls-item">
+        <span class="ls-dir">Week2/</span>
+        <span class="ls-desc cn">数据处理：Pandas处理Excel，告别手动复制粘贴</span>
+      </div>
+      <div class="ls-item">
+        <span class="ls-dir">Week3/</span>
+        <span class="ls-desc cn">爬虫实战：自动采集数据，让电脑替你干活</span>
+      </div>
+      <div class="ls-item">
+        <span class="ls-dir">Week4/</span>
+        <span class="ls-desc cn">项目答辩：独立完成一个完整项目，获得结业证书</span>
+      </div>
+    </div>
+
+    <hr class="div">
+
+    <!-- Price -->
+    <div><span class="prompt">$ </span><span class="cmd">pip install bytedojo-python-camp</span></div>
+    <div class="output">
+      <div class="output-line">Collecting bytedojo-python-camp...</div>
+      <div class="output-line">Successfully installed!</div>
+    </div>
+
+    <div class="price-box">
+      <div><span class="price-amount">¥999</span><span class="price-orig">¥2,999</span></div>
+      <div class="price-tag">早鸟限时优惠 · 名额有限</div>
+      <div class="price-includes">包含：30天课程 + 项目源码 + 社群答疑 + 结业证书</div>
+    </div>
+
+    <div style="text-align:center">
+      <div><span class="prompt">$ </span><span class="cmd">sudo enroll --now</span></div>
+      <a href="#" class="enroll-btn">立即报名 →</a>
+    </div>
+
+    <hr class="div">
+
+    <!-- Footer -->
+    <div class="footer-echo">
+      <div><span class="prompt">$ </span><span class="cmd">echo "字节道场 · 让代码成为你的超能力"</span></div>
+      <div class="output-line" style="margin-top:0.3rem">字节道场 · 让代码成为你的超能力</div>
+      <div style="margin-top:0.5rem"><span class="prompt">$ </span><span class="cmd">mail hello@bytedojo.dev</span></div>
+      <div style="margin-top:0.8rem"><span class="prompt">$ </span><span class="cursor"></span></div>
+    </div>
+
+  </div>
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>

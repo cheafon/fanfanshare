@@ -13,4 +13,5 @@ window.__NAV_META = {
   'guochao-product': { name: '墨研 山月 · 国潮商品', desc: '电商商品详情页 — 墨黑+朱砂红+金+宣纸白、Ma Shan Zheng书法+Noto Serif SC宋体、黑白交替卷轴式长页+竖排装饰+书法巨字+限量购买、新中式国潮', tags: ['dark','guochao','product','chinese','calligraphy','scroll','ecommerce'] },
   'pastel-team': { name: '小象工作室 · 粉彩团队', desc: '儿童空间设计团队介绍 — 奶白+薄荷绿+柔粉+淡紫、DM Serif Display+Noto Sans SC、blob不规则圆角卡片+柔和阴影+温暖人文、北欧粉彩Scandinavian', tags: ['light','pastel','team','nordic','organic','soft','children'] },
   'editorial-blog': { name: '晚潮 · 杂志博客', desc: '杂志式深度文章 — 温暖白+暖灰+深棕+砖红、Lora衬线+Noto Serif SC宋体、大标题+pull quote+双栏正文+图片占位+文末标签、Kinfolk编辑排版', tags: ['light','editorial','blog','magazine','serif','columns','reading','static'] },
+  'terminal-course': { name: '字节道场 · 终端课程', desc: '编程训练营课程页 — 终端黑+终端绿+琥珀黄、JetBrains Mono等宽+Noto Sans SC、模拟命令行界面+$提示符+JSON代码块+ls目录+pip安装+光标闪烁、复古终端', tags: ['dark','terminal','course','hacker','monospace','coding','animated'] },
 };
