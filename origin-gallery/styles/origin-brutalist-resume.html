@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>赵一鸣 ZHAO YIMING — 独立创意总监</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Noto+Sans+SC:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#fff;color:#000;font-family:'Noto Sans SC',sans-serif;font-size:17px;font-weight:400;line-height:1.7}
+  a{color:#000;text-decoration:none}
+  a:hover{color:#ff0000}
+
+  .page{max-width:100%;overflow-x:hidden}
+
+  /* ═══ HERO ═══ */
+  .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:4rem;border-bottom:6px solid #000}
+
+  .hero-name{font-weight:900;font-size:clamp(4rem,12vw,10rem);line-height:0.9;letter-spacing:-0.03em;color:#000}
+  .hero-en{font-family:'Space Mono',monospace;font-size:clamp(1rem,2.5vw,1.8rem);font-weight:400;color:#000;margin-top:0.5rem;letter-spacing:0.02em}
+  .hero-tags{font-family:'Space Mono',monospace;font-size:0.8rem;color:#ff0000;margin-top:1.5rem;letter-spacing:0.04em}
+  .hero-contact{font-family:'Space Mono',monospace;font-size:0.8rem;color:#000;margin-top:0.5rem;opacity:0.5}
+
+  /* ═══ ABOUT ═══ */
+  .about{border-bottom:6px solid #000;padding:0}
+  .about-header{background:#000;color:#fff;padding:1rem 4rem;font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase}
+  .about-body{padding:3rem 4rem;border:4px solid #000;margin:0;font-weight:900;font-size:1.3rem;line-height:2}
+
+  /* ═══ WORKS ═══ */
+  .works{border-bottom:6px solid #000}
+  .works-header{background:#ff0000;color:#fff;padding:1rem 4rem;font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase}
+
+  .work{display:grid;grid-template-columns:100px 1fr;border-bottom:2px solid #000;padding:0}
+  .work:last-child{border-bottom:none}
+  .work-num{font-family:'Space Mono',monospace;font-weight:700;font-size:2.5rem;padding:2rem 1.5rem;border-right:4px solid #000;display:flex;align-items:center;justify-content:center}
+  .work-body{padding:2rem 2.5rem}
+  .work-client{font-weight:900;font-size:1.3rem;margin-bottom:0.2rem}
+  .work-year{font-family:'Space Mono',monospace;font-size:0.75rem;color:#ff0000;margin-bottom:0.5rem}
+  .work-desc{font-weight:400;font-size:1rem;color:#000;opacity:0.6;line-height:1.8}
+
+  /* ═══ EXPERIENCE ═══ */
+  .exp{border-bottom:6px solid #000}
+  .exp-header{background:#000;color:#fff;padding:1rem 4rem;font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase}
+
+  .exp-item{display:grid;grid-template-columns:200px 1fr;border-bottom:1px solid #000;padding:1.5rem 4rem}
+  .exp-item:last-child{border-bottom:none}
+  .exp-year{font-family:'Space Mono',monospace;font-weight:700;font-size:1rem}
+  .exp-role{font-weight:700;font-size:1rem}
+  .exp-place{font-weight:400;font-size:0.9rem;opacity:0.5;margin-top:0.1rem}
+
+  /* ═══ BOTTOM ═══ */
+  .bottom{padding:4rem;text-align:center}
+  .bottom-avail{font-weight:900;font-size:clamp(2rem,5vw,4rem);line-height:1.1;letter-spacing:-0.02em}
+  .bottom-avail span{color:#ff0000}
+  .bottom-email{font-family:'Space Mono',monospace;font-size:1rem;margin-top:1.5rem}
+  .bottom-email a{border-bottom:3px solid #ff0000;padding-bottom:2px}
+  .bottom-copy{font-family:'Space Mono',monospace;font-size:0.7rem;opacity:0.3;margin-top:2rem}
+
+  @media(max-width:700px){
+    .hero{padding:3rem 1.5rem}
+    .about-header,.works-header,.exp-header{padding:1rem 1.5rem}
+    .about-body{padding:2rem 1.5rem;font-size:1.1rem}
+    .work{grid-template-columns:60px 1fr}
+    .work-num{font-size:1.5rem;padding:1.5rem 0.8rem}
+    .work-body{padding:1.5rem}
+    .exp-item{grid-template-columns:1fr;padding:1.2rem 1.5rem;gap:0.2rem}
+    .bottom{padding:3rem 1.5rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <h1 class="hero-name">赵一鸣</h1>
+    <div class="hero-en">ZHAO YIMING</div>
+    <div class="hero-tags">独立创意总监 · 品牌策略 · 视觉系统</div>
+    <div class="hero-contact">yiming@zhao.design · 上海</div>
+  </section>
+
+  <!-- ═══ ABOUT ═══ -->
+  <section class="about">
+    <div class="about-header">About</div>
+    <div class="about-body">10年品牌设计经验。曾服务过 Nike、网易、蔚来、泡泡玛特等品牌。相信设计不是装饰，是解决问题的方式。目前接受品牌全案、视觉系统设计、创意顾问项目。</div>
+  </section>
+
+  <!-- ═══ WORKS ═══ -->
+  <section class="works">
+    <div class="works-header">Selected Works</div>
+    <div class="work">
+      <div class="work-num">001</div>
+      <div class="work-body">
+        <div class="work-client">蔚来汽车 NIO</div>
+        <div class="work-year">2024</div>
+        <div class="work-desc">年度品牌视觉升级 · 从 Logo 到全触点视觉系统重构</div>
+      </div>
+    </div>
+    <div class="work">
+      <div class="work-num">002</div>
+      <div class="work-body">
+        <div class="work-client">三顿半咖啡</div>
+        <div class="work-year">2023</div>
+        <div class="work-desc">包装系统设计 · 用数字编号重新定义咖啡包装语言</div>
+      </div>
+    </div>
+    <div class="work">
+      <div class="work-num">003</div>
+      <div class="work-body">
+        <div class="work-client">独立音乐厂牌「回声」</div>
+        <div class="work-year">2022</div>
+        <div class="work-desc">品牌全案 · 从零建立一个音乐品牌的视觉世界</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ EXPERIENCE ═══ -->
+  <section class="exp">
+    <div class="exp-header">Experience</div>
+    <div class="exp-item">
+      <div class="exp-year">2024 — 至今</div>
+      <div>
+        <div class="exp-role">独立创意总监</div>
+        <div class="exp-place">自由职业</div>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-year">2020 — 2024</div>
+      <div>
+        <div class="exp-role">创意组长</div>
+        <div class="exp-place">某 4A 广告公司</div>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-year">2018 — 2020</div>
+      <div>
+        <div class="exp-role">高级视觉设计师</div>
+        <div class="exp-place">网易 UEDC</div>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-year">2015 — 2018</div>
+      <div>
+        <div class="exp-role">平面设计师</div>
+        <div class="exp-place">初入行</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ BOTTOM ═══ -->
+  <section class="bottom">
+    <div class="bottom-avail">Available for <span>freelance</span></div>
+    <div class="bottom-email"><a href="mailto:yiming@zhao.design">yiming@zhao.design</a></div>
+    <div class="bottom-copy">© 2026 赵一鸣</div>
+  </section>
+
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>
