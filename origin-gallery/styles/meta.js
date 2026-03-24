@@ -11,4 +11,5 @@ window.__NAV_META = {
   'newspaper-timeline': { name: '永利茶庄 · 报纸编年史', desc: '百年茶庄品牌历史 — 泛黄新闻纸+报纸墨黑+标题红、Playfair Display+Noto Serif SC宋体、多栏分栏排版+双线报头+时间轴新闻条目+模拟老报纸广告、复古民国报刊', tags: ['light','newspaper','timeline','vintage','columns','tea','serif','static'] },
   'glass-app': { name: '潮汐 TIDE · 毛玻璃App', desc: 'App下载推广页 — 深蓝渐变+柔蓝紫薰衣草、Plus Jakarta Sans+Noto Sans SC、backdrop-filter毛玻璃卡片+漂浮光球+CSS手机模型+下载按钮、iOS Glassmorphism', tags: ['dark','glass','app','ios','gradient','floating','animated'] },
   'guochao-product': { name: '墨研 山月 · 国潮商品', desc: '电商商品详情页 — 墨黑+朱砂红+金+宣纸白、Ma Shan Zheng书法+Noto Serif SC宋体、黑白交替卷轴式长页+竖排装饰+书法巨字+限量购买、新中式国潮', tags: ['dark','guochao','product','chinese','calligraphy','scroll','ecommerce'] },
+  'pastel-team': { name: '小象工作室 · 粉彩团队', desc: '儿童空间设计团队介绍 — 奶白+薄荷绿+柔粉+淡紫、DM Serif Display+Noto Sans SC、blob不规则圆角卡片+柔和阴影+温暖人文、北欧粉彩Scandinavian', tags: ['light','pastel','team','nordic','organic','soft','children'] },
 };

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小象工作室 — 我们是一群相信空间能影响孩子的人</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--cream:#faf8f5;--mint:#a8d8c8;--pink:#f0b8b8;--lav:#c8b8e0;--gray:#6a6a6a;--dark:#2a2a2a;
+    --mint-soft:rgba(168,216,200,0.15);--pink-soft:rgba(240,184,184,0.15);--lav-soft:rgba(200,184,224,0.15)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--cream);color:var(--dark);font-family:'Noto Sans SC',sans-serif;font-size:17px;line-height:1.9;-webkit-font-smoothing:antialiased}
+
+  .rv{opacity:0;transform:translateY(15px);transition:opacity 0.8s ease,transform 0.8s ease}
+  .rv.vis{opacity:1;transform:translateY(0)}
+
+  .studio{max-width:860px;margin:0 auto;padding:0 2rem}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;padding:5rem 0 3rem}
+  .header-en{font-family:'DM Serif Display',serif;font-size:1.8rem;color:var(--dark);letter-spacing:0.02em}
+  .header-cn{font-weight:700;font-size:1rem;color:var(--mint);margin-top:0.2rem;letter-spacing:0.08em}
+  .header-sub{font-weight:300;font-size:1.15rem;color:var(--gray);margin-top:1.5rem;max-width:400px;display:inline-block;line-height:2}
+  .header-meta{font-weight:300;font-size:0.85rem;color:var(--gray);margin-top:1rem;opacity:0.5}
+
+  /* ═══ QUOTE ═══ */
+  .quote{margin:2rem 0 3rem;padding:2.5rem;background:var(--mint-soft);border-radius:40% 60% 55% 45%/50% 55% 40% 60%;text-align:center;max-width:620px;margin-left:auto;margin-right:auto}
+  .quote-text{font-family:'DM Serif Display',serif;font-style:italic;font-size:1.15rem;color:var(--dark);line-height:2.2}
+
+  /* ═══ TEAM ═══ */
+  .team{padding:2rem 0}
+  .team-label{font-family:'DM Serif Display',serif;font-size:1.5rem;color:var(--dark);text-align:center;margin-bottom:2.5rem}
+
+  .members{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+  .member{padding:2rem;border-radius:24px;position:relative;transition:transform 0.3s}
+  .member:hover{transform:translateY(-4px)}
+
+  .member:nth-child(1){background:var(--mint-soft)}
+  .member:nth-child(2){background:var(--pink-soft)}
+  .member:nth-child(3){background:var(--lav-soft)}
+  .member:nth-child(4){background:rgba(42,42,42,0.04)}
+
+  /* Blob avatar placeholder */
+  .member-avatar{width:70px;height:70px;border-radius:40% 60% 55% 45%/50% 55% 40% 60%;margin-bottom:1rem;display:flex;align-items:center;justify-content:center;font-size:1.8rem}
+  .member:nth-child(1) .member-avatar{background:var(--mint)}
+  .member:nth-child(2) .member-avatar{background:var(--pink)}
+  .member:nth-child(3) .member-avatar{background:var(--lav)}
+  .member:nth-child(4) .member-avatar{background:#d0d0d0}
+
+  .member-name{font-weight:700;font-size:1.1rem;margin-bottom:0.1rem}
+  .member-role{font-weight:300;font-size:0.8rem;color:var(--gray);margin-bottom:0.6rem}
+  .member-desc{font-weight:300;font-size:0.95rem;color:var(--gray);line-height:2}
+
+  /* ═══ WORKING STYLE ═══ */
+  .style-section{padding:3rem 0}
+  .style-label{font-family:'DM Serif Display',serif;font-size:1.5rem;color:var(--dark);text-align:center;margin-bottom:2rem}
+
+  .styles{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+  .style-card{padding:1.8rem;border-radius:20px;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,0.04);transition:transform 0.3s,box-shadow 0.3s}
+  .style-card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,0.06)}
+  .style-icon{font-size:1.8rem;margin-bottom:0.8rem;display:block}
+  .style-name{font-weight:700;font-size:1rem;margin-bottom:0.3rem}
+  .style-desc{font-weight:300;font-size:0.92rem;color:var(--gray);line-height:1.9}
+
+  /* ═══ STATS ═══ */
+  .stats{display:flex;justify-content:center;gap:3rem;padding:2.5rem 0;flex-wrap:wrap}
+  .stat-num{font-family:'DM Serif Display',serif;font-size:2rem;color:var(--dark);line-height:1}
+  .stat:nth-child(1) .stat-num{color:var(--mint)}
+  .stat:nth-child(2) .stat-num{color:var(--pink)}
+  .stat:nth-child(3) .stat-num{color:var(--lav)}
+  .stat:nth-child(4) .stat-num{color:var(--gray)}
+  .stat-label{font-weight:300;font-size:0.8rem;color:var(--gray);margin-top:0.3rem;text-align:center}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;padding:3rem 0 2.5rem}
+  .footer-cta{font-family:'DM Serif Display',serif;font-style:italic;font-size:1.3rem;color:var(--dark);margin-bottom:1rem}
+  .footer-email a{font-weight:400;font-size:0.95rem;color:var(--mint);text-decoration:none;border-bottom:2px solid var(--mint);padding-bottom:2px;transition:color 0.2s}
+  .footer-email a:hover{color:var(--pink);border-color:var(--pink)}
+  .footer-addr{font-weight:300;font-size:0.8rem;color:var(--gray);margin-top:0.8rem;opacity:0.5}
+
+  @media(max-width:700px){
+    .members{grid-template-columns:1fr}
+    .styles{grid-template-columns:1fr;max-width:360px;margin:0 auto}
+    .stats{gap:1.5rem}
+    .quote{border-radius:20px;padding:2rem 1.5rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="studio">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header rv">
+    <h1 class="header-en">Elephant Studio</h1>
+    <div class="header-cn">小象工作室</div>
+    <p class="header-sub">我们是一群相信空间能影响孩子的人</p>
+    <div class="header-meta">成立于 2020 · 上海 · 4 个人 · 1 只猫</div>
+  </header>
+
+  <!-- ═══ QUOTE ═══ -->
+  <div class="quote rv">
+    <p class="quote-text">"我们不做「看起来像儿童空间」的设计。我们做让孩子自己去探索、去创造、去犯错的空间。因为最好的设计，是孩子不会注意到的设计。"</p>
+  </div>
+
+  <!-- ═══ TEAM ═══ -->
+  <section class="team">
+    <h2 class="team-label rv">认识我们</h2>
+    <div class="members">
+      <div class="member rv">
+        <div class="member-avatar">🌿</div>
+        <div class="member-name">阿梅</div>
+        <div class="member-role">创始人 / 主设计师</div>
+        <div class="member-desc">前建筑师，生了孩子后发现儿童空间设计才是她真正想做的事。喜欢木头的触感和早起的咖啡。</div>
+      </div>
+      <div class="member rv">
+        <div class="member-avatar">🎨</div>
+        <div class="member-name">小凡</div>
+        <div class="member-role">空间设计师</div>
+        <div class="member-desc">95后，相信颜色能治愈一切。负责把客户的「随便弄弄」变成「我的天这太好看了」。</div>
+      </div>
+      <div class="member rv">
+        <div class="member-avatar">📐</div>
+        <div class="member-name">老张</div>
+        <div class="member-role">项目经理</div>
+        <div class="member-desc">团队唯一的理工男。负责把天马行空的设计落地成能用的空间。口头禅是「预算呢？」</div>
+      </div>
+      <div class="member rv">
+        <div class="member-avatar">🐱</div>
+        <div class="member-name">薯条</div>
+        <div class="member-role">办公室猫 · 首席治愈官</div>
+        <div class="member-desc">三岁英短。负责在图纸上睡觉、在键盘上走路、以及担任首席治愈官。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ WORKING STYLE ═══ -->
+  <section class="style-section rv">
+    <h2 class="style-label">我们的工作方式</h2>
+    <div class="styles">
+      <div class="style-card">
+        <span class="style-icon">👀</span>
+        <div class="style-name">实地调研先行</div>
+        <div class="style-desc">每个项目开始前，我们会花一整天观察孩子们在现有空间里怎么玩</div>
+      </div>
+      <div class="style-card">
+        <span class="style-icon">🧪</span>
+        <div class="style-name">材料控</div>
+        <div class="style-desc">只用通过欧盟 EN71 认证的材料，摸起来要舒服，闻起来不能有味道</div>
+      </div>
+      <div class="style-card">
+        <span class="style-icon">📏</span>
+        <div class="style-name">细节有温度</div>
+        <div class="style-desc">每个项目都会留一面「成长墙」，记录孩子身高变化的手绘标尺</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ STATS ═══ -->
+  <div class="stats rv">
+    <div class="stat"><div class="stat-num">47</div><div class="stat-label">完成项目</div></div>
+    <div class="stat"><div class="stat-num">3</div><div class="stat-label">座城市</div></div>
+    <div class="stat"><div class="stat-num">100%</div><div class="stat-label">客户推荐</div></div>
+    <div class="stat"><div class="stat-num">1</div><div class="stat-label">只办公室猫</div></div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer rv">
+    <div class="footer-cta">和我们聊聊你的想法</div>
+    <div class="footer-email"><a href="mailto:hello@elephantstudio.cn">hello@elephantstudio.cn</a></div>
+    <div class="footer-addr">小象工作室 · 上海市长宁区愚园路 1108 号</div>
+  </footer>
+
+</div>
+
+<script>
+const rvs=document.querySelectorAll('.rv');
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')})},{threshold:0.1});
+rvs.forEach(el=>obs.observe(el));
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
