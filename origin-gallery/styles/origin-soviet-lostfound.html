@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>失物招领 — 朝阳街道办事处</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{--red:#c42020;--gold:#e8c020;--dark:#1a1410;--cream:#f0e8d0;--dkred:#8a1818;--gray:#4a4840}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--cream);color:var(--dark);font-family:'Noto Sans SC',sans-serif;font-size:17px;line-height:1.8;display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E")}
+
+  .poster{max-width:540px;width:100%;border:4px solid var(--dark);animation:fadeIn .6s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* ═══ HEADER ═══ */
+  .header{background:var(--red);padding:1.5rem 1.5rem 2rem;position:relative;overflow:hidden}
+
+  /* Diagonal gold stripes */
+  .header::before{content:'';position:absolute;inset:0;
+    background:repeating-linear-gradient(45deg,transparent,transparent 18px,rgba(232,192,32,0.08) 18px,rgba(232,192,32,0.08) 20px);pointer-events:none}
+
+  /* Star */
+  .star{width:40px;height:40px;margin:0 auto 0.8rem;
+    background:var(--gold);clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)}
+
+  .header-slogan{font-weight:900;font-size:clamp(2.2rem,7vw,3.2rem);color:var(--gold);text-align:center;letter-spacing:0.08em;
+    transform:skewY(-2deg);line-height:1.2;text-shadow:2px 2px 0 rgba(0,0,0,0.2)}
+  .header-en{font-family:'Oswald',sans-serif;font-weight:700;font-size:clamp(0.7rem,2vw,0.9rem);color:var(--cream);text-align:center;letter-spacing:0.2em;margin-top:0.3rem;transform:skewY(-2deg);opacity:0.7}
+  .header-sub{text-align:center;font-size:0.85rem;color:rgba(240,232,208,0.5);margin-top:0.5rem;letter-spacing:0.1em}
+
+  /* ═══ NOTICES ═══ */
+  .notices{padding:1.5rem}
+
+  .notice{border:3px solid var(--dark);padding:1.2rem;margin-bottom:1.2rem;position:relative;background:var(--cream)}
+  .notice-red{border-color:var(--red)}
+  .notice-gold{border-color:var(--gold);background:rgba(232,192,32,0.03)}
+
+  .notice-num{font-family:'Oswald',sans-serif;font-weight:700;font-size:1.4rem;color:var(--red);position:absolute;top:-14px;left:12px;background:var(--cream);padding:0 6px}
+  .notice-gold .notice-num{color:var(--gold);background:var(--cream)}
+
+  .notice-type{font-weight:900;font-size:1rem;color:var(--dark);display:inline-block;border-bottom:2px solid var(--red);padding-bottom:2px;margin-bottom:0.5rem}
+  .notice-gold .notice-type{border-bottom-color:var(--gold)}
+
+  .notice-row{font-size:0.95rem;color:rgba(26,20,16,0.65);line-height:2}
+  .notice-row strong{color:var(--dark);font-weight:700}
+  .notice-quote{font-weight:700;font-size:0.95rem;color:var(--dkred);margin-top:0.4rem;padding-left:0.8rem;border-left:3px solid var(--red)}
+  .notice-gold .notice-quote{color:var(--gray);border-left-color:var(--gold)}
+  .notice-contact{font-family:'Oswald',sans-serif;font-weight:500;font-size:0.85rem;color:var(--gray);margin-top:0.3rem;letter-spacing:0.03em}
+
+  /* ═══ BANNER ═══ */
+  .banner{background:var(--red);padding:1.2rem 1.5rem;text-align:center;position:relative;overflow:hidden}
+  .banner::before{content:'';position:absolute;inset:0;
+    background:repeating-linear-gradient(-45deg,transparent,transparent 14px,rgba(232,192,32,0.06) 14px,rgba(232,192,32,0.06) 16px)}
+  .banner-slogan{font-weight:900;font-size:1.1rem;color:var(--gold);letter-spacing:0.06em;line-height:1.8;position:relative}
+  .banner-info{font-size:0.85rem;color:rgba(240,232,208,0.5);margin-top:0.5rem;position:relative}
+
+  /* ═══ FOOTER ═══ */
+  .footer{padding:1.2rem;text-align:center;border-top:3px solid var(--dark)}
+  .footer-motto{font-weight:700;font-size:0.95rem;color:var(--dark);letter-spacing:0.08em}
+  .footer-star{color:var(--red);font-size:1.2rem;margin:0.4rem 0}
+  .footer-disc{font-size:0.68rem;color:rgba(26,20,16,0.2);margin-top:0.3rem}
+
+  @media(max-width:500px){
+    body{padding:0.5rem}
+    .header{padding:1.2rem 1rem 1.5rem}
+    .notices{padding:1rem}
+    .notice{padding:1rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="poster">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="star"></div>
+    <div class="header-slogan">失 物 招 领</div>
+    <div class="header-en">LOST & FOUND</div>
+    <div class="header-sub">朝阳街道办事处 · 为人民服务</div>
+  </header>
+
+  <!-- ═══ NOTICES ═══ -->
+  <section class="notices">
+
+    <div class="notice notice-red">
+      <div class="notice-num">№001</div>
+      <div class="notice-type">寻物启事</div>
+      <div class="notice-row"><strong>丢失物品：</strong>橘色猫一只（公，约 5kg，名叫"馒头"）</div>
+      <div class="notice-row"><strong>丢失地点：</strong>朝阳路 88 号小区花园</div>
+      <div class="notice-row"><strong>丢失时间：</strong>3 月 23 日下午</div>
+      <div class="notice-row"><strong>特征：</strong>蓝色铃铛项圈，右耳有个小缺口</div>
+      <div class="notice-contact">联系：张阿姨 138-XXXX-XXXX</div>
+      <div class="notice-quote">馒头很胆小，看到请不要追赶，轻声叫它名字</div>
+    </div>
+
+    <div class="notice notice-gold">
+      <div class="notice-num">№002</div>
+      <div class="notice-type">拾到物品</div>
+      <div class="notice-row"><strong>拾到物品：</strong>黑色双肩包一个</div>
+      <div class="notice-row"><strong>拾到地点：</strong>朝阳路地铁站 B 出口</div>
+      <div class="notice-row"><strong>拾到时间：</strong>3 月 24 日早上</div>
+      <div class="notice-row"><strong>特征：</strong>内有一本《算法导论》和一把雨伞</div>
+      <div class="notice-quote">请携带身份证到街道办事处二楼领取</div>
+    </div>
+
+    <div class="notice notice-red">
+      <div class="notice-num">№003</div>
+      <div class="notice-type">寻物启事</div>
+      <div class="notice-row"><strong>丢失物品：</strong>一串钥匙（4 把钥匙 + 小熊挂件）</div>
+      <div class="notice-row"><strong>丢失地点：</strong>朝阳公园北门到菜市场之间的路上</div>
+      <div class="notice-row"><strong>丢失时间：</strong>3 月 25 日上午</div>
+      <div class="notice-contact">联系：李师傅 159-XXXX-XXXX</div>
+      <div class="notice-quote">钥匙虽不值钱，但没钥匙回不了家，急！</div>
+    </div>
+
+  </section>
+
+  <!-- ═══ BANNER ═══ -->
+  <div class="banner">
+    <div class="banner-slogan">拾金不昧是美德 · 丢了东西别着急 · 来街道办看一看</div>
+    <div class="banner-info">办公时间：周一至周五 8:30–17:00 · 朝阳路 168 号</div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">朝阳街道 · 邻里互助 · 共建和谐社区</div>
+    <div class="footer-star">★</div>
+    <div class="footer-disc">页面来源：虚构街道 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>
