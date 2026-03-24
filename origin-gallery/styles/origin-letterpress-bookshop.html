@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>半卷书房 HALF SCROLL BOOKS — 上海愚园路独立书店</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Noto+Serif+SC:wght@400;500;600;700;900&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#f0ebe0;--lead:#1a1815;--rust:#8b3a2a;--green:#2a4a3a;--gold:#a08850;--smoke:#9a9488;--dim:rgba(26,24,21,0.35);
+    --emboss:1px 1px 0 rgba(255,255,255,0.35),-0.5px -0.5px 0 rgba(0,0,0,0.07)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--paper);color:var(--lead);font-family:'Noto Sans SC','Crimson Text',serif;font-size:17px;line-height:2;display:flex;justify-content:center;padding:2.5rem 1.5rem;-webkit-font-smoothing:antialiased;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E")}
+
+  .page{max-width:560px;width:100%;animation:fadeIn 1s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* ═══ DECORATIVE RULES ═══ */
+  .rule-double{border:none;height:0;border-top:2.5px solid var(--lead);border-bottom:1px solid var(--lead);padding-top:3px;opacity:0.7;margin:0}
+  .rule-thin{border:none;height:1px;background:var(--lead);opacity:0.1;margin:1.5rem 0}
+  .ornament{text-align:center;font-size:1rem;color:var(--smoke);letter-spacing:0.5em;margin:1.5rem 0;opacity:0.5;
+    text-shadow:var(--emboss)}
+  .ornament-sm{text-align:center;font-size:0.85rem;color:var(--smoke);letter-spacing:0.3em;margin:1.2rem 0;opacity:0.4}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;padding:1.8rem 0 0}
+  .header-inner{padding:1.5rem 0}
+
+  .shop-name{font-family:'Noto Serif SC',serif;font-weight:900;font-size:clamp(2.4rem,8vw,3.4rem);color:var(--lead);letter-spacing:0.12em;line-height:1.2;
+    text-shadow:var(--emboss)}
+  .shop-en{font-family:'Playfair Display',serif;font-weight:400;font-style:italic;font-size:clamp(0.85rem,2.2vw,1.05rem);color:var(--gold);letter-spacing:0.25em;margin-top:0.4rem;
+    text-shadow:var(--emboss)}
+  .shop-est{font-family:'Crimson Text',serif;font-size:0.85rem;color:var(--smoke);letter-spacing:0.1em;margin-top:0.5rem}
+
+  /* ═══ SECTION TITLES ═══ */
+  .sec-title{font-family:'Noto Serif SC',serif;font-weight:700;font-size:1.3rem;color:var(--lead);letter-spacing:0.08em;text-shadow:var(--emboss)}
+  .sec-sub{font-family:'Playfair Display',serif;font-weight:400;font-style:italic;font-size:0.8rem;color:var(--gold);letter-spacing:0.12em;margin-top:0.1rem}
+
+  /* ═══ BOOK PICKS ═══ */
+  .picks{padding:0 0 0.5rem}
+  .pick{margin-bottom:1.8rem}
+  .pick-num{font-family:'Playfair Display',serif;font-weight:900;font-size:2.2rem;color:var(--paper);line-height:1;float:left;margin-right:0.6rem;margin-top:0.15rem;
+    -webkit-text-stroke:1.2px var(--lead);text-shadow:none;opacity:0.2}
+  .pick-title{font-family:'Noto Serif SC',serif;font-weight:700;font-size:1.15rem;color:var(--rust);line-height:1.6;
+    text-shadow:var(--emboss)}
+  .pick-author{font-family:'Noto Serif SC',serif;font-weight:500;font-size:0.9rem;color:var(--smoke);margin-left:0.3rem}
+  .pick-quote{font-family:'Noto Serif SC',serif;font-weight:400;font-style:normal;font-size:1rem;color:var(--dim);line-height:2.2;
+    margin:0.5rem 0 0.4rem;padding-left:1.2rem;border-left:2px solid rgba(139,58,42,0.2);text-align:justify}
+  .pick-tags{font-family:'Crimson Text',serif;font-size:0.8rem;color:var(--smoke);letter-spacing:0.04em}
+  .pick-tags span{color:var(--gold)}
+  .pick::after{content:'';display:block;clear:both}
+
+  /* ═══ STORY ═══ */
+  .story{padding:0.5rem 0 0}
+  .story-text{font-family:'Noto Serif SC',serif;font-weight:400;font-size:1.05rem;color:rgba(26,24,21,0.65);line-height:2.4;text-align:justify;text-indent:0}
+  .drop-cap{float:left;font-family:'Playfair Display',serif;font-weight:900;font-size:3.8rem;line-height:0.75;margin:0.12em 0.12em 0 0;color:var(--rust);
+    text-shadow:1.5px 1.5px 0 rgba(255,255,255,0.4),-1px -1px 0 rgba(0,0,0,0.06)}
+
+  /* ═══ EVENTS ═══ */
+  .events{padding:0.5rem 0}
+  .event{margin-bottom:1rem;padding-left:1rem;border-left:2px solid rgba(42,74,58,0.15);position:relative}
+  .event-date{font-family:'Crimson Text',serif;font-weight:700;font-size:0.85rem;color:var(--green);letter-spacing:0.03em}
+  .event-name{font-family:'Noto Serif SC',serif;font-weight:600;font-size:1rem;color:var(--lead);line-height:1.7;text-shadow:var(--emboss)}
+  .event-note{font-size:0.85rem;color:var(--smoke);font-weight:300}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;padding:0.5rem 0 1rem}
+  .footer-hours{font-family:'Noto Serif SC',serif;font-weight:600;font-size:0.95rem;color:var(--lead);text-shadow:var(--emboss)}
+  .footer-addr{font-family:'Crimson Text',serif;font-size:0.88rem;color:var(--smoke);margin-top:0.3rem}
+  .footer-cat{font-family:'Noto Serif SC',serif;font-style:normal;font-size:0.9rem;color:var(--gold);margin-top:0.5rem;opacity:0.7}
+  .footer-disc{font-size:0.72rem;color:var(--smoke);opacity:0.35;margin-top:1rem}
+
+  /* Responsive */
+  @media(max-width:500px){
+    body{padding:1rem 0.8rem}
+    .shop-name{letter-spacing:0.06em}
+    .pick-num{font-size:1.8rem}
+    .drop-cap{font-size:3rem}
+    .pick-quote{padding-left:0.8rem}
+    .event{padding-left:0.8rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <hr class="rule-double">
+  <header class="header">
+    <div class="header-inner">
+      <h1 class="shop-name">半卷书房</h1>
+      <div class="shop-en">Half Scroll Books</div>
+      <div class="shop-est">EST. 2019 · 上海愚园路 1088 弄</div>
+    </div>
+  </header>
+  <hr class="rule-double">
+  <div class="ornament">── ❧ ──</div>
+
+  <!-- ═══ MONTHLY PICKS ═══ -->
+  <section class="picks">
+    <div class="sec-title">三月书单</div>
+    <div class="sec-sub">March Picks</div>
+    <hr class="rule-thin">
+
+    <div class="pick">
+      <span class="pick-num">1</span>
+      <div class="pick-title">《长安的荔枝》<span class="pick-author">马伯庸</span></div>
+      <p class="pick-quote">一颗荔枝从岭南到长安，不过是两千里路，但走完这两千里，一个小吏的整个人生都变了。</p>
+      <div class="pick-tags">历史小说 · 2022 · 豆瓣 <span>8.3</span></div>
+    </div>
+
+    <div class="pick">
+      <span class="pick-num">2</span>
+      <div class="pick-title">《额尔古纳河右岸》<span class="pick-author">迟子建</span></div>
+      <p class="pick-quote">这是一个关于消逝的故事——一个鄂温克族老人，用一辈子的记忆为一个民族写墓志铭。</p>
+      <div class="pick-tags">长篇小说 · <span>茅盾文学奖</span></div>
+    </div>
+
+    <div class="pick">
+      <span class="pick-num">3</span>
+      <div class="pick-title">《我与地坛》<span class="pick-author">史铁生</span></div>
+      <p class="pick-quote">死是一件不必急于求成的事，死是一个必然会降临的节日。</p>
+      <div class="pick-tags">散文 · <span>经典重读</span></div>
+    </div>
+  </section>
+
+  <div class="ornament">── ◆ ──</div>
+
+  <!-- ═══ STORY ═══ -->
+  <section class="story">
+    <div class="sec-title">关于我们</div>
+    <div class="sec-sub">Our Story</div>
+    <hr class="rule-thin">
+    <p class="story-text"><span class="drop-cap">半</span>卷书房开在愚园路一条不起眼的弄堂里。店面只有四十平米，书架是用老船木拼的，门口的猫叫「句号」。我们只卖我们自己读过的书——这意味着你在这里永远找不到成功学，但总能找到一个安静的下午。</p>
+  </section>
+
+  <div class="ornament-sm">※</div>
+
+  <!-- ═══ EVENTS ═══ -->
+  <section class="events">
+    <div class="sec-title">近期活动</div>
+    <div class="sec-sub">Upcoming Events</div>
+    <hr class="rule-thin">
+
+    <div class="event">
+      <div class="event-date">3月29日（周六）14:00</div>
+      <div class="event-name">读书会：重读《百年孤独》</div>
+      <div class="event-note">携带任意版本，自备饮品，我们提供座位和安静</div>
+    </div>
+
+    <div class="event">
+      <div class="event-date">4月5日（周六）15:00</div>
+      <div class="event-name">作者签售：新书《弄堂深处》</div>
+      <div class="event-note">限 30 席，请提前至店内登记</div>
+    </div>
+
+    <div class="event">
+      <div class="event-date">每周三 19:00</div>
+      <div class="event-name">诗歌朗读之夜</div>
+      <div class="event-note">免费参加，带一首你喜欢的诗</div>
+    </div>
+  </section>
+
+  <div class="ornament">── ❧ ──</div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-hours">营业时间：10:00 – 22:00 · 周一店休</div>
+    <div class="footer-addr">上海市长宁区愚园路 1088 弄 12 号</div>
+    <div class="footer-cat">如果你迷路了，找到那只橘猫就到了</div>
+    <div class="ornament-sm">── ※ ──</div>
+    <div class="footer-disc">页面来源：虚构书店 · 仅供展示</div>
+  </footer>
+
+  <hr class="rule-double">
+
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>
