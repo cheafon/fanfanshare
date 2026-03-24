@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>爪印急诊 PAWPRINT EMERGENCY — 宠物急诊指南</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bp:#1a2a4a;--line:#e8f0ff;--orange:#ff8c42;--red:#e84040;--green:#40c878;--grid:#2a3a5a;--blue:#4a7ab8;--dim:rgba(232,240,255,0.25)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--bp);color:var(--line);font-family:'Noto Sans SC',sans-serif;font-size:17px;line-height:1.9;display:flex;justify-content:center;padding:2rem;-webkit-font-smoothing:antialiased;position:relative}
+
+  /* Blueprint grid — major + minor */
+  body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:
+      repeating-linear-gradient(0deg,transparent,transparent 99px,rgba(74,122,184,0.08) 99px,rgba(74,122,184,0.08) 100px),
+      repeating-linear-gradient(90deg,transparent,transparent 99px,rgba(74,122,184,0.08) 99px,rgba(74,122,184,0.08) 100px),
+      repeating-linear-gradient(0deg,transparent,transparent 19px,rgba(74,122,184,0.03) 19px,rgba(74,122,184,0.03) 20px),
+      repeating-linear-gradient(90deg,transparent,transparent 19px,rgba(74,122,184,0.03) 19px,rgba(74,122,184,0.03) 20px)}
+
+  /* Scanning line */
+  body::after{content:'';position:fixed;top:0;left:0;right:0;height:2px;z-index:9999;pointer-events:none;
+    background:linear-gradient(90deg,transparent 10%,rgba(74,122,184,0.4) 50%,transparent 90%);
+    animation:scan 6s linear infinite}
+  @keyframes scan{0%{top:-2px}100%{top:100vh}}
+
+  .dwg{max-width:540px;width:100%;position:relative;z-index:1;border:1px solid rgba(74,122,184,0.15);padding:2px;animation:fadeIn 0.8s ease}
+  .dwg-inner{border:1px solid rgba(74,122,184,0.1);padding:1.5rem}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* Corner coordinates */
+  .dwg::before{content:'0,0';position:absolute;top:-18px;left:0;font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:var(--blue);opacity:0.3}
+  .dwg::after{content:'540,∞';position:absolute;bottom:-18px;right:0;font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:var(--blue);opacity:0.3}
+
+  /* ═══ TITLE BLOCK ═══ */
+  .title-block{border:1px solid rgba(74,122,184,0.2);padding:1rem 1.2rem;margin-bottom:1.5rem;position:relative}
+  .title-block::before{content:'TITLE BLOCK';position:absolute;top:-8px;left:10px;font-family:'JetBrains Mono',monospace;font-size:0.45rem;color:var(--blue);background:var(--bp);padding:0 6px;letter-spacing:0.1em;opacity:0.4}
+
+  .tb-row{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:0.3rem}
+  .clinic-name{font-weight:700;font-size:clamp(1.6rem,5vw,2rem);color:var(--line);letter-spacing:0.06em}
+  .clinic-en{font-family:'JetBrains Mono',monospace;font-weight:500;font-size:clamp(0.6rem,1.5vw,0.75rem);color:var(--blue);letter-spacing:0.15em}
+  .clinic-sub{font-size:0.85rem;color:var(--dim);margin-top:0.2rem}
+
+  .tb-meta{display:flex;gap:1.5rem;margin-top:0.6rem;flex-wrap:wrap}
+  .tb-field{font-family:'JetBrains Mono',monospace;font-size:0.55rem;color:var(--dim);letter-spacing:0.05em}
+  .tb-field span{color:var(--line);opacity:0.6}
+
+  /* ═══ EMERGENCY PHONE ═══ */
+  .hotline{border:2px dashed var(--red);padding:1rem;text-align:center;margin-bottom:1.5rem;position:relative}
+  .hotline::before{content:'⚡ EMERGENCY';position:absolute;top:-8px;left:12px;font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:var(--red);background:var(--bp);padding:0 6px;letter-spacing:0.15em}
+  .hotline-num{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:1.6rem;color:var(--red);letter-spacing:0.08em}
+  .hotline-note{font-size:0.85rem;color:var(--dim);margin-top:0.2rem}
+
+  /* ═══ EMERGENCY CASES ═══ */
+  .cases{margin-bottom:1.5rem}
+  .cases-label{font-family:'JetBrains Mono',monospace;font-size:0.55rem;color:var(--orange);letter-spacing:0.15em;margin-bottom:1rem;text-transform:uppercase}
+
+  .case{border:1px dashed rgba(74,122,184,0.15);padding:1rem;margin-bottom:1rem;position:relative}
+  .case::before{content:attr(data-label);position:absolute;top:-8px;left:10px;font-family:'JetBrains Mono',monospace;font-size:0.45rem;color:var(--blue);background:var(--bp);padding:0 6px;letter-spacing:0.08em;opacity:0.5}
+
+  .case-header{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:0.3rem;margin-bottom:0.4rem}
+  .case-name{font-weight:700;font-size:1.05rem;color:var(--line)}
+  .case-urgency{font-family:'JetBrains Mono',monospace;font-size:0.65rem;padding:0.2em 0.5em;letter-spacing:0.05em}
+  .urgency-high{color:var(--orange);border:1px solid rgba(255,140,66,0.3)}
+  .urgency-critical{color:var(--red);border:1px solid rgba(232,64,64,0.3);animation:blink 2s ease-in-out infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0.5}}
+
+  .case-row{display:flex;gap:0.3rem;font-size:0.9rem;line-height:1.8}
+  .case-key{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--blue);flex-shrink:0;width:50px;padding-top:3px;letter-spacing:0.03em}
+  .case-val{font-weight:300;color:rgba(232,240,255,0.5)}
+  .case-val strong{color:var(--orange);font-weight:500}
+  .case-time{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--green);margin-top:0.3rem;display:inline-block;border:1px solid rgba(64,200,120,0.2);padding:0.15em 0.5em}
+
+  /* ═══ CHECKLIST ═══ */
+  .checklist{border:1px dashed rgba(64,200,120,0.15);padding:1rem;margin-bottom:1.5rem;position:relative}
+  .checklist::before{content:'PRE-VISIT CHECKLIST';position:absolute;top:-8px;left:10px;font-family:'JetBrains Mono',monospace;font-size:0.45rem;color:var(--green);background:var(--bp);padding:0 6px;letter-spacing:0.1em;opacity:0.6}
+  .check{font-weight:300;font-size:0.95rem;color:rgba(232,240,255,0.45);line-height:2.2}
+  .check-box{font-family:'JetBrains Mono',monospace;color:var(--green);margin-right:0.4rem;opacity:0.5}
+
+  /* ═══ CLINIC INFO ═══ */
+  .info{border:1px solid rgba(74,122,184,0.15);padding:1rem;margin-bottom:1rem;position:relative}
+  .info::before{content:'SPECIFICATIONS';position:absolute;top:-8px;left:10px;font-family:'JetBrains Mono',monospace;font-size:0.45rem;color:var(--blue);background:var(--bp);padding:0 6px;letter-spacing:0.1em;opacity:0.4}
+  .info-row{display:flex;gap:0.8rem;align-items:baseline;margin-bottom:0.3rem}
+  .info-key{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--blue);letter-spacing:0.08em;width:70px;flex-shrink:0}
+  .info-val{font-size:0.95rem;color:rgba(232,240,255,0.55);font-weight:300}
+
+  /* ═══ FOOTER ═══ */
+  .footer{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:0.3rem;padding-top:0.8rem;border-top:1px solid rgba(74,122,184,0.1)}
+  .footer-text{font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:var(--dim);opacity:0.3;letter-spacing:0.05em}
+  .footer-rev{font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:var(--dim);opacity:0.2}
+
+  @media(max-width:500px){
+    body{padding:0.6rem}
+    .dwg-inner{padding:1rem}
+    .case-header{flex-direction:column}
+    .tb-meta{gap:0.8rem}
+    .info-row{flex-direction:column;gap:0.1rem}
+    .info-key{width:auto}
+    .footer{flex-direction:column}
+  }
+</style>
+</head>
+<body>
+
+<div class="dwg">
+  <div class="dwg-inner">
+
+    <!-- ═══ TITLE BLOCK ═══ -->
+    <div class="title-block">
+      <div class="tb-row">
+        <div>
+          <div class="clinic-name">爪印急诊</div>
+          <div class="clinic-en">PAWPRINT EMERGENCY</div>
+        </div>
+      </div>
+      <div class="clinic-sub">24H 宠物急诊中心 · 上海浦东</div>
+      <div class="tb-meta">
+        <div class="tb-field">DWG <span>2026-PET-001</span></div>
+        <div class="tb-field">SCALE <span>1:1</span></div>
+        <div class="tb-field">DATE <span>2026.03</span></div>
+        <div class="tb-field">REV <span>A</span></div>
+      </div>
+    </div>
+
+    <!-- ═══ EMERGENCY PHONE ═══ -->
+    <div class="hotline">
+      <div class="hotline-num">021-XXXX-XXXX</div>
+      <div class="hotline-note">24 小时接诊 · 节假日不休</div>
+    </div>
+
+    <!-- ═══ EMERGENCY CASES ═══ -->
+    <section class="cases">
+      <div class="cases-label">COMMON EMERGENCIES · 常见急症</div>
+
+      <div class="case" data-label="CASE-01">
+        <div class="case-header">
+          <span class="case-name">误食异物</span>
+          <span class="case-urgency urgency-high">URGENCY: HIGH</span>
+        </div>
+        <div class="case-row"><span class="case-key">SYMPTOM</span><span class="case-val">反复呕吐、不吃东西、腹部疼痛弓背</span></div>
+        <div class="case-row"><span class="case-key">ACTION</span><span class="case-val"><strong>不要催吐！</strong>立即就医，带上可能误食的物品包装</span></div>
+        <div class="case-time">GOLDEN TIME: 2H</div>
+      </div>
+
+      <div class="case" data-label="CASE-02">
+        <div class="case-header">
+          <span class="case-name">中毒（巧克力/葡萄/百合花）</span>
+          <span class="case-urgency urgency-critical">URGENCY: CRITICAL</span>
+        </div>
+        <div class="case-row"><span class="case-key">SYMPTOM</span><span class="case-val">流涎、抽搐、呼吸急促、瞳孔放大</span></div>
+        <div class="case-row"><span class="case-key">ACTION</span><span class="case-val">记录误食时间和量，<strong>立即送医</strong></span></div>
+        <div class="case-time">GOLDEN TIME: 30MIN</div>
+      </div>
+
+      <div class="case" data-label="CASE-03">
+        <div class="case-header">
+          <span class="case-name">外伤出血</span>
+          <span class="case-urgency urgency-high">URGENCY: HIGH</span>
+        </div>
+        <div class="case-row"><span class="case-key">SYMPTOM</span><span class="case-val">可见伤口、持续出血</span></div>
+        <div class="case-row"><span class="case-key">ACTION</span><span class="case-val">干净纱布按压止血，<strong>不要用酒精</strong>，尽快就医</span></div>
+        <div class="case-time">GOLDEN TIME: VARIES</div>
+      </div>
+
+      <div class="case" data-label="CASE-04">
+        <div class="case-header">
+          <span class="case-name">中暑</span>
+          <span class="case-urgency urgency-critical">URGENCY: CRITICAL</span>
+        </div>
+        <div class="case-row"><span class="case-key">SYMPTOM</span><span class="case-val">过度喘气、牙龈发红/发紫、站不稳</span></div>
+        <div class="case-row"><span class="case-key">ACTION</span><span class="case-val">移到阴凉处，<strong>常温水湿润身体（非冰水）</strong>，立即就医</span></div>
+        <div class="case-time">GOLDEN TIME: 15MIN</div>
+      </div>
+    </section>
+
+    <!-- ═══ CHECKLIST ═══ -->
+    <div class="checklist">
+      <div class="check"><span class="check-box">□</span>携带宠物病历本和疫苗证明</div>
+      <div class="check"><span class="check-box">□</span>记录症状出现时间和变化过程</div>
+      <div class="check"><span class="check-box">□</span>如疑似误食，带上物品包装或照片</div>
+      <div class="check"><span class="check-box">□</span>用毯子或浴巾包裹宠物（保温 + 固定）</div>
+      <div class="check"><span class="check-box">□</span>保持冷静，安抚宠物情绪</div>
+    </div>
+
+    <!-- ═══ CLINIC INFO ═══ -->
+    <div class="info">
+      <div class="info-row"><span class="info-key">LOCATION</span><span class="info-val">上海市浦东新区某某路 168 号</span></div>
+      <div class="info-row"><span class="info-key">HOURS</span><span class="info-val">24 / 7 / 365</span></div>
+      <div class="info-row"><span class="info-key">TEL</span><span class="info-val">021-XXXX-XXXX</span></div>
+      <div class="info-row"><span class="info-key">PARKING</span><span class="info-val">地下车库 B1（急诊专用通道）</span></div>
+    </div>
+
+    <!-- ═══ FOOTER ═══ -->
+    <div class="footer">
+      <span class="footer-text">绘图：AI · 审核：虚构兽医 · 仅供页面展示</span>
+      <span class="footer-rev">REV.A · 2026.03.25</span>
+    </div>
+
+  </div>
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>
