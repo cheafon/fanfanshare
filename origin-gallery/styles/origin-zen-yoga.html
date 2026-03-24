@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>呼吸间 Between Breaths — 城市瑜伽 · 冥想 · 正念</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Noto+Serif+SC:wght@400;600&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--pink:#fce4d8;--purple:#d8c8e8;--blue:#c0d8f0;--mist:#f8f6f4;--gray:#3a3640;--gold:#d8b878;--green:#c8e0d0;--dim:rgba(58,54,64,0.35)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{color:var(--gray);font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:17px;line-height:2;display:flex;justify-content:center;padding:2.5rem 1.5rem;-webkit-font-smoothing:antialiased;min-height:100vh;
+    background:linear-gradient(135deg,var(--pink),var(--mist),var(--blue),var(--purple),var(--green),var(--pink));
+    background-size:400% 400%;animation:gradientFlow 20s ease infinite}
+  @keyframes gradientFlow{0%{background-position:0% 50%}25%{background-position:100% 25%}50%{background-position:100% 50%}75%{background-position:0% 75%}100%{background-position:0% 50%}}
+
+  .zen{max-width:520px;width:100%;animation:fadeIn 1.5s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;padding:2rem 0 3rem;position:relative}
+
+  /* Breathing circle */
+  .breath-circle{width:80px;height:80px;border-radius:50%;border:1px solid rgba(58,54,64,0.08);margin:0 auto 2rem;
+    animation:breathe 4s ease-in-out infinite;position:relative}
+  .breath-circle::after{content:'';position:absolute;inset:12px;border-radius:50%;border:1px solid rgba(216,184,120,0.2)}
+  @keyframes breathe{0%,100%{transform:scale(1);opacity:0.6}50%{transform:scale(1.08);opacity:1}}
+
+  .studio-name{font-family:'Noto Serif SC',serif;font-weight:600;font-size:clamp(2rem,6vw,2.8rem);color:var(--gray);letter-spacing:0.15em;line-height:1.3}
+  .studio-en{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:clamp(1rem,3vw,1.3rem);color:var(--gold);letter-spacing:0.12em;margin-top:0.3rem}
+  .studio-sub{font-size:0.9rem;color:var(--dim);margin-top:0.8rem;letter-spacing:0.15em}
+
+  /* Thin separator */
+  .sep{width:40px;height:1px;background:var(--gray);opacity:0.08;margin:2.5rem auto}
+
+  /* ═══ SCHEDULE ═══ */
+  .schedule{padding:0}
+  .sched-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:0.85rem;letter-spacing:0.25em;color:var(--dim);text-align:center;text-transform:uppercase;margin-bottom:2rem}
+
+  .class-card{background:rgba(255,255,255,0.45);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    padding:1.5rem 1.8rem;margin-bottom:1.5rem;border-radius:2px;border:1px solid rgba(255,255,255,0.6);
+    animation:breatheSoft 4s ease-in-out infinite;animation-delay:var(--d,0s)}
+  @keyframes breatheSoft{0%,100%{transform:scale(1)}50%{transform:scale(1.005)}}
+
+  .class-time{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:0.8rem;color:var(--gold);letter-spacing:0.12em}
+  .class-name{font-family:'Noto Serif SC',serif;font-weight:600;font-size:1.2rem;color:var(--gray);margin:0.3rem 0 0.2rem;line-height:1.5}
+  .class-meta{font-size:0.85rem;color:var(--dim)}
+  .class-desc{font-weight:300;font-size:0.95rem;color:rgba(58,54,64,0.5);line-height:2;margin-top:0.5rem}
+  .class-tags{display:flex;gap:0.5rem;margin-top:0.6rem}
+  .class-tag{font-size:0.75rem;color:var(--dim);padding:0.25em 0.7em;border:1px solid rgba(58,54,64,0.08);border-radius:1px;letter-spacing:0.04em}
+
+  /* ═══ INSTRUCTORS ═══ */
+  .instructors{padding:1rem 0}
+  .inst-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:0.85rem;letter-spacing:0.25em;color:var(--dim);text-align:center;text-transform:uppercase;margin-bottom:1.5rem}
+
+  .inst{display:flex;gap:1.2rem;align-items:flex-start;margin-bottom:1.5rem;background:rgba(255,255,255,0.35);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    padding:1.2rem 1.5rem;border:1px solid rgba(255,255,255,0.5);border-radius:2px}
+  .inst-avatar{width:52px;height:52px;border-radius:50%;flex-shrink:0}
+  .inst-avatar-1{background:linear-gradient(135deg,var(--pink),var(--purple))}
+  .inst-avatar-2{background:linear-gradient(135deg,var(--blue),var(--green))}
+  .inst-info{flex:1;min-width:0}
+  .inst-name{font-family:'Noto Serif SC',serif;font-weight:600;font-size:1rem;color:var(--gray)}
+  .inst-bio{font-weight:300;font-size:0.9rem;color:var(--dim);line-height:1.9;margin-top:0.2rem}
+  .inst-quote{font-family:'Noto Serif SC',serif;font-weight:400;font-style:normal;font-size:0.9rem;color:rgba(216,184,120,0.8);margin-top:0.4rem;line-height:1.8}
+
+  /* ═══ STUDIO INFO ═══ */
+  .info{text-align:center;padding:0.5rem 0;background:rgba(255,255,255,0.3);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    border:1px solid rgba(255,255,255,0.4);padding:1.5rem;border-radius:2px}
+  .info-addr{font-family:'Noto Serif SC',serif;font-weight:400;font-size:0.95rem;color:var(--gray)}
+  .info-note{font-weight:300;font-size:0.85rem;color:var(--dim);margin-top:0.5rem;line-height:2}
+  .info-price{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:0.9rem;color:var(--gold);margin-top:0.6rem;letter-spacing:0.05em}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;padding:2.5rem 0 1rem}
+  .footer-motto{font-family:'Noto Serif SC',serif;font-weight:400;font-size:1rem;color:var(--gray);opacity:0.4;letter-spacing:0.1em}
+  .footer-disc{font-size:0.72rem;color:var(--dim);opacity:0.25;margin-top:1rem}
+
+  /* Breathing dot footer decoration */
+  .footer-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);margin:1.5rem auto 0;opacity:0.3;
+    animation:breathe 4s ease-in-out infinite}
+
+  @media(max-width:500px){
+    body{padding:1.5rem 1rem}
+    .class-card{padding:1.2rem}
+    .inst{flex-direction:column;align-items:center;text-align:center;gap:0.8rem}
+    .header{padding:1.5rem 0 2rem}
+    .sep{margin:2rem auto}
+  }
+</style>
+</head>
+<body>
+
+<div class="zen">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="breath-circle"></div>
+    <h1 class="studio-name">呼吸间</h1>
+    <div class="studio-en">Between Breaths</div>
+    <div class="studio-sub">城市瑜伽 · 冥想 · 正念</div>
+  </header>
+
+  <div class="sep"></div>
+
+  <!-- ═══ SCHEDULE ═══ -->
+  <section class="schedule">
+    <div class="sched-title">This Week · 本周课程</div>
+
+    <div class="class-card" style="--d:0s">
+      <div class="class-time">周二 Tue · 07:00</div>
+      <div class="class-name">晨间流瑜伽</div>
+      <div class="class-meta">导师：林微 · 60 分钟</div>
+      <p class="class-desc">用一组流动的序列唤醒身体。适合所有级别，特别适合还没完全醒来的你。</p>
+      <div class="class-tags"><span class="class-tag">全级别</span><span class="class-tag">流瑜伽</span></div>
+    </div>
+
+    <div class="class-card" style="--d:0.5s">
+      <div class="class-time">周三 Wed · 12:15</div>
+      <div class="class-name">午间正念冥想</div>
+      <div class="class-meta">导师：陈一 · 30 分钟</div>
+      <p class="class-desc">在午休的缝隙里，给自己30分钟的安静。不需要任何经验，只需要闭上眼睛。</p>
+      <div class="class-tags"><span class="class-tag">零基础</span><span class="class-tag">冥想</span></div>
+    </div>
+
+    <div class="class-card" style="--d:1s">
+      <div class="class-time">周四 Thu · 19:00</div>
+      <div class="class-name">阴瑜伽 · 深度拉伸</div>
+      <div class="class-meta">导师：苏小暖 · 75 分钟</div>
+      <p class="class-desc">每个体式停留3-5分钟，让结缔组织慢慢打开。这是一节需要耐心的课。</p>
+      <div class="class-tags"><span class="class-tag">中级</span><span class="class-tag">阴瑜伽</span></div>
+    </div>
+
+    <div class="class-card" style="--d:1.5s">
+      <div class="class-time">周六 Sat · 09:00</div>
+      <div class="class-name">颂钵声音疗愈</div>
+      <div class="class-meta">导师：陈一 · 45 分钟</div>
+      <p class="class-desc">躺下来，什么都不用做。让铜钵的震动穿过你的身体，带走你不需要的东西。</p>
+      <div class="class-tags"><span class="class-tag">全级别</span><span class="class-tag">声音疗愈</span></div>
+    </div>
+
+    <div class="class-card" style="--d:2s">
+      <div class="class-time">周日 Sun · 17:00</div>
+      <div class="class-name">日落冥想</div>
+      <div class="class-meta">导师：林微 · 40 分钟</div>
+      <p class="class-desc">面朝窗户，跟随日落的节奏呼吸。这是我们一周的句号，也是下一周的准备。</p>
+      <div class="class-tags"><span class="class-tag">全级别</span><span class="class-tag">冥想</span></div>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <!-- ═══ INSTRUCTORS ═══ -->
+  <section class="instructors">
+    <div class="inst-title">Instructors · 导师</div>
+
+    <div class="inst">
+      <div class="inst-avatar inst-avatar-1"></div>
+      <div class="inst-info">
+        <div class="inst-name">林微</div>
+        <div class="inst-bio">习练瑜伽 12 年，擅长流瑜伽和冥想引导</div>
+        <div class="inst-quote">"瑜伽不是把脚放到头上，是学会和自己相处。"</div>
+      </div>
+    </div>
+
+    <div class="inst">
+      <div class="inst-avatar inst-avatar-2"></div>
+      <div class="inst-info">
+        <div class="inst-name">陈一</div>
+        <div class="inst-bio">正念冥想导师，颂钵疗愈师</div>
+        <div class="inst-quote">"安静不是没有声音，是学会不去追逐声音。"</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <!-- ═══ STUDIO INFO ═══ -->
+  <div class="info">
+    <div class="info-addr">上海市徐汇区某某路 88 号 3 楼</div>
+    <div class="info-note">请提前 10 分钟到达 · 自备瑜伽垫或租用（20元/次）</div>
+    <div class="info-price">首次体验课免费 · 月卡 ¥888 · 季卡 ¥2,388</div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">呼吸间 · 让呼吸带你回家</div>
+    <div class="footer-dot"></div>
+    <div class="footer-disc">页面来源：虚构工作室 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>
