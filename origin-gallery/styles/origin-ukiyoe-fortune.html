@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>御神籤 OMIKUJI — 每日一签</title>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--indigo:#1a3050;--vermilion:#c83020;--gold:#c8a040;--washi:#f0e8d8;--ink:#1a1a18;--sakura:#e8a0a0;--pine:#2a6848;--dim:rgba(240,232,216,0.3)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--indigo);color:var(--washi);font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:17px;line-height:1.9;display:flex;justify-content:center;padding:2rem;-webkit-font-smoothing:antialiased;position:relative;min-height:100vh}
+
+  .shrine{max-width:440px;width:100%;position:relative;z-index:1}
+
+  /* ═══ TORII GATE ═══ */
+  .torii{width:120px;height:80px;margin:0 auto 1rem;position:relative}
+  .torii-pillar{position:absolute;bottom:0;width:8px;height:60px;background:var(--vermilion);border-radius:1px}
+  .torii-pillar-l{left:16px}
+  .torii-pillar-r{right:16px}
+  .torii-beam{position:absolute;top:10px;left:0;right:0;height:8px;background:var(--vermilion);border-radius:1px}
+  .torii-beam2{position:absolute;top:22px;left:10px;right:10px;height:5px;background:var(--vermilion);border-radius:1px}
+  .torii-roof{position:absolute;top:0;left:-8px;right:-8px;height:12px;background:var(--vermilion);border-radius:2px;
+    clip-path:polygon(0% 100%,5% 0%,95% 0%,100% 100%)}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;padding-bottom:1.5rem}
+  .header-title{font-family:'Noto Serif SC',serif;font-weight:900;font-size:clamp(2rem,7vw,2.8rem);letter-spacing:0.15em;
+    background:linear-gradient(90deg,var(--gold),#e8c868,var(--gold));background-size:200% 100%;
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    animation:goldShimmer 5s ease infinite}
+  @keyframes goldShimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+  .header-en{font-family:'Shippori Mincho B1',serif;font-weight:400;font-size:0.75rem;color:var(--dim);letter-spacing:0.2em;margin-top:0.2rem}
+
+  /* Wave divider */
+  .wave-div{height:30px;margin:1rem 0;position:relative;overflow:hidden}
+  .wave-div svg{position:absolute;bottom:0;width:200%;animation:waveSlide 5s ease-in-out infinite alternate}
+  @keyframes waveSlide{0%{transform:translateX(0)}100%{transform:translateX(-25%)}}
+
+  /* ═══ FORTUNE SLIP ═══ */
+  .slip{background:var(--washi);color:var(--ink);padding:2rem 1.8rem;position:relative;min-height:300px;
+    box-shadow:0 4px 20px rgba(0,0,0,0.3);border:1px solid rgba(200,160,64,0.15);
+    transition:all 0.6s ease;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E")}
+
+  /* Initial state */
+  .slip-init{text-align:center;padding-top:3rem}
+  .slip-prompt{font-family:'Noto Serif SC',serif;font-weight:600;font-size:1.1rem;color:rgba(26,26,24,0.4);letter-spacing:0.06em}
+
+  .draw-btn{display:inline-block;font-family:'Noto Serif SC',serif;font-weight:700;font-size:1.1rem;color:var(--washi);
+    background:var(--vermilion);border:none;padding:0.7em 2.5em;margin-top:1.5rem;cursor:pointer;letter-spacing:0.12em;
+    transition:all 0.2s;box-shadow:0 3px 8px rgba(200,48,32,0.3)}
+  .draw-btn:hover{background:#d83828;transform:translateY(-1px);box-shadow:0 5px 12px rgba(200,48,32,0.35)}
+  .draw-btn:active{transform:translateY(0)}
+
+  /* Result state */
+  .slip-result{display:none;text-align:center;animation:slipIn 0.6s ease}
+  @keyframes slipIn{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+  .slip-result.show{display:block}
+  .slip-init.hide{display:none}
+
+  .fortune-level{font-family:'Noto Serif SC',serif;font-weight:900;font-size:clamp(3rem,10vw,4rem);color:var(--vermilion);line-height:1.2;letter-spacing:0.1em}
+  .fortune-poem{font-family:'Noto Serif SC',serif;font-weight:400;font-size:1.05rem;color:rgba(26,26,24,0.5);margin-top:1rem;line-height:2.2;letter-spacing:0.04em}
+
+  .fortune-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.4rem 1.5rem;margin-top:1.5rem;padding-top:1rem;border-top:1px solid rgba(26,26,24,0.06)}
+  .fortune-item{text-align:center}
+  .fortune-key{font-family:'Shippori Mincho B1',serif;font-size:0.65rem;color:rgba(26,26,24,0.3);letter-spacing:0.08em}
+  .fortune-val{font-family:'Noto Serif SC',serif;font-weight:600;font-size:0.95rem;color:var(--ink);margin-top:0.1rem}
+
+  .fortune-extra{display:flex;justify-content:center;gap:2rem;margin-top:1.2rem;padding-top:0.8rem;border-top:1px solid rgba(26,26,24,0.06)}
+  .fortune-tag{text-align:center}
+  .fortune-tag-label{font-size:0.7rem;color:rgba(26,26,24,0.25)}
+  .fortune-tag-val{font-family:'Noto Serif SC',serif;font-weight:600;font-size:0.9rem;margin-top:0.1rem}
+  .tag-yi{color:var(--pine)}
+  .tag-ji{color:var(--vermilion)}
+
+  /* Seal stamp */
+  .seal{width:44px;height:44px;border:2.5px solid var(--vermilion);position:absolute;bottom:15px;right:15px;
+    display:flex;align-items:center;justify-content:center;transform:rotate(-8deg);opacity:0.35}
+  .seal-text{font-family:'Noto Serif SC',serif;font-weight:900;font-size:1.3rem;color:var(--vermilion)}
+
+  /* Redraw */
+  .redraw{text-align:center;margin-top:1.5rem}
+  .redraw-btn{font-family:'Noto Serif SC',serif;font-weight:400;font-size:0.9rem;color:var(--dim);
+    background:none;border:1px solid rgba(240,232,216,0.15);padding:0.5em 1.5em;cursor:pointer;letter-spacing:0.08em;
+    transition:all 0.2s}
+  .redraw-btn:hover{border-color:var(--gold);color:var(--gold)}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;padding:2rem 0 0.5rem}
+  .footer-motto{font-family:'Noto Serif SC',serif;font-weight:400;font-size:0.9rem;color:var(--dim);opacity:0.4;letter-spacing:0.08em}
+  .footer-disc{font-size:0.68rem;color:var(--dim);opacity:0.15;margin-top:0.6rem}
+
+  /* Bottom wave */
+  .wave-bottom{height:40px;margin-top:1rem;position:relative;overflow:hidden}
+  .wave-bottom svg{position:absolute;top:0;width:200%;animation:waveSlide 6s ease-in-out infinite alternate}
+
+  @media(max-width:500px){
+    body{padding:1rem}
+    .slip{padding:1.5rem 1.2rem}
+    .torii{width:100px;height:65px}
+    .fortune-extra{gap:1rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="shrine">
+
+  <!-- ═══ TORII ═══ -->
+  <div class="torii">
+    <div class="torii-roof"></div>
+    <div class="torii-beam"></div>
+    <div class="torii-beam2"></div>
+    <div class="torii-pillar torii-pillar-l"></div>
+    <div class="torii-pillar torii-pillar-r"></div>
+  </div>
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <h1 class="header-title">御神籤</h1>
+    <div class="header-en">OMIKUJI · 每日一签</div>
+  </header>
+
+  <div class="wave-div">
+    <svg viewBox="0 0 1200 30" preserveAspectRatio="none"><path d="M0,15 C200,5 400,25 600,12 C800,0 1000,22 1200,10" fill="none" stroke="rgba(200,160,64,0.15)" stroke-width="1"/></svg>
+  </div>
+
+  <!-- ═══ FORTUNE SLIP ═══ -->
+  <div class="slip" id="slip">
+    <div class="slip-init" id="slipInit">
+      <div class="slip-prompt">摇一摇，看今日运势</div>
+      <button class="draw-btn" id="drawBtn">求 签</button>
+    </div>
+
+    <div class="slip-result" id="slipResult">
+      <div class="fortune-level" id="fLevel"></div>
+      <div class="fortune-poem" id="fPoem"></div>
+      <div class="fortune-grid">
+        <div class="fortune-item"><div class="fortune-key">事业</div><div class="fortune-val" id="fCareer"></div></div>
+        <div class="fortune-item"><div class="fortune-key">感情</div><div class="fortune-val" id="fLove"></div></div>
+        <div class="fortune-item"><div class="fortune-key">财运</div><div class="fortune-val" id="fWealth"></div></div>
+        <div class="fortune-item"><div class="fortune-key">健康</div><div class="fortune-val" id="fHealth"></div></div>
+      </div>
+      <div class="fortune-extra">
+        <div class="fortune-tag"><div class="fortune-tag-label">幸运色</div><div class="fortune-tag-val" id="fColor"></div></div>
+        <div class="fortune-tag"><div class="fortune-tag-label">幸运数</div><div class="fortune-tag-val" id="fNum"></div></div>
+        <div class="fortune-tag"><div class="fortune-tag-label">宜</div><div class="fortune-tag-val tag-yi" id="fYi"></div></div>
+        <div class="fortune-tag"><div class="fortune-tag-label">忌</div><div class="fortune-tag-val tag-ji" id="fJi"></div></div>
+      </div>
+    </div>
+
+    <div class="seal"><span class="seal-text">福</span></div>
+  </div>
+
+  <!-- ═══ REDRAW ═══ -->
+  <div class="redraw">
+    <button class="redraw-btn" id="redrawBtn" style="display:none">再抽一签</button>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">御神籤 · 信则有，诚则灵</div>
+    <div class="footer-disc">页面来源：虚构占卜 · 仅供娱乐展示</div>
+  </footer>
+
+  <div class="wave-bottom">
+    <svg viewBox="0 0 1200 30" preserveAspectRatio="none"><path d="M0,20 C150,8 300,28 500,15 C700,2 900,25 1200,12" fill="none" stroke="rgba(200,160,64,0.1)" stroke-width="1"/></svg>
+  </div>
+
+</div>
+
+<script>
+var fortunes=[
+  {level:'大吉',poem:'春风得意马蹄疾，一日看尽长安花',career:'贵人相助，大胆行动',love:'表白宜早不宜迟',wealth:'大有收获',health:'精力充沛',color:'金',num:'8',yi:'远行',ji:'犹豫'},
+  {level:'吉',poem:'山重水复疑无路，柳暗花明又一村',career:'坚持有报',love:'静待花开',wealth:'小有收获',health:'注意休息',color:'蓝',num:'3',yi:'学习',ji:'冲动'},
+  {level:'中吉',poem:'沉舟侧畔千帆过，病树前头万木春',career:'稳中求进',love:'多些耐心',wealth:'量入为出',health:'适度运动',color:'绿',num:'5',yi:'整理',ji:'熬夜'},
+  {level:'小吉',poem:'不畏浮云遮望眼，自缘身在最高层',career:'韬光养晦',love:'顺其自然',wealth:'不宜投资',health:'早睡早起',color:'白',num:'1',yi:'读书',ji:'贪心'},
+  {level:'末吉',poem:'千磨万击还坚劲，任尔东西南北风',career:'暂避锋芒',love:'独处为佳',wealth:'守财为上',health:'多喝热水',color:'紫',num:'7',yi:'反思',ji:'争吵'}
+];
+var drawBtn=document.getElementById('drawBtn');
+var redrawBtn=document.getElementById('redrawBtn');
+var slipInit=document.getElementById('slipInit');
+var slipResult=document.getElementById('slipResult');
+function draw(){
+  var f=fortunes[Math.floor(Math.random()*fortunes.length)];
+  document.getElementById('fLevel').textContent=f.level;
+  document.getElementById('fPoem').textContent=f.poem;
+  document.getElementById('fCareer').textContent=f.career;
+  document.getElementById('fLove').textContent=f.love;
+  document.getElementById('fWealth').textContent=f.wealth;
+  document.getElementById('fHealth').textContent=f.health;
+  document.getElementById('fColor').textContent=f.color;
+  document.getElementById('fNum').textContent=f.num;
+  document.getElementById('fYi').textContent=f.yi;
+  document.getElementById('fJi').textContent=f.ji;
+  slipInit.classList.add('hide');
+  slipResult.classList.remove('show');
+  void slipResult.offsetWidth;
+  slipResult.classList.add('show');
+  redrawBtn.style.display='inline-block';
+}
+drawBtn.addEventListener('click',draw);
+redrawBtn.addEventListener('click',function(){
+  slipResult.classList.remove('show');
+  setTimeout(draw,100);
+});
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
