@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>墨趣 INK PLAY — 成语接龙</title>
+<link href="https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#F5F0E4;--ink:#1A1A18;--light:#6A6A60;--dry:#A0A090;--red:#C04030;--gray:#D0C8B8;--dim:rgba(26,26,24,0.3)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--paper);color:var(--ink);font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:17px;line-height:1.8;display:flex;justify-content:center;padding:2rem;-webkit-font-smoothing:antialiased;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E")}
+
+  .game{max-width:480px;width:100%;animation:fadeIn .6s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;padding-bottom:1.5rem;position:relative}
+  .h-title{font-family:'Ma Shan Zheng',cursive;font-size:clamp(2.4rem,8vw,3.2rem);color:var(--ink);letter-spacing:0.08em}
+  .h-en{font-family:'ZCOOL XiaoWei',serif;font-size:0.85rem;color:var(--dry);letter-spacing:0.12em;margin-top:0.1rem}
+
+  /* Vermilion seal */
+  .seal{display:inline-block;width:36px;height:36px;border:2.5px solid var(--red);position:absolute;top:8px;right:calc(50% - 100px);
+    transform:rotate(-8deg);display:flex;align-items:center;justify-content:center;opacity:0.5}
+  .seal-text{font-family:'Ma Shan Zheng',cursive;font-size:1rem;color:var(--red)}
+
+  .divider{text-align:center;color:var(--gray);font-size:0.8rem;margin:0.5rem 0 1.5rem;letter-spacing:1em;opacity:0.4}
+
+  /* ═══ CURRENT IDIOM ═══ */
+  .current{text-align:center;margin-bottom:1.5rem}
+  .current-idiom{font-family:'Ma Shan Zheng',cursive;font-size:clamp(2.5rem,9vw,3.5rem);color:var(--ink);letter-spacing:0.12em;line-height:1.3;
+    text-shadow:1px 1px 2px rgba(0,0,0,0.05)}
+  .current-hint{font-family:'ZCOOL XiaoWei',serif;font-size:0.95rem;color:var(--red);margin-top:0.5rem;opacity:0.7}
+
+  /* ═══ CHAIN ═══ */
+  .chain{margin-bottom:1.5rem;min-height:40px}
+  .chain-label{font-family:'ZCOOL XiaoWei',serif;font-size:0.8rem;color:var(--dry);margin-bottom:0.5rem}
+  .chain-list{display:flex;flex-wrap:wrap;gap:0.4rem;align-items:center}
+  .chain-item{font-family:'Ma Shan Zheng',cursive;font-size:1.2rem;color:var(--light);padding:0.2em 0.4em;position:relative}
+  .chain-item.new{animation:inkSplash .5s ease both}
+  @keyframes inkSplash{0%{transform:scale(0.5);filter:blur(4px);opacity:0}100%{transform:scale(1);filter:blur(0);opacity:1}}
+  .chain-arrow{color:var(--gray);font-size:0.8rem}
+
+  /* ═══ INPUT ═══ */
+  .input-area{margin-bottom:1.5rem;display:flex;gap:0.6rem;align-items:flex-end}
+  .input-wrap{flex:1;position:relative}
+  .input-field{width:100%;font-family:'Ma Shan Zheng',cursive;font-size:1.4rem;color:var(--ink);background:none;
+    border:none;border-bottom:2px solid var(--gray);padding:0.4em 0;outline:none;letter-spacing:0.1em;
+    transition:border-color .2s}
+  .input-field:focus{border-color:var(--ink)}
+  .input-field::placeholder{color:var(--gray);font-size:1rem}
+  .input-field.error{border-color:var(--red);animation:shake .4s ease}
+  @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(2px)}}
+
+  .submit-btn{font-family:'Ma Shan Zheng',cursive;font-size:1.1rem;color:var(--paper);background:var(--ink);
+    border:none;padding:0.5em 1.2em;cursor:pointer;transition:all .15s;flex-shrink:0}
+  .submit-btn:hover{background:var(--light)}
+  .submit-btn:active{transform:scale(0.95)}
+
+  .error-msg{font-size:0.82rem;color:var(--red);margin-top:0.3rem;min-height:1.5em;opacity:0;transition:opacity .2s}
+  .error-msg.show{opacity:1}
+
+  /* ═══ STATS ═══ */
+  .stats{text-align:center;margin-bottom:1.5rem}
+  .stat-num{font-family:'Ma Shan Zheng',cursive;font-size:1.8rem;color:var(--ink)}
+  .stat-label{font-size:0.85rem;color:var(--dry)}
+  .stat-encourage{font-family:'ZCOOL XiaoWei',serif;font-size:0.88rem;color:var(--light);margin-top:0.3rem;opacity:0.6}
+
+  /* Ink dot decorations */
+  .ink-dot{position:absolute;width:6px;height:6px;border-radius:50%;background:var(--ink);opacity:0.04}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;padding-top:0.5rem;border-top:1px solid rgba(208,200,184,0.3)}
+  .footer-motto{font-family:'ZCOOL XiaoWei',serif;font-size:0.85rem;color:var(--dry);opacity:0.4;margin-top:0.8rem}
+  .footer-disc{font-size:0.6rem;color:var(--dry);opacity:0.2;margin-top:0.3rem}
+
+  @media(max-width:400px){
+    body{padding:1.5rem 1rem}
+    .current-idiom{font-size:2.2rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="game">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="seal"><span class="seal-text">趣</span></div>
+    <h1 class="h-title">墨趣</h1>
+    <div class="h-en">INK PLAY · 成语接龙</div>
+  </header>
+  <div class="divider">— · —</div>
+
+  <!-- ═══ CURRENT ═══ -->
+  <div class="current">
+    <div class="current-idiom" id="currentIdiom">一马当先</div>
+    <div class="current-hint" id="hint">请接「<span id="hintChar">先</span>」字开头的成语</div>
+  </div>
+
+  <!-- ═══ CHAIN ═══ -->
+  <div class="chain">
+    <div class="chain-label">接龙长卷</div>
+    <div class="chain-list" id="chainList">
+      <span class="chain-item">一马当先</span>
+    </div>
+  </div>
+
+  <!-- ═══ INPUT ═══ -->
+  <div class="input-area">
+    <div class="input-wrap">
+      <input class="input-field" id="inputField" type="text" maxlength="8" placeholder="输入四字成语…" autofocus>
+      <div class="error-msg" id="errorMsg"></div>
+    </div>
+    <button class="submit-btn" onclick="submitIdiom()">落笔</button>
+  </div>
+
+  <!-- ═══ STATS ═══ -->
+  <div class="stats">
+    <div class="stat-num" id="statCount">0</div>
+    <div class="stat-label">个成语已接</div>
+    <div class="stat-encourage" id="encourage">开始你的接龙之旅</div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">墨趣 · 方寸之间，文字之美</div>
+    <div class="footer-disc">虚构游戏 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+var chain=['一马当先'];
+var count=0;
+var presets={
+  '先':'先发制人','人':'人山人海','海':'海阔天空','空':'空前绝后',
+  '后':'后来居上','上':'上善若水','水':'水落石出','出':'出人头地',
+  '地':'地大物博','博':'博古通今','今':'今非昔比','比':'比翼双飞',
+  '飞':'飞黄腾达','达':'达官贵人','天':'天长地久','久':'久负盛名',
+  '名':'名不虚传','传':'传为佳话','话':'话不投机','机':'机不可失',
+  '失':'失而复得','得':'得心应手','手':'手到擒来','来':'来日方长',
+  '长':'长风破浪','浪':'浪子回头','头':'头头是道','道':'道听途说'
+};
+var encourages=['不错！','好棒！','继续！','厉害！','文采斐然！','妙哉！','大师级别！'];
+
+var currentEl=document.getElementById('currentIdiom');
+var hintCharEl=document.getElementById('hintChar');
+var chainListEl=document.getElementById('chainList');
+var inputEl=document.getElementById('inputField');
+var errorEl=document.getElementById('errorMsg');
+var statEl=document.getElementById('statCount');
+var encEl=document.getElementById('encourage');
+
+function getLastChar(){return chain[chain.length-1].slice(-1)}
+
+function showError(msg){
+  errorEl.textContent=msg;errorEl.classList.add('show');
+  inputEl.classList.add('error');
+  setTimeout(function(){errorEl.classList.remove('show');inputEl.classList.remove('error')},1500);
+}
+
+function submitIdiom(){
+  var val=inputEl.value.trim();
+  if(!val)return;
+
+  // Validate
+  if(val.length<4){showError('成语至少四个字哦');return}
+  var need=getLastChar();
+  if(val[0]!==need){showError('首字要是「'+need+'」');return}
+  if(chain.indexOf(val)!==-1){showError('这个已经用过啦');return}
+
+  // Accept
+  chain.push(val);count++;
+  currentEl.textContent=val;
+  hintCharEl.textContent=val.slice(-1);
+
+  // Add to chain display
+  var arrow=document.createElement('span');
+  arrow.className='chain-arrow';arrow.textContent=' → ';
+  chainListEl.appendChild(arrow);
+  var item=document.createElement('span');
+  item.className='chain-item new';item.textContent=val;
+  chainListEl.appendChild(item);
+
+  statEl.textContent=count;
+  encEl.textContent=encourages[Math.min(count-1,encourages.length-1)];
+  inputEl.value='';
+
+  // Show hint for preset if available
+  var nextChar=val.slice(-1);
+  if(presets[nextChar]){
+    inputEl.placeholder='试试「'+presets[nextChar]+'」？';
+  }else{
+    inputEl.placeholder='输入「'+nextChar+'」开头的成语…';
+  }
+  inputEl.focus();
+}
+
+// Enter key submit
+inputEl.addEventListener('keydown',function(e){if(e.key==='Enter')submitIdiom()});
+
+// Initial hint
+if(presets[getLastChar()]){
+  inputEl.placeholder='试试「'+presets[getLastChar()]+'」？';
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
