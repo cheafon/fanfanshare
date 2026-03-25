@@ -270,7 +270,8 @@ function renderPage() {
     c.innerHTML = '<div class="card-preview"><iframe src="styles/origin-' + s.id + '.html" loading="lazy" sandbox="allow-same-origin allow-scripts" tabindex="-1"></iframe></div>' +
       '<div class="card-actions">' +
       '<button class="act-btn ' + (isFav(s.id)?'faved':'') + '" onclick="event.stopPropagation();event.preventDefault();toggleFav(\'' + s.id + '\')" title="收藏">' + (isFav(s.id)?'★':'☆') + '</button>' +
-      '<a class="act-btn" href="styles/origin-' + s.id + '.html" download="origin-' + s.id + '.html" onclick="event.stopPropagation()" title="下载">↓</a></div>' +
+      '<a class="act-btn" href="styles/origin-' + s.id + '.html" download="origin-' + s.id + '.html" onclick="event.stopPropagation()" title="下载">↓</a>' +
+      '<button class="act-btn" onclick="event.stopPropagation();event.preventDefault();copyPrompt(\'' + s.id + '\',this)" title="复制提示词">📋</button></div>' +
       '<div class="card-body"><div class="card-num">#' + String(i+1).padStart(3,'0') + '</div>' +
       '<div class="card-name">' + s.name + '</div><div class="card-desc">' + s.desc + '</div>' +
       '<div class="card-tags">' + (s.tags||[]).map(t=>'<span class="card-tag">'+t+'</span>').join('') + '</div></div>';
