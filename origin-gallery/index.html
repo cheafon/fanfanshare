@@ -138,8 +138,8 @@
       <span class="brand-label">创意工坊</span>
     </div>
     <div class="gen-line"><img src="image.png" alt="Claude" class="claude-icon"> Claude 正在持续生成 HTML 库 <span class="spinner"></span></div>
-    <div class="credit">powered by <a href="https://github.com/cheafon" target="_blank" class="credit-link">cheafon</a></div>
-  </div>
+
+      </div>
   <button class="fav-btn" id="favFilter" onclick="toggleFavFilter()">
     <span class="star">★</span> 收藏夹
   </button>
@@ -150,6 +150,7 @@
 
 <footer class="footer">
   <div class="footer-brand">HTML 创意工坊</div>
+  
   <div class="footer-desc">为了缓解 token 用不完的焦虑，利用 Claude Code's Loop & Claude's Schedule 帮我自动生成 HTML 库，欢迎大家加入交流群，分享一些 AI 点子和前沿知识。</div>
   <div class="footer-wx">WX：kai9121000</div>
   <div class="footer-social">
@@ -219,6 +220,7 @@ const META = {
   'blob-musicplayer': { name: '潮汐 · 液态播放器', desc: '音乐播放器界面 — 深空紫+液态紫蓝粉橙、Outfit圆润+Noto Sans SC、CSS液态blob变形动画(border-radius morphing+旋转+渐变)+12根音波频谱条跳动+进度条240s动画+播放按钮脉动box-shadow+渐变流动背景+JS播放时间递增+歌词高亮、Morphing Blob变形液态', tags: ['dark','blob','music','player','animated','organic','liquid','interactive'] },
   'frostneon-dashboard': { name: '数据星球 · 霜冻仪表盘', desc: '数据仪表盘 — 冰冻深蓝+霓虹蓝青紫+冰白、Exo 2科技数据+Noto Sans SC、JS countUp4个KPI数字跳动+CSS conic-gradient圆环仪表盘(72%/94%动画)+SVG折线图stroke描绘+JS22颗霜冻粒子漂浮+毛玻璃backdrop-filter面板+staggered入场+热销排行、Frosted Neon霜冻霓虹', tags: ['dark','dashboard','data','neon','animated','glass','chart','interactive'] },
   'imsg-chatlog': { name: '今晚吃什么 · iOS聊天', desc: '聊天记录展示页 — iOS浅灰+iMessage蓝+气泡灰+绿色在线、Nunito圆润+Noto Sans SC、JS16条消息逐条弹入(1-1.5s间隔)+CSS三点打字指示器bounce+气泡scale弹入spring+毛玻璃导航栏backdrop-filter+iOS不对称圆角气泡+在线状态脉动绿点+自动滚动、iMessage Glassmorphism iOS聊天', tags: ['light','imessage','chat','ios','interactive','animated','glass','conversation'] },
+  'papercraft-calendar': { name: '纸间 · 纸艺日历', desc: '月历视图3月 — 白纸+米纸+纸板灰+标记红蓝绿、Alegreya Sans人文+Noto Sans SC、多层box-shadow纸张厚度+hover 3D翻起(perspective+rotateX)+折痕linear-gradient细线+今日脉动box-shadow呼吸+纸标签微旋转+活动彩色圆点hover tooltip+7×5日历网格、Paper Craft纸工艺', tags: ['light','paper','calendar','craft','3d','hover','stationery','handmade'] },
 };
 
 let styles = Object.entries(META).map(([id, m]) => ({ id, ...m }));
