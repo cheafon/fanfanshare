@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>街坊分类广告 — NEIGHBORS CLASSIFIEDS</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#F5F0E0;--ink:#1A1A18;--red:#C03030;--blue:#2050A0;--rule:#C0B8A8;--hl:#FFF0A0;--dim:rgba(26,26,24,0.35)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--paper);color:var(--ink);font-family:'Noto Sans SC',sans-serif;font-size:17px;line-height:1.7;
+    padding:1.5rem;-webkit-font-smoothing:auto;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E")}
+
+  .page{max-width:680px;margin:0 auto;animation:fadeIn .5s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* ═══ MASTHEAD ═══ */
+  .masthead{text-align:center;padding-bottom:0.8rem;border-bottom:3px double var(--ink);margin-bottom:1rem}
+  .mh-title{font-family:'Noto Serif SC',serif;font-weight:700;font-size:clamp(1.4rem,4vw,1.8rem);letter-spacing:0.1em}
+  .mh-en{font-family:'Lora',serif;font-weight:400;font-style:italic;font-size:0.72rem;color:var(--dim);letter-spacing:0.1em;margin-top:0.1rem}
+  .mh-date{font-size:0.78rem;color:var(--dim);margin-top:0.3rem}
+
+  /* ═══ CLASSIFIEDS ═══ */
+  .classifieds{columns:2;column-gap:1.5rem;column-rule:1px solid var(--rule);margin-bottom:1rem}
+
+  .category{break-inside:avoid;margin-bottom:1rem}
+  .cat-title{font-family:'Noto Serif SC',serif;font-weight:700;font-size:1rem;letter-spacing:0.06em;
+    padding-bottom:0.2rem;margin-bottom:0.5rem;display:inline-block}
+  .cat-red{color:var(--red);border-bottom:2px solid var(--red)}
+  .cat-blue{color:var(--blue);border-bottom:2px solid var(--blue)}
+
+  .ad{padding:0.4rem 0;border-bottom:1px dotted var(--rule);font-size:0.9rem;color:rgba(26,26,24,0.7);line-height:1.7;
+    transition:background .15s;cursor:default;break-inside:avoid}
+  .ad:hover{background:var(--hl)}
+  .ad:last-child{border-bottom:none}
+  .ad-price{font-family:'Lora',serif;font-weight:700;color:var(--ink)}
+  .ad-contact{font-size:0.78rem;color:var(--dim)}
+  .ad-urgent{font-size:0.72rem;color:var(--red);font-weight:500}
+
+  /* ═══ NOTICE ═══ */
+  .notice{border-top:1px solid var(--rule);padding-top:0.6rem;margin-bottom:1rem;text-align:center;
+    font-size:0.78rem;color:var(--dim)}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;border-top:3px double var(--ink);padding-top:0.6rem}
+  .footer-motto{font-family:'Noto Serif SC',serif;font-weight:400;font-size:0.85rem;color:var(--dim);opacity:0.5}
+  .footer-disc{font-size:0.6rem;color:var(--dim);opacity:0.2;margin-top:0.2rem}
+
+  @media(max-width:600px){
+    .classifieds{columns:1;column-rule:none}
+    .page{padding:0}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ MASTHEAD ═══ -->
+  <header class="masthead">
+    <h1 class="mh-title">街坊分类广告</h1>
+    <div class="mh-en">Neighbors Classifieds</div>
+    <div class="mh-date">第 87 版 · 2026 年 3 月 25 日 星期二</div>
+  </header>
+
+  <!-- ═══ CLASSIFIEDS ═══ -->
+  <div class="classifieds">
+
+    <div class="category">
+      <div class="cat-title cat-red">【出售】</div>
+      <div class="ad">九成新 iPad Air 5 · 64G · 太空灰 · 带原装键盘套装 <span class="ad-price">¥2,800</span> 可小刀 <span class="ad-contact">微信 ipad_seller_88</span></div>
+      <div class="ad">宜家比利书架 · 白色 · 80×202cm · 自提静安 <span class="ad-price">¥150</span> <span class="ad-urgent">搬家急出</span></div>
+      <div class="ad">Switch OLED + 3 游戏（塞尔达/马里奥/健身环）· 成色 9 新 <span class="ad-price">¥1,600</span> <span class="ad-contact">微信 switch_deal</span></div>
+    </div>
+
+    <div class="category">
+      <div class="cat-title cat-blue">【求购】</div>
+      <div class="ad">求一台二手戴森 V12 吸尘器 · 预算 <span class="ad-price">¥1,500 内</span> <span class="ad-contact">微信 need_dyson</span></div>
+      <div class="ad">求购二手公路自行车 · 车架尺码 52-54 · 预算 <span class="ad-price">¥3,000</span> <span class="ad-contact">微信 road_bike_wanted</span></div>
+    </div>
+
+    <div class="category">
+      <div class="cat-title cat-red">【租房】</div>
+      <div class="ad">静安寺 1 室 1 厅 · 40㎡ · 精装修 · 近 2/7 号线 · 随时看房 <span class="ad-price">¥5,500/月</span> <span class="ad-contact">电话 138-XXXX</span></div>
+      <div class="ad">合租浦东张江 · 次卧 · 含物业费 · 限女生 <span class="ad-price">¥2,800/月</span> <span class="ad-contact">微信 zj_room</span></div>
+    </div>
+
+    <div class="category">
+      <div class="cat-title cat-blue">【服务】</div>
+      <div class="ad">专业搬家 · 居民搬家/公司搬迁 · 拆装家具 · 起步价 <span class="ad-price">¥200</span> <span class="ad-contact">电话 138-XXXX</span></div>
+      <div class="ad">家电深度清洗 · 空调/洗衣机/油烟机 · 上门服务 <span class="ad-price">¥120 起</span> <span class="ad-contact">微信 clean_home_sh</span></div>
+      <div class="ad">吉他教学 · 古典/民谣 · 零基础可 · 可上门 <span class="ad-price">¥150/课</span> <span class="ad-contact">微信 guitar_teacher</span></div>
+    </div>
+
+    <div class="category">
+      <div class="cat-title cat-red">【寻物/启事】</div>
+      <div class="ad">3 月 22 日在人民广场地铁站遗失黑色双肩包 · 内有笔记本电脑 · <span class="ad-urgent">重谢</span> <span class="ad-contact">联系 159-XXXX</span></div>
+      <div class="ad">寻找走失柯基犬 · 名叫「饼干」· 黄白色 · 长宁区 3/20 走失 · <span class="ad-urgent">必有重谢</span> <span class="ad-contact">联系 186-XXXX</span></div>
+    </div>
+
+  </div>
+
+  <!-- ═══ NOTICE ═══ -->
+  <div class="notice">
+    刊登分类广告请联系 editor@neighbors.cn · 每条限 50 字 · 免费刊登 3 天
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">街坊 · NEIGHBORS · 邻里之间，互通有无</div>
+    <div class="footer-disc">虚构平台 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>
