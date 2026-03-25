@@ -245,6 +245,19 @@ const META = {
 };
 
 let styles = Object.entries(META).map(([id, m]) => ({ id, ...m }));
+// Count-up animation for style count
+(function(){
+  var target=Object.keys(META).length;
+  var el=document.getElementById('styleCount');
+  var dur=1200,start=performance.now();
+  function tick(now){
+    var p=Math.min((now-start)/dur,1);
+    var ease=1-Math.pow(1-p,3);
+    el.textContent=Math.round(target*ease);
+    if(p<1)requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
 let favs = JSON.parse(localStorage.getItem('origin-favs') || '[]');
 const PER_PAGE = 12;
 let currentPage = parseInt(sessionStorage.getItem('gallery-page') || '1');
