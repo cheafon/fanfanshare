@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>前端学习路线图 — 积木代码 BRICK CODE</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--red:#D01020;--blue:#0060A8;--yellow:#F0C000;--green:#00883A;--gray:#A0A0A0;--base:#4A8B28;--white:#F8F8F8;--dark:#2A2A28}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--base);color:var(--dark);font-family:'Noto Sans SC','Rubik',sans-serif;font-weight:400;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;
+    /* Baseplate stud grid */
+    background-image:radial-gradient(circle,rgba(60,110,30,0.3) 4px,transparent 4px);
+    background-size:20px 20px}
+
+  .page{max-width:460px;width:100%;animation:fadeIn .5s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* Brick card base */
+  .brick{border-radius:6px;padding:1rem 1.2rem;position:relative;color:#fff;margin-bottom:0.8rem;
+    box-shadow:0 4px 0 rgba(0,0,0,0.15),0 6px 12px rgba(0,0,0,0.1);
+    transition:transform .2s;cursor:default;
+    opacity:0;animation:stackUp .4s ease forwards}
+  @keyframes stackUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  .brick:hover{transform:perspective(400px) rotateX(-3deg) translateY(-2px)}
+
+  /* CSS Studs on top */
+  .brick::before,.brick::after{content:'';position:absolute;top:-8px;width:16px;height:16px;border-radius:50%;
+    box-shadow:0 2px 3px rgba(0,0,0,0.2)}
+  .brick::before{left:20px}
+  .brick::after{left:44px}
+
+  .brick-red{background:var(--red)}.brick-red::before,.brick-red::after{background:radial-gradient(circle at 40% 35%,#f04050,var(--red),#a00818)}
+  .brick-blue{background:var(--blue)}.brick-blue::before,.brick-blue::after{background:radial-gradient(circle at 40% 35%,#2080d0,var(--blue),#004080)}
+  .brick-yellow{background:var(--yellow);color:var(--dark)}.brick-yellow::before,.brick-yellow::after{background:radial-gradient(circle at 40% 35%,#ffe040,var(--yellow),#c8a000)}
+  .brick-green{background:var(--green)}.brick-green::before,.brick-green::after{background:radial-gradient(circle at 40% 35%,#20b050,var(--green),#006828)}
+
+  .brick-stage{font-family:'Rubik',sans-serif;font-weight:700;font-size:0.65rem;letter-spacing:0.1em;opacity:0.6}
+  .brick-title{font-weight:700;font-size:1.1rem;margin-top:0.1rem}
+  .brick-sub{font-size:0.82rem;opacity:0.7;margin-top:0.1rem}
+  .brick-topics{font-size:0.8rem;opacity:0.5;margin-top:0.3rem}
+
+  .brick-status{position:absolute;top:1rem;right:1rem;font-family:'Rubik',sans-serif;font-weight:600;font-size:0.7rem;
+    padding:0.2em 0.6em;border-radius:4px}
+  .st-done{background:rgba(255,255,255,0.25);color:#fff}
+  .st-progress{background:rgba(255,255,255,0.2);animation:pulse 1.5s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+  .st-todo{background:rgba(255,255,255,0.1);opacity:0.4}
+
+  /* Connector line */
+  .connector{width:3px;height:16px;background:repeating-linear-gradient(0deg,rgba(255,255,255,0.3) 0,rgba(255,255,255,0.3) 3px,transparent 3px,transparent 6px);
+    margin:0 auto;opacity:0.5}
+
+  /* ═══ HEADER ═══ */
+  .header{margin-bottom:1.5rem;text-align:center}
+  .header .brick{padding:1.5rem;text-align:center}
+  .h-title{font-weight:800;font-size:1.5rem;letter-spacing:0.06em}
+  .h-en{font-family:'Rubik',sans-serif;font-weight:500;font-size:0.72rem;opacity:0.6;letter-spacing:0.12em;margin-top:0.1rem}
+  .h-motto{font-size:0.88rem;opacity:0.5;margin-top:0.4rem}
+
+  /* ═══ STATS ═══ */
+  .stats{display:flex;justify-content:space-around;margin-bottom:1rem;padding:0.8rem;background:rgba(0,0,0,0.1);border-radius:8px}
+  .stat{text-align:center;color:#fff}
+  .stat-val{font-family:'Rubik',sans-serif;font-weight:700;font-size:1.2rem}
+  .stat-label{font-size:0.75rem;opacity:0.5;margin-top:0.1rem}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;margin-top:0.5rem}
+  .footer-motto{font-family:'Rubik',sans-serif;font-weight:600;font-size:0.82rem;color:rgba(255,255,255,0.4)}
+  .footer-disc{font-size:0.58rem;color:rgba(255,255,255,0.15);margin-top:0.2rem}
+
+  @media(max-width:400px){
+    body{padding:1rem}
+    .brick{padding:0.8rem 1rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="brick brick-red" style="animation-delay:.1s">
+      <div class="h-title">积木代码</div>
+      <div class="h-en">BRICK CODE · 前端学习路线图</div>
+      <div class="h-motto">一块一块搭起来</div>
+    </div>
+  </header>
+
+  <!-- ═══ ROADMAP ═══ -->
+
+  <div class="brick brick-red" style="animation-delay:.2s">
+    <span class="brick-stage">STAGE 01</span>
+    <div class="brick-title">HTML 基础</div>
+    <div class="brick-sub">网页的骨架 · 2 周</div>
+    <div class="brick-topics">标签 / 结构 / 表单 / 语义化</div>
+    <span class="brick-status st-done">✓ 完成</span>
+  </div>
+  <div class="connector"></div>
+
+  <div class="brick brick-blue" style="animation-delay:.35s">
+    <span class="brick-stage">STAGE 02</span>
+    <div class="brick-title">CSS 样式</div>
+    <div class="brick-sub">让网页好看 · 3 周</div>
+    <div class="brick-topics">选择器 / 布局 / Flexbox / Grid / 动画</div>
+    <span class="brick-status st-done">✓ 完成</span>
+  </div>
+  <div class="connector"></div>
+
+  <div class="brick brick-yellow" style="animation-delay:.5s">
+    <span class="brick-stage">STAGE 03</span>
+    <div class="brick-title">JavaScript</div>
+    <div class="brick-sub">让网页动起来 · 4 周</div>
+    <div class="brick-topics">变量 / 函数 / DOM / 事件 / 异步</div>
+    <span class="brick-status st-progress">学习中</span>
+  </div>
+  <div class="connector"></div>
+
+  <div class="brick brick-green" style="animation-delay:.65s">
+    <span class="brick-stage">STAGE 04</span>
+    <div class="brick-title">React 框架</div>
+    <div class="brick-sub">造更大的东西 · 4 周</div>
+    <div class="brick-topics">组件 / 状态 / Hooks / 路由</div>
+    <span class="brick-status st-todo">未开始</span>
+  </div>
+  <div class="connector"></div>
+
+  <div class="brick brick-blue" style="animation-delay:.8s">
+    <span class="brick-stage">STAGE 05</span>
+    <div class="brick-title">工程化</div>
+    <div class="brick-sub">专业开发流程 · 3 周</div>
+    <div class="brick-topics">Git / Webpack / TypeScript / 测试</div>
+    <span class="brick-status st-todo">未开始</span>
+  </div>
+  <div class="connector"></div>
+
+  <div class="brick brick-red" style="animation-delay:.95s">
+    <span class="brick-stage">STAGE 06</span>
+    <div class="brick-title">项目实战</div>
+    <div class="brick-sub">搭一个真的 · 持续</div>
+    <div class="brick-topics">个人网站 / Todo 应用 / 电商前端</div>
+    <span class="brick-status st-todo">未开始</span>
+  </div>
+
+  <!-- ═══ STATS ═══ -->
+  <div class="stats" style="margin-top:1rem">
+    <div class="stat"><div class="stat-val">2/6</div><div class="stat-label">已完成阶段</div></div>
+    <div class="stat"><div class="stat-val">~5 周</div><div class="stat-label">已学习</div></div>
+    <div class="stat"><div class="stat-val">6 月</div><div class="stat-label">预计总时长</div></div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">BRICK CODE · 代码就是一块一块的积木</div>
+    <div class="footer-disc">虚构平台 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>
