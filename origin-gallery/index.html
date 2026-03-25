@@ -278,7 +278,7 @@ function renderPage() {
   gallery.innerHTML = '';
   if (!items.length) {
     gallery.innerHTML = '<div class="empty"><div class="empty-icon">☕</div><div class="empty-text">' +
-      (showFavsOnly ? '还没有收藏，点击卡片上的 ★ 添加！' : '没有匹配的风格') + '</div></div>';
+      '没有匹配的风格' + '</div></div>';
     pagerEl.innerHTML = ''; return;
   }
 
