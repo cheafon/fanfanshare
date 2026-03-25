@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>折射 REFRACTION — 零号星球 PLANET ZERO</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--void:#0A0A12;--pink:#FF6EC7;--cyan:#00E5FF;--gold:#FFD700;--violet:#BF5FFF;--chrome:#C0C8D8;--deep:#1A1030;--white:#F8F8FF;--dim:rgba(192,200,216,0.3)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--void);color:var(--white);font-family:'Noto Sans SC','Syne',sans-serif;font-weight:400;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative}
+
+  /* Light leaks */
+  .leaks{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .leak{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.07}
+  .leak-1{width:500px;height:500px;top:-10%;left:-10%;
+    background:radial-gradient(circle,var(--pink),var(--violet),transparent 70%);
+    animation:drift1 12s ease-in-out infinite alternate}
+  .leak-2{width:400px;height:400px;bottom:-5%;right:-8%;
+    background:radial-gradient(circle,var(--cyan),var(--gold),transparent 70%);
+    animation:drift2 15s ease-in-out infinite alternate}
+  .leak-3{width:300px;height:300px;top:40%;left:60%;
+    background:radial-gradient(circle,var(--gold),var(--pink),transparent 70%);
+    animation:drift3 10s ease-in-out infinite alternate}
+  @keyframes drift1{0%{transform:translate(0,0)}100%{transform:translate(80px,60px)}}
+  @keyframes drift2{0%{transform:translate(0,0)}100%{transform:translate(-60px,-80px)}}
+  @keyframes drift3{0%{transform:translate(0,0)}100%{transform:translate(-40px,50px)}}
+
+  /* Particles container */
+  .prisms{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .prism{position:absolute;clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);opacity:0;
+    animation:prismFloat linear infinite}
+  @keyframes prismFloat{
+    0%{transform:translateY(0) rotate(0deg);opacity:0}
+    10%{opacity:var(--o)}
+    90%{opacity:var(--o)}
+    100%{transform:translateY(-100vh) rotate(360deg);opacity:0}}
+
+  .page{max-width:460px;width:100%;position:relative;z-index:1}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:2rem;animation:fadeUp .6s ease both}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+  .h-artist{font-family:'Syne',sans-serif;font-weight:800;font-size:1.6rem;letter-spacing:0.1em;
+    background:linear-gradient(135deg,var(--pink),var(--cyan),var(--gold),var(--violet));
+    background-size:300% 300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    animation:gradShift 4s ease infinite}
+  @keyframes gradShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+  .h-en{font-family:'Syne',sans-serif;font-weight:500;font-size:0.72rem;color:var(--chrome);letter-spacing:0.2em;margin-top:0.1rem}
+  .h-badge{display:inline-block;font-family:'Syne',sans-serif;font-weight:700;font-size:0.6rem;letter-spacing:0.15em;
+    color:var(--void);background:linear-gradient(135deg,var(--cyan),var(--pink));padding:0.3em 1em;border-radius:20px;margin-top:0.6rem;
+    animation:badgePulse 2s ease-in-out infinite}
+  @keyframes badgePulse{0%,100%{box-shadow:0 0 8px rgba(0,229,255,0.3)}50%{box-shadow:0 0 16px rgba(255,110,199,0.4)}}
+
+  /* ═══ ALBUM COVER ═══ */
+  .cover-wrap{margin-bottom:1.5rem;animation:fadeUp .6s ease both;animation-delay:.15s}
+  .cover{width:100%;aspect-ratio:1;border-radius:8px;position:relative;overflow:hidden;
+    background:conic-gradient(from 0deg,var(--pink),var(--cyan),var(--gold),var(--violet),var(--pink));
+    background-size:100% 100%;animation:holoSpin 6s linear infinite;
+    box-shadow:0 8px 40px rgba(255,110,199,0.1),0 4px 20px rgba(0,229,255,0.08)}
+  @keyframes holoSpin{0%{filter:hue-rotate(0deg)}100%{filter:hue-rotate(360deg)}}
+  .cover-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    background:radial-gradient(circle at 50% 50%,rgba(10,10,18,0.3) 0%,rgba(10,10,18,0.7) 100%)}
+  .cover-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.2rem,8vw,3.2rem);color:var(--white);
+    letter-spacing:0.12em;text-shadow:0 0 30px rgba(255,255,255,0.2)}
+  .cover-en{font-family:'Syne',sans-serif;font-weight:500;font-size:clamp(0.7rem,2.5vw,0.9rem);color:var(--chrome);
+    letter-spacing:0.3em;margin-top:0.2rem}
+  .cover-date{font-family:'Syne',sans-serif;font-weight:400;font-size:0.75rem;color:var(--dim);margin-top:1rem;
+    letter-spacing:0.15em;border:1px solid rgba(192,200,216,0.15);padding:0.3em 1em;border-radius:3px}
+
+  /* Holographic foil shimmer line */
+  .cover::before{content:'';position:absolute;inset:0;
+    background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,0.12) 45%,transparent 55%);
+    background-size:250% 100%;animation:foilSweep 3s ease-in-out infinite}
+  @keyframes foilSweep{0%,100%{background-position:200% 0}50%{background-position:-50% 0}}
+
+  /* ═══ INFO ═══ */
+  .info{text-align:center;margin-bottom:1.5rem;animation:fadeUp .6s ease both;animation-delay:.3s}
+  .tags{display:flex;justify-content:center;gap:0.5rem;margin-bottom:0.6rem;flex-wrap:wrap}
+  .tag{font-family:'Syne',sans-serif;font-size:0.75rem;color:var(--chrome);letter-spacing:0.08em;
+    border:1px solid rgba(192,200,216,0.12);padding:0.25em 0.8em;border-radius:20px}
+  .info-desc{font-size:0.92rem;color:var(--dim);line-height:1.9;max-width:380px;margin:0 auto}
+
+  /* ═══ TRACKLIST ═══ */
+  .tracklist{margin-bottom:1.5rem}
+  .tl-label{font-family:'Syne',sans-serif;font-weight:700;font-size:0.7rem;color:var(--chrome);letter-spacing:0.18em;
+    margin-bottom:0.8rem;text-align:center}
+  .track{display:flex;align-items:center;gap:0.8rem;padding:0.7rem 0.8rem;border-radius:6px;
+    border-left:2px solid rgba(192,200,216,0.08);margin-bottom:0.3rem;cursor:default;
+    transition:all .25s;position:relative;overflow:hidden;
+    opacity:0;animation:fadeUp .4s ease forwards}
+  .track::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;
+    background:linear-gradient(180deg,var(--pink),var(--cyan),var(--gold),var(--violet));
+    background-size:100% 300%;opacity:0;transition:opacity .3s}
+  .track:hover{background:rgba(192,200,216,0.03);border-left-color:transparent;
+    transform:scale(1.01);
+    box-shadow:0 0 12px rgba(255,110,199,0.06),0 0 12px rgba(0,229,255,0.06)}
+  .track:hover::before{opacity:1;animation:rainbowBorder 2s linear infinite}
+  @keyframes rainbowBorder{0%{background-position:0% 0%}100%{background-position:0% 100%}}
+
+  .t-num{font-family:'Syne',sans-serif;font-weight:700;font-size:0.75rem;color:rgba(192,200,216,0.2);min-width:1.8em}
+  .t-info{flex:1}
+  .t-name{font-weight:500;font-size:0.95rem;color:var(--white);transition:color .2s}
+  .track:hover .t-name{
+    background:linear-gradient(90deg,var(--pink),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .t-en{font-family:'Syne',sans-serif;font-size:0.72rem;color:rgba(192,200,216,0.25);letter-spacing:0.06em;margin-top:0.05rem}
+  .t-feat{color:var(--violet);font-size:0.78rem}
+  .t-dur{font-family:'Syne',sans-serif;font-size:0.78rem;color:var(--dim)}
+
+  /* ═══ CREDITS ═══ */
+  .credits{text-align:center;margin-bottom:1.2rem;padding:1rem 0;
+    border-top:1px solid rgba(192,200,216,0.06);border-bottom:1px solid rgba(192,200,216,0.06);
+    animation:fadeUp .6s ease both;animation-delay:.9s}
+  .credits-label{font-family:'Syne',sans-serif;font-weight:600;font-size:0.68rem;color:var(--chrome);letter-spacing:0.15em;margin-bottom:0.4rem}
+  .credit-line{font-size:0.85rem;color:var(--dim);line-height:2}
+
+  /* ═══ BUTTONS ═══ */
+  .buttons{display:flex;gap:0.6rem;justify-content:center;margin-bottom:1.5rem;flex-wrap:wrap;
+    animation:fadeUp .6s ease both;animation-delay:1s}
+  .btn{font-family:'Syne',sans-serif;font-weight:600;font-size:0.8rem;letter-spacing:0.08em;
+    padding:0.7em 1.6em;border-radius:30px;border:none;cursor:pointer;transition:all .25s}
+  .btn-primary{color:var(--void);
+    background:linear-gradient(135deg,var(--cyan),var(--pink));
+    box-shadow:0 4px 16px rgba(0,229,255,0.2)}
+  .btn-primary:hover{transform:scale(1.05);box-shadow:0 6px 24px rgba(255,110,199,0.3)}
+  .btn-ghost{color:var(--chrome);background:transparent;border:1px solid rgba(192,200,216,0.15)}
+  .btn-ghost:hover{border-color:var(--cyan);color:var(--cyan);box-shadow:0 0 12px rgba(0,229,255,0.1)}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;animation:fadeUp .6s ease both;animation-delay:1.1s}
+  .footer-motto{font-family:'Syne',sans-serif;font-size:0.78rem;color:var(--dim);opacity:0.4;letter-spacing:0.06em}
+  .footer-disc{font-size:0.58rem;color:var(--dim);opacity:0.15;margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1rem}.track{padding:0.6rem}.cover-title{letter-spacing:0.06em}}
+</style>
+</head>
+<body>
+
+<div class="leaks">
+  <div class="leak leak-1"></div>
+  <div class="leak leak-2"></div>
+  <div class="leak leak-3"></div>
+</div>
+<div class="prisms" id="prisms"></div>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="h-artist">零号星球</div>
+    <div class="h-en">PLANET ZERO</div>
+    <div class="h-badge">NEW ALBUM</div>
+  </header>
+
+  <!-- ═══ ALBUM COVER ═══ -->
+  <div class="cover-wrap">
+    <div class="cover">
+      <div class="cover-overlay">
+        <div class="cover-title">折射</div>
+        <div class="cover-en">REFRACTION</div>
+        <div class="cover-date">2026.03.28</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ INFO ═══ -->
+  <div class="info">
+    <div class="tags">
+      <span class="tag">电子</span>
+      <span class="tag">实验</span>
+      <span class="tag">氛围</span>
+    </div>
+    <p class="info-desc">当白光穿过棱镜，它不会消失——只是变成了你从未见过的颜色。第二张专辑《折射》探索声音的色散与重组，八首曲目如同八段光谱，从可见到不可见，从噪音到寂静。</p>
+  </div>
+
+  <!-- ═══ TRACKLIST ═══ -->
+  <div class="tracklist">
+    <div class="tl-label">TRACKLIST</div>
+
+    <div class="track" style="animation-delay:.4s">
+      <span class="t-num">01</span>
+      <div class="t-info"><div class="t-name">棱镜</div><div class="t-en">Prism</div></div>
+      <span class="t-dur">4:12</span>
+    </div>
+
+    <div class="track" style="animation-delay:.47s">
+      <span class="t-num">02</span>
+      <div class="t-info"><div class="t-name">虹膜</div><div class="t-en">Iris</div></div>
+      <span class="t-dur">3:45</span>
+    </div>
+
+    <div class="track" style="animation-delay:.54s">
+      <span class="t-num">03</span>
+      <div class="t-info"><div class="t-name">折射角</div><div class="t-en">Angle of Refraction</div></div>
+      <span class="t-dur">5:08</span>
+    </div>
+
+    <div class="track" style="animation-delay:.61s">
+      <span class="t-num">04</span>
+      <div class="t-info"><div class="t-name">全息投影</div><div class="t-en">Hologram</div></div>
+      <span class="t-dur">4:33</span>
+    </div>
+
+    <div class="track" style="animation-delay:.68s">
+      <span class="t-num">05</span>
+      <div class="t-info"><div class="t-name">光谱仪</div><div class="t-en">Spectrometer</div></div>
+      <span class="t-dur">3:58</span>
+    </div>
+
+    <div class="track" style="animation-delay:.75s">
+      <span class="t-num">06</span>
+      <div class="t-info"><div class="t-name">衍射 <span class="t-feat">feat. 云朵</span></div><div class="t-en">Diffraction</div></div>
+      <span class="t-dur">4:21</span>
+    </div>
+
+    <div class="track" style="animation-delay:.82s">
+      <span class="t-num">07</span>
+      <div class="t-info"><div class="t-name">消色差</div><div class="t-en">Achromatic</div></div>
+      <span class="t-dur">6:02</span>
+    </div>
+
+    <div class="track" style="animation-delay:.89s">
+      <span class="t-num">08</span>
+      <div class="t-info"><div class="t-name">白光</div><div class="t-en">White Light</div></div>
+      <span class="t-dur">5:15</span>
+    </div>
+  </div>
+
+  <!-- ═══ CREDITS ═══ -->
+  <div class="credits">
+    <div class="credits-label">CREDITS</div>
+    <div class="credit-line">制作 · 零号星球</div>
+    <div class="credit-line">混音 · 陈默 @ 回声录音室</div>
+    <div class="credit-line">母带 · 藤原浩 @ Tokyo Mastering</div>
+  </div>
+
+  <!-- ═══ BUTTONS ═══ -->
+  <div class="buttons">
+    <button class="btn btn-primary">预存专辑 PRE-SAVE</button>
+    <button class="btn btn-ghost">分享</button>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">零号星球 · PLANET ZERO · 把光拆开再重组</div>
+    <div class="footer-disc">虚构音乐人 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+// Prismatic diamond particles
+(function(){
+  var container=document.getElementById('prisms');
+  var colors=['#FF6EC7','#00E5FF','#FFD700','#BF5FFF','#FF6EC7','#00E5FF'];
+  for(var i=0;i<25;i++){
+    var d=document.createElement('div');
+    d.className='prism';
+    var sz=4+Math.random()*8;
+    var color=colors[Math.floor(Math.random()*colors.length)];
+    var dur=15+Math.random()*25;
+    var delay=Math.random()*dur;
+    var op=(0.08+Math.random()*0.15).toFixed(2);
+    d.style.cssText='width:'+sz+'px;height:'+sz+'px;background:'+color+
+      ';left:'+Math.random()*100+'%;top:'+(100+Math.random()*20)+'%;'+
+      '--o:'+op+';animation-duration:'+dur+'s;animation-delay:-'+delay+'s';
+    container.appendChild(d);
+  }
+})();
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

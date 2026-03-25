@@ -1,0 +1,31 @@
+Generate a music album release page for fictional artist "零号星球 PLANET ZERO", styled as Holographic Foil / prismatic rainbow aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: void black (#0A0A12), holographic pink (#FF6EC7), holographic cyan (#00E5FF), holographic gold (#FFD700), holographic violet (#BF5FFF), chrome silver (#C0C8D8), deep purple (#1A1030), white (#F8F8FF). Typography: Syne (geometric futuristic angular) English headings, Noto Sans SC 400/600 Chinese 17px+. Layout: HOLOGRAPHIC — dark void background with subtle prismatic light leaks, album info centered, tracklist cards with iridescent hover effects.
+
+Animation: Medium-High — Required:
+1. CSS HOLOGRAPHIC GRADIENT: Album cover placeholder with conic-gradient rainbow cycling animation (hue-rotate or background-position shifting continuously), simulating holographic foil surface
+2. JS PRISMATIC PARTICLES: 20+ small diamond-shaped particles floating slowly, each with different rainbow color and slow rotation, low opacity, scattered across page
+3. TRACKLIST STAGGER: 8 tracks fade in with staggered delays, each track has a thin left accent line that shifts through rainbow colors on hover (background-position animation)
+4. CSS LIGHT LEAK: Radial gradient light leaks (2-3) positioned asymmetrically, slowly drifting with animation, creating prismatic atmosphere
+5. HOVER IRIDESCENT: Track items on hover show iridescent border glow (box-shadow cycling through rainbow) + slight scale up
+
+Page structure:
+1. Header: Artist name "零号星球" + "PLANET ZERO" + "NEW ALBUM" rotating badge
+2. Album cover area: Large square with holographic conic-gradient cycling + album title overlay "折射 REFRACTION" + release date "2026.03.28"
+3. Album info: genre tags (电子 · 实验 · 氛围), description text about the album concept
+4. Tracklist (8 tracks with duration, staggered entry, hover iridescent):
+   01. 棱镜 Prism — 4:12
+   02. 虹膜 Iris — 3:45
+   03. 折射角 Angle of Refraction — 5:08
+   04. 全息投影 Hologram — 4:33
+   05. 光谱仪 Spectrometer — 3:58
+   06. 衍射 Diffraction (feat. 云朵) — 4:21
+   07. 消色差 Achromatic — 6:02
+   08. 白光 White Light — 5:15
+5. Credits: 制作人/混音/母带信息
+6. Pre-save / streaming buttons area (decorative, not functional)
+7. Footer: "零号星球 · PLANET ZERO · 把光拆开再重组" + disclaimer
+
+Holographic effect: conic-gradient(from 0deg, #FF6EC7, #00E5FF, #FFD700, #BF5FFF, #FF6EC7) with hue-rotate animation on album cover. Prismatic particles: JS creates 25 small diamond divs (clip-path:polygon rhombus), each with random rainbow color, position, size(4-10px), slow float animation + rotation. Light leaks: 2-3 large radial-gradients with rainbow edges, positioned off-center, slowly moving.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-holo-albumrelease.html. Do NOT open.
