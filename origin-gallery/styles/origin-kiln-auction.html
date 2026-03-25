@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LOT 127 宋代钧窑天蓝釉紫斑花盆 — 观止拍卖</title>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--kiln:#1C1816;--flambe:#8B2500;--celadon:#7BA68C;--jun:#6B4984;--gold:#C4A265;--parch:#F2ECE0;--dim:rgba(242,236,224,0.3)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--kiln);color:var(--parch);font-family:'Noto Serif SC','Spectral',serif;font-weight:400;font-size:17px;line-height:1.8;
+    display:flex;justify-content:center;padding:0 1.5rem 1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    background-image:
+      radial-gradient(ellipse at 40% 30%,rgba(139,37,0,0.04) 0%,transparent 50%),
+      radial-gradient(ellipse at 70% 70%,rgba(107,73,132,0.03) 0%,transparent 50%),
+      repeating-linear-gradient(35deg,transparent,transparent 60px,rgba(242,236,224,0.007) 60px,rgba(242,236,224,0.007) 61px),
+      repeating-linear-gradient(125deg,transparent,transparent 80px,rgba(242,236,224,0.005) 80px,rgba(242,236,224,0.005) 81px)}
+
+  /* SVG noise */
+  .noise{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.025}
+
+  .page{max-width:480px;width:100%;position:relative;z-index:1}
+
+  /* ═══ GLAZE DRIP HEADER ═══ */
+  .glaze-header{padding:2rem 0 2.5rem;text-align:center;position:relative;margin-bottom:1.2rem;
+    animation:fadeIn .6s ease both}
+  .glaze-header::after{content:'';position:absolute;left:0;right:0;bottom:-20px;height:40px;
+    background:linear-gradient(180deg,
+      var(--kiln) 0%,
+      rgba(139,37,0,0.25) 20%,
+      rgba(123,166,140,0.15) 45%,
+      rgba(107,73,132,0.1) 65%,
+      transparent 100%);
+    background-size:100% 200%;animation:glazeDrip 8s ease-in-out infinite alternate;
+    filter:blur(2px);pointer-events:none}
+  @keyframes glazeDrip{0%{background-position-y:0%}100%{background-position-y:60%}}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+  .h-brand{font-weight:600;font-size:1.4rem;color:var(--gold);letter-spacing:0.15em}
+  .h-en{font-family:'Spectral',serif;font-weight:400;font-size:0.68rem;color:var(--dim);letter-spacing:0.2em;margin-top:0.1rem}
+  .h-season{font-size:0.82rem;color:var(--dim);margin-top:0.4rem}
+  .h-lot{display:inline-block;font-family:'Spectral',serif;font-weight:600;font-size:0.65rem;letter-spacing:0.12em;
+    color:var(--flambe);border:1px solid rgba(139,37,0,0.3);padding:0.2em 0.9em;border-radius:2px;margin-top:0.5rem}
+
+  /* ═══ CARDS ═══ */
+  .card{background:rgba(242,236,224,0.025);border:1px solid rgba(196,162,101,0.08);border-radius:4px;
+    padding:1.2rem;margin-bottom:1rem;position:relative;overflow:hidden;
+    transition:all .3s;opacity:0;animation:fadeIn .5s ease forwards}
+  .card::after{content:'';position:absolute;inset:0;
+    background:linear-gradient(105deg,transparent 40%,rgba(196,162,101,0.04) 50%,transparent 60%);
+    background-size:300% 100%;background-position:200% 0;transition:background-position .7s ease}
+  .card:hover{border-color:rgba(196,162,101,0.15)}
+  .card:hover::after{background-position:-50% 0}
+
+  /* ═══ LOT TITLE ═══ */
+  .lot-card{animation-delay:.15s}
+  .lot-title{font-weight:600;font-size:1.25rem;color:var(--parch);line-height:1.6}
+  .lot-est{font-family:'Spectral',serif;font-size:0.9rem;color:var(--gold);margin-top:0.4rem;letter-spacing:0.04em}
+
+  /* ═══ DETAILS ═══ */
+  .detail-card{animation-delay:.25s}
+  .detail-row{display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid rgba(196,162,101,0.05)}
+  .detail-row:last-child{border:none}
+  .detail-label{font-size:0.88rem;color:var(--dim)}
+  .detail-val{font-size:0.88rem;color:var(--parch);text-align:right}
+
+  /* ═══ GLAZE TEXT ═══ */
+  .glaze-card{animation-delay:.35s}
+  .card-label{font-family:'Spectral',serif;font-weight:600;font-size:0.68rem;color:var(--celadon);letter-spacing:0.12em;margin-bottom:0.5rem}
+  .glaze-text{font-size:0.92rem;color:rgba(242,236,224,0.45);line-height:2;text-indent:2em;font-style:italic}
+
+  /* ═══ BID SECTION ═══ */
+  .bid-card{animation-delay:.45s;border-color:rgba(196,162,101,0.12)}
+  .bid-current{font-weight:600;font-size:0.85rem;color:var(--dim);margin-bottom:0.2rem}
+  .bid-amount{font-family:'Spectral',serif;font-weight:700;font-size:1.6rem;color:var(--gold);
+    text-shadow:0 0 15px rgba(196,162,101,0.15);letter-spacing:0.02em}
+  .bid-count{font-size:0.82rem;color:var(--dim);margin-top:0.3rem}
+
+  .countdown{display:flex;gap:0.5rem;margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid rgba(196,162,101,0.06)}
+  .cd-label{font-size:0.78rem;color:var(--flambe);margin-bottom:0.3rem}
+  .cd-unit{text-align:center}
+  .cd-num{font-family:'Spectral',serif;font-weight:700;font-size:1.3rem;color:var(--gold);
+    min-width:2.2em;display:block;transition:text-shadow .3s}
+  .cd-num.tick{text-shadow:0 0 12px rgba(196,162,101,0.4)}
+  .cd-txt{font-size:0.65rem;color:var(--dim);letter-spacing:0.08em;display:block}
+  .cd-sep{font-family:'Spectral',serif;font-size:1.2rem;color:var(--dim);padding-top:0.15rem;opacity:0.3}
+
+  /* ═══ BID HISTORY ═══ */
+  .history-card{animation-delay:.55s}
+  .bid-entry{display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0.6rem;
+    border-left:2px solid transparent;margin-bottom:0.2rem;border-radius:0 3px 3px 0;
+    transition:all .2s;opacity:0;animation:fadeIn .4s ease forwards}
+  .bid-entry.top{border-left-color:var(--gold);background:rgba(196,162,101,0.04);
+    box-shadow:-2px 0 10px rgba(196,162,101,0.06)}
+  .bid-left{display:flex;gap:0.6rem;align-items:baseline}
+  .bid-num{font-family:'Spectral',serif;font-weight:600;font-size:0.78rem;color:var(--dim)}
+  .bid-val{font-family:'Spectral',serif;font-weight:600;font-size:0.95rem;color:var(--parch)}
+  .bid-entry.top .bid-val{color:var(--gold)}
+  .bid-time{font-size:0.78rem;color:rgba(242,236,224,0.2)}
+
+  /* ═══ PROVENANCE ═══ */
+  .prov-card{animation-delay:.7s}
+  .prov-item{padding:0.3rem 0;font-size:0.88rem;color:rgba(242,236,224,0.4);line-height:2}
+  .prov-year{font-family:'Spectral',serif;color:var(--celadon);margin-right:0.4rem}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;padding:0.5rem 0;animation:fadeIn .5s ease both;animation-delay:.85s}
+  .footer-motto{font-size:0.82rem;color:var(--gold);opacity:0.35;letter-spacing:0.08em}
+  .footer-disc{font-size:0.58rem;color:var(--dim);opacity:0.15;margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:0 1rem 1rem}.card{padding:1rem}.bid-amount{font-size:1.3rem}}
+</style>
+</head>
+<body>
+
+<svg class="noise" width="100%" height="100%">
+  <filter id="nf"><feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="4" stitchTiles="stitch"/></filter>
+  <rect width="100%" height="100%" filter="url(#nf)"/>
+</svg>
+
+<div class="page">
+
+  <!-- ═══ GLAZE DRIP HEADER ═══ -->
+  <header class="glaze-header">
+    <div class="h-brand">观止</div>
+    <div class="h-en">GUANZHI AUCTION</div>
+    <div class="h-season">2026 春季拍卖会</div>
+    <div class="h-lot">LOT 127</div>
+  </header>
+
+  <!-- ═══ LOT TITLE ═══ -->
+  <div class="card lot-card" style="animation-delay:.15s">
+    <div class="lot-title">宋代钧窑天蓝釉紫斑花盆</div>
+    <div class="lot-est">估价 RMB 1,200,000 — 1,800,000</div>
+  </div>
+
+  <!-- ═══ DETAILS ═══ -->
+  <div class="card detail-card" style="animation-delay:.25s">
+    <div class="detail-row"><span class="detail-label">年代</span><span class="detail-val">北宋（960–1127）</span></div>
+    <div class="detail-row"><span class="detail-label">尺寸</span><span class="detail-val">高 12.3 cm · 口径 18.5 cm</span></div>
+    <div class="detail-row"><span class="detail-label">来源</span><span class="detail-val">日本私人旧藏</span></div>
+    <div class="detail-row"><span class="detail-label">品相</span><span class="detail-val">完整无修</span></div>
+  </div>
+
+  <!-- ═══ GLAZE DESCRIPTION ═══ -->
+  <div class="card glaze-card" style="animation-delay:.35s">
+    <div class="card-label">GLAZE NOTE</div>
+    <p class="glaze-text">此盆通体施天蓝色釉，釉面匀净莹润，呈现蛋白石般的乳光。口沿处可见自然窑变形成的紫红斑块，色泽深沉，如晚霞映于碧空。釉层开片细密，金丝铁线交织，历经千年而光华不减。底足露胎处可见细腻的香灰色胎土，为典型北宋钧窑官造特征。</p>
+  </div>
+
+  <!-- ═══ CURRENT BID ═══ -->
+  <div class="card bid-card" style="animation-delay:.45s">
+    <div class="bid-current">当前最高出价</div>
+    <div class="bid-amount">RMB 1,560,000</div>
+    <div class="bid-count">已有 23 次出价</div>
+
+    <div class="countdown">
+      <div>
+        <div class="cd-label">距拍卖结束</div>
+        <div style="display:flex;gap:0.3rem;align-items:flex-start">
+          <div class="cd-unit"><span class="cd-num" id="cdD">02</span><span class="cd-txt">天</span></div>
+          <span class="cd-sep">:</span>
+          <div class="cd-unit"><span class="cd-num" id="cdH">14</span><span class="cd-txt">时</span></div>
+          <span class="cd-sep">:</span>
+          <div class="cd-unit"><span class="cd-num" id="cdM">37</span><span class="cd-txt">分</span></div>
+          <span class="cd-sep">:</span>
+          <div class="cd-unit"><span class="cd-num" id="cdS">00</span><span class="cd-txt">秒</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ BID HISTORY ═══ -->
+  <div class="card history-card" style="animation-delay:.55s">
+    <div class="card-label">BID HISTORY</div>
+
+    <div class="bid-entry top" style="animation-delay:.65s">
+      <div class="bid-left"><span class="bid-num">#0847</span><span class="bid-val">1,560,000</span></div>
+      <span class="bid-time">2 分钟前</span>
+    </div>
+    <div class="bid-entry" style="animation-delay:.72s">
+      <div class="bid-left"><span class="bid-num">#0392</span><span class="bid-val">1,520,000</span></div>
+      <span class="bid-time">5 分钟前</span>
+    </div>
+    <div class="bid-entry" style="animation-delay:.79s">
+      <div class="bid-left"><span class="bid-num">#0651</span><span class="bid-val">1,480,000</span></div>
+      <span class="bid-time">12 分钟前</span>
+    </div>
+    <div class="bid-entry" style="animation-delay:.86s">
+      <div class="bid-left"><span class="bid-num">#0128</span><span class="bid-val">1,400,000</span></div>
+      <span class="bid-time">28 分钟前</span>
+    </div>
+    <div class="bid-entry" style="animation-delay:.93s">
+      <div class="bid-left"><span class="bid-num">#0573</span><span class="bid-val">1,350,000</span></div>
+      <span class="bid-time">45 分钟前</span>
+    </div>
+  </div>
+
+  <!-- ═══ PROVENANCE ═══ -->
+  <div class="card prov-card" style="animation-delay:.7s">
+    <div class="card-label">PROVENANCE</div>
+    <div class="prov-item"><span class="prov-year">1930s</span>山中商会旧藏，东京</div>
+    <div class="prov-item"><span class="prov-year">1968</span>日本私人收藏家递藏</div>
+    <div class="prov-item"><span class="prov-year">2026</span>现藏家委托观止拍卖释出</div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">观止 · GUANZHI · 止于至善</div>
+    <div class="footer-disc">虚构拍卖行 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+// Countdown timer
+var total=2*86400+14*3600+37*60;
+var dEl=document.getElementById('cdD');
+var hEl=document.getElementById('cdH');
+var mEl=document.getElementById('cdM');
+var sEl=document.getElementById('cdS');
+
+function pad(n){return n<10?'0'+n:''+n}
+
+function updateCD(){
+  if(total<=0)return;
+  total--;
+  var d=Math.floor(total/86400);
+  var h=Math.floor((total%86400)/3600);
+  var m=Math.floor((total%3600)/60);
+  var s=total%60;
+  dEl.textContent=pad(d);
+  hEl.textContent=pad(h);
+  mEl.textContent=pad(m);
+  sEl.textContent=pad(s);
+
+  // Pulse glow on seconds
+  sEl.classList.add('tick');
+  setTimeout(function(){sEl.classList.remove('tick')},300);
+}
+setInterval(updateCD,1000);
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

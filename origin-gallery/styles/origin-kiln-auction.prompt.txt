@@ -1,0 +1,29 @@
+Generate an art auction lot detail page for fictional "观止拍卖 GUANZHI AUCTION", styled as Kiln Glaze / Chinese ceramic kiln-change aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: kiln black (#1C1816), flambe red (#8B2500), celadon green (#7BA68C), jun purple (#6B4984), gold accent (#C4A265), parchment (#F2ECE0), dim rgba(242,236,224,0.3). Typography: Spectral (humanist serif, elegant auction house) English, Noto Serif SC 400/600 Chinese 17px+. Layout: KILN GLAZE — dark kiln background with ceramic glaze drip effect (CSS gradient flowing downward), auction lot detail with bid countdown, provenance, condition notes.
+
+Animation: Medium — Required:
+1. CSS GLAZE DRIP: Header area with organic glaze drip effect using multi-stop linear-gradient (kiln black → flambe red → celadon → jun purple, irregular stops simulating dripping glaze) + slow background-position-y animation creating flowing drip illusion
+2. JS BID COUNTDOWN: Live countdown timer to auction close (days:hours:minutes:seconds, updating every second), numbers in gold with subtle glow pulse on each tick
+3. CSS CERAMIC TEXTURE: Body background with multi-layer gradients simulating fired ceramic surface — radial-gradient warm spots + repeating-linear-gradient fine crackle lines + SVG noise filter at low opacity
+4. JS BID HISTORY: 5 bid entries that appear staggered on load, latest bid highlighted with gold left border and glow, each showing bidder number + amount + time
+5. HOVER GLAZE SHIMMER: Cards on hover show a glaze-like shimmer (linear-gradient highlight sweep from left to right, like light catching a glazed surface)
+
+Page structure:
+1. Header: "观止" + "GUANZHI AUCTION" + "2026 春季拍卖会" + Lot number badge "LOT 127"
+2. Lot title: "宋代钧窑天蓝釉紫斑花盆" + estimated price range "估价 RMB 1,200,000 — 1,800,000"
+3. Lot detail card: 年代 北宋(960-1127), 尺寸 高12.3cm 口径18.5cm, 来源 日本私人旧藏, 品相 完整无修
+4. Glaze description: poetic text about the kiln-change effect and the piece's beauty
+5. Current bid section: "当前最高出价 RMB 1,560,000" + bid count "已有 23 次出价" + JS countdown to close
+6. Bid history (5 recent bids, staggered animation):
+   - #0847 ¥1,560,000 · 2分钟前
+   - #0392 ¥1,520,000 · 5分钟前
+   - #0651 ¥1,480,000 · 12分钟前
+   - #0128 ¥1,400,000 · 28分钟前
+   - #0573 ¥1,350,000 · 45分钟前
+7. Provenance/condition notes
+8. Footer: "观止 · GUANZHI · 止于至善" + disclaimer
+
+Ceramic texture: Background uses radial-gradient(ellipse at 40% 30%, rgba(139,37,0,0.04), transparent 50%) for warm kiln spots + repeating-linear-gradient creating fine hairline crackle pattern + SVG feTurbulence noise at very low opacity. Glaze drip: top section uses linear-gradient with color stops that create organic drip shapes (black→red→green→purple with irregular percentage stops), animated slowly on Y axis.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-kiln-auction.html. Do NOT open.
