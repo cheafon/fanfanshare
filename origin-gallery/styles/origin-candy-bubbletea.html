@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>泡泡研究所 BUBBLE LAB — 你的奶茶你做主</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=ZCOOL+KuaiLe&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--tea:#8B6847;--pearl:#2a2420;--taro:#9B59B6;--matcha:#48C878;--strawberry:#FF6B9D;--mango:#FFD23F;--milk:#FFF8F0;--caramel:#E8913A;--cup-color:#8B6847}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--milk);color:var(--pearl);font-family:'Noto Sans SC',sans-serif;font-size:17px;line-height:1.7;display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased}
+
+  .app{max-width:420px;width:100%;animation:fadeIn .5s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;padding:0.5rem 0 1rem}
+  .header-name{font-family:'ZCOOL KuaiLe',cursive;font-size:1.6rem;color:var(--pearl)}
+  .header-en{font-family:'Fredoka',sans-serif;font-weight:400;font-size:0.75rem;color:var(--caramel);letter-spacing:0.1em}
+
+  /* ═══ CUP ═══ */
+  .cup-area{display:flex;justify-content:center;padding:1rem 0 1.5rem;position:relative;height:200px}
+  .cup{position:relative;width:90px}
+
+  /* Lid */
+  .cup-lid{width:96px;height:14px;background:#e8e0d8;border-radius:50%;margin:0 auto;position:relative;left:-3px;z-index:3;
+    box-shadow:0 2px 4px rgba(0,0,0,0.06)}
+
+  /* Straw */
+  .cup-straw{position:absolute;top:-20px;left:50px;width:8px;height:80px;z-index:4;transform:rotate(12deg);
+    background:repeating-linear-gradient(0deg,var(--strawberry) 0,var(--strawberry) 6px,#fff 6px,#fff 12px);border-radius:4px}
+
+  /* Body */
+  .cup-body{width:90px;height:120px;background:linear-gradient(180deg,rgba(255,255,255,0.2),var(--cup-color));
+    border-radius:8px 8px 20px 20px;margin:0 auto;position:relative;overflow:hidden;
+    transition:background .4s ease;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08)}
+  .cup-body::before{content:'';position:absolute;top:0;left:5px;width:15px;height:80%;
+    background:linear-gradient(180deg,rgba(255,255,255,0.35),transparent);border-radius:10px}
+
+  /* Pearls */
+  .cup-pearls{position:absolute;bottom:8px;left:0;right:0;display:flex;flex-wrap:wrap;justify-content:center;gap:3px;padding:0 12px}
+  .pearl-dot{width:10px;height:10px;border-radius:50%;background:var(--pearl);opacity:0.7}
+
+  /* Pearl drop animation */
+  .pearl-drop{position:absolute;width:10px;height:10px;border-radius:50%;background:var(--pearl);opacity:0.8;
+    animation:dropIn .6s ease-in forwards}
+  @keyframes dropIn{0%{top:-10px;opacity:0}60%{top:90px;opacity:0.8}80%{top:82px}100%{top:88px;opacity:0.7}}
+
+  /* ═══ SECTIONS ═══ */
+  .section{margin-bottom:1.2rem}
+  .sec-title{font-family:'ZCOOL KuaiLe',cursive;font-size:1.05rem;color:var(--pearl);margin-bottom:0.5rem;display:flex;align-items:center;gap:0.4rem}
+  .sec-step{font-family:'Fredoka',sans-serif;font-weight:600;font-size:0.65rem;color:#fff;background:var(--caramel);
+    width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+
+  .options{display:flex;flex-wrap:wrap;gap:0.5rem}
+  .opt{font-family:'Fredoka',sans-serif;font-weight:500;font-size:0.88rem;padding:0.5em 1em;border-radius:14px;
+    border:2.5px solid rgba(42,36,32,0.1);background:#fff;cursor:pointer;transition:all .15s;
+    user-select:none;position:relative}
+  .opt:hover{border-color:rgba(42,36,32,0.2)}
+  .opt.selected{border-color:var(--caramel);background:linear-gradient(135deg,rgba(232,145,58,0.08),rgba(255,107,157,0.08));
+    box-shadow:0 2px 8px rgba(232,145,58,0.15)}
+  .opt.selected::after{content:'✓';position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:50%;
+    background:var(--caramel);color:#fff;font-size:0.6rem;display:flex;align-items:center;justify-content:center}
+
+  /* Bounce animation class */
+  .bounce{animation:optBounce .3s ease}
+  @keyframes optBounce{0%{transform:scale(1)}40%{transform:scale(1.12)}100%{transform:scale(1)}}
+
+  /* Color swatches for base */
+  .opt-color{width:12px;height:12px;border-radius:50%;display:inline-block;margin-right:4px;vertical-align:middle}
+
+  .opt-price{font-size:0.72rem;color:var(--caramel);margin-left:2px}
+
+  /* ═══ PRICE ═══ */
+  .price-area{background:#fff;border-radius:18px;padding:1rem 1.2rem;margin-bottom:1rem;
+    box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+  .price-row{display:flex;justify-content:space-between;font-size:0.9rem;color:rgba(42,36,32,0.5);line-height:2}
+  .price-total{display:flex;justify-content:space-between;font-weight:600;font-size:1.2rem;color:var(--pearl);
+    border-top:1.5px dashed rgba(42,36,32,0.08);padding-top:0.4rem;margin-top:0.3rem}
+  .price-num{font-family:'Fredoka',sans-serif;font-weight:600;transition:all .2s}
+
+  /* ═══ ORDER BUTTON ═══ */
+  .order-btn{display:block;width:100%;font-family:'ZCOOL KuaiLe',cursive;font-size:1.2rem;color:#fff;
+    background:linear-gradient(135deg,var(--strawberry),var(--taro),var(--caramel));background-size:200% 200%;
+    border:none;padding:1em;border-radius:18px;cursor:pointer;
+    box-shadow:0 4px 15px rgba(255,107,157,0.25);transition:all .2s;animation:gradShift 4s ease infinite}
+  @keyframes gradShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+  .order-btn:hover{transform:scale(1.03);box-shadow:0 6px 20px rgba(255,107,157,0.35)}
+  .order-btn:active{transform:scale(0.98)}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;padding:1.2rem 0 0.5rem}
+  .footer-motto{font-family:'ZCOOL KuaiLe',cursive;font-size:0.85rem;color:rgba(42,36,32,0.25)}
+  .footer-disc{font-size:0.62rem;color:rgba(42,36,32,0.12);margin-top:0.3rem}
+
+  @media(max-width:400px){.options{gap:0.4rem} .opt{font-size:0.82rem;padding:0.4em 0.8em}}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="header-name">泡泡研究所</div>
+    <div class="header-en">BUBBLE LAB · 你的奶茶你做主</div>
+  </header>
+
+  <!-- ═══ CUP ═══ -->
+  <div class="cup-area">
+    <div class="cup" id="cup">
+      <div class="cup-straw"></div>
+      <div class="cup-lid"></div>
+      <div class="cup-body" id="cupBody">
+        <div class="cup-pearls">
+          <div class="pearl-dot"></div><div class="pearl-dot"></div><div class="pearl-dot"></div>
+          <div class="pearl-dot"></div><div class="pearl-dot"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 1: BASE ═══ -->
+  <div class="section">
+    <div class="sec-title"><span class="sec-step">1</span>选基底</div>
+    <div class="options" id="baseOpts">
+      <div class="opt selected" data-color="#8B6847" onclick="selBase(this)"><span class="opt-color" style="background:#8B6847"></span>经典奶茶</div>
+      <div class="opt" data-color="#48C878" onclick="selBase(this)"><span class="opt-color" style="background:#48C878"></span>抹茶拿铁</div>
+      <div class="opt" data-color="#9B59B6" onclick="selBase(this)"><span class="opt-color" style="background:#9B59B6"></span>芋泥啵啵</div>
+      <div class="opt" data-color="#FF6B9D" onclick="selBase(this)"><span class="opt-color" style="background:#FF6B9D"></span>草莓奶昔</div>
+      <div class="opt" data-color="#FFD23F" onclick="selBase(this)"><span class="opt-color" style="background:#FFD23F"></span>芒果冰沙</div>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 2: SWEET ═══ -->
+  <div class="section">
+    <div class="sec-title"><span class="sec-step">2</span>选甜度</div>
+    <div class="options" id="sweetOpts">
+      <div class="opt" onclick="selSingle(this,'sweetOpts')">无糖</div>
+      <div class="opt" onclick="selSingle(this,'sweetOpts')">三分糖</div>
+      <div class="opt selected" onclick="selSingle(this,'sweetOpts')">五分糖</div>
+      <div class="opt" onclick="selSingle(this,'sweetOpts')">七分糖</div>
+      <div class="opt" onclick="selSingle(this,'sweetOpts')">全糖</div>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 3: ICE ═══ -->
+  <div class="section">
+    <div class="sec-title"><span class="sec-step">3</span>选冰度</div>
+    <div class="options" id="iceOpts">
+      <div class="opt" onclick="selSingle(this,'iceOpts')">去冰</div>
+      <div class="opt" onclick="selSingle(this,'iceOpts')">少冰</div>
+      <div class="opt selected" onclick="selSingle(this,'iceOpts')">正常冰</div>
+      <div class="opt" onclick="selSingle(this,'iceOpts')">多冰</div>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 4: TOPPINGS ═══ -->
+  <div class="section">
+    <div class="sec-title"><span class="sec-step">4</span>加料</div>
+    <div class="options" id="topOpts">
+      <div class="opt" data-price="2" data-id="pearl" onclick="toggleTop(this)">珍珠<span class="opt-price">+¥2</span></div>
+      <div class="opt" data-price="2" data-id="coconut" onclick="toggleTop(this)">椰果<span class="opt-price">+¥2</span></div>
+      <div class="opt" data-price="3" data-id="taro" onclick="toggleTop(this)">芋圆<span class="opt-price">+¥3</span></div>
+      <div class="opt" data-price="3" data-id="pudding" onclick="toggleTop(this)">布丁<span class="opt-price">+¥3</span></div>
+      <div class="opt" data-price="4" data-id="cream" onclick="toggleTop(this)">奶盖<span class="opt-price">+¥4</span></div>
+    </div>
+  </div>
+
+  <!-- ═══ PRICE ═══ -->
+  <div class="price-area">
+    <div class="price-row"><span>基础价</span><span class="price-num">¥18</span></div>
+    <div class="price-row"><span>加料</span><span class="price-num" id="topPrice">+¥0</span></div>
+    <div class="price-total"><span>合计</span><span class="price-num" id="totalPrice">¥18</span></div>
+  </div>
+
+  <!-- ═══ ORDER ═══ -->
+  <button class="order-btn" onclick="this.textContent='下单成功！';this.style.background='var(--matcha)'">就这杯了！</button>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">泡泡研究所 · 每杯都是独一无二的实验</div>
+    <div class="footer-disc">虚构品牌 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+function bounce(el){el.classList.remove('bounce');void el.offsetWidth;el.classList.add('bounce')}
+
+function selBase(el){
+  document.querySelectorAll('#baseOpts .opt').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');bounce(el);
+  var c=el.dataset.color;
+  document.getElementById('cupBody').style.background='linear-gradient(180deg,rgba(255,255,255,0.2),'+c+')';
+}
+
+function selSingle(el,groupId){
+  document.querySelectorAll('#'+groupId+' .opt').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');bounce(el);
+}
+
+function toggleTop(el){
+  el.classList.toggle('selected');bounce(el);
+  // Pearl drop animation
+  if(el.dataset.id==='pearl'&&el.classList.contains('selected')){
+    var cup=document.getElementById('cup');
+    for(var i=0;i<3;i++){
+      var p=document.createElement('div');
+      p.className='pearl-drop';
+      p.style.left=(30+Math.random()*30)+'px';
+      p.style.animationDelay=(i*0.15)+'s';
+      cup.appendChild(p);
+      setTimeout(function(pe){pe.remove()},1000,p);
+    }
+  }
+  calcPrice();
+}
+
+function calcPrice(){
+  var top=0;
+  document.querySelectorAll('#topOpts .opt.selected').forEach(function(o){top+=parseInt(o.dataset.price)});
+  document.getElementById('topPrice').textContent='+¥'+top;
+  document.getElementById('totalPrice').textContent='¥'+(18+top);
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
