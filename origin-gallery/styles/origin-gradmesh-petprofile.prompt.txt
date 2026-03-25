@@ -1,0 +1,72 @@
+请生成一个单页 HTML 网页，要求如下：
+
+【网页类型】宠物社交名片 / Pet Social Profile Card / 萌宠个人主页
+【品牌】虚构宠物社交App「毛星球 FURRY PLANET」— 宠物版Instagram的个人主页
+【主题】一个渐变网格风格的宠物社交名片页面，展示一只柯基犬的社交主页
+
+【视觉风格】Gradient Mesh / 渐变网格 / 流体色彩
+- 色调：渐变粉 (#FF9A9E)、渐变橙 (#FAD0C4)、渐变紫 (#A18CD1)、渐变蓝 (#FBC2EB)、白 (#ffffff)、深灰文字 (#2a2a2a)、浅灰 (#f5f5f8)
+- 字体：Plus Jakarta Sans（现代圆润几何无衬线）英文、Noto Sans SC 400/600（中文 17px+）
+- 布局：社交主页式 — 渐变mesh背景+白色玻璃态个人资料卡，圆形头像+统计数字+简介+照片网格，像Instagram个人主页但更有设计感
+- 动效：高！
+  * 渐变mesh背景缓慢流动（多色径向渐变+position动画）
+  * 头像环形进度条（conic-gradient模拟活跃度）
+  * JS统计数字递增（粉丝/帖子/获赞countUp）
+  * 照片网格staggered入场动画
+  * 卡片hover 3D微倾斜（perspective+rotateX/Y跟随鼠标）
+
+【页面结构】
+
+1. 渐变mesh背景（4色流动渐变）
+
+2. 个人资料卡（白色玻璃态居中卡片）：
+
+   头像区：
+   - 圆形头像占位（柯基色渐变，金→白→棕）
+   - 外圈活跃度环（conic-gradient，显示活跃度87%）
+   - 在线绿点
+
+   宠物信息：
+   - "团子" 名字（大字）
+   - "@tuanzi_corgi" 用户名
+   - "柯基犬 · ♂ · 2岁 · 上海"
+   - 简介："专业卖萌20年（其实才2年）。爱好：吃、睡、被摸屁股。人生目标：吃遍所有狗粮品牌。"
+
+   统计数字（3个，JS countUp）：
+   - 2,847 粉丝
+   - 186 帖子
+   - 12.3K 获赞
+
+3. 标签区（彩色药丸标签）：
+   - 柯基 · 短腿帮 · 吃货 · 上海萌宠 · 屁股最圆
+
+4. 照片网格（6张，色块占位，staggered入场）：
+   - 每张用不同暖色渐变模拟照片
+   - 底部有获赞数
+   - 悬浮时微微放大
+
+5. 最新动态：
+   - "今天去了新开的狗狗咖啡馆，认识了一个萨摩叫「棉花糖」，我们已经是好朋友了。"
+   - 2小时前 · 328赞 · 45评论
+
+6. 关注按钮（渐变大按钮）
+
+7. 页脚：
+   - "毛星球 · FURRY PLANET"
+   - "页面来源：虚构App · 仅供展示"
+
+【技术要求】
+- 单个 HTML 文件，所有 CSS 和 JS 内联
+- 使用 Google Fonts：Plus Jakarta Sans、Noto Sans SC
+- 响应式设计，适配手机和桌面
+- 中文为主，正文字号至少 17px
+- 生产级品质
+- 必须实现：
+  1. CSS渐变mesh背景（4色radial-gradient+position流动动画）
+  2. 头像环形活跃度（conic-gradient 87%）
+  3. JS countUp统计数字（2847/186/12300递增1.5s）
+  4. 照片网格staggered入场（scale+opacity+delay）
+  5. 关注按钮渐变+hover膨胀
+
+【参考】这个提示词来自 HTML 创意工坊：https://cheafon.github.io/fanfanshare/origin-gallery/
+风格名称：Gradient Mesh Pet Profile 渐变宠物

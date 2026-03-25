@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>团子 @tuanzi_corgi — 毛星球 FURRY PLANET</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--pink:#FF9A9E;--peach:#FAD0C4;--purple:#A18CD1;--lav:#FBC2EB;--white:#fff;--text:#2a2a2a;--gray:#f5f5f8;--dim:rgba(42,42,42,0.35)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{color:var(--text);font-family:'Noto Sans SC',sans-serif;font-size:17px;line-height:1.7;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:1.5rem;-webkit-font-smoothing:antialiased;position:relative;overflow-x:hidden;
+    background:#f0e8f0}
+
+  /* Gradient mesh bg */
+  .mesh-bg{position:fixed;inset:0;z-index:0;
+    background:
+      radial-gradient(ellipse at 20% 20%,rgba(255,154,158,0.4) 0%,transparent 50%),
+      radial-gradient(ellipse at 80% 20%,rgba(161,140,209,0.35) 0%,transparent 45%),
+      radial-gradient(ellipse at 60% 80%,rgba(251,194,235,0.4) 0%,transparent 50%),
+      radial-gradient(ellipse at 20% 70%,rgba(250,208,196,0.35) 0%,transparent 45%),
+      #f0e8f0;
+    background-size:200% 200%;animation:meshFlow 15s ease infinite}
+  @keyframes meshFlow{0%{background-position:0% 0%}25%{background-position:100% 0%}50%{background-position:100% 100%}75%{background-position:0% 100%}100%{background-position:0% 0%}}
+
+  .profile{max-width:420px;width:100%;position:relative;z-index:1;background:rgba(255,255,255,0.75);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    border-radius:24px;padding:2rem 1.5rem;box-shadow:0 8px 32px rgba(0,0,0,0.06);border:1px solid rgba(255,255,255,0.5);
+    animation:cardIn .6s ease}
+  @keyframes cardIn{from{opacity:0;transform:translateY(15px) scale(0.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+  /* ═══ AVATAR ═══ */
+  .avatar-area{display:flex;justify-content:center;margin-bottom:1rem}
+  .avatar-ring{width:96px;height:96px;border-radius:50%;padding:4px;position:relative;
+    background:conic-gradient(var(--pink) 0deg,var(--purple) 313deg,rgba(200,200,210,0.15) 313deg,rgba(200,200,210,0.15) 360deg)}
+  .avatar{width:100%;height:100%;border-radius:50%;background:linear-gradient(135deg,#d4a040,#f0e0c0,#a07840);border:3px solid var(--white)}
+  .avatar-online{position:absolute;bottom:4px;right:4px;width:14px;height:14px;border-radius:50%;background:#34c759;border:3px solid var(--white);
+    box-shadow:0 0 0 0 rgba(52,199,89,0.3);animation:onlinePulse 2s infinite}
+  @keyframes onlinePulse{0%,100%{box-shadow:0 0 0 0 rgba(52,199,89,0.3)}50%{box-shadow:0 0 0 5px rgba(52,199,89,0)}}
+
+  /* ═══ INFO ═══ */
+  .info{text-align:center;margin-bottom:1.2rem}
+  .info-name{font-weight:600;font-size:1.5rem;color:var(--text)}
+  .info-handle{font-family:'Plus Jakarta Sans',sans-serif;font-weight:400;font-size:0.82rem;color:var(--dim);margin-top:0.1rem}
+  .info-meta{font-size:0.85rem;color:var(--dim);margin-top:0.3rem}
+  .info-bio{font-size:0.95rem;color:rgba(42,42,42,0.6);margin-top:0.6rem;line-height:1.8}
+
+  /* ═══ STATS ═══ */
+  .stats{display:flex;justify-content:center;gap:1.5rem;margin-bottom:1.2rem;padding:0.8rem 0;border-top:1px solid rgba(0,0,0,0.04);border-bottom:1px solid rgba(0,0,0,0.04)}
+  .stat{text-align:center}
+  .stat-num{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:1.2rem;color:var(--text)}
+  .stat-label{font-size:0.72rem;color:var(--dim);margin-top:0.1rem}
+
+  /* ═══ TAGS ═══ */
+  .tags{display:flex;flex-wrap:wrap;justify-content:center;gap:0.4rem;margin-bottom:1.2rem}
+  .tag{font-size:0.75rem;font-weight:500;padding:0.3em 0.8em;border-radius:12px;background:rgba(161,140,209,0.1);color:var(--purple)}
+  .tag:nth-child(2n){background:rgba(255,154,158,0.1);color:#d06070}
+  .tag:nth-child(3n){background:rgba(250,208,196,0.15);color:#b08060}
+
+  /* ═══ PHOTO GRID ═══ */
+  .photos{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin-bottom:1.2rem;border-radius:12px;overflow:hidden}
+  .photo{aspect-ratio:1;position:relative;overflow:hidden;cursor:pointer;opacity:0;transform:scale(0.9);animation:photoIn .4s ease forwards}
+  @keyframes photoIn{to{opacity:1;transform:scale(1)}}
+  .photo:hover{z-index:1}
+  .photo:hover .photo-bg{transform:scale(1.08)}
+  .photo-bg{width:100%;height:100%;transition:transform .3s ease}
+  .photo-likes{position:absolute;bottom:4px;right:4px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.6rem;color:#fff;
+    background:rgba(0,0,0,0.35);padding:0.15em 0.4em;border-radius:6px;backdrop-filter:blur(4px)}
+
+  /* ═══ POST ═══ */
+  .post{background:var(--gray);border-radius:14px;padding:1rem;margin-bottom:1.2rem}
+  .post-text{font-size:0.92rem;color:rgba(42,42,42,0.65);line-height:1.8}
+  .post-meta{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.72rem;color:var(--dim);margin-top:0.5rem}
+
+  /* ═══ FOLLOW BTN ═══ */
+  .follow-btn{display:block;width:100%;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:1rem;color:#fff;
+    background:linear-gradient(135deg,var(--pink),var(--purple));border:none;padding:0.9em;border-radius:14px;cursor:pointer;
+    box-shadow:0 4px 14px rgba(161,140,209,0.25);transition:all .2s;letter-spacing:0.03em}
+  .follow-btn:hover{transform:scale(1.03);box-shadow:0 6px 20px rgba(161,140,209,0.35)}
+  .follow-btn:active{transform:scale(0.98)}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;padding:1rem 0 0}
+  .footer-brand{font-family:'Plus Jakarta Sans',sans-serif;font-weight:500;font-size:0.75rem;color:var(--dim);opacity:0.4}
+  .footer-disc{font-size:0.6rem;color:var(--dim);opacity:0.2;margin-top:0.2rem}
+
+  @media(max-width:450px){
+    body{padding:0.8rem;align-items:flex-start;padding-top:1.5rem}
+    .profile{padding:1.5rem 1.2rem}
+    .stats{gap:1rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="mesh-bg"></div>
+
+<div class="profile">
+
+  <!-- ═══ AVATAR ═══ -->
+  <div class="avatar-area">
+    <div class="avatar-ring">
+      <div class="avatar"></div>
+      <div class="avatar-online"></div>
+    </div>
+  </div>
+
+  <!-- ═══ INFO ═══ -->
+  <div class="info">
+    <div class="info-name">团子</div>
+    <div class="info-handle">@tuanzi_corgi</div>
+    <div class="info-meta">柯基犬 · ♂ · 2 岁 · 上海</div>
+    <div class="info-bio">专业卖萌 20 年（其实才 2 年）。爱好：吃、睡、被摸屁股。人生目标：吃遍所有狗粮品牌。</div>
+  </div>
+
+  <!-- ═══ STATS ═══ -->
+  <div class="stats">
+    <div class="stat"><div class="stat-num" data-target="2847">0</div><div class="stat-label">粉丝</div></div>
+    <div class="stat"><div class="stat-num" data-target="186">0</div><div class="stat-label">帖子</div></div>
+    <div class="stat"><div class="stat-num" data-target="12300" data-format="k">0</div><div class="stat-label">获赞</div></div>
+  </div>
+
+  <!-- ═══ TAGS ═══ -->
+  <div class="tags">
+    <span class="tag">柯基</span>
+    <span class="tag">短腿帮</span>
+    <span class="tag">吃货</span>
+    <span class="tag">上海萌宠</span>
+    <span class="tag">屁股最圆</span>
+  </div>
+
+  <!-- ═══ PHOTOS ═══ -->
+  <div class="photos" id="photos"></div>
+
+  <!-- ═══ POST ═══ -->
+  <div class="post">
+    <div class="post-text">今天去了新开的狗狗咖啡馆，认识了一个萨摩叫「棉花糖」，我们已经是好朋友了。</div>
+    <div class="post-meta">2 小时前 · 328 赞 · 45 评论</div>
+  </div>
+
+  <!-- ═══ FOLLOW ═══ -->
+  <button class="follow-btn" onclick="this.textContent='已关注 ✓';this.style.background='#34c759'">+ 关注团子</button>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-brand">毛星球 · FURRY PLANET</div>
+    <div class="footer-disc">虚构 App · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+// Photo grid
+(function(){
+  var grid=document.getElementById('photos');
+  var gradients=[
+    'linear-gradient(135deg,#f5af19,#f0c060,#e8a040)',
+    'linear-gradient(135deg,#ffecd2,#fcb69f)',
+    'linear-gradient(135deg,#a18cd1,#fbc2eb)',
+    'linear-gradient(135deg,#f6d365,#fda085)',
+    'linear-gradient(135deg,#fbc2eb,#a6c1ee)',
+    'linear-gradient(135deg,#fdcbf1,#e6dee9)'
+  ];
+  var likes=[892,1203,567,2100,445,738];
+  gradients.forEach(function(g,i){
+    var d=document.createElement('div');
+    d.className='photo';
+    d.style.animationDelay=(0.3+i*0.1)+'s';
+    d.innerHTML='<div class="photo-bg" style="background:'+g+'"></div><span class="photo-likes">♥ '+likes[i]+'</span>';
+    grid.appendChild(d);
+  });
+})();
+
+// CountUp
+(function(){
+  var els=document.querySelectorAll('.stat-num');
+  var dur=1500;
+  setTimeout(function(){
+    els.forEach(function(el){
+      var target=parseInt(el.dataset.target);
+      var isK=el.dataset.format==='k';
+      var start=performance.now();
+      function tick(now){
+        var p=Math.min((now-start)/dur,1);
+        var ease=1-Math.pow(1-p,3);
+        var val=Math.round(target*ease);
+        if(isK){el.textContent=(val/1000).toFixed(1)+'K'}
+        else{el.textContent=val.toLocaleString()}
+        if(p<1)requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    });
+  },400);
+})();
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
