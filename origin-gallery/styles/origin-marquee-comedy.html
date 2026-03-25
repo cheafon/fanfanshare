@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>本周演出 — 笑工厂 LAUGH FACTORY</title>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--theater:#1A0808;--bulb:#F0D060;--warm:#FFF8E0;--curtain:#A02020;--gold:#C8A040;--stage:#0A0A08;--dim:rgba(255,248,224,0.25)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--theater);color:var(--warm);font-family:'Noto Sans SC',sans-serif;font-weight:400;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(ellipse at 50% 20%,rgba(160,32,32,0.08) 0%,transparent 60%)}
+
+  .page{max-width:460px;width:100%;animation:fadeIn .5s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* ═══ MARQUEE HEADER ═══ */
+  .marquee{border:4px solid var(--gold);padding:1.5rem;text-align:center;position:relative;margin-bottom:1.5rem;
+    box-shadow:inset 0 0 30px rgba(160,32,32,0.1)}
+
+  /* Light bulbs container */
+  .bulbs-top,.bulbs-left,.bulbs-right{position:absolute;display:flex}
+  .bulbs-top{top:-7px;left:10px;right:10px;justify-content:space-around}
+  .bulbs-left{left:-7px;top:10px;bottom:10px;flex-direction:column;justify-content:space-around}
+  .bulbs-right{right:-7px;top:10px;bottom:10px;flex-direction:column;justify-content:space-around}
+
+  .bulb{width:10px;height:10px;border-radius:50%;
+    background:radial-gradient(circle at 40% 35%,var(--warm),var(--bulb),#C8A020);
+    box-shadow:0 0 6px var(--bulb),0 0 12px rgba(240,208,96,0.2);
+    transition:all .15s;flex-shrink:0}
+  .bulb.off{opacity:0.15;box-shadow:none;background:#504020}
+
+  .mq-title{font-weight:700;font-size:clamp(1.8rem,6vw,2.4rem);color:var(--bulb);letter-spacing:0.06em;
+    text-shadow:0 0 10px rgba(240,208,96,0.3)}
+  .mq-en{font-family:'Bungee',cursive;font-size:clamp(0.7rem,2vw,0.9rem);color:var(--gold);letter-spacing:0.12em;margin-top:0.1rem}
+  .mq-sub{font-size:0.9rem;color:var(--dim);margin-top:0.5rem;letter-spacing:0.08em}
+
+  /* ═══ SHOW CARDS ═══ */
+  .shows{display:flex;flex-direction:column;gap:0.8rem;margin-bottom:1.5rem}
+  .show{background:rgba(160,32,32,0.08);border:1px solid rgba(200,160,64,0.1);border-radius:4px;padding:1rem 1.2rem;
+    transition:all .2s;cursor:default;
+    opacity:0;animation:fadeIn .4s ease forwards}
+  .show:hover{box-shadow:0 0 16px rgba(240,208,96,0.1);border-color:rgba(200,160,64,0.2)}
+
+  .show-name{font-weight:700;font-size:1.1rem;color:var(--bulb)}
+  .show-time{font-family:'Bungee',cursive;font-size:0.72rem;color:var(--gold);letter-spacing:0.08em;margin-top:0.2rem}
+  .show-cast{font-size:0.9rem;color:var(--dim);margin-top:0.2rem}
+  .show-price{font-family:'Bungee',cursive;font-size:1rem;color:var(--warm);margin-top:0.3rem}
+  .show-desc{font-weight:300;font-size:0.88rem;color:rgba(255,248,224,0.3);margin-top:0.2rem;font-style:italic}
+
+  /* ═══ VENUE ═══ */
+  .venue{border-top:1px solid rgba(200,160,64,0.08);padding:1rem 0;margin-bottom:1rem;text-align:center}
+  .venue-addr{font-size:0.9rem;color:var(--dim)}
+  .venue-note{font-size:0.85rem;color:rgba(255,248,224,0.2);margin-top:0.3rem;line-height:2}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center}
+  .footer-motto{font-family:'Bungee',cursive;font-size:0.8rem;color:var(--gold);opacity:0.4;letter-spacing:0.08em}
+  .footer-disc{font-size:0.58rem;color:var(--dim);opacity:0.15;margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1rem}.marquee{padding:1.2rem}}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ MARQUEE ═══ -->
+  <div class="marquee">
+    <div class="bulbs-top" id="bulbsTop"></div>
+    <div class="bulbs-left" id="bulbsLeft"></div>
+    <div class="bulbs-right" id="bulbsRight"></div>
+    <div class="mq-title">笑工厂</div>
+    <div class="mq-en">LAUGH FACTORY</div>
+    <div class="mq-sub">本周演出</div>
+  </div>
+
+  <!-- ═══ SHOWS ═══ -->
+  <div class="shows">
+
+    <div class="show" style="animation-delay:.2s">
+      <div class="show-name">段子手之夜</div>
+      <div class="show-time">FRI · 周五 20:00</div>
+      <div class="show-cast">演员：老王 · 小李 · 阿杰</div>
+      <div class="show-price">¥128</div>
+      <div class="show-desc">三个人，三种风格，一个目的——让你笑</div>
+    </div>
+
+    <div class="show" style="animation-delay:.35s">
+      <div class="show-name">新人开放麦</div>
+      <div class="show-time">SAT · 周六 19:30</div>
+      <div class="show-cast">6 位新人轮番上阵</div>
+      <div class="show-price">¥68</div>
+      <div class="show-desc">可能不好笑，但保证真诚</div>
+    </div>
+
+    <div class="show" style="animation-delay:.5s">
+      <div class="show-name">老王专场：中年危机</div>
+      <div class="show-time">SUN · 周日 20:00 · 60MIN</div>
+      <div class="show-cast">老王（60 分钟专场）</div>
+      <div class="show-price">¥188</div>
+      <div class="show-desc">关于秃头、房贷和老婆的一切</div>
+    </div>
+
+  </div>
+
+  <!-- ═══ VENUE ═══ -->
+  <div class="venue">
+    <div class="venue-addr">上海市静安区某某路 88 号 B1</div>
+    <div class="venue-note">迟到 15 分钟不能进场（真的不行）<br>演出有可能冒犯你，但不是故意的</div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">LAUGH FACTORY · 笑是最好的药</div>
+    <div class="footer-disc">虚构厂牌 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+// Generate bulbs
+function makeBulbs(container,count){
+  for(var i=0;i<count;i++){
+    var b=document.createElement('div');
+    b.className='bulb';
+    b.dataset.idx=i;
+    container.appendChild(b);
+  }
+}
+makeBulbs(document.getElementById('bulbsTop'),16);
+makeBulbs(document.getElementById('bulbsLeft'),6);
+makeBulbs(document.getElementById('bulbsRight'),6);
+
+// Chase light animation
+var allBulbs=document.querySelectorAll('.bulb');
+var phase=0;
+setInterval(function(){
+  allBulbs.forEach(function(b,i){
+    b.classList.toggle('off',(i+phase)%2===0);
+  });
+  phase++;
+},500);
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
