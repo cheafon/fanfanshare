@@ -1,0 +1,72 @@
+请生成一个单页 HTML 网页，要求如下：
+
+【网页类型】航班登机牌 / Boarding Pass / 电子机票
+【品牌】虚构航空「蓝鸢航空 BLUE KITE AIRLINES」— 一张设计感极强的电子登机牌
+【主题】一个复古航空风格的登机牌页面，完美还原并美化真实登机牌
+
+【视觉风格】Airline Retro / 复古航空 / 70s航空海报
+- 色调：天空蓝 (#1A5BA0)、云白 (#F8F8FC)、夕阳橙 (#E87830)、登机牌米 (#F0EBE0)、深蓝 (#0A2848)、银灰 (#C0C0C8)
+- 字体：Saira Condensed（紧凑航空标识体）英文/航班号、Noto Sans SC 500/700（中文 17px+）
+- 布局：登机牌式 — 横向卡片（但窄屏竖排），左侧主票+右侧存根（虚线撕开线分隔），航班信息用大字显示，底部条形码
+- 动效：中 —
+  * 登机牌从上方翻转入场（rotateX 3D翻入）
+  * CSS飞机剪影装饰（clip-path三角形简化飞机）
+  * 条形码（repeating-linear-gradient）
+  * JS登机倒计时（距登机时间）
+  * 虚线撕线动画（虚线+闪烁提示）
+
+【页面结构】（登机牌，像一张精美的纸质机票电子版）
+
+1. 登机牌主体（卡片，翻转入场）：
+
+   航空公司头部：
+   - CSS飞机小图标 + "蓝鸢航空" + "BLUE KITE AIRLINES"
+   - 航班号："BK 2026"（超大字，Saira Condensed）
+
+2. 航线信息（核心视觉区，大字）：
+   - 出发：SHA 上海虹桥
+   - → CSS飞机图标飞行线 →
+   - 到达：KMG 昆明长水
+   - 出发时间：14:30 · 到达时间：17:45
+
+3. 乘客信息：
+   - 姓名：陈小雨 CHEN/XIAOYU
+   - 座位：32A（靠窗）
+   - 舱位：经济舱 ECONOMY
+   - 登机口：B12
+   - 登机时间：14:00
+
+4. 登机倒计时（JS实时）：
+   - "距登机还有 XX:XX:XX"（或"请立即登机"）
+
+5. 虚线撕线（分隔主票和存根）
+
+6. 存根区（右侧/底部小条）：
+   - BK2026 · SHA→KMG
+   - 32A · 陈小雨
+   - 登机口 B12
+
+7. 条形码（CSS生成）：
+   - repeating-linear-gradient条纹
+   - 下方：BK2026 20260325 SHA KMG
+
+8. 底部提示：
+   - "请在登机时间前到达登机口"
+   - "页面来源：虚构航空 · 仅供展示"
+
+【技术要求】
+- 单个 HTML 文件，所有 CSS 和 JS 内联
+- 使用 Google Fonts：Saira Condensed、Noto Sans SC
+- 响应式设计，适配手机和桌面
+- 中文为主，正文字号至少 17px
+- 生产级品质
+- 必须实现：
+  1. 登机牌3D翻转入场（rotateX from 90deg to 0）
+  2. CSS飞机剪影（clip-path或border三角形简化）
+  3. CSS条形码（repeating-linear-gradient）
+  4. JS登机倒计时（距今天14:00的时间差）
+  5. 虚线撕线效果（dashed border+闪烁）
+  6. 航线连接线（虚线+飞机图标）
+
+【参考】这个提示词来自 HTML 创意工坊：https://cheafon.github.io/fanfanshare/origin-gallery/
+风格名称：Airline Boarding Pass 航空登机牌

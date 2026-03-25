@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>登机牌 — 蓝鸢航空 BK 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--sky:#1A5BA0;--cloud:#F8F8FC;--orange:#E87830;--cream:#F0EBE0;--deep:#0A2848;--silver:#C0C0C8;--dim:rgba(10,40,72,0.3)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#E8E4DC;color:var(--deep);font-family:'Noto Sans SC','Saira Condensed',sans-serif;font-size:17px;line-height:1.6;
+    display:flex;justify-content:center;align-items:center;min-height:100vh;padding:1.5rem;-webkit-font-smoothing:antialiased}
+
+  .pass{max-width:480px;width:100%;perspective:800px}
+  .pass-card{background:var(--cream);border-radius:12px;overflow:hidden;box-shadow:0 6px 24px rgba(0,0,0,0.1);
+    animation:flipIn .7s ease both;position:relative;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E")}
+  @keyframes flipIn{0%{transform:rotateX(90deg);opacity:0}100%{transform:rotateX(0);opacity:1}}
+
+  /* ═══ HEADER ═══ */
+  .airline{background:linear-gradient(135deg,var(--sky),var(--deep));padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center}
+  .airline-info{display:flex;align-items:center;gap:0.6rem}
+  /* CSS Plane */
+  .plane-icon{width:24px;height:24px;position:relative}
+  .plane-icon::before{content:'';position:absolute;top:8px;left:0;border-left:12px solid #fff;border-top:6px solid transparent;border-bottom:6px solid transparent}
+  .plane-icon::after{content:'';position:absolute;top:10px;left:10px;width:14px;height:4px;background:#fff;border-radius:0 2px 2px 0}
+  .airline-name{color:#fff;font-weight:700;font-size:0.95rem;letter-spacing:0.04em}
+  .airline-en{font-family:'Saira Condensed',sans-serif;font-weight:400;font-size:0.6rem;color:rgba(255,255,255,0.5);letter-spacing:0.1em}
+  .flight-num{font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:1.8rem;color:var(--orange);letter-spacing:0.05em}
+
+  /* ═══ ROUTE ═══ */
+  .route{padding:1.5rem;display:flex;align-items:center;justify-content:space-between;gap:0.5rem}
+  .city{text-align:center;flex:1}
+  .city-code{font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:clamp(2rem,7vw,2.8rem);color:var(--deep);letter-spacing:0.05em}
+  .city-name{font-size:0.82rem;color:var(--dim);margin-top:0.1rem}
+  .city-time{font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:1.1rem;color:var(--sky);margin-top:0.3rem}
+
+  .route-line{flex:1;display:flex;align-items:center;justify-content:center;position:relative;max-width:100px}
+  .route-dash{flex:1;height:0;border-top:2px dashed var(--silver)}
+  .route-plane{font-size:1rem;color:var(--sky);margin:0 0.3rem;transform:rotate(0deg)}
+
+  /* ═══ PASSENGER ═══ */
+  .pax{padding:0 1.5rem 1rem;display:grid;grid-template-columns:1fr 1fr;gap:0.5rem 1.5rem}
+  .pax-item{}
+  .pax-label{font-family:'Saira Condensed',sans-serif;font-size:0.55rem;color:var(--silver);letter-spacing:0.1em;text-transform:uppercase}
+  .pax-val{font-weight:500;font-size:0.95rem;color:var(--deep);margin-top:0.1rem}
+  .pax-val-big{font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:1.3rem;color:var(--orange)}
+
+  /* ═══ COUNTDOWN ═══ */
+  .countdown{padding:0.6rem 1.5rem;background:rgba(26,91,160,0.04);text-align:center}
+  .cd-label{font-size:0.78rem;color:var(--dim)}
+  .cd-time{font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:1.2rem;color:var(--sky);letter-spacing:0.08em}
+
+  /* ═══ TEAR LINE ═══ */
+  .tear{position:relative;height:24px;display:flex;align-items:center;overflow:hidden}
+  .tear::before{content:'';position:absolute;left:0;right:0;top:50%;border-top:2px dashed var(--silver);opacity:0.5}
+  .tear-left,.tear-right{position:absolute;width:24px;height:24px;border-radius:50%;background:#E8E4DC}
+  .tear-left{left:-12px}
+  .tear-right{right:-12px}
+  .tear-icon{position:absolute;left:50%;transform:translateX(-50%);font-size:0.75rem;color:var(--silver);background:var(--cream);padding:0 4px;z-index:1}
+
+  /* ═══ STUB ═══ */
+  .stub{padding:0.8rem 1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.3rem}
+  .stub-item{text-align:center}
+  .stub-label{font-family:'Saira Condensed',sans-serif;font-size:0.5rem;color:var(--silver);letter-spacing:0.08em}
+  .stub-val{font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:0.85rem;color:var(--deep)}
+
+  /* ═══ BARCODE ═══ */
+  .barcode-area{padding:0.8rem 1.5rem 1rem;text-align:center}
+  .barcode{height:40px;margin:0 auto;width:85%;
+    background:repeating-linear-gradient(90deg,
+      var(--deep) 0,var(--deep) 1.5px,transparent 1.5px,transparent 3px,
+      var(--deep) 3px,var(--deep) 4px,transparent 4px,transparent 6.5px,
+      var(--deep) 6.5px,var(--deep) 8.5px,transparent 8.5px,transparent 10px,
+      var(--deep) 10px,var(--deep) 11px,transparent 11px,transparent 13px,
+      var(--deep) 13px,var(--deep) 15px,transparent 15px,transparent 17px,
+      var(--deep) 17px,var(--deep) 18px,transparent 18px,transparent 20.5px,
+      var(--deep) 20.5px,var(--deep) 22px,transparent 22px,transparent 24px)}
+  .barcode-num{font-family:'Saira Condensed',sans-serif;font-size:0.65rem;color:var(--silver);letter-spacing:0.12em;margin-top:0.3rem}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;margin-top:1rem;max-width:480px}
+  .footer-tip{font-size:0.82rem;color:var(--dim);opacity:0.5}
+  .footer-disc{font-size:0.6rem;color:rgba(0,0,0,0.15);margin-top:0.3rem}
+
+  @media(max-width:450px){
+    body{padding:0.8rem}
+    .route{flex-direction:row;padding:1rem}
+    .pax{grid-template-columns:1fr 1fr;gap:0.4rem 1rem}
+    .airline{padding:0.8rem 1rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="pass">
+  <div class="pass-card">
+
+    <!-- ═══ AIRLINE HEADER ═══ -->
+    <div class="airline">
+      <div class="airline-info">
+        <div class="plane-icon"></div>
+        <div><div class="airline-name">蓝鸢航空</div><div class="airline-en">BLUE KITE AIRLINES</div></div>
+      </div>
+      <div class="flight-num">BK 2026</div>
+    </div>
+
+    <!-- ═══ ROUTE ═══ -->
+    <div class="route">
+      <div class="city">
+        <div class="city-code">SHA</div>
+        <div class="city-name">上海虹桥</div>
+        <div class="city-time">14:30</div>
+      </div>
+      <div class="route-line">
+        <span class="route-dash"></span>
+        <span class="route-plane">✈</span>
+        <span class="route-dash"></span>
+      </div>
+      <div class="city">
+        <div class="city-code">KMG</div>
+        <div class="city-name">昆明长水</div>
+        <div class="city-time">17:45</div>
+      </div>
+    </div>
+
+    <!-- ═══ PASSENGER ═══ -->
+    <div class="pax">
+      <div class="pax-item"><div class="pax-label">PASSENGER</div><div class="pax-val">陈小雨 CHEN/XIAOYU</div></div>
+      <div class="pax-item"><div class="pax-label">SEAT</div><div class="pax-val pax-val-big">32A</div></div>
+      <div class="pax-item"><div class="pax-label">CLASS</div><div class="pax-val">经济舱 ECONOMY</div></div>
+      <div class="pax-item"><div class="pax-label">GATE</div><div class="pax-val pax-val-big">B12</div></div>
+      <div class="pax-item"><div class="pax-label">BOARDING</div><div class="pax-val">14:00</div></div>
+      <div class="pax-item"><div class="pax-label">DATE</div><div class="pax-val">2026.03.25</div></div>
+    </div>
+
+    <!-- ═══ COUNTDOWN ═══ -->
+    <div class="countdown">
+      <div class="cd-label">距登机</div>
+      <div class="cd-time" id="cdTime">--:--:--</div>
+    </div>
+
+    <!-- ═══ TEAR LINE ═══ -->
+    <div class="tear">
+      <div class="tear-left"></div>
+      <div class="tear-right"></div>
+      <span class="tear-icon">✂</span>
+    </div>
+
+    <!-- ═══ STUB ═══ -->
+    <div class="stub">
+      <div class="stub-item"><div class="stub-label">FLIGHT</div><div class="stub-val">BK 2026</div></div>
+      <div class="stub-item"><div class="stub-label">ROUTE</div><div class="stub-val">SHA → KMG</div></div>
+      <div class="stub-item"><div class="stub-label">SEAT</div><div class="stub-val">32A</div></div>
+      <div class="stub-item"><div class="stub-label">NAME</div><div class="stub-val">陈小雨</div></div>
+      <div class="stub-item"><div class="stub-label">GATE</div><div class="stub-val">B12</div></div>
+    </div>
+
+    <!-- ═══ BARCODE ═══ -->
+    <div class="barcode-area">
+      <div class="barcode"></div>
+      <div class="barcode-num">BK2026 20260325 SHA KMG 032A</div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-tip">请在登机时间前到达登机口 · 祝旅途愉快</div>
+    <div class="footer-disc">虚构航空 · 仅供展示</div>
+  </div>
+</div>
+
+<script>
+// Boarding countdown
+(function tick(){
+  var now=new Date();
+  var target=new Date(now);target.setHours(14,0,0,0);
+  var diff=target-now;
+  var el=document.getElementById('cdTime');
+  if(diff<=0){
+    el.textContent='请立即登机';el.style.color='var(--orange)';
+  }else{
+    var h=Math.floor(diff/3600000);
+    var m=Math.floor((diff%3600000)/60000);
+    var s=Math.floor((diff%60000)/1000);
+    el.textContent=(h<10?'0':'')+h+':'+(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+  }
+  setTimeout(tick,1000);
+})();
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
