@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>武功山穿越 — 山野笔记 TRAIL NOTES</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--cream:#f0e8d0;--brown:#a08060;--green:#4a8a50;--forest:#2a5a38;--blue:#4080b8;--red:#c84040;--orange:#e08030;--gray:#6a6858;--dim:rgba(106,104,88,0.4)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--cream);color:var(--gray);font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:17px;line-height:1.9;display:flex;justify-content:center;padding:2rem;-webkit-font-smoothing:antialiased;position:relative}
+
+  /* Contour lines bg */
+  body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.06;
+    background:
+      repeating-radial-gradient(ellipse at 30% 40%,transparent 0,transparent 28px,var(--brown) 28px,var(--brown) 29px,transparent 29px,transparent 58px),
+      repeating-radial-gradient(ellipse at 70% 60%,transparent 0,transparent 35px,var(--brown) 35px,var(--brown) 36px,transparent 36px,transparent 72px),
+      repeating-radial-gradient(ellipse at 50% 25%,transparent 0,transparent 22px,var(--brown) 22px,var(--brown) 23px,transparent 23px,transparent 46px)}
+
+  .map{max-width:540px;width:100%;position:relative;z-index:1;border:1px solid rgba(160,128,96,0.15);padding:2px;animation:fadeIn .7s ease}
+  .map-inner{border:1px solid rgba(160,128,96,0.1);padding:2rem}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* Corner coords */
+  .map::before{content:'27.4°N';position:absolute;top:-16px;left:0;font-family:'IBM Plex Mono',monospace;font-size:0.5rem;color:var(--brown);opacity:0.3}
+  .map::after{content:'114.1°E';position:absolute;top:-16px;right:0;font-family:'IBM Plex Mono',monospace;font-size:0.5rem;color:var(--brown);opacity:0.3}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;padding-bottom:1.5rem;border-bottom:1px solid rgba(160,128,96,0.1)}
+  .header-brand{font-family:'IBM Plex Mono',monospace;font-size:0.6rem;color:var(--brown);letter-spacing:0.15em;opacity:0.5}
+  .header-title{font-weight:700;font-size:clamp(1.8rem,5vw,2.2rem);color:var(--forest);letter-spacing:0.06em;margin-top:0.4rem}
+  .header-en{font-family:'IBM Plex Mono',monospace;font-weight:400;font-size:clamp(0.65rem,1.8vw,0.8rem);color:var(--brown);letter-spacing:0.12em;margin-top:0.2rem}
+
+  /* ═══ OVERVIEW ═══ */
+  .overview{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem 1rem;padding:1.5rem 0;border-bottom:1px solid rgba(160,128,96,0.1)}
+  .ov-item{text-align:center}
+  .ov-label{font-family:'IBM Plex Mono',monospace;font-size:0.5rem;color:var(--brown);letter-spacing:0.08em;opacity:0.5}
+  .ov-val{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:1rem;color:var(--forest);margin-top:0.1rem}
+  .ov-note{font-size:0.75rem;color:var(--dim);margin-top:0.1rem}
+  .ov-wide{grid-column:1/-1;margin-top:0.3rem}
+  .ov-wide .ov-val{font-size:0.85rem;color:var(--green)}
+
+  /* ═══ ROUTE ═══ */
+  .route{padding:1.5rem 0}
+  .route-title{font-family:'IBM Plex Mono',monospace;font-size:0.55rem;color:var(--orange);letter-spacing:0.15em;margin-bottom:1rem}
+
+  .day{margin-bottom:1.5rem;padding-left:1rem;border-left:2px dashed var(--orange);position:relative}
+  .day::before{content:'';position:absolute;left:-5px;top:0;width:8px;height:8px;border-radius:50%;background:var(--orange)}
+  .day-label{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:0.7rem;color:var(--orange);letter-spacing:0.08em}
+  .day-summary{font-family:'IBM Plex Mono',monospace;font-size:0.6rem;color:var(--dim);margin-top:0.2rem}
+
+  .waypoint{display:flex;gap:0.5rem;align-items:baseline;margin-top:0.5rem;position:relative}
+  .wp-arrow{font-family:'IBM Plex Mono',monospace;color:var(--brown);font-size:0.8rem;flex-shrink:0;opacity:0.3}
+  .wp-info{flex:1}
+  .wp-name{font-weight:500;font-size:0.95rem;color:var(--forest)}
+  .wp-name .wp-alt{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:0.75rem;color:var(--brown);margin-left:0.3rem}
+  .wp-note{font-size:0.82rem;color:var(--dim)}
+  .wp-summit{color:var(--orange);font-weight:500}
+
+  /* ═══ GEAR ═══ */
+  .gear{padding:1rem 0;border-top:1px solid rgba(160,128,96,0.1);border-bottom:1px solid rgba(160,128,96,0.1)}
+  .gear-title{font-family:'IBM Plex Mono',monospace;font-size:0.55rem;color:var(--forest);letter-spacing:0.15em;margin-bottom:0.6rem}
+
+  .gear-row{font-size:0.9rem;color:var(--dim);line-height:2;padding-left:1.2rem;position:relative}
+  .gear-row::before{position:absolute;left:0;font-size:0.7rem}
+  .gr-must::before{content:'●';color:var(--green)}
+  .gr-rec::before{content:'●';color:var(--blue)}
+  .gr-warn::before{content:'▲';color:var(--red)}
+  .gr-no::before{content:'■';color:var(--red)}
+
+  /* ═══ PRACTICAL ═══ */
+  .practical{padding:1rem 0;border-bottom:1px solid rgba(160,128,96,0.1)}
+  .prac-title{font-family:'IBM Plex Mono',monospace;font-size:0.55rem;color:var(--brown);letter-spacing:0.12em;margin-bottom:0.5rem;opacity:0.5}
+  .prac-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.3rem 1.5rem}
+  .prac-item{font-size:0.88rem;color:var(--dim);line-height:1.9}
+  .prac-item strong{color:var(--gray);font-weight:500}
+
+  /* ═══ FOOTER ═══ */
+  .footer{padding:1.5rem 0 0;text-align:center}
+  .footer-motto{font-weight:500;font-size:0.95rem;color:var(--forest);opacity:0.4;letter-spacing:0.06em}
+
+  /* Scale bar */
+  .scale-bar{display:flex;align-items:center;justify-content:center;gap:0.3rem;margin:1rem 0 0.5rem}
+  .scale-line{width:60px;height:0;border-top:1.5px solid var(--brown);position:relative;opacity:0.3}
+  .scale-line::before,.scale-line::after{content:'';position:absolute;top:-4px;width:1.5px;height:8px;background:var(--brown)}
+  .scale-line::before{left:0}
+  .scale-line::after{right:0}
+  .scale-text{font-family:'IBM Plex Mono',monospace;font-size:0.55rem;color:var(--brown);opacity:0.3}
+
+  .footer-disc{font-size:0.62rem;color:var(--dim);opacity:0.2;margin-top:0.3rem}
+
+  @media(max-width:500px){
+    body{padding:1rem 0.5rem}
+    .map-inner{padding:1.5rem 1rem}
+    .overview{grid-template-columns:1fr 1fr}
+    .prac-grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="map">
+  <div class="map-inner">
+
+    <!-- ═══ HEADER ═══ -->
+    <header class="header">
+      <div class="header-brand">TRAIL NOTES · 山野笔记</div>
+      <h1 class="header-title">武功山穿越</h1>
+      <div class="header-en">WUGONG SHAN TRAVERSE</div>
+    </header>
+
+    <!-- ═══ OVERVIEW ═══ -->
+    <div class="overview">
+      <div class="ov-item"><div class="ov-label">DISTANCE</div><div class="ov-val">42 km</div></div>
+      <div class="ov-item"><div class="ov-label">ELEVATION</div><div class="ov-val">+2,800 m</div></div>
+      <div class="ov-item"><div class="ov-label">SUMMIT</div><div class="ov-val">1,918 m</div></div>
+      <div class="ov-item"><div class="ov-label">DURATION</div><div class="ov-val">2D1N</div><div class="ov-note">或 3 天 2 夜</div></div>
+      <div class="ov-item"><div class="ov-label">DIFFICULTY</div><div class="ov-val" style="color:var(--orange)">★★★★☆</div></div>
+      <div class="ov-item"><div class="ov-label">SEASON</div><div class="ov-val">4–6 / 9–11</div></div>
+      <div class="ov-item ov-wide"><div class="ov-val">高山草甸花开（春）· 云海日出（秋）</div></div>
+    </div>
+
+    <!-- ═══ ROUTE ═══ -->
+    <section class="route">
+      <div class="route-title">ROUTE SEGMENTS · 路线分段</div>
+
+      <div class="day">
+        <div class="day-label">DAY 1</div>
+        <div class="day-summary">14 km · +1,000 m · 约 5h</div>
+        <div class="waypoint"><span class="wp-arrow">○</span><div class="wp-info"><div class="wp-name">龙山村停车场 <span class="wp-alt">600m</span></div><div class="wp-note">起点 · 补给最后机会</div></div></div>
+        <div class="waypoint"><span class="wp-arrow">→</span><div class="wp-info"><div class="wp-name">好汉坡 <span class="wp-alt">1,200m</span></div><div class="wp-note">陡升 600m · 约 2h · 最考验体力</div></div></div>
+        <div class="waypoint"><span class="wp-arrow">→</span><div class="wp-info"><div class="wp-name">发云界 <span class="wp-alt">1,600m</span></div><div class="wp-note">草甸开始 · 约 1.5h</div></div></div>
+        <div class="waypoint"><span class="wp-arrow">△</span><div class="wp-info"><div class="wp-name">发云界帐篷营地</div><div class="wp-note">住宿 · 可租帐篷 · 有水源</div></div></div>
+      </div>
+
+      <div class="day">
+        <div class="day-label">DAY 2</div>
+        <div class="day-summary">18 km · +400 m · −600 m · 约 5.5h</div>
+        <div class="waypoint"><span class="wp-arrow">○</span><div class="wp-info"><div class="wp-name">发云界 <span class="wp-alt">1,600m</span></div></div></div>
+        <div class="waypoint"><span class="wp-arrow">→</span><div class="wp-info"><div class="wp-name">绝望坡 <span class="wp-alt">1,750m</span></div><div class="wp-note" style="color:var(--red)">全程最难路段 · 约 1h · 名副其实</div></div></div>
+        <div class="waypoint"><span class="wp-arrow">→</span><div class="wp-info"><div class="wp-name wp-summit">金顶 <span class="wp-alt" style="color:var(--orange)">1,918m</span></div><div class="wp-note">最高点！约 1.5h · 360° 草甸全景</div></div></div>
+        <div class="waypoint"><span class="wp-arrow">→</span><div class="wp-info"><div class="wp-name">索道站 <span class="wp-alt">1,300m</span></div><div class="wp-note">下山 · 约 2h · 或乘索道</div></div></div>
+      </div>
+    </section>
+
+    <!-- ═══ GEAR ═══ -->
+    <section class="gear">
+      <div class="gear-title">LEGEND · 装备清单</div>
+      <div class="gear-row gr-must">必带：登山鞋（防滑）· 冲锋衣 · 头灯 · 2L 饮用水</div>
+      <div class="gear-row gr-rec">建议：登山杖 · 防晒霜 · 能量棒 · 急救包</div>
+      <div class="gear-row gr-warn">注意：5 月有蛇 · 山顶风大 · 无信号路段约 4h</div>
+      <div class="gear-row gr-no">禁止：明火 · 留垃圾</div>
+    </section>
+
+    <!-- ═══ PRACTICAL ═══ -->
+    <section class="practical">
+      <div class="prac-title">PRACTICAL INFO</div>
+      <div class="prac-grid">
+        <div class="prac-item"><strong>门票：</strong>¥70/人</div>
+        <div class="prac-item"><strong>索道：</strong>¥65 单程</div>
+        <div class="prac-item"><strong>帐篷：</strong>¥150/顶（营地租）</div>
+        <div class="prac-item"><strong>交通：</strong>萍乡高铁 → 龙山村 ¥80/人</div>
+      </div>
+    </section>
+
+    <!-- ═══ FOOTER ═══ -->
+    <footer class="footer">
+      <div class="footer-motto">山野笔记 · 每一步都算数</div>
+      <div class="scale-bar">
+        <span class="scale-text">0</span>
+        <span class="scale-line"></span>
+        <span class="scale-text">5 km</span>
+      </div>
+      <div class="footer-disc">虚构社群 · 仅供展示 · 实际路线请以现场为准</div>
+    </footer>
+
+  </div>
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>

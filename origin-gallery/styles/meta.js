@@ -50,4 +50,5 @@ window.__NAV_META = {
   'confetti-birthday': { name: '小鱼30岁 · 纸屑生日', desc: '生日派对邀请函 — 深色底+派对粉+电光蓝+阳光黄+薄荷绿+活力橙+葡萄紫、Bungee块状+ZCOOL快乐体、JS35颗彩色纸屑粒子飘落旋转+CSS气球浮动+弹跳入场bounceIn+超大30数字彩虹渐变+多色信息卡片+RSVP按钮、Confetti Pop纸屑庆典', tags: ['dark','confetti','birthday','party','animated','colorful','interactive','celebration'] },
   'hud-repair': { name: '铁匠铺 · 工业维修', desc: '维修工单追踪页 — CRT深绿+磷光绿+琥珀橙+警告红、Share Tech Mono等宽+Noto Sans SC、HUD角标L形border+绿色网格背景+扫描线动画+conic-gradient圆环进度仪表65%+JS实时时钟+数据闪烁+6步维修时间线+费用明细、Industrial HUD工业仪表盘', tags: ['dark','hud','industrial','repair','tracker','monospace','green','military'] },
   'kawaii-petreport': { name: '豆花日报 · 卡哇伊宠报', desc: '宠物寄养日报 — 白底+樱花粉+薰衣草紫+天空蓝+薄荷绿+柠檬黄、Quicksand圆润+ZCOOL快乐体、超大圆角24px+emoji状态图标+粉彩标签+泡泡对话框(三角伪元素)+圆形头像渐变+微晃wiggle动画+6维状态网格、Kawaii Pastel卡哇伊', tags: ['light','kawaii','pastel','pet','cute','rounded','report','japanese'] },
+  'topo-hiking': { name: '武功山 · 等高线徒步', desc: '登山路线指南 — 地图米+等高线棕+海拔绿+路径橙+危险红、IBM Plex Mono等宽+Noto Sans SC、CSS等高线背景(repeating-radial-gradient同心椭圆)+虚线路径border+海拔标注+地图比例尺+经纬度坐标+图例装备清单+2天分段时间线、Topographic Map等高线', tags: ['light','topo','hiking','map','outdoor','contour','monospace','nature'] },
 };
