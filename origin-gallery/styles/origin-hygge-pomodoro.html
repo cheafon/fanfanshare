@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>静刻 STILL MOMENT — 番茄钟</title>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500;600&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#FDFBF7;--wood:#C4956A;--dwood:#8B6847;--gray:#B8B0A8;--red:#D4654A;--green:#6BA87A;--text:#3A3530;--ring:var(--red);--dim:rgba(58,53,48,0.25)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:'Noto Sans SC','Jost',sans-serif;font-weight:300;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;align-items:center;min-height:100vh;padding:2rem;-webkit-font-smoothing:antialiased}
+
+  .app{max-width:400px;width:100%;text-align:center}
+
+  /* ═══ HEADER ═══ */
+  .header{margin-bottom:2.5rem;animation:fadeIn .6s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .h-cn{font-weight:500;font-size:1rem;color:var(--wood);letter-spacing:0.15em}
+  .h-en{font-family:'Jost',sans-serif;font-weight:300;font-size:0.7rem;color:var(--gray);letter-spacing:0.2em;margin-top:0.1rem}
+
+  /* ═══ TIMER RING ═══ */
+  .timer-wrap{position:relative;width:240px;height:240px;margin:0 auto 2rem}
+
+  .timer-ring{width:240px;height:240px;border-radius:50%;position:relative;
+    background:conic-gradient(var(--ring) 0deg,var(--ring) var(--angle,0deg),rgba(0,0,0,0.04) var(--angle,0deg),rgba(0,0,0,0.04) 360deg);
+    transition:--angle 1s linear,background 0.6s}
+  .timer-ring.breathing{animation:breathe 4s ease-in-out infinite}
+  @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.02)}}
+  .timer-ring.shake{animation:timerShake .4s ease}
+  @keyframes timerShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-4px)}40%{transform:translateX(4px)}60%{transform:translateX(-3px)}80%{transform:translateX(2px)}}
+
+  .timer-inner{position:absolute;top:12px;left:12px;right:12px;bottom:12px;border-radius:50%;background:var(--bg);
+    display:flex;flex-direction:column;align-items:center;justify-content:center}
+
+  .timer-time{font-family:'Jost',sans-serif;font-weight:300;font-size:3.5rem;color:var(--text);line-height:1;letter-spacing:0.02em;
+    transition:opacity .15s}
+  .timer-mode{font-weight:400;font-size:0.85rem;color:var(--dim);margin-top:0.4rem;transition:color .6s}
+  .timer-mode.focus{color:var(--red)}
+  .timer-mode.rest{color:var(--green)}
+  .timer-round{font-family:'Jost',sans-serif;font-size:0.7rem;color:var(--gray);margin-top:0.2rem}
+
+  /* ═══ CONTROLS ═══ */
+  .controls{display:flex;align-items:center;justify-content:center;gap:1rem;margin-bottom:2rem}
+
+  .btn-main{width:56px;height:56px;border-radius:50%;border:2px solid var(--wood);background:var(--bg);color:var(--wood);
+    font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+  .btn-main:hover{background:var(--wood);color:var(--bg)}
+  .btn-main:active{transform:scale(0.95)}
+  .btn-main.running{border-color:var(--red);color:var(--red)}
+  .btn-main.running:hover{background:var(--red);color:var(--bg)}
+
+  .btn-reset{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--gray);background:var(--bg);color:var(--gray);
+    font-size:0.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+  .btn-reset:hover{border-color:var(--text);color:var(--text)}
+
+  /* ═══ STATS ═══ */
+  .stats{display:flex;justify-content:center;gap:2rem;margin-bottom:1.5rem}
+  .stat{text-align:center}
+  .stat-num{font-family:'Jost',sans-serif;font-weight:500;font-size:1.3rem;color:var(--text)}
+  .stat-label{font-size:0.75rem;color:var(--gray);margin-top:0.1rem}
+
+  /* ═══ INFO ═══ */
+  .info{font-size:0.82rem;color:var(--gray);margin-bottom:2rem}
+
+  /* ═══ FOOTER ═══ */
+  .footer{}
+  .footer-motto{font-weight:400;font-size:0.85rem;color:var(--wood);opacity:0.5;letter-spacing:0.04em}
+  .footer-disc{font-size:0.6rem;color:var(--gray);opacity:0.3;margin-top:0.3rem}
+
+  @media(max-width:400px){
+    .timer-wrap{width:200px;height:200px}
+    .timer-ring{width:200px;height:200px}
+    .timer-time{font-size:2.8rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="h-cn">静刻</div>
+    <div class="h-en">STILL MOMENT</div>
+  </header>
+
+  <!-- ═══ TIMER ═══ -->
+  <div class="timer-wrap">
+    <div class="timer-ring breathing" id="ring">
+      <div class="timer-inner">
+        <div class="timer-time" id="timeDisplay">25:00</div>
+        <div class="timer-mode focus" id="modeLabel">专注时间</div>
+        <div class="timer-round" id="roundLabel">第 1 轮 / 4</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ CONTROLS ═══ -->
+  <div class="controls">
+    <button class="btn-reset" id="resetBtn" onclick="resetTimer()" title="重置">⟲</button>
+    <button class="btn-main" id="mainBtn" onclick="toggleTimer()">▶</button>
+  </div>
+
+  <!-- ═══ STATS ═══ -->
+  <div class="stats">
+    <div class="stat"><div class="stat-num" id="statPomos">0</div><div class="stat-label">已完成番茄</div></div>
+    <div class="stat"><div class="stat-num" id="statMins">0</div><div class="stat-label">专注分钟</div></div>
+  </div>
+
+  <!-- ═══ INFO ═══ -->
+  <div class="info">25 分钟专注 + 5 分钟休息 · 每 4 轮长休 15 分钟</div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">静刻 · 把时间还给自己</div>
+    <div class="footer-disc">虚构工具 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+var FOCUS=25*60,REST=5*60,LONG_REST=15*60;
+var remaining=FOCUS,total=FOCUS,running=false,interval=null;
+var mode='focus'; // focus or rest
+var round=1,completedPomos=0,totalFocusMins=0;
+
+var ring=document.getElementById('ring');
+var timeEl=document.getElementById('timeDisplay');
+var modeEl=document.getElementById('modeLabel');
+var roundEl=document.getElementById('roundLabel');
+var mainBtn=document.getElementById('mainBtn');
+
+function updateDisplay(){
+  var m=Math.floor(remaining/60);
+  var s=remaining%60;
+  timeEl.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+  var angle=360*(1-remaining/total);
+  ring.style.setProperty('--angle',angle+'deg');
+}
+
+function toggleTimer(){
+  if(running){
+    clearInterval(interval);running=false;
+    mainBtn.textContent='▶';mainBtn.classList.remove('running');
+    ring.classList.add('breathing');
+  }else{
+    running=true;
+    mainBtn.textContent='⏸';mainBtn.classList.add('running');
+    ring.classList.remove('breathing');
+    interval=setInterval(tick,1000);
+  }
+}
+
+function tick(){
+  remaining--;
+  if(remaining<0){
+    clearInterval(interval);running=false;
+    ring.classList.add('shake');
+    setTimeout(function(){ring.classList.remove('shake')},500);
+
+    if(mode==='focus'){
+      completedPomos++;
+      totalFocusMins+=FOCUS/60;
+      document.getElementById('statPomos').textContent=completedPomos;
+      document.getElementById('statMins').textContent=totalFocusMins;
+
+      mode='rest';
+      var isLong=round%4===0;
+      total=isLong?LONG_REST:REST;
+      remaining=total;
+      ring.style.setProperty('--ring','var(--green)');
+      modeEl.textContent=isLong?'长休息':'休息时间';
+      modeEl.className='timer-mode rest';
+    }else{
+      mode='focus';round++;
+      if(round>4)round=1;
+      total=FOCUS;remaining=FOCUS;
+      ring.style.setProperty('--ring','var(--red)');
+      modeEl.textContent='专注时间';
+      modeEl.className='timer-mode focus';
+    }
+    roundEl.textContent='第 '+round+' 轮 / 4';
+    mainBtn.textContent='▶';mainBtn.classList.remove('running');
+    ring.classList.add('breathing');
+    updateDisplay();
+    return;
+  }
+  updateDisplay();
+}
+
+function resetTimer(){
+  clearInterval(interval);running=false;
+  mode='focus';remaining=FOCUS;total=FOCUS;
+  ring.style.setProperty('--ring','var(--red)');
+  modeEl.textContent='专注时间';modeEl.className='timer-mode focus';
+  mainBtn.textContent='▶';mainBtn.classList.remove('running');
+  ring.classList.add('breathing');
+  updateDisplay();
+}
+
+updateDisplay();
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
