@@ -1,0 +1,74 @@
+请生成一个单页 HTML 网页，要求如下：
+
+【网页类型】色卡调色盘 / Color Palette Showcase / 设计师配色方案
+【品牌】虚构设计工具「色域 CHROMA」— 一组精选配色方案展示
+【主题】一个色彩光谱风格的配色方案展示页面，展示4组精选配色供设计师使用
+
+【视觉风格】Chromatic Spectrum / 色彩光谱 / Pantone色卡
+- 色调：纯白 (#FFFFFF)、深灰 (#1A1A1A)、+ 4组配色方案的多彩色块
+- 字体：Space Grotesk不用！用 Manrope（现代人文无衬线，优雅设计感）英文、Noto Sans SC 400/600（中文 17px+）
+- 布局：色卡展示式 — 白色干净背景，4组配色方案每组5个色块，色块像Pantone色卡（色块+底部色值标签），顶部有渐变光谱条装饰
+- 动效：中 —
+  * 色块staggered入场（scale+opacity渐显，每组不同delay）
+  * 色块hover膨胀（scale+阴影加深+色值放大）
+  * JS点击复制色值（HEX值复制到剪贴板+反馈）
+  * 顶部光谱条渐变流动
+  * 渐变mesh装饰背景
+
+【页面结构】
+
+1. 光谱条装饰（全宽渐变条，缓慢流动）：
+   - 彩虹光谱linear-gradient流动动画
+
+2. 头部：
+   - "色域" 标题
+   - "CHROMA · 精选配色方案"
+   - "点击色块复制色值 · 为你的下一个项目找到灵感"
+
+3. 4组配色方案（每组5色，Pantone色卡风格）：
+
+   方案一 · 日落海岸 SUNSET COAST：
+   - #FF6B6B · #FEC89A · #FFD93D · #6BCB77 · #4D96FF
+   - 温暖到冷色的自然过渡
+
+   方案二 · 午夜森林 MIDNIGHT FOREST：
+   - #0B0B0D · #1A3A2A · #2D6A4F · #52B788 · #95D5B2
+   - 深邃到明亮的绿色系
+
+   方案三 · 东京霓虹 TOKYO NEON：
+   - #0F0E17 · #FF2E63 · #E94560 · #7B2D8E · #00D2FC
+   - 赛博朋克霓虹色
+
+   方案四 · 奶油甜品 CREAM DESSERT：
+   - #FFF5E4 · #FFE5D9 · #FFD7BA · #FEC89A · #D4A373
+   - 温暖奶油色系
+
+4. 每个色块（Pantone卡片风格）：
+   - 大色块矩形（纯色填充，圆角小）
+   - 底部白色标签区：色值#XXXXXX
+   - hover时scale(1.05)+shadow加深+色值字号放大
+   - 点击复制色值到剪贴板+"已复制!"反馈
+
+5. 使用提示：
+   - "所有配色方案均可自由使用"
+   - "Ctrl+C 快速复制 · 直接粘贴到设计工具"
+
+6. 页脚：
+   - "色域 · CHROMA · 色彩是设计的灵魂"
+   - "页面来源：虚构工具 · 仅供展示"
+
+【技术要求】
+- 单个 HTML 文件，所有 CSS 和 JS 内联
+- 使用 Google Fonts：Manrope、Noto Sans SC
+- 响应式设计，适配手机和桌面
+- 中文为主，正文字号至少 17px
+- 生产级品质
+- 必须实现：
+  1. 光谱条渐变流动（彩虹gradient+background-position动画）
+  2. 色块staggered入场（4组×5色=20块，不同delay）
+  3. 色块hover膨胀+阴影
+  4. JS点击复制色值（clipboard API+fallback+反馈）
+  5. Pantone色卡风格（色块+底部标签）
+
+【参考】这个提示词来自 HTML 创意工坊：https://cheafon.github.io/fanfanshare/origin-gallery/
+风格名称：Chroma Palette 色彩色卡
