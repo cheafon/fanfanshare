@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>成都城市指南 — 邮寄世界 POST WORLD</title>
+<link href="https://fonts.googleapis.com/css2?family=Stint+Ultra+Expanded&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--album:#1A3028;--white:#FAFAF5;--red:#C83838;--blue:#2858A0;--cream:#F0E8D0;--edge:#D0C8B8;--copper:#B08848;--dim:rgba(250,250,245,0.3)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--album);color:var(--white);font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E")}
+
+  .page{max-width:520px;width:100%}
+
+  /* ═══ AIRMAIL HEADER ═══ */
+  .airmail{padding:6px;background:repeating-linear-gradient(-45deg,var(--red) 0,var(--red) 8px,var(--white) 8px,var(--white) 16px,var(--blue) 16px,var(--blue) 24px,var(--white) 24px,var(--white) 32px);
+    margin-bottom:1.5rem;animation:fadeIn .5s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .airmail-inner{background:var(--album);padding:1rem;text-align:center}
+  .h-title{font-family:'Noto Serif SC',serif;font-weight:700;font-size:1.4rem;color:var(--cream);letter-spacing:0.08em}
+  .h-en{font-family:'Stint Ultra Expanded',serif;font-size:0.65rem;color:var(--dim);letter-spacing:0.15em;margin-top:0.1rem}
+  .h-airmail{font-family:'Stint Ultra Expanded',serif;font-size:0.6rem;color:var(--red);letter-spacing:0.2em;margin-top:0.5rem;
+    border:1px solid var(--red);display:inline-block;padding:0.2em 0.8em}
+
+  /* ═══ STAMP CARD ═══ */
+  .stamp-wrap{padding:10px;margin-bottom:1rem;
+    /* Perforated edge effect */
+    background:radial-gradient(circle,var(--album) 4px,transparent 4px) 0 0/14px 14px repeat;
+    opacity:0;animation:fadeIn .5s ease forwards}
+  .stamp{background:var(--white);color:var(--album);padding:1.2rem;position:relative;
+    transition:transform .25s;cursor:default}
+  .stamp:hover{transform:perspective(600px) rotateY(3deg)}
+
+  .stamp-denom{font-family:'Stint Ultra Expanded',serif;font-size:0.7rem;color:var(--copper);position:absolute;top:8px;right:12px}
+
+  /* ═══ HERO STAMP ═══ */
+  .hero-stamp .stamp{padding:1.5rem;text-align:center}
+  .hero-city{font-family:'Noto Serif SC',serif;font-weight:700;font-size:clamp(2rem,7vw,2.8rem);color:var(--album);letter-spacing:0.12em}
+  .hero-en{font-family:'Stint Ultra Expanded',serif;font-size:0.65rem;color:var(--edge);letter-spacing:0.12em;margin-top:0.1rem}
+  .hero-desc{font-size:0.95rem;color:rgba(26,48,40,0.5);margin-top:0.8rem;line-height:1.9}
+
+  /* ═══ STAMP GRID ═══ */
+  .stamps{display:grid;grid-template-columns:1fr 1fr;gap:0}
+
+  .sm-emoji{font-size:1.5rem;margin-bottom:0.3rem}
+  .sm-name{font-family:'Noto Serif SC',serif;font-weight:600;font-size:1rem;color:var(--album)}
+  .sm-desc{font-size:0.85rem;color:rgba(26,48,40,0.45);margin-top:0.2rem;line-height:1.6}
+  .sm-meta{font-family:'Stint Ultra Expanded',serif;font-size:0.6rem;color:var(--copper);margin-top:0.4rem;letter-spacing:0.05em}
+
+  /* ═══ POSTMARK ═══ */
+  .postmark{width:100px;height:100px;border-radius:50%;border:3px double var(--red);position:relative;margin:1.5rem auto;
+    display:flex;align-items:center;justify-content:center;transform:rotate(-15deg);opacity:0.3}
+  .postmark-inner{width:76px;height:76px;border-radius:50%;border:1.5px solid var(--red);
+    display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .pm-date{font-family:'Stint Ultra Expanded',serif;font-size:0.5rem;color:var(--red);letter-spacing:0.06em}
+  .pm-city{font-family:'Noto Serif SC',serif;font-weight:600;font-size:0.7rem;color:var(--red);margin:0.1rem 0}
+  .pm-line{width:50px;height:0;border-top:1px solid var(--red);margin:2px 0}
+
+  /* ═══ TIPS ═══ */
+  .tips-wrap{padding:6px;background:repeating-linear-gradient(45deg,var(--red) 0,var(--red) 4px,transparent 4px,transparent 8px,var(--blue) 8px,var(--blue) 12px,transparent 12px,transparent 16px);
+    margin-bottom:1.5rem;opacity:0.8}
+  .tips{background:var(--cream);color:var(--album);padding:1rem}
+  .tips-title{font-family:'Stint Ultra Expanded',serif;font-size:0.65rem;color:var(--blue);letter-spacing:0.12em;margin-bottom:0.4rem}
+  .tip{font-size:0.9rem;color:rgba(26,48,40,0.55);line-height:2}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;padding:0.5rem 0}
+  .footer-motto{font-family:'Noto Serif SC',serif;font-weight:400;font-size:0.85rem;color:var(--dim);opacity:0.35}
+  .footer-disc{font-size:0.6rem;color:var(--dim);opacity:0.15;margin-top:0.2rem}
+
+  @media(max-width:450px){
+    body{padding:0.8rem}
+    .stamps{grid-template-columns:1fr}
+    .stamp{padding:1rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ AIRMAIL HEADER ═══ -->
+  <header class="airmail">
+    <div class="airmail-inner">
+      <div class="h-title">邮寄世界</div>
+      <div class="h-en">POST WORLD · CITY GUIDE</div>
+      <div class="h-airmail">AIR MAIL · 成都 CHENGDU</div>
+    </div>
+  </header>
+
+  <!-- ═══ HERO STAMP ═══ -->
+  <div class="stamp-wrap hero-stamp" style="animation-delay:.1s">
+    <div class="stamp">
+      <span class="stamp-denom">¥ 2026</span>
+      <div class="hero-city">成都</div>
+      <div class="hero-en">CHENGDU · 中国四川</div>
+      <p class="hero-desc">一座来了就不想走的城市。火锅、熊猫、和永远松弛的生活节奏。</p>
+    </div>
+  </div>
+
+  <!-- ═══ STAMP GRID ═══ -->
+  <div class="stamps">
+    <div class="stamp-wrap" style="animation-delay:.2s">
+      <div class="stamp">
+        <span class="stamp-denom">¥ 55</span>
+        <div class="sm-emoji">🐼</div>
+        <div class="sm-name">大熊猫基地</div>
+        <div class="sm-desc">和滚滚面对面的幸福</div>
+        <div class="sm-meta">HALF DAY · ¥55</div>
+      </div>
+    </div>
+    <div class="stamp-wrap" style="animation-delay:.3s">
+      <div class="stamp">
+        <span class="stamp-denom">FREE</span>
+        <div class="sm-emoji">🌶️</div>
+        <div class="sm-name">宽窄巷子</div>
+        <div class="sm-desc">三条巷子，一百种小吃</div>
+        <div class="sm-meta">2 HOURS · FREE</div>
+      </div>
+    </div>
+    <div class="stamp-wrap" style="animation-delay:.4s">
+      <div class="stamp">
+        <span class="stamp-denom">¥ ∞</span>
+        <div class="sm-emoji">🍲</div>
+        <div class="sm-name">火锅</div>
+        <div class="sm-desc">不吃火锅等于没来成都</div>
+        <div class="sm-meta">小龙坎 / 蜀大侠 / 电台巷</div>
+      </div>
+    </div>
+    <div class="stamp-wrap" style="animation-delay:.5s">
+      <div class="stamp">
+        <span class="stamp-denom">¥ 80</span>
+        <div class="sm-emoji">🏔️</div>
+        <div class="sm-name">都江堰</div>
+        <div class="sm-desc">两千年前的水利，今天还在用</div>
+        <div class="sm-meta">FULL DAY · ¥80</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ POSTMARK ═══ -->
+  <div class="postmark">
+    <div class="postmark-inner">
+      <div class="pm-date">2026.03.25</div>
+      <div class="pm-line"></div>
+      <div class="pm-city">成都</div>
+      <div class="pm-line"></div>
+      <div class="pm-date">CHENGDU</div>
+    </div>
+  </div>
+
+  <!-- ═══ TIPS ═══ -->
+  <div class="tips-wrap">
+    <div class="tips">
+      <div class="tips-title">TRAVEL TIPS · 旅行贴士</div>
+      <div class="tip">最佳季节：3–6 月 / 9–11 月</div>
+      <div class="tip">成都人说的「巴适」意思是「很好」</div>
+      <div class="tip">打车用嘀嗒比滴滴便宜</div>
+    </div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">邮寄世界 · POST WORLD · 每座城市都是一张邮票</div>
+    <div class="footer-disc">虚构品牌 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>
