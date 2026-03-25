@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>星际争霸联赛 S7 总决赛 — STARFIRE LEAGUE</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--void:#06060a;--cyan:#00f0e0;--pink:#f020a0;--purple:#a040ff;--panel:#0a0a10;--wire:#303040;--light:#e0e8f0;
+    --glow-c:0 0 6px rgba(0,240,224,0.4),0 0 18px rgba(0,240,224,0.1);
+    --glow-p:0 0 6px rgba(240,32,160,0.4),0 0 18px rgba(240,32,160,0.1);
+    --glow-v:0 0 6px rgba(160,64,255,0.4),0 0 18px rgba(160,64,255,0.1)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--void);color:var(--light);font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:17px;line-height:1.8;display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased}
+
+  .arena{max-width:540px;width:100%;animation:fadeIn .6s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* Wireframe box mixin */
+  .wf{background:transparent;border:1px solid var(--cyan);box-shadow:var(--glow-c);padding:1.2rem;margin-bottom:1rem;position:relative}
+  .wf-pink{border-color:var(--pink);box-shadow:var(--glow-p)}
+  .wf-purple{border-color:var(--purple);box-shadow:var(--glow-v)}
+  .wf-dim{border-color:var(--wire);box-shadow:none}
+
+  /* Angled corner cuts */
+  .cut{clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px))}
+
+  /* Breathing glow */
+  .breathe{animation:neonBreathe 3s ease-in-out infinite}
+  @keyframes neonBreathe{0%,100%{box-shadow:var(--glow-c)}50%{box-shadow:0 0 10px rgba(0,240,224,0.5),0 0 28px rgba(0,240,224,0.15)}}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;padding:1.5rem 1rem;border:1px solid var(--cyan);box-shadow:var(--glow-c);margin-bottom:1.2rem;
+    clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px)}
+  .header-cn{font-weight:700;font-size:clamp(1.5rem,5vw,2rem);color:var(--cyan);letter-spacing:0.08em;
+    text-shadow:0 0 10px rgba(0,240,224,0.3)}
+  .header-en{font-family:'Rajdhani',sans-serif;font-weight:600;font-size:clamp(0.65rem,2vw,0.8rem);color:var(--light);letter-spacing:0.2em;margin-top:0.2rem;opacity:0.5}
+  .header-info{font-family:'Rajdhani',sans-serif;font-size:0.7rem;color:var(--wire);letter-spacing:0.1em;margin-top:0.4rem}
+
+  /* ═══ SCORE ═══ */
+  .score{display:flex;align-items:center;justify-content:center;gap:0.8rem;padding:1.5rem 1rem;border:1px solid var(--cyan);box-shadow:var(--glow-c);margin-bottom:1.2rem;flex-wrap:wrap}
+
+  .team{text-align:center;flex:1;min-width:120px}
+  .team-name{font-weight:700;font-size:1rem;letter-spacing:0.04em}
+  .team-en{font-family:'Rajdhani',sans-serif;font-weight:500;font-size:0.6rem;color:var(--wire);letter-spacing:0.08em;margin-top:0.1rem}
+  .team-win .team-name{color:var(--cyan);text-shadow:0 0 8px rgba(0,240,224,0.3)}
+  .team-lose .team-name{color:var(--pink);text-shadow:0 0 8px rgba(240,32,160,0.2)}
+
+  .vs{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.7rem;color:var(--wire);letter-spacing:0.1em}
+  .score-num{display:flex;align-items:baseline;justify-content:center;gap:0.6rem;margin-top:0.8rem;width:100%}
+  .score-big{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:3rem;line-height:1}
+  .score-cyan{color:var(--cyan);text-shadow:0 0 15px rgba(0,240,224,0.4)}
+  .score-pink{color:var(--pink);text-shadow:0 0 15px rgba(240,32,160,0.3)}
+  .score-colon{font-family:'Rajdhani',sans-serif;font-size:2rem;color:var(--wire)}
+  .score-tag{font-family:'Rajdhani',sans-serif;font-size:0.6rem;color:var(--cyan);letter-spacing:0.12em;margin-top:0.3rem;text-align:center}
+
+  /* ═══ MATCH LOG ═══ */
+  .log{padding:1rem;border:1px solid var(--wire);margin-bottom:1.2rem}
+  .log-title{font-family:'Rajdhani',sans-serif;font-size:0.6rem;color:var(--wire);letter-spacing:0.15em;margin-bottom:0.6rem}
+  .log-row{display:flex;justify-content:space-between;align-items:center;padding:0.4rem 0;border-bottom:1px solid rgba(48,48,64,0.3);font-size:0.9rem}
+  .log-row:last-child{border-bottom:none}
+  .log-game{font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.7rem;color:var(--wire);width:28px}
+  .log-winner{flex:1;color:var(--light);font-weight:400}
+  .log-winner-cyan{color:var(--cyan)}
+  .log-winner-pink{color:var(--pink)}
+  .log-check{margin-right:0.3rem}
+  .log-time{font-family:'Rajdhani',sans-serif;font-size:0.75rem;color:var(--wire);width:50px;text-align:right}
+  .log-note{font-size:0.75rem;color:rgba(224,232,240,0.2);margin-left:0.5rem}
+
+  /* ═══ MVP ═══ */
+  .mvp{padding:1.2rem;border:1px solid var(--cyan);box-shadow:var(--glow-c);margin-bottom:1.2rem;text-align:center;
+    animation:neonBreathe 3s ease-in-out infinite}
+  .mvp-label{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.6rem;color:var(--cyan);letter-spacing:0.2em}
+  .mvp-name{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:2rem;color:var(--cyan);text-shadow:0 0 12px rgba(0,240,224,0.3);margin-top:0.2rem}
+  .mvp-team{font-size:0.85rem;color:var(--wire);margin-top:0.1rem}
+  .mvp-stats{display:flex;justify-content:center;gap:1.5rem;margin-top:0.8rem}
+  .mvp-stat{text-align:center}
+  .mvp-stat-val{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.2rem;color:var(--light)}
+  .mvp-stat-label{font-family:'Rajdhani',sans-serif;font-size:0.5rem;color:var(--wire);letter-spacing:0.08em}
+  .mvp-quote{font-size:0.88rem;color:rgba(224,232,240,0.3);margin-top:0.8rem;font-style:italic}
+
+  /* ═══ LEADERBOARD ═══ */
+  .board{border:1px solid var(--wire);padding:1rem;margin-bottom:1rem}
+  .board-title{font-family:'Rajdhani',sans-serif;font-size:0.6rem;color:var(--wire);letter-spacing:0.15em;margin-bottom:0.6rem}
+  .board-row{display:flex;align-items:center;gap:0.6rem;padding:0.5rem 0.3rem;border-bottom:1px solid rgba(48,48,64,0.2)}
+  .board-row:last-child{border-bottom:none}
+  .board-rank{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;width:28px;text-align:center}
+  .rank-1{color:var(--cyan);text-shadow:0 0 6px rgba(0,240,224,0.3)}
+  .rank-2{color:var(--pink);text-shadow:0 0 6px rgba(240,32,160,0.2)}
+  .rank-3{color:var(--purple);text-shadow:0 0 6px rgba(160,64,255,0.2)}
+  .rank-dim{color:var(--wire)}
+  .board-id{font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.95rem;color:var(--light);flex:1}
+  .board-team{font-size:0.75rem;color:var(--wire)}
+  .board-kda{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;color:var(--light);width:50px;text-align:right}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;padding:0.8rem 0}
+  .footer-text{font-family:'Rajdhani',sans-serif;font-weight:500;font-size:0.8rem;color:var(--wire);letter-spacing:0.1em;opacity:0.4}
+  .footer-disc{font-size:0.6rem;color:var(--wire);opacity:0.15;margin-top:0.3rem}
+
+  @media(max-width:500px){
+    body{padding:0.8rem}
+    .score{flex-direction:column;gap:0.5rem}
+    .score-num{margin-top:0.3rem}
+    .mvp-stats{gap:1rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="arena">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="header-cn">星际争霸联赛</div>
+    <div class="header-en">STARFIRE LEAGUE · SEASON 7 FINALS</div>
+    <div class="header-info">2026.03.23 · 上海梅赛德斯奔驰文化中心</div>
+  </header>
+
+  <!-- ═══ SCORE ═══ -->
+  <div class="score">
+    <div class="team team-win">
+      <div class="team-name">暗影凤凰</div>
+      <div class="team-en">SHADOW PHOENIX</div>
+    </div>
+    <div class="vs">VS</div>
+    <div class="team team-lose">
+      <div class="team-name">极光战队</div>
+      <div class="team-en">AURORA SQUAD</div>
+    </div>
+    <div class="score-num">
+      <span class="score-big score-cyan">3</span>
+      <span class="score-colon">:</span>
+      <span class="score-big score-pink">1</span>
+    </div>
+    <div class="score-tag">SHADOW PHOENIX WINS</div>
+  </div>
+
+  <!-- ═══ MATCH LOG ═══ -->
+  <div class="log">
+    <div class="log-title">MATCH LOG · 对局记录</div>
+    <div class="log-row">
+      <span class="log-game">G1</span>
+      <span class="log-winner log-winner-cyan"><span class="log-check">✓</span>暗影凤凰</span>
+      <span class="log-note">先手优势</span>
+      <span class="log-time">28:34</span>
+    </div>
+    <div class="log-row">
+      <span class="log-game">G2</span>
+      <span class="log-winner log-winner-pink"><span class="log-check">✓</span>极光战队</span>
+      <span class="log-note">翻盘</span>
+      <span class="log-time">35:12</span>
+    </div>
+    <div class="log-row">
+      <span class="log-game">G3</span>
+      <span class="log-winner log-winner-cyan"><span class="log-check">✓</span>暗影凤凰</span>
+      <span class="log-note">速推碾压</span>
+      <span class="log-time">22:07</span>
+    </div>
+    <div class="log-row">
+      <span class="log-game">G4</span>
+      <span class="log-winner log-winner-cyan"><span class="log-check">✓</span>暗影凤凰</span>
+      <span class="log-note">史诗拉锯</span>
+      <span class="log-time">41:23</span>
+    </div>
+  </div>
+
+  <!-- ═══ MVP ═══ -->
+  <div class="mvp">
+    <div class="mvp-label">FINALS MVP</div>
+    <div class="mvp-name">GHOST</div>
+    <div class="mvp-team">暗影凤凰 · SHADOW PHOENIX</div>
+    <div class="mvp-stats">
+      <div class="mvp-stat"><div class="mvp-stat-val">15.2</div><div class="mvp-stat-label">KDA</div></div>
+      <div class="mvp-stat"><div class="mvp-stat-val">38%</div><div class="mvp-stat-label">DMG SHARE</div></div>
+      <div class="mvp-stat"><div class="mvp-stat-val">3x</div><div class="mvp-stat-label">MVP</div></div>
+    </div>
+    <div class="mvp-quote">三场 MVP，毫无争议的赛季最佳</div>
+  </div>
+
+  <!-- ═══ LEADERBOARD ═══ -->
+  <div class="board">
+    <div class="board-title">PLAYER RANKING · 选手排行</div>
+    <div class="board-row"><span class="board-rank rank-1">#1</span><span class="board-id">GHOST</span><span class="board-team">暗影凤凰</span><span class="board-kda">15.2</span></div>
+    <div class="board-row"><span class="board-rank rank-2">#2</span><span class="board-id">AURORA</span><span class="board-team">极光战队</span><span class="board-kda">12.8</span></div>
+    <div class="board-row"><span class="board-rank rank-3">#3</span><span class="board-id">PHANTOM</span><span class="board-team">暗影凤凰</span><span class="board-kda">11.5</span></div>
+    <div class="board-row"><span class="board-rank rank-dim">#4</span><span class="board-id">BLAZE</span><span class="board-team">极光战队</span><span class="board-kda">9.3</span></div>
+    <div class="board-row"><span class="board-rank rank-dim">#5</span><span class="board-id">SHADOW</span><span class="board-team">暗影凤凰</span><span class="board-kda">8.7</span></div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-text">STARFIRE LEAGUE · 下赛季见</div>
+    <div class="footer-disc">虚构电竞 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>

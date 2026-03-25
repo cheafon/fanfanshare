@@ -1,0 +1,68 @@
+请生成一个单页 HTML 网页，要求如下：
+
+【网页类型】电竞战报排行榜 / Esports Match Report / 游戏赛事战报
+【品牌】虚构电竞赛事「星际争霸联赛 STARFIRE LEAGUE」— 第七赛季总决赛战报
+【主题】一个霓虹线框风格的电竞战报页面，展示比赛结果和选手排名
+
+【视觉风格】Neon Wireframe / 霓虹线框 / 数字世界
+- 色调：虚空黑 (#06060a)、霓虹青 (#00f0e0)、霓虹粉 (#f020a0)、霓虹紫 (#a040ff)、暗面板 (#0a0a10)、线框灰 (#303040)、白光 (#e0e8f0)
+- 字体：Rajdhani（棱角分明紧凑，电竞/科技）英文标题、Noto Sans SC 500/700（中文标题 17px+）、Noto Sans SC 300（正文）
+- 布局：霓虹线框式 — 纯黑背景，所有UI元素只有发光描边没有填充（background:transparent + border:1px solid + box-shadow glow），像一个全息投影的数字界面，排行榜用表格式排列
+- 动效：中 — 霓虹边框微微呼吸发光（box-shadow glow动画），线条描绘入场（border从0到完整），数据区域扫描闪光
+- 文化语境：电竞/Tron/全息投影/数字世界/赛博线框/游戏UI/HUD
+
+【核心视觉技法】
+- 纯线框设计：所有元素transparent背景+border描边+box-shadow发光，没有实心填充
+- 霓虹发光：box-shadow: 0 0 8px color, 0 0 20px color（多层发光）
+- 描边动画：border通过clip-path或width动画从无到有出现
+- 棱角裁切：clip-path裁出斜角（像赛博朋克的斜切面板）
+- 扫描线：半透明渐变条从左到右扫过
+- 排名标记：前三名用不同霓虹色发光
+
+【页面结构】（电竞战报，像一个全息投影的赛事数据面板）
+
+1. 赛事头部（霓虹线框标题）：
+   - "星际争霸联赛" 标题（霓虹青发光描边文字）
+   - "STARFIRE LEAGUE · SEASON 7 FINALS"（Rajdhani）
+   - "2026.03.23 · 总决赛战报 · 上海梅赛德斯奔驰文化中心"
+   - 线框装饰边角（斜切霓虹线）
+
+2. 决赛比分（核心视觉，大数字）：
+   - 队伍A："暗影凤凰 SHADOW PHOENIX"
+   - VS
+   - 队伍B："极光战队 AURORA SQUAD"
+   - 比分：3 : 1（暗影凤凰 胜）
+   - 霓虹青（胜方）vs 霓虹粉（负方）描边
+
+3. 对局记录（4场，线框表格）：
+   - 第1局：暗影凤凰 ✓ · 用时 28:34 · 暗影凤凰先手优势
+   - 第2局：极光战队 ✓ · 用时 35:12 · 极光战队翻盘
+   - 第3局：暗影凤凰 ✓ · 用时 22:07 · 速推碾压
+   - 第4局：暗影凤凰 ✓ · 用时 41:23 · 史诗级拉锯
+
+4. MVP 选手（霓虹高亮卡片）：
+   - ID："GHOST" · 暗影凤凰
+   - 数据：KDA 15.2 · 输出占比 38% · 承伤最少
+   - "三场MVP，毫无争议的赛季最佳"
+
+5. 选手排行榜（线框表格，前5名）：
+   - #1 GHOST · 暗影凤凰 · KDA 15.2 · 霓虹青发光
+   - #2 AURORA · 极光战队 · KDA 12.8 · 霓虹粉发光
+   - #3 PHANTOM · 暗影凤凰 · KDA 11.5 · 霓虹紫发光
+   - #4 BLAZE · 极光战队 · KDA 9.3
+   - #5 SHADOW · 暗影凤凰 · KDA 8.7
+
+6. 页脚：
+   - "STARFIRE LEAGUE · 下赛季见"
+   - "页面来源：虚构电竞 · 仅供展示"
+
+【技术要求】
+- 单个 HTML 文件，所有 CSS 和 JS 内联
+- 使用 Google Fonts：Rajdhani、Noto Sans SC
+- 响应式设计，适配手机和桌面
+- 中文为主，正文字号至少 17px
+- 生产级品质
+- 霓虹线框：纯黑背景+所有元素transparent+border描边+box-shadow多层霓虹发光+棱角clip-path裁切+呼吸发光动画+Rajdhani棱角字体+霓虹青粉紫三色+排名发光标记
+
+【参考】这个提示词来自 HTML 创意工坊：https://cheafon.github.io/fanfanshare/origin-gallery/
+风格名称：Neon Wire Esports 霓虹电竞
