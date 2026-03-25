@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>购物小票 — 好日子超市</title>
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#f8f6f0;--ink:#1a1a18;--fade:#888880;--edge:#e8e0c8}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#e8e4d8;color:var(--ink);font-family:'Courier Prime','Noto Sans SC',monospace;font-size:17px;line-height:1.6;display:flex;justify-content:center;padding:2rem 1rem;-webkit-font-smoothing:auto}
+
+  .receipt{max-width:320px;width:100%;background:var(--paper);padding:1.5rem 1.2rem 0;position:relative;
+    box-shadow:0 4px 20px rgba(0,0,0,0.1);
+    animation:rollOut 1s ease both;
+    /* Thermal noise */
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E")}
+  @keyframes rollOut{0%{transform:translateY(-60px);opacity:0;max-height:0}20%{opacity:1}100%{transform:translateY(0);max-height:2000px}}
+
+  /* Torn zigzag bottom */
+  .receipt::after{content:'';position:absolute;bottom:-12px;left:0;right:0;height:12px;background:var(--paper);
+    clip-path:polygon(0% 0%,3% 100%,6% 0%,9% 100%,12% 0%,15% 100%,18% 0%,21% 100%,24% 0%,27% 100%,30% 0%,33% 100%,36% 0%,39% 100%,42% 0%,45% 100%,48% 0%,51% 100%,54% 0%,57% 100%,60% 0%,63% 100%,66% 0%,69% 100%,72% 0%,75% 100%,78% 0%,81% 100%,84% 0%,87% 100%,90% 0%,93% 100%,96% 0%,100% 100%,100% 0%);
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E")}
+
+  /* Receipt typography */
+  .center{text-align:center}
+  .bold{font-weight:700}
+  .big{font-size:1.3rem}
+  .small{font-size:0.78rem;color:var(--fade)}
+  .divider{text-align:center;color:var(--fade);letter-spacing:0;margin:0.4rem 0;font-size:0.85rem;overflow:hidden;white-space:nowrap}
+  .divider-thick{color:var(--ink);opacity:0.3}
+
+  /* Store header */
+  .store-name{font-size:1.4rem;font-weight:700;letter-spacing:0.08em}
+  .store-en{font-size:0.75rem;color:var(--fade);letter-spacing:0.1em}
+  .store-info{font-size:0.78rem;color:var(--fade);margin-top:0.2rem;line-height:1.5}
+
+  /* Item row */
+  .item{display:flex;justify-content:space-between;align-items:baseline;padding:0.15rem 0;font-size:0.92rem}
+  .item-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .item-price{flex-shrink:0;margin-left:0.5rem;text-align:right}
+
+  /* Totals */
+  .total-row{display:flex;justify-content:space-between;font-size:0.92rem;padding:0.1rem 0}
+  .total-big{font-size:1.2rem;font-weight:700;padding:0.2rem 0}
+  .discount{color:var(--fade)}
+
+  /* Transaction info */
+  .tx{font-size:0.82rem;color:var(--fade);line-height:1.8}
+
+  /* Barcode */
+  .barcode-area{text-align:center;margin:1rem 0 0.5rem}
+  .barcode{height:45px;margin:0 auto;width:80%;
+    background:repeating-linear-gradient(90deg,
+      var(--ink) 0,var(--ink) 2px,transparent 2px,transparent 4px,
+      var(--ink) 4px,var(--ink) 5px,transparent 5px,transparent 8px,
+      var(--ink) 8px,var(--ink) 11px,transparent 11px,transparent 13px,
+      var(--ink) 13px,var(--ink) 14px,transparent 14px,transparent 17px,
+      var(--ink) 17px,var(--ink) 19px,transparent 19px,transparent 21px,
+      var(--ink) 21px,var(--ink) 23px,transparent 23px,transparent 26px,
+      var(--ink) 26px,var(--ink) 27px,transparent 27px,transparent 30px)}
+  .barcode-num{font-size:0.72rem;color:var(--fade);letter-spacing:0.15em;margin-top:0.2rem}
+
+  /* Footer */
+  .thanks{font-size:0.92rem;margin:0.5rem 0;letter-spacing:0.04em}
+  .notice{font-size:0.78rem;color:var(--fade);line-height:1.8}
+  .receipt-end{padding-bottom:1.5rem}
+
+  .footer-disc{text-align:center;max-width:320px;margin:1.5rem auto 0;font-size:0.6rem;color:rgba(0,0,0,0.15)}
+
+  @media(max-width:360px){
+    body{padding:1rem 0.5rem}
+    .receipt{padding:1.2rem 0.8rem 0}
+  }
+</style>
+</head>
+<body>
+
+<div>
+<div class="receipt">
+
+  <!-- ═══ HEADER ═══ -->
+  <div class="center">
+    <div class="store-name">好日子超市</div>
+    <div class="store-en">GOOD DAYS MART</div>
+    <div class="store-info">上海市徐汇区某某路 128 号<br>TEL: 021-XXXX-XXXX</div>
+  </div>
+  <div class="divider divider-thick">================================</div>
+
+  <!-- ═══ TRANSACTION ═══ -->
+  <div class="tx">
+    收银台: #03　　收银员: 小王<br>
+    日期: <span id="txDate">----/--/--</span>　时间: <span id="txTime">--:--:--</span>
+  </div>
+  <div class="divider">--------------------------------</div>
+
+  <!-- ═══ ITEMS ═══ -->
+  <div class="item"><span class="item-name">有机鸡蛋 10枚</span><span class="item-price">¥18.90</span></div>
+  <div class="item"><span class="item-name">全麦面包 1袋</span><span class="item-price">¥12.50</span></div>
+  <div class="item"><span class="item-name">鲜牛奶 1L</span><span class="item-price">¥15.80</span></div>
+  <div class="item"><span class="item-name">西红柿 0.5kg</span><span class="item-price">¥4.50</span></div>
+  <div class="item"><span class="item-name">黄瓜 0.3kg</span><span class="item-price">¥2.80</span></div>
+  <div class="item"><span class="item-name">可口可乐 330ml×2</span><span class="item-price">¥7.60</span></div>
+  <div class="item"><span class="item-name">厨房纸巾 1卷</span><span class="item-price">¥8.90</span></div>
+  <div class="divider">--------------------------------</div>
+
+  <!-- ═══ TOTALS ═══ -->
+  <div class="total-row"><span>商品数</span><span>7</span></div>
+  <div class="total-row"><span>小计</span><span>¥71.00</span></div>
+  <div class="total-row discount"><span>会员折扣</span><span>-¥3.55</span></div>
+  <div class="divider divider-thick">================================</div>
+  <div class="total-row total-big"><span>应付</span><span>¥67.45</span></div>
+  <div class="total-row"><span>微信支付</span><span>¥67.45</span></div>
+  <div class="total-row"><span>找零</span><span>¥0.00</span></div>
+  <div class="divider">--------------------------------</div>
+
+  <!-- ═══ MEMBER ═══ -->
+  <div class="total-row small"><span>会员卡号</span><span>****8842</span></div>
+  <div class="total-row small"><span>本次积分</span><span>+67</span></div>
+  <div class="total-row small"><span>累计积分</span><span>2,847</span></div>
+  <div class="divider">--------------------------------</div>
+
+  <!-- ═══ BARCODE ═══ -->
+  <div class="barcode-area">
+    <div class="barcode"></div>
+    <div class="barcode-num">2026 0325 0003 4521</div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <div class="center receipt-end">
+    <div class="thanks bold">谢谢光临，欢迎再来！</div>
+    <div class="notice">凭此小票 7 天内可退换<br>发票请在 30 天内索取</div>
+    <div class="divider divider-thick">================================</div>
+  </div>
+
+</div>
+
+<div class="footer-disc">虚构超市 · 仅供展示</div>
+</div>
+
+<script>
+// Live timestamp
+(function tick(){
+  var d=new Date();
+  var ds=d.getFullYear()+'/'+(d.getMonth()+1<10?'0':'')+(d.getMonth()+1)+'/'+(d.getDate()<10?'0':'')+d.getDate();
+  var ts=(d.getHours()<10?'0':'')+d.getHours()+':'+(d.getMinutes()<10?'0':'')+d.getMinutes()+':'+(d.getSeconds()<10?'0':'')+d.getSeconds();
+  document.getElementById('txDate').textContent=ds;
+  document.getElementById('txTime').textContent=ts;
+  setTimeout(tick,1000);
+})();
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
