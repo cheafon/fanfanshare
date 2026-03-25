@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>铁馆 IRON HOUSE — 本周训练记录</title>
+<link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#1a1818;--rust:#c86830;--silver:#a0a098;--yellow:#e8c030;--white:#d8d0c8;--deep:#282828;--red:#c03030;--dim:rgba(216,208,200,0.25)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--bg);color:var(--white);font-family:'Noto Sans SC',sans-serif;font-size:17px;line-height:1.8;display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E")}
+
+  .log{max-width:540px;width:100%;animation:fadeIn .5s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* Thick rules */
+  .thick-rule{border:none;height:4px;background:var(--rust);opacity:0.4;margin:0}
+  .thin-rule{border:none;height:1px;background:var(--silver);opacity:0.08;margin:1rem 0}
+
+  /* ═══ HEADER ═══ */
+  .header{padding:1rem 0 0.5rem}
+  .header-cn{font-weight:700;font-size:clamp(2.2rem,7vw,3rem);color:var(--rust);letter-spacing:0.08em;line-height:1.1}
+  .header-en{font-family:'Teko',sans-serif;font-weight:500;font-size:clamp(0.8rem,2.5vw,1rem);color:var(--silver);letter-spacing:0.2em;opacity:0.5}
+  .header-week{font-family:'Teko',sans-serif;font-weight:600;font-size:0.85rem;color:var(--yellow);letter-spacing:0.12em;margin-top:0.5rem}
+
+  /* ═══ OVERVIEW ═══ */
+  .overview{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;padding:1.5rem 0}
+  .ov{padding:0.8rem;border:2px solid rgba(216,208,200,0.06);background:var(--deep)}
+  .ov-num{font-family:'Teko',sans-serif;font-weight:700;font-size:clamp(2rem,6vw,2.6rem);color:var(--white);line-height:1}
+  .ov-label{font-family:'Teko',sans-serif;font-size:0.65rem;color:var(--silver);letter-spacing:0.1em;opacity:0.4;margin-top:0.2rem}
+  .ov-pr{border-color:rgba(200,104,48,0.2)}
+  .ov-pr .ov-num{color:var(--rust)}
+
+  /* ═══ DAILY LOGS ═══ */
+  .days{padding:0.5rem 0}
+
+  .day{border:2px solid rgba(216,208,200,0.06);margin-bottom:0.8rem;background:var(--deep)}
+  .day-header{display:flex;justify-content:space-between;align-items:center;padding:0.6rem 0.8rem;border-bottom:1px solid rgba(216,208,200,0.04)}
+  .day-name{font-weight:700;font-size:1rem;color:var(--white)}
+  .day-focus{font-family:'Teko',sans-serif;font-size:0.7rem;color:var(--silver);letter-spacing:0.08em;opacity:0.4}
+
+  .day-body{padding:0.6rem 0.8rem}
+  .exercise{display:flex;justify-content:space-between;align-items:baseline;padding:0.2rem 0;border-bottom:1px solid rgba(216,208,200,0.02);flex-wrap:wrap}
+  .ex-name{font-size:0.92rem;color:rgba(216,208,200,0.55)}
+  .ex-data{font-family:'Teko',sans-serif;font-weight:600;font-size:0.9rem;color:var(--white);letter-spacing:0.03em}
+  .ex-pr{color:var(--yellow);position:relative}
+  .ex-pr::after{content:'PR!';font-family:'Teko',sans-serif;font-size:0.55rem;color:var(--bg);background:var(--yellow);padding:0.1em 0.4em;margin-left:0.4rem;vertical-align:middle;letter-spacing:0.05em}
+
+  .day-note{font-size:0.85rem;color:var(--rust);padding:0.4rem 0 0;opacity:0.6;font-weight:500}
+
+  /* Rest day */
+  .day-rest{text-align:center;padding:1rem 0.8rem}
+  .day-rest-text{font-size:0.9rem;color:var(--silver);opacity:0.3;font-style:italic}
+
+  .check{font-family:'Teko',sans-serif;font-size:0.6rem;color:var(--silver);opacity:0.2;letter-spacing:0.05em}
+
+  /* ═══ QUOTE ═══ */
+  .quote{padding:1.5rem 0;text-align:center}
+  .quote p{font-weight:600;font-size:1.1rem;color:var(--rust);opacity:0.5;letter-spacing:0.04em;line-height:1.8}
+
+  /* ═══ FOOTER ═══ */
+  .footer{padding:0.5rem 0;text-align:center}
+  .footer-brand{font-family:'Teko',sans-serif;font-weight:600;font-size:0.8rem;color:var(--silver);letter-spacing:0.15em;opacity:0.2}
+  .footer-disc{font-size:0.62rem;color:var(--dim);opacity:0.15;margin-top:0.3rem}
+
+  @media(max-width:500px){
+    body{padding:0.8rem}
+    .overview{grid-template-columns:1fr 1fr}
+    .exercise{flex-direction:column;gap:0.1rem}
+    .ex-data{font-size:0.85rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="log">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="header-cn">铁馆</div>
+    <div class="header-en">IRON HOUSE · EST. 2018</div>
+    <hr class="thick-rule">
+    <div class="header-week">本周训练记录 · WEEK 12</div>
+  </header>
+
+  <!-- ═══ OVERVIEW ═══ -->
+  <div class="overview">
+    <div class="ov"><div class="ov-num">5/7</div><div class="ov-label">TRAINING DAYS</div></div>
+    <div class="ov"><div class="ov-num">6:45</div><div class="ov-label">TOTAL HOURS</div></div>
+    <div class="ov"><div class="ov-num">128</div><div class="ov-label">TOTAL SETS</div></div>
+    <div class="ov ov-pr"><div class="ov-num">160kg</div><div class="ov-label">MAX LIFT · DEADLIFT</div></div>
+  </div>
+
+  <hr class="thick-rule">
+
+  <!-- ═══ DAILY LOGS ═══ -->
+  <div class="days">
+
+    <div class="day">
+      <div class="day-header"><span class="day-name">周一</span><span class="day-focus">CHEST + TRICEPS</span></div>
+      <div class="day-body">
+        <div class="exercise"><span class="ex-name">卧推</span><span class="ex-data">80kg × 5 × 5</span></div>
+        <div class="exercise"><span class="ex-name">上斜哑铃卧推</span><span class="ex-data">30kg × 4 × 8</span></div>
+        <div class="exercise"><span class="ex-name">绳索下压</span><span class="ex-data">25kg × 3 × 12</span></div>
+        <div class="day-note">状态好，卧推 PB 差 5kg</div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="day-header"><span class="day-name">周二</span><span class="day-focus">BACK + BICEPS</span></div>
+      <div class="day-body">
+        <div class="exercise"><span class="ex-name">硬拉</span><span class="ex-data ex-pr">160kg × 3 × 3</span></div>
+        <div class="exercise"><span class="ex-name">引体向上</span><span class="ex-data">自重 × 4 × 8</span></div>
+        <div class="exercise"><span class="ex-name">杠铃弯举</span><span class="ex-data">35kg × 3 × 10</span></div>
+        <div class="day-note">硬拉破纪录！腰有点酸</div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="day-header"><span class="day-name">周三</span><span class="day-focus">REST DAY</span></div>
+      <div class="day-rest">
+        <div class="day-rest-text">肌肉在休息时生长</div>
+        <div class="check">✓ RECOVERED</div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="day-header"><span class="day-name">周四</span><span class="day-focus">LEGS</span></div>
+      <div class="day-body">
+        <div class="exercise"><span class="ex-name">深蹲</span><span class="ex-data">120kg × 5 × 5</span></div>
+        <div class="exercise"><span class="ex-name">腿举</span><span class="ex-data">200kg × 4 × 10</span></div>
+        <div class="exercise"><span class="ex-name">罗马尼亚硬拉</span><span class="ex-data">100kg × 3 × 8</span></div>
+        <div class="day-note">练完扶着墙出去的</div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="day-header"><span class="day-name">周五</span><span class="day-focus">SHOULDERS + CORE</span></div>
+      <div class="day-body">
+        <div class="exercise"><span class="ex-name">推举</span><span class="ex-data">55kg × 4 × 6</span></div>
+        <div class="exercise"><span class="ex-name">侧平举</span><span class="ex-data">12kg × 4 × 12</span></div>
+        <div class="exercise"><span class="ex-name">悬垂举腿</span><span class="ex-data">自重 × 3 × 15</span></div>
+        <div class="day-note">肩泵感十足</div>
+      </div>
+    </div>
+
+  </div>
+
+  <hr class="thick-rule">
+
+  <!-- ═══ QUOTE ═══ -->
+  <div class="quote">
+    <p>没有人在乎你举了多重。<br>但你应该在乎。</p>
+  </div>
+
+  <hr class="thin-rule">
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-brand">IRON HOUSE · 铁馆 · 不练不舒服</div>
+    <div class="footer-disc">页面来源：虚构健身房 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>
