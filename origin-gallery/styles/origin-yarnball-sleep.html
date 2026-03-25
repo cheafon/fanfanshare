@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>睡眠报告 — 枕头 PILLOW</title>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--lav:#B8A0D8;--pink:#E8B0C0;--cream:#FFF8F4;--night:#2A1838;--moon:#90A8D0;--warm:#C8C0B8;--dim:rgba(255,248,244,0.25)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--night);color:var(--cream);font-family:'Noto Sans SC','Comfortaa',sans-serif;font-weight:300;font-size:17px;line-height:1.8;
+    display:flex;justify-content:center;align-items:center;min-height:100vh;padding:2rem;-webkit-font-smoothing:antialiased;
+    overflow:hidden;position:relative;
+    background-image:radial-gradient(ellipse at 50% 30%,rgba(184,160,216,0.08) 0%,transparent 60%)}
+
+  /* Yarn curved lines */
+  .yarn{position:fixed;border-radius:50%;pointer-events:none;z-index:0}
+  .y1{width:200px;height:200px;top:-40px;right:-40px;border-top:2px solid rgba(184,160,216,0.1);border-right:2px solid rgba(184,160,216,0.08);animation:yarnSpin 35s linear infinite}
+  .y2{width:150px;height:150px;bottom:60px;left:-30px;border-bottom:2px solid rgba(232,176,192,0.08);border-left:2px solid rgba(232,176,192,0.06);animation:yarnSpin 40s linear infinite reverse}
+  .y3{width:100px;height:100px;top:40%;right:10%;border-top:1.5px solid rgba(144,168,208,0.06);border-right:1.5px solid rgba(144,168,208,0.05);animation:yarnSpin 30s linear infinite}
+  @keyframes yarnSpin{to{transform:rotate(360deg)}}
+
+  .page{max-width:420px;width:100%;position:relative;z-index:1;animation:softIn 1s ease}
+  @keyframes softIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:2rem}
+  .h-title{font-family:'Comfortaa',sans-serif;font-weight:700;font-size:1.5rem;color:var(--lav);letter-spacing:0.06em}
+  .h-en{font-family:'Comfortaa',sans-serif;font-weight:300;font-size:0.75rem;color:var(--dim);letter-spacing:0.12em;margin-top:0.1rem}
+  .h-date{font-size:0.85rem;color:rgba(255,248,244,0.2);margin-top:0.4rem}
+
+  /* ═══ SCORE ═══ */
+  .score{text-align:center;margin-bottom:2rem;position:relative}
+  .score-circle{width:160px;height:160px;border-radius:50%;margin:0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    background:rgba(184,160,216,0.06);border:2px solid rgba(184,160,216,0.1);
+    animation:breathe 4s ease-in-out infinite}
+  @keyframes breathe{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(184,160,216,0.05)}50%{transform:scale(1.04);box-shadow:0 0 30px 10px rgba(184,160,216,0.03)}}
+
+  .score-num{font-family:'Comfortaa',sans-serif;font-weight:700;font-size:3.5rem;line-height:1;
+    background:linear-gradient(135deg,var(--pink),var(--lav));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .score-label{font-family:'Comfortaa',sans-serif;font-weight:400;font-size:0.85rem;color:var(--lav);margin-top:0.2rem;opacity:0.6}
+
+  /* ═══ DURATION ═══ */
+  .duration{text-align:center;margin-bottom:2rem}
+  .dur-times{display:flex;justify-content:center;gap:2rem;margin-bottom:0.5rem}
+  .dur-item{text-align:center}
+  .dur-label{font-family:'Comfortaa',sans-serif;font-size:0.65rem;color:rgba(255,248,244,0.2);letter-spacing:0.08em}
+  .dur-val{font-family:'Comfortaa',sans-serif;font-weight:600;font-size:1.1rem;color:var(--cream);margin-top:0.1rem}
+  .dur-total{font-family:'Comfortaa',sans-serif;font-weight:700;font-size:1.8rem;color:var(--cream);margin-top:0.3rem}
+  .dur-note{font-size:0.82rem;color:rgba(255,248,244,0.2);margin-top:0.2rem}
+
+  /* ═══ STAGES ═══ */
+  .stages{margin-bottom:2rem}
+  .stages-title{font-family:'Comfortaa',sans-serif;font-weight:500;font-size:0.85rem;color:var(--dim);margin-bottom:0.6rem}
+  .stage-bar{display:flex;height:12px;border-radius:6px;overflow:hidden;margin-bottom:0.8rem}
+  .sb{height:100%;transition:width 1.2s ease}
+  .sb-wake{background:var(--warm)}
+  .sb-light{background:var(--moon)}
+  .sb-deep{background:rgba(60,30,80,0.8)}
+  .sb-rem{background:var(--pink)}
+
+  .stage-legend{display:grid;grid-template-columns:1fr 1fr;gap:0.3rem}
+  .sl{display:flex;align-items:center;gap:0.4rem;font-size:0.82rem;color:rgba(255,248,244,0.35)}
+  .sl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+  .sl-pct{font-family:'Comfortaa',sans-serif;font-weight:600;color:var(--cream);margin-left:auto;font-size:0.78rem}
+
+  /* ═══ TIPS ═══ */
+  .tips{background:rgba(184,160,216,0.04);border:1px solid rgba(184,160,216,0.08);border-radius:16px;padding:1rem;margin-bottom:2rem}
+  .tip{font-size:0.9rem;color:rgba(255,248,244,0.3);line-height:2}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center}
+  .footer-motto{font-family:'Comfortaa',sans-serif;font-weight:400;font-size:0.85rem;color:var(--lav);opacity:0.3}
+  .footer-disc{font-size:0.58rem;color:var(--dim);opacity:0.12;margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1.5rem}.score-circle{width:130px;height:130px}.score-num{font-size:2.8rem}}
+</style>
+</head>
+<body>
+
+<div class="yarn y1"></div>
+<div class="yarn y2"></div>
+<div class="yarn y3"></div>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="h-title">枕头</div>
+    <div class="h-en">PILLOW · 昨晚的睡眠</div>
+    <div class="h-date">2026.03.24 → 03.25</div>
+  </header>
+
+  <!-- ═══ SCORE ═══ -->
+  <div class="score">
+    <div class="score-circle">
+      <div class="score-num">85</div>
+      <div class="score-label">良好</div>
+    </div>
+  </div>
+
+  <!-- ═══ DURATION ═══ -->
+  <div class="duration">
+    <div class="dur-times">
+      <div class="dur-item"><div class="dur-label">入睡</div><div class="dur-val">23:15</div></div>
+      <div class="dur-item"><div class="dur-label">醒来</div><div class="dur-val">07:08</div></div>
+    </div>
+    <div class="dur-total" id="durDisplay">0h 0min</div>
+    <div class="dur-note">比你的平均多了 12 分钟</div>
+  </div>
+
+  <!-- ═══ STAGES ═══ -->
+  <div class="stages">
+    <div class="stages-title">睡眠阶段</div>
+    <div class="stage-bar">
+      <div class="sb sb-wake" id="bWake" style="width:0"></div>
+      <div class="sb sb-light" id="bLight" style="width:0"></div>
+      <div class="sb sb-deep" id="bDeep" style="width:0"></div>
+      <div class="sb sb-rem" id="bRem" style="width:0"></div>
+    </div>
+    <div class="stage-legend">
+      <div class="sl"><span class="sl-dot" style="background:var(--warm)"></span>清醒 23min<span class="sl-pct">5%</span></div>
+      <div class="sl"><span class="sl-dot" style="background:var(--moon)"></span>浅睡 3h42min<span class="sl-pct">47%</span></div>
+      <div class="sl"><span class="sl-dot" style="background:rgba(60,30,80,0.8)"></span>深睡 2h18min<span class="sl-pct">29%</span></div>
+      <div class="sl"><span class="sl-dot" style="background:var(--pink)"></span>REM 1h30min<span class="sl-pct">19%</span></div>
+    </div>
+  </div>
+
+  <!-- ═══ TIPS ═══ -->
+  <div class="tips">
+    <div class="tip">深度睡眠占比 29%，高于平均水平</div>
+    <div class="tip">建议：保持今晚的入睡时间</div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">枕头 · Pillow · 好好睡，好好醒</div>
+    <div class="footer-disc">虚构 App · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+// Duration count-up
+(function(){
+  var el=document.getElementById('durDisplay');
+  var target=473;// minutes
+  var dur=1500,start=performance.now();
+  setTimeout(function(){
+    function tick(now){
+      var p=Math.min((now-start)/dur,1);
+      var ease=1-Math.pow(1-p,3);
+      var mins=Math.round(target*ease);
+      var h=Math.floor(mins/60);
+      var m=mins%60;
+      el.textContent=h+'h '+m+'min';
+      if(p<1)requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  },600);
+})();
+
+// Stage bar animation
+setTimeout(function(){
+  document.getElementById('bWake').style.width='5%';
+  document.getElementById('bLight').style.width='47%';
+  document.getElementById('bDeep').style.width='29%';
+  document.getElementById('bRem').style.width='19%';
+},800);
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
