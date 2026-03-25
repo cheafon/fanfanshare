@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>好用吗？— HOWZIT 满意度调查</title>
+<link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#FAFAFA;--pencil:#555;--blue:#4A90D9;--red:#E85050;--green:#4CAF50;--grid:#E8E8E8;--yellow:#FFF3CD;--dim:rgba(85,85,85,0.3)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--bg);color:var(--pencil);font-family:'Noto Sans SC',sans-serif;font-weight:400;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:2rem;-webkit-font-smoothing:antialiased;
+    /* Dot grid background */
+    background-image:radial-gradient(circle,var(--grid) 1px,transparent 1px);background-size:20px 20px}
+
+  .page{max-width:480px;width:100%;animation:fadeIn .5s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* Wireframe dashed style */
+  .wf{border:2px dashed var(--dim);border-radius:8px;padding:1.2rem;margin-bottom:1.2rem;position:relative}
+
+  /* Red annotations */
+  .anno{font-family:'Architects Daughter',cursive;font-size:0.78rem;color:var(--red);position:absolute;pointer-events:none}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.5rem;position:relative}
+  .h-title{font-family:'Architects Daughter',cursive;font-size:clamp(2rem,7vw,2.8rem);color:var(--pencil)}
+  .h-en{font-family:'Architects Daughter',cursive;font-size:0.8rem;color:var(--dim);letter-spacing:0.08em;margin-top:0.1rem}
+  .h-anno{right:-10px;top:5px;transform:rotate(-5deg)}
+
+  /* ═══ NPS ═══ */
+  .nps{text-align:center}
+  .nps-q{font-weight:500;font-size:1rem;margin-bottom:1rem}
+
+  .nps-row{display:flex;justify-content:center;gap:4px;flex-wrap:wrap;margin-bottom:0.4rem}
+  .nps-btn{width:38px;height:38px;border:2px dashed var(--dim);border-radius:6px;background:transparent;
+    font-family:'Architects Daughter',cursive;font-size:1rem;color:var(--pencil);cursor:pointer;
+    display:flex;align-items:center;justify-content:center;transition:all .15s}
+  .nps-btn:hover{border-color:var(--blue);color:var(--blue)}
+  .nps-btn.selected{border:2px solid var(--blue);background:rgba(74,144,217,0.08);color:var(--blue);font-weight:700}
+
+  .nps-labels{display:flex;justify-content:space-between;font-size:0.75rem;color:var(--dim);margin-bottom:0.8rem;padding:0 0.2rem}
+  .nps-emoji{font-size:2.5rem;min-height:3rem;transition:all .2s}
+  .nps-anno{right:-5px;bottom:8px;transform:rotate(3deg)}
+
+  /* ═══ TEXTAREA ═══ */
+  .feedback-area{position:relative}
+  .fb-label{font-weight:500;margin-bottom:0.4rem;font-size:0.95rem}
+  .fb-textarea{width:100%;height:80px;border:2px dashed var(--dim);border-radius:6px;background:transparent;
+    font-family:inherit;font-size:0.92rem;color:var(--pencil);padding:0.6rem;resize:none;outline:none;
+    transition:border-color .2s}
+  .fb-textarea:focus{border-color:var(--blue)}
+  .fb-textarea::placeholder{color:rgba(85,85,85,0.25)}
+  .fb-anno{right:-8px;top:30px;transform:rotate(-3deg)}
+
+  /* ═══ TAGS ═══ */
+  .tags-section{}
+  .tags-label{font-weight:500;margin-bottom:0.5rem;font-size:0.95rem}
+  .tags{display:flex;flex-wrap:wrap;gap:0.4rem}
+  .tag{font-size:0.88rem;padding:0.35em 0.8em;border:2px dashed var(--dim);border-radius:20px;background:transparent;
+    cursor:pointer;transition:all .15s;user-select:none}
+  .tag:hover{border-color:var(--pencil)}
+  .tag.selected{border:2px solid var(--blue);background:rgba(74,144,217,0.06);color:var(--blue)}
+
+  /* ═══ SUBMIT ═══ */
+  .submit-area{text-align:center;position:relative}
+  .submit-btn{font-family:'Architects Daughter',cursive;font-size:1.1rem;color:var(--pencil);
+    background:transparent;border:2px dashed var(--pencil);border-radius:8px;padding:0.7em 2em;
+    cursor:pointer;transition:all .2s;letter-spacing:0.04em}
+  .submit-btn:hover{border-style:solid;background:var(--pencil);color:var(--bg)}
+  .submit-btn:active{transform:scale(0.97)}
+  .submit-btn.done{border:2px solid var(--green);color:var(--green);background:rgba(76,175,80,0.06)}
+  .submit-anno{position:static;display:inline-block;margin-left:0.5rem;transform:none;font-family:'Architects Daughter',cursive;font-size:0.78rem;color:var(--red)}
+
+  /* Yellow highlight zone */
+  .highlight{background:var(--yellow);padding:0.2em 0.4em;border-radius:2px;display:inline}
+
+  /* Blue annotation line */
+  .blue-line{border-left:2px solid rgba(74,144,217,0.2);padding-left:0.8rem;margin-left:0.3rem}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;margin-top:0.5rem}
+  .footer-motto{font-family:'Architects Daughter',cursive;font-size:0.82rem;color:var(--dim);opacity:0.5}
+  .footer-ver{font-family:'Architects Daughter',cursive;font-size:0.7rem;color:var(--red);opacity:0.3;margin-top:0.2rem}
+  .footer-disc{font-size:0.58rem;color:var(--dim);opacity:0.2;margin-top:0.2rem}
+
+  @media(max-width:420px){
+    body{padding:1rem}
+    .nps-btn{width:30px;height:30px;font-size:0.85rem}
+    .anno{font-size:0.7rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <h1 class="h-title">好用吗？</h1>
+    <div class="h-en">HOWZIT · 产品满意度调查</div>
+    <span class="anno h-anno">← 这是标题</span>
+  </header>
+
+  <!-- ═══ NPS ═══ -->
+  <div class="wf nps">
+    <div class="nps-q">你有多大可能向朋友推荐我们的产品？</div>
+    <div class="nps-row" id="npsRow"></div>
+    <div class="nps-labels"><span>不太可能</span><span>非常愿意</span></div>
+    <div class="nps-emoji" id="npsEmoji"></div>
+    <span class="anno nps-anno">← 选一个数字</span>
+  </div>
+
+  <!-- ═══ TEXTAREA ═══ -->
+  <div class="wf feedback-area">
+    <div class="fb-label">告诉我们你的想法 <span style="color:var(--dim);font-weight:300">（选填）</span></div>
+    <textarea class="fb-textarea" placeholder="比如：希望增加深色模式…"></textarea>
+    <span class="anno fb-anno">← 写感受</span>
+  </div>
+
+  <!-- ═══ TAGS ═══ -->
+  <div class="wf tags-section">
+    <div class="tags-label">你最喜欢什么？<span style="color:var(--dim);font-weight:300">（可多选）</span></div>
+    <div class="tags" id="tagsArea">
+      <span class="tag" onclick="toggleTag(this)">界面设计</span>
+      <span class="tag" onclick="toggleTag(this)">使用流畅</span>
+      <span class="tag" onclick="toggleTag(this)">功能丰富</span>
+      <span class="tag" onclick="toggleTag(this)">客服响应快</span>
+      <span class="tag" onclick="toggleTag(this)">价格合理</span>
+      <span class="tag" onclick="toggleTag(this)">文档清晰</span>
+    </div>
+  </div>
+
+  <!-- ═══ SUBMIT ═══ -->
+  <div class="submit-area">
+    <button class="submit-btn" id="submitBtn" onclick="submitFeedback()">[ 提交反馈 ]</button>
+    <span class="submit-anno">← 点这里</span>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">HOWZIT · 你的反馈让产品更好</div>
+    <div class="footer-ver">v2.1 · 设计稿 · 待评审</div>
+    <div class="footer-disc">虚构产品 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+// NPS buttons
+(function(){
+  var row=document.getElementById('npsRow');
+  for(var i=0;i<=10;i++){
+    var btn=document.createElement('button');
+    btn.className='nps-btn';
+    btn.textContent=i;
+    btn.dataset.val=i;
+    btn.onclick=function(){selectNPS(this)};
+    row.appendChild(btn);
+  }
+})();
+
+function selectNPS(btn){
+  document.querySelectorAll('.nps-btn').forEach(function(b){b.classList.remove('selected')});
+  btn.classList.add('selected');
+  var v=parseInt(btn.dataset.val);
+  var emoji=document.getElementById('npsEmoji');
+  if(v<=6)emoji.textContent='😞';
+  else if(v<=8)emoji.textContent='🙂';
+  else emoji.textContent='😍';
+}
+
+function toggleTag(el){el.classList.toggle('selected')}
+
+function submitFeedback(){
+  var btn=document.getElementById('submitBtn');
+  btn.textContent='[ 已提交 ✓ ]';
+  btn.classList.add('done');
+  setTimeout(function(){btn.textContent='[ 提交反馈 ]';btn.classList.remove('done')},2000);
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
