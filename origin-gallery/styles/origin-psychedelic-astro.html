@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>星轮 ZODIAC WHEEL — 你的星盘快读</title>
+<link href="https://fonts.googleapis.com/css2?family=Righteous&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--purple:#8B00FF;--pink:#FF1493;--orange:#FF6B00;--yellow:#FFE100;--indigo:#1A0A30;--star:#F0E8FF;--dim:rgba(240,232,255,0.3)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--indigo);color:var(--star);font-family:'Noto Sans SC',sans-serif;font-weight:400;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:2rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative;
+    background-image:
+      radial-gradient(ellipse at 25% 25%,rgba(139,0,255,0.15) 0%,transparent 50%),
+      radial-gradient(ellipse at 75% 70%,rgba(255,20,147,0.1) 0%,transparent 45%),
+      radial-gradient(ellipse at 50% 90%,rgba(255,107,0,0.08) 0%,transparent 40%);
+    background-size:200% 200%;animation:bgFlow 20s ease infinite}
+  @keyframes bgFlow{0%{background-position:0% 0%}50%{background-position:100% 100%}100%{background-position:0% 0%}}
+
+  /* Star particles */
+  .stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .star-p{position:absolute;border-radius:50%;animation:starDrift var(--sd) ease-in-out infinite var(--sdd)}
+  @keyframes starDrift{0%,100%{transform:translate(0,0);opacity:.2}50%{transform:translate(var(--sx),var(--sy));opacity:.6}}
+
+  .page{max-width:480px;width:100%;position:relative;z-index:1}
+
+  /* Gradient text */
+  .grad-text{background:linear-gradient(90deg,var(--purple),var(--pink),var(--orange),var(--yellow));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:2rem;animation:fadeIn .6s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .h-title{font-family:'Righteous',cursive;font-size:clamp(2rem,7vw,2.8rem)}
+  .h-en{font-family:'Righteous',cursive;font-size:0.75rem;color:var(--dim);letter-spacing:0.15em;margin-top:0.2rem}
+
+  /* ═══ SWIRL CHART ═══ */
+  .swirl-area{display:flex;justify-content:center;margin-bottom:2rem;position:relative;height:240px}
+
+  .swirl-outer{width:220px;height:220px;border-radius:50%;position:absolute;
+    background:conic-gradient(from 0deg,var(--purple),var(--pink),var(--orange),var(--yellow),var(--purple));
+    animation:swirlSpin 15s linear infinite;
+    box-shadow:0 0 40px rgba(139,0,255,0.2),0 0 80px rgba(255,20,147,0.1)}
+  @keyframes swirlSpin{to{transform:rotate(360deg)}}
+
+  .swirl-inner{width:170px;height:170px;border-radius:50%;background:var(--indigo);
+    position:absolute;top:25px;left:25px;display:flex;align-items:center;justify-content:center;
+    box-shadow:inset 0 0 20px rgba(139,0,255,0.15)}
+  .swirl-symbol{font-size:3rem;color:var(--pink);text-shadow:0 0 15px rgba(255,20,147,0.4)}
+
+  /* Zodiac ring */
+  .zodiac-ring{width:220px;height:220px;position:absolute;animation:zodiacSpin 60s linear infinite reverse}
+  @keyframes zodiacSpin{to{transform:rotate(-360deg)}}
+  .zodiac-sym{position:absolute;top:50%;left:50%;font-size:1rem;color:rgba(240,232,255,0.4);
+    transform-origin:0 0}
+
+  /* ═══ READINGS ═══ */
+  .readings{display:flex;flex-direction:column;gap:1rem;margin-bottom:2rem}
+  .reading{background:rgba(139,0,255,0.06);border:1px solid rgba(139,0,255,0.1);border-radius:14px;padding:1.2rem;
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    opacity:0;animation:fadeIn .5s ease forwards}
+
+  .rd-header{display:flex;align-items:center;gap:0.5rem;margin-bottom:0.4rem}
+  .rd-icon{font-size:1.3rem}
+  .rd-type{font-size:0.8rem;color:var(--dim)}
+  .rd-sign{font-family:'Righteous',cursive;font-size:1.1rem}
+  .rd-sign-sym{font-size:1.2rem;margin-left:0.2rem}
+  .rd-text{font-weight:300;font-size:0.95rem;color:rgba(240,232,255,0.5);line-height:1.8;margin-top:0.3rem}
+  .rd-keys{display:flex;gap:0.4rem;margin-top:0.5rem}
+  .rd-key{font-size:0.75rem;color:var(--pink);padding:0.2em 0.6em;border:1px solid rgba(255,20,147,0.15);border-radius:8px}
+
+  /* Color per reading */
+  .rd-sun .rd-sign{color:var(--orange)}
+  .rd-moon .rd-sign{color:var(--purple)}
+  .rd-rise .rd-sign{color:var(--pink)}
+
+  /* ═══ ENERGY ═══ */
+  .energy{background:rgba(255,107,0,0.05);border:1px solid rgba(255,107,0,0.08);border-radius:14px;padding:1rem;
+    text-align:center;margin-bottom:2rem;backdrop-filter:blur(6px)}
+  .energy-title{font-family:'Righteous',cursive;font-size:0.85rem;color:var(--yellow);letter-spacing:0.1em;margin-bottom:0.5rem}
+  .energy-grid{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap}
+  .en-item{text-align:center}
+  .en-val{font-family:'Righteous',cursive;font-size:1rem;color:var(--star)}
+  .en-label{font-size:0.72rem;color:var(--dim)}
+  .energy-msg{font-size:0.88rem;color:rgba(240,232,255,0.4);margin-top:0.6rem}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center}
+  .footer-motto{font-weight:300;font-size:0.88rem;color:var(--dim);opacity:0.4}
+  .footer-disc{font-size:0.6rem;color:var(--dim);opacity:0.15;margin-top:0.3rem}
+
+  @media(max-width:420px){
+    body{padding:1.5rem 1rem}
+    .swirl-outer{width:180px;height:180px}
+    .swirl-inner{width:136px;height:136px;top:22px;left:22px}
+    .swirl-area{height:200px}
+    .zodiac-ring{width:180px;height:180px}
+  }
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <h1 class="h-title grad-text">星轮</h1>
+    <div class="h-en">ZODIAC WHEEL · 你的星盘快读</div>
+  </header>
+
+  <!-- ═══ SWIRL CHART ═══ -->
+  <div class="swirl-area">
+    <div class="swirl-outer">
+      <div class="swirl-inner">
+        <span class="swirl-symbol">♈</span>
+      </div>
+    </div>
+    <div class="zodiac-ring" id="zodiacRing"></div>
+  </div>
+
+  <!-- ═══ READINGS ═══ -->
+  <div class="readings">
+    <div class="reading rd-sun" style="animation-delay:.2s">
+      <div class="rd-header">
+        <span class="rd-icon">☉</span>
+        <span class="rd-type">太阳星座</span>
+        <span class="rd-sign">白羊座</span>
+        <span class="rd-sign-sym">♈</span>
+      </div>
+      <p class="rd-text">你的外在性格：热情冲动，永远是第一个冲上去的人。行动派，想到就做，不做就难受。</p>
+      <div class="rd-keys"><span class="rd-key">勇气</span><span class="rd-key">行动力</span><span class="rd-key">直率</span></div>
+    </div>
+
+    <div class="reading rd-moon" style="animation-delay:.4s">
+      <div class="rd-header">
+        <span class="rd-icon">☽</span>
+        <span class="rd-type">月亮星座</span>
+        <span class="rd-sign">巨蟹座</span>
+        <span class="rd-sign-sym">♋</span>
+      </div>
+      <p class="rd-text">你的内在情感：外表刚强内心柔软，对家和亲密关系极度需要安全感。受伤了不说，但会默默记很久。</p>
+      <div class="rd-keys"><span class="rd-key">敏感</span><span class="rd-key">关怀</span><span class="rd-key">念旧</span></div>
+    </div>
+
+    <div class="reading rd-rise" style="animation-delay:.6s">
+      <div class="rd-header">
+        <span class="rd-icon">↑</span>
+        <span class="rd-type">上升星座</span>
+        <span class="rd-sign">天秤座</span>
+        <span class="rd-sign-sym">♎</span>
+      </div>
+      <p class="rd-text">别人眼中的你：优雅得体，社交场上如鱼得水。永远在寻找平衡，有时候会被误解为没有立场。</p>
+      <div class="rd-keys"><span class="rd-key">和谐</span><span class="rd-key">美感</span><span class="rd-key">犹豫</span></div>
+    </div>
+  </div>
+
+  <!-- ═══ ENERGY ═══ -->
+  <div class="energy">
+    <div class="energy-title">TODAY'S ENERGY</div>
+    <div class="energy-grid">
+      <div class="en-item"><div class="en-val" style="color:var(--orange)">珊瑚橙</div><div class="en-label">幸运色</div></div>
+      <div class="en-item"><div class="en-val">7</div><div class="en-label">幸运数</div></div>
+      <div class="en-item"><div class="en-val" style="color:var(--yellow)">★★★★☆</div><div class="en-label">能量指数</div></div>
+    </div>
+    <div class="energy-msg">今天适合大胆表达，不适合做重大决定</div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">星轮 · 星星不决定你的命运，但可以照亮方向</div>
+    <div class="footer-disc">虚构占星 · 仅供娱乐展示</div>
+  </footer>
+
+</div>
+
+<script>
+// Zodiac ring symbols
+(function(){
+  var ring=document.getElementById('zodiacRing');
+  var signs='♈♉♊♋♌♍♎♏♐♑♒♓';
+  signs.split('').forEach(function(s,i){
+    var span=document.createElement('span');
+    span.className='zodiac-sym';
+    span.textContent=s;
+    var angle=i*30;
+    span.style.transform='rotate('+angle+'deg) translateY(-105px) rotate(-'+angle+'deg)';
+    ring.appendChild(span);
+  });
+})();
+
+// Star particles
+(function(){
+  var c=document.getElementById('stars');
+  var colors=['rgba(139,0,255,0.4)','rgba(255,20,147,0.3)','rgba(255,225,0,0.2)','rgba(240,232,255,0.3)'];
+  for(var i=0;i<18;i++){
+    var d=document.createElement('div');
+    d.className='star-p';
+    var sz=2+Math.random()*3;
+    d.style.cssText='width:'+sz+'px;height:'+sz+'px;left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;background:'+colors[i%4]+';--sd:'+(6+Math.random()*10)+'s;--sdd:'+(Math.random()*6)+'s;--sx:'+(Math.random()*40-20)+'px;--sy:'+(Math.random()*40-20)+'px';
+    c.appendChild(d);
+  }
+})();
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

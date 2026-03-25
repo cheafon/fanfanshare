@@ -156,7 +156,13 @@
     }
 
     document.body.appendChild(bar);
-    document.body.style.paddingTop = '44px';
+    // Dynamic padding based on actual nav height
+    requestAnimationFrame(() => {
+      document.body.style.paddingTop = bar.offsetHeight + 'px';
+      window.addEventListener('resize', () => {
+        document.body.style.paddingTop = bar.offsetHeight + 'px';
+      });
+    });
 
     // Build drawer
     const overlay = document.createElement('div');
