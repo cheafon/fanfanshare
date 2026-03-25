@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>外卖评价 — 饱了吗 FULL YET</title>
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--oat:#F5EDE0;--red:#C84040;--green:#4A8A60;--blue:#4070A0;--brown:#3A2820;--cream:#FFF8F0;--caramel:#C08848;--dim:rgba(58,40,32,0.3)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--oat);color:var(--brown);font-family:'Noto Sans SC',sans-serif;font-weight:400;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:2rem;-webkit-font-smoothing:antialiased;
+    /* Knit crosshatch texture */
+    background-image:
+      repeating-linear-gradient(45deg,transparent,transparent 8px,rgba(192,136,72,0.04) 8px,rgba(192,136,72,0.04) 9px),
+      repeating-linear-gradient(-45deg,transparent,transparent 8px,rgba(192,136,72,0.04) 8px,rgba(192,136,72,0.04) 9px),
+      repeating-linear-gradient(0deg,transparent,transparent 15px,rgba(192,136,72,0.02) 15px,rgba(192,136,72,0.02) 16px),
+      repeating-linear-gradient(90deg,transparent,transparent 15px,rgba(192,136,72,0.02) 15px,rgba(192,136,72,0.02) 16px)}
+
+  .page{max-width:460px;width:100%}
+
+  /* Patch card */
+  .patch{background:var(--cream);border:3px solid var(--caramel);border-radius:4px;padding:1.2rem;margin-bottom:1rem;
+    box-shadow:2px 3px 0 rgba(192,136,72,0.15);position:relative;
+    opacity:0;animation:knitIn .5s ease forwards}
+  @keyframes knitIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
+
+  /* Stitch border decoration */
+  .patch::before{content:'';position:absolute;inset:4px;border:1px dashed rgba(192,136,72,0.2);border-radius:2px;pointer-events:none}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1rem;animation:knitIn .5s ease both}
+  .h-title{font-family:'Patrick Hand',cursive;font-size:clamp(1.8rem,6vw,2.4rem);color:var(--red)}
+  .h-en{font-family:'Patrick Hand',cursive;font-size:0.8rem;color:var(--dim);letter-spacing:0.1em}
+  .h-order{font-family:'Patrick Hand',cursive;font-size:0.72rem;color:var(--caramel);margin-top:0.3rem}
+
+  /* ═══ RESTAURANT ═══ */
+  .resto{animation-delay:.1s}
+  .resto-name{font-weight:600;font-size:1.15rem;color:var(--brown)}
+  .resto-meta{font-size:0.88rem;color:var(--dim);margin-top:0.2rem}
+  .resto-fast{font-family:'Patrick Hand',cursive;color:var(--green);font-size:0.88rem;margin-top:0.1rem}
+
+  /* ═══ STARS ═══ */
+  .rating{text-align:center;animation-delay:.2s}
+  .rating-label{font-weight:500;margin-bottom:0.6rem}
+  .stars{display:flex;justify-content:center;gap:0.5rem;margin-bottom:0.4rem}
+
+  /* Cross-stitch star using box-shadow pixel blocks */
+  .xstar{width:3px;height:3px;background:transparent;cursor:pointer;position:relative;display:inline-block;margin:12px;
+    /* Inactive star shape - light gray pixel dots */
+    box-shadow:
+      6px 0 0 #ddd, 12px 0 0 #ddd,
+      3px 3px 0 #ddd, 9px 3px 0 #ddd, 15px 3px 0 #ddd,
+      0 6px 0 #ddd, 3px 6px 0 #ddd, 6px 6px 0 #ddd, 9px 6px 0 #ddd, 12px 6px 0 #ddd, 15px 6px 0 #ddd, 18px 6px 0 #ddd,
+      3px 9px 0 #ddd, 6px 9px 0 #ddd, 9px 9px 0 #ddd, 12px 9px 0 #ddd, 15px 9px 0 #ddd,
+      6px 12px 0 #ddd, 9px 12px 0 #ddd, 12px 12px 0 #ddd,
+      3px 15px 0 #ddd, 6px 15px 0 #ddd, 12px 15px 0 #ddd, 15px 15px 0 #ddd,
+      0 18px 0 #ddd, 3px 18px 0 #ddd, 15px 18px 0 #ddd, 18px 18px 0 #ddd;
+    transition:box-shadow .15s}
+  .xstar.active{
+    box-shadow:
+      6px 0 0 var(--red), 12px 0 0 var(--red),
+      3px 3px 0 var(--red), 9px 3px 0 var(--red), 15px 3px 0 var(--red),
+      0 6px 0 var(--red), 3px 6px 0 var(--red), 6px 6px 0 var(--red), 9px 6px 0 var(--red), 12px 6px 0 var(--red), 15px 6px 0 var(--red), 18px 6px 0 var(--red),
+      3px 9px 0 var(--red), 6px 9px 0 var(--red), 9px 9px 0 var(--red), 12px 9px 0 var(--red), 15px 9px 0 var(--red),
+      6px 12px 0 var(--red), 9px 12px 0 var(--red), 12px 12px 0 var(--red),
+      3px 15px 0 var(--red), 6px 15px 0 var(--red), 12px 15px 0 var(--red), 15px 15px 0 var(--red),
+      0 18px 0 var(--red), 3px 18px 0 var(--red), 15px 18px 0 var(--red), 18px 18px 0 var(--red)}
+
+  .rating-text{font-family:'Patrick Hand',cursive;font-size:1.1rem;color:var(--caramel);min-height:1.5em}
+
+  /* Sub ratings */
+  .sub-ratings{display:flex;justify-content:space-around;margin-top:0.8rem;padding-top:0.6rem;border-top:1px dashed rgba(192,136,72,0.15)}
+  .sub{text-align:center}
+  .sub-label{font-size:0.82rem;color:var(--dim)}
+  .sub-stars{font-size:0.85rem;color:var(--caramel);letter-spacing:2px;margin-top:0.1rem}
+  .sub-stars .lit{color:var(--red)}
+
+  /* ═══ ORDER ═══ */
+  .order{animation-delay:.3s}
+  .order-title{font-weight:600;font-size:0.95rem;margin-bottom:0.4rem}
+  .order-item{display:flex;justify-content:space-between;font-size:0.9rem;color:var(--dim);line-height:2}
+  .order-total{display:flex;justify-content:space-between;font-weight:600;font-size:1rem;color:var(--brown);
+    border-top:1px dashed rgba(192,136,72,0.2);padding-top:0.3rem;margin-top:0.3rem}
+
+  /* ═══ REVIEW ═══ */
+  .review{animation-delay:.4s}
+  .review-text{font-size:1rem;color:rgba(58,40,32,0.6);line-height:2;text-indent:2em}
+
+  /* ═══ TAGS ═══ */
+  .tags{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.8rem}
+  .tag{font-family:'Patrick Hand',cursive;font-size:0.85rem;padding:0.3em 0.7em;border:2px solid var(--green);border-radius:4px;color:var(--green);
+    background:rgba(74,138,96,0.06)}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;padding:0.5rem 0}
+  .footer-motto{font-family:'Patrick Hand',cursive;font-size:0.85rem;color:var(--caramel);opacity:0.5}
+  .footer-disc{font-size:0.6rem;color:var(--dim);opacity:0.2;margin-top:0.2rem}
+
+  @media(max-width:420px){
+    body{padding:1rem}
+    .patch{padding:1rem}
+    .stars{gap:0.3rem}
+    .xstar{margin:10px}
+    .sub-ratings{flex-direction:column;gap:0.4rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <h1 class="h-title">饱了吗？</h1>
+    <div class="h-en">FULL YET · 为你的这餐打个分</div>
+    <div class="h-order">#FY20260325-0847</div>
+  </header>
+
+  <!-- ═══ RESTAURANT ═══ -->
+  <div class="patch resto" style="animation-delay:.1s">
+    <div class="resto-name">老李家螺蛳粉</div>
+    <div class="resto-meta">预计 30 分钟 · 实际 28 分钟 · 2.3km</div>
+    <div class="resto-fast">比预期快了 2 分钟！</div>
+  </div>
+
+  <!-- ═══ RATING ═══ -->
+  <div class="patch rating" style="animation-delay:.2s">
+    <div class="rating-label">整体评分</div>
+    <div class="stars" id="starsRow"></div>
+    <div class="rating-text" id="ratingText"></div>
+
+    <div class="sub-ratings">
+      <div class="sub"><div class="sub-label">口味</div><div class="sub-stars"><span class="lit">★★★★★</span></div></div>
+      <div class="sub"><div class="sub-label">包装</div><div class="sub-stars"><span class="lit">★★★★</span>☆</div></div>
+      <div class="sub"><div class="sub-label">速度</div><div class="sub-stars"><span class="lit">★★★★★</span></div></div>
+    </div>
+  </div>
+
+  <!-- ═══ ORDER ═══ -->
+  <div class="patch order" style="animation-delay:.3s">
+    <div class="order-title">点餐内容</div>
+    <div class="order-item"><span>招牌螺蛳粉（加辣）×1</span><span>¥18</span></div>
+    <div class="order-item"><span>卤蛋 ×2</span><span>¥6</span></div>
+    <div class="order-item"><span>腐竹加量 ×1</span><span>¥3</span></div>
+    <div class="order-item"><span>酸笋额外 ×1</span><span>¥2</span></div>
+    <div class="order-total"><span>实付</span><span>¥29</span></div>
+  </div>
+
+  <!-- ═══ REVIEW ═══ -->
+  <div class="patch review" style="animation-delay:.4s">
+    <p class="review-text">老李家的螺蛳粉永远不会让人失望。汤底浓郁，米粉Q弹，酸笋味道刚好。唯一的小遗憾是卤蛋有一个裂了，但味道是完美的。下次还点。</p>
+    <div class="tags">
+      <span class="tag">味道正宗</span>
+      <span class="tag">分量足</span>
+      <span class="tag">配送快</span>
+      <span class="tag">包装用心</span>
+    </div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">饱了吗 · FULL YET · 每一餐都值得被认真对待</div>
+    <div class="footer-disc">虚构平台 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+// Cross-stitch stars
+var ratings=['','差评','一般','还行','好评','超赞！'];
+var selected=0;
+var row=document.getElementById('starsRow');
+for(var i=1;i<=5;i++){
+  var s=document.createElement('span');
+  s.className='xstar';
+  s.dataset.val=i;
+  s.onclick=function(){
+    selected=parseInt(this.dataset.val);
+    document.querySelectorAll('.xstar').forEach(function(x,idx){
+      x.classList.toggle('active',idx<selected);
+    });
+    document.getElementById('ratingText').textContent=ratings[selected];
+  };
+  row.appendChild(s);
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
