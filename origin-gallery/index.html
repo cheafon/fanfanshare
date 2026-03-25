@@ -27,7 +27,10 @@
   .brand-name { font-family:'Fredoka One',cursive; font-size:2.2rem; color:var(--dark); }
   .brand-label { font-family:'Fredoka One',cursive; font-size:1.2rem; color:var(--pink); }
   .brand-hint { font-size:1rem; color:var(--blue); font-weight:700; margin-left:0.8rem; letter-spacing:0.02em; }
-  .gen-line { display:flex; align-items:center; gap:0.5rem; margin-top:0.4rem; font-size:0.95rem; color:var(--dark); font-weight:600; }
+  .gen-line { display:flex; align-items:center; gap:0.5rem; margin-top:0.4rem; font-size:0.95rem; color:var(--dark); font-weight:600; flex-wrap:wrap; }
+  .gen-count { font-family:'Fredoka One',cursive; font-size:0.9rem; color:var(--pink); margin-left:0.3rem; }
+  .gen-count .num { display:inline-block; font-size:1.1rem; color:var(--coral); transition:transform .3s; }
+  .gen-count-sep { color:#ccc; margin:0 0.2rem; }
   .claude-icon { height:24px; width:auto; vertical-align:middle; animation:ccBounce 2s ease-in-out infinite; }
   .spinner { display:inline-block; width:14px; height:14px; border:2.5px solid var(--pink); border-top-color:var(--blue); border-radius:50%; animation:spin 0.8s linear infinite; vertical-align:middle; margin-left:4px; }
   @keyframes spin { to { transform:rotate(360deg); } }
