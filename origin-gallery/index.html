@@ -270,14 +270,8 @@ function toggleFav(id) {
   localStorage.setItem('origin-favs', JSON.stringify(favs));
   renderPage();
 }
-function toggleFavFilter() {
-  showFavsOnly = !showFavsOnly;
-  favFilterBtn.classList.toggle('active', showFavsOnly);
-  currentPage = 1; renderPage();
-}
-
 function renderPage() {
-  const filtered = styles.map((s,i)=>({...s,gi:i})).filter(s => !showFavsOnly || isFav(s.id));
+  const filtered = styles.map((s,i)=>({...s,gi:i}));
   const tp = Math.ceil(filtered.length/PER_PAGE)||1;
   if (currentPage>tp) currentPage=tp;
   sessionStorage.setItem('gallery-page', String(currentPage));

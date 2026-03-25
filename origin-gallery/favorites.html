@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>收藏夹 — HTML 创意工坊</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --yellow: #FFE156; --pink: #FF6B9D; --blue: #4ECDC4;
+    --green: #C7F464; --coral: #FF6B6B; --cream: #FFF8E7;
+    --dark: #2D2B55; --ink: #1a1a2e;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--cream); color:var(--ink); font-family:'Nunito',sans-serif; }
+
+  .dots { position:fixed; inset:0; pointer-events:none; z-index:0;
+    background-image:radial-gradient(var(--ink) 1px,transparent 1px);
+    background-size:20px 20px; opacity:0.03; }
+
+  .header { max-width:1100px; margin:0 auto; padding:2.5rem 2rem 1.5rem; position:relative; z-index:1;
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }
+  .header-left { display:flex; align-items:baseline; gap:0.8rem; }
+  .brand-back { font-family:'Nunito',sans-serif; font-weight:700; font-size:0.9rem; color:var(--dark);
+    text-decoration:none; border:3px solid var(--dark); border-radius:10px; padding:0.4em 0.8em;
+    transition:all 0.2s; }
+  .brand-back:hover { background:var(--yellow); }
+  .page-title { font-family:'Fredoka One',cursive; font-size:1.8rem; color:var(--dark); }
+  .page-title .star { color:var(--coral); }
+
+  .fav-count { font-size:0.9rem; color:#888; }
+
+  .gallery { max-width:1100px; margin:0 auto; padding:0 2rem 2rem; position:relative; z-index:1;
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:1.2rem; }
+
+  .card { display:block; text-decoration:none; color:inherit; background:#fff;
+    border:3px solid var(--dark); border-radius:16px; overflow:hidden; position:relative;
+    transition:transform 0.25s,box-shadow 0.25s; box-shadow:4px 4px 0 var(--dark); }
+  .card:hover { transform:translate(-2px,-2px); box-shadow:6px 6px 0 var(--dark); }
+
+  .card-preview { height:190px; position:relative; overflow:hidden; background:#e8e2d8;
+    border-bottom:3px solid var(--dark); }
+  .card-preview iframe { position:absolute; top:0; left:0; width:400%; height:400%;
+    transform:scale(0.25); transform-origin:top left; pointer-events:none; border:none; }
+
+  .card-actions { position:absolute; top:8px; right:8px; display:flex; gap:5px; z-index:3; }
+  .act-btn { width:34px; height:34px; border-radius:10px; display:flex; align-items:center;
+    justify-content:center; font-size:1rem; cursor:pointer; border:2px solid var(--dark);
+    background:var(--cream); color:var(--dark); text-decoration:none; transition:all 0.15s; }
+  .act-btn:hover { background:var(--yellow); }
+  .act-btn.faved { background:var(--coral); color:#fff; border-color:var(--coral); }
+
+  .card-body { padding:1rem 1.2rem 1.2rem; }
+  .card-num { font-family:'Fredoka One',cursive; font-size:0.7rem; color:var(--pink); margin-bottom:0.15rem; }
+  .card-name { font-weight:800; font-size:1.05rem; margin-bottom:0.2rem; }
+  .card-desc { font-size:0.8rem; color:#666; line-height:1.5; margin-bottom:0.5rem;
+    display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+
+  .empty { text-align:center; padding:4rem 2rem; }
+  .empty-icon { font-size:3rem; margin-bottom:1rem; }
+  .empty-text { font-size:1.1rem; color:#888; line-height:2; }
+  .empty-link { color:var(--dark); font-weight:700; }
+
+  @media (max-width:700px) {
+    .header { padding:1.5rem 1rem 1rem; }
+    .gallery { padding:0 1rem 1rem; grid-template-columns:1fr; }
+    .page-title { font-size:1.4rem; }
+  }
+</style>
+</head>
+<body>
+<div class="dots"></div>
+
+<header class="header">
+  <div class="header-left">
+    <a class="brand-back" href="index.html">← 返回</a>
+    <div class="page-title"><span class="star">★</span> 收藏夹</div>
+  </div>
+  <div class="fav-count" id="favCount"></div>
+</header>
+
+<div class="gallery" id="gallery"></div>
+
+<script src="styles/meta.js"></script>
+<script>
+var META = window.__NAV_META || {};
+var allStyles = Object.entries(META).map(function(e,i){ return {id:e[0], name:e[1].name, desc:e[1].desc, tags:e[1].tags, gi:i}; });
+var favs = JSON.parse(localStorage.getItem('origin-favs') || '[]');
+
+function removeFav(id) {
+  favs = favs.filter(function(f){ return f !== id; });
+  localStorage.setItem('origin-favs', JSON.stringify(favs));
+  render();
+}
+
+function render() {
+  var gallery = document.getElementById('gallery');
+  var favStyles = allStyles.filter(function(s){ return favs.indexOf(s.id) !== -1; });
+  document.getElementById('favCount').textContent = favStyles.length + ' 个收藏';
+
+  if (favStyles.length === 0) {
+    gallery.innerHTML = '<div class="empty"><div class="empty-icon">☆</div>' +
+      '<div class="empty-text">还没有收藏任何风格<br>回到 <a class="empty-link" href="index.html">首页</a> 点击卡片上的 ★ 添加收藏</div></div>';
+    return;
+  }
+
+  gallery.innerHTML = '';
+  favStyles.forEach(function(s) {
+    var c = document.createElement('a');
+    c.className = 'card';
+    c.target = '_blank';
+    c.href = 'styles/origin-' + s.id + '.html';
+    c.innerHTML = '<div class="card-preview"><iframe src="styles/origin-' + s.id + '.html" loading="lazy" sandbox="allow-same-origin allow-scripts" tabindex="-1"></iframe></div>' +
+      '<div class="card-actions">' +
+      '<button class="act-btn faved" onclick="event.stopPropagation();event.preventDefault();removeFav(\'' + s.id + '\')" title="取消收藏">★</button>' +
+      '<a class="act-btn" href="styles/origin-' + s.id + '.html" download="origin-' + s.id + '.html" onclick="event.stopPropagation()" title="下载">↓</a></div>' +
+      '<div class="card-body"><div class="card-num">#' + String(s.gi+1).padStart(3,'0') + '</div>' +
+      '<div class="card-name">' + s.name + '</div><div class="card-desc">' + (s.desc||'') + '</div></div>';
+    gallery.appendChild(c);
+  });
+}
+
+render();
+</script>
+</body>
+</html>
