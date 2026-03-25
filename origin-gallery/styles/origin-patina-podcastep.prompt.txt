@@ -1,0 +1,29 @@
+Generate a podcast episode detail page for fictional "铜声 PATINA FM", styled as Copper Patina / oxidized metal aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: dark copper (#1A1412), patina green (#4A8B7F), aged copper (#B87333), bright copper (#D4956A), verdigris blue (#5BA4A4), patina teal (#2D6B6B), cream text (#F0E8DC), dim text rgba(240,232,220,0.35). Typography: Bitter (slab serif, editorial podcast feel) English headings, Noto Serif SC 400/600 Chinese 17px+ body. Layout: COPPER PATINA — oxidized copper texture background (CSS multi-layer gradient with SVG noise), episode detail with chapter markers, guest info, timestamp notes.
+
+Animation: Medium — Required:
+1. CSS PATINA TEXTURE: Multi-layer background with copper-to-verdigris gradient + SVG noise filter for oxidized metal feel, subtle shimmer on header
+2. JS WAVEFORM: 40+ thin bars simulating audio waveform, each bar random height, current playback position highlighted in bright copper with glow, bars animate on load (scaleY from 0 staggered)
+3. CSS PROGRESS BAR: Playback progress bar with copper gradient fill, JS updates simulated time (advances every second from 00:00), glowing playhead dot
+4. CHAPTER MARKERS: 5 chapters with timestamps, click to "jump" (updates time display), active chapter highlighted with patina green left border + glow
+5. HOVER PATINA: Cards have subtle verdigris border glow on hover, copper shimmer sweep
+
+Page structure:
+1. Header: "铜声" + "PATINA FM" + "每周深度对话" + Episode #47 badge
+2. Episode title card: "和陌生人聊一小时" + guest "李想 · 独立纪录片导演" + date "2026.03.21" + duration "58:32"
+3. Audio waveform visualizer (40 bars, staggered scaleY animation, playback position indicator)
+4. Playback controls: simulated progress bar with time display (JS auto-advancing) + chapter jump
+5. Chapter list (5 chapters, timestamps, click to jump):
+   - 00:00 开场：为什么要和陌生人聊天
+   - 08:15 李想的纪录片之路
+   - 22:40 拍摄中最触动的瞬间
+   - 38:50 关于孤独和连接
+   - 49:20 给年轻创作者的建议
+6. Show notes: 3 timestamp notes with key quotes/takeaways
+7. Guest bio card: 李想, 独立纪录片导演, 代表作《最后的渔村》《城市边缘》, brief bio
+8. Footer: "铜声 · PATINA FM · 让对话留下锈迹" + disclaimer
+
+Patina texture: CSS creates oxidized copper feel with radial-gradient(ellipse, copper tones) + repeating-linear-gradient fine grain + SVG filter turbulence for noise overlay at low opacity. Header has metallic shimmer (background-position animation on linear-gradient highlight streak).
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-patina-podcastep.html. Do NOT open.
