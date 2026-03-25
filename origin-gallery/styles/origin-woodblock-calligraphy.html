@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>祭侄文稿 — 墨池 MOOCHI</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#F0E8D0;--ink:#1A1810;--red:#B83020;--ash:#4A4840;--wood:#8A7860;--carve:#3A3020;--dim:rgba(26,24,16,0.3)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--paper);color:var(--ink);font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:17px;line-height:1.9;
+    display:flex;justify-content:center;padding:2rem;-webkit-font-smoothing:antialiased;position:relative;
+    /* Wood grain texture */
+    background-image:
+      repeating-linear-gradient(90deg,transparent,transparent 3px,rgba(138,120,96,0.03) 3px,rgba(138,120,96,0.03) 4px,transparent 4px,transparent 11px,rgba(138,120,96,0.02) 11px,rgba(138,120,96,0.02) 12px),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E")}
+
+  .page{max-width:520px;width:100%;animation:fadeIn .6s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* ═══ HEADER ═══ */
+  .header{border:4px solid var(--ink);padding:1.5rem;text-align:center;position:relative;margin-bottom:2rem}
+  .header::before{content:'';position:absolute;inset:6px;border:1.5px solid rgba(26,24,16,0.15)}
+
+  .h-title{font-family:'Noto Serif SC',serif;font-weight:900;font-size:clamp(2rem,6vw,2.8rem);color:var(--ink);letter-spacing:0.15em;
+    text-shadow:1px 1px 0 rgba(240,232,208,0.5)}
+  .h-en{font-family:'Noto Serif SC',serif;font-weight:400;font-size:0.75rem;color:var(--wood);letter-spacing:0.12em;margin-top:0.2rem}
+
+  /* Vermilion seal */
+  .seal{position:absolute;top:12px;right:12px;width:40px;height:40px;border:3px solid var(--red);
+    display:flex;align-items:center;justify-content:center;transform:rotate(-6deg);
+    transition:transform .3s}
+  .seal:hover{transform:rotate(-6deg) scale(1.1) rotate(3deg)}
+  .seal-char{font-family:'Noto Serif SC',serif;font-weight:900;font-size:1.2rem;color:var(--red)}
+
+  /* ═══ CALLIGRAPHY DISPLAY ═══ */
+  .calli{text-align:center;margin-bottom:2rem;padding:1.5rem 0}
+
+  .calli-title{font-family:'Ma Shan Zheng',cursive;font-size:clamp(2.2rem,7vw,3rem);color:var(--ink);letter-spacing:0.1em}
+  .calli-author{font-family:'Noto Serif SC',serif;font-weight:600;font-size:0.9rem;color:var(--wood);margin-top:0.3rem;letter-spacing:0.08em}
+
+  .calli-excerpt{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;margin-top:1.5rem;padding:0 0.5rem}
+  .calli-char{font-family:'Ma Shan Zheng',cursive;font-size:clamp(2rem,6vw,2.8rem);color:var(--ink);
+    display:inline-block;cursor:default;transition:transform .2s,color .2s;
+    opacity:0;animation:charIn .4s ease forwards}
+  @keyframes charIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .calli-char:hover{transform:scale(1.15);color:var(--carve)}
+
+  /* Thick divider */
+  .divider{height:4px;background:var(--ink);margin:0 0 2rem;opacity:0.12}
+
+  /* ═══ APPRECIATION ═══ */
+  .appreciation{margin-bottom:2rem}
+  .app-title{font-family:'Noto Serif SC',serif;font-weight:900;font-size:1.1rem;color:var(--ink);letter-spacing:0.06em;margin-bottom:0.6rem;
+    border-bottom:3px solid var(--ink);display:inline-block;padding-bottom:0.2rem}
+  .app-text{font-family:'Noto Serif SC',serif;font-weight:400;font-size:1.05rem;color:rgba(26,24,16,0.6);line-height:2.2;text-indent:2em;text-align:justify}
+
+  /* ═══ PARAMETERS ═══ */
+  .params{border:3px solid rgba(26,24,16,0.12);padding:1rem;margin-bottom:2rem;
+    display:grid;grid-template-columns:1fr 1fr;gap:0.3rem 1.5rem}
+  .param{display:flex;justify-content:space-between;font-size:0.9rem;padding:0.2rem 0;
+    border-bottom:1px solid rgba(26,24,16,0.04)}
+  .param-key{color:var(--wood);font-weight:400}
+  .param-val{color:var(--ink);font-weight:500}
+  .param-wide{grid-column:1/-1;text-align:center;font-family:'Noto Serif SC',serif;font-weight:700;font-size:1rem;color:var(--red);
+    border-bottom:none;padding-top:0.3rem}
+
+  /* ═══ RELATED ═══ */
+  .related{margin-bottom:2rem}
+  .rel-title{font-family:'Noto Serif SC',serif;font-weight:900;font-size:0.9rem;color:var(--ink);letter-spacing:0.06em;margin-bottom:0.6rem}
+  .rel-item{display:flex;justify-content:space-between;align-items:baseline;padding:0.5rem 0;
+    border-bottom:1px solid rgba(26,24,16,0.06);transition:padding-left .2s}
+  .rel-item:hover{padding-left:0.5rem}
+  .rel-item:last-child{border-bottom:none}
+  .rel-name{font-family:'Ma Shan Zheng',cursive;font-size:1.15rem;color:var(--ink)}
+  .rel-info{font-size:0.82rem;color:var(--wood)}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;border-top:4px solid rgba(26,24,16,0.1);padding-top:1rem}
+  .footer-motto{font-family:'Noto Serif SC',serif;font-weight:600;font-size:0.9rem;color:var(--wood);opacity:0.4;letter-spacing:0.06em}
+  .footer-disc{font-size:0.62rem;color:var(--dim);opacity:0.25;margin-top:0.3rem}
+
+  @media(max-width:500px){
+    body{padding:1rem 0.8rem}
+    .header{padding:1.2rem}
+    .params{grid-template-columns:1fr}
+    .calli-char{font-size:1.8rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="seal"><span class="seal-char">墨</span></div>
+    <h1 class="h-title">墨池</h1>
+    <div class="h-en">MOOCHI · 经典书法数字展</div>
+  </header>
+
+  <!-- ═══ CALLIGRAPHY ═══ -->
+  <section class="calli">
+    <div class="calli-title">祭侄文稿</div>
+    <div class="calli-author">颜真卿 · 唐</div>
+    <div class="calli-excerpt" id="excerpt"></div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══ APPRECIATION ═══ -->
+  <section class="appreciation">
+    <div class="app-title">作品赏析</div>
+    <p class="app-text">被誉为天下第二行书。颜真卿在极度悲愤中写下此稿，笔触从开头的沉稳逐渐变为激昂，涂抹删改痕迹犹存，正是这份不加修饰的真情流露，成就了千古绝品。墨色浓淡交织，运笔刚劲而不失柔韧，一字一句皆是家国之痛。</p>
+  </section>
+
+  <!-- ═══ PARAMETERS ═══ -->
+  <div class="params">
+    <div class="param"><span class="param-key">书体</span><span class="param-val">行书</span></div>
+    <div class="param"><span class="param-key">年代</span><span class="param-val">公元 758 年</span></div>
+    <div class="param"><span class="param-key">尺寸</span><span class="param-val">28.3 × 75.5 cm</span></div>
+    <div class="param"><span class="param-key">现藏</span><span class="param-val">台北故宫博物院</span></div>
+    <div class="param param-wide">天下第二行书</div>
+  </div>
+
+  <!-- ═══ RELATED ═══ -->
+  <section class="related">
+    <div class="rel-title">相关推荐</div>
+    <div class="rel-item"><span class="rel-name">《兰亭序》</span><span class="rel-info">王羲之 · 天下第一行书</span></div>
+    <div class="rel-item"><span class="rel-name">《寒食帖》</span><span class="rel-info">苏轼 · 天下第三行书</span></div>
+    <div class="rel-item"><span class="rel-name">《多宝塔碑》</span><span class="rel-info">颜真卿 · 楷书经典</span></div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">墨池 · MOOCHI · 以墨传情，以字养心</div>
+    <div class="footer-disc">虚构品牌 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+// Staggered calligraphy character entrance
+(function(){
+  var text='维乾元元年岁次戊戌九月庚午朔三日壬申';
+  var container=document.getElementById('excerpt');
+  text.split('').forEach(function(ch,i){
+    var span=document.createElement('span');
+    span.className='calli-char';
+    span.textContent=ch;
+    span.style.animationDelay=(0.3+i*0.08)+'s';
+    container.appendChild(span);
+  });
+})();
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
