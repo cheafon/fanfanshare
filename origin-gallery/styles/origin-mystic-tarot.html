@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>星尘塔罗 STARDUST TAROT — 每日一牌</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--abyss:#0a0818;--mystic:#3a1868;--gold:#d4a840;--silver:#c8c0d8;--blue:#4060c0;--red:#8a2040;--light:#e8e0f0;--dim:rgba(232,224,240,0.25)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--abyss);color:var(--light);font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:17px;line-height:1.8;display:flex;justify-content:center;padding:2rem;-webkit-font-smoothing:antialiased;min-height:100vh;position:relative;overflow-x:hidden;
+    background-image:radial-gradient(ellipse at 50% 30%,rgba(58,24,104,0.3) 0%,transparent 60%)}
+
+  /* Stardust particles */
+  .stardust{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .dust{position:absolute;border-radius:50%;background:var(--gold);animation:dustFloat var(--dd) ease-in-out infinite var(--ddd)}
+  @keyframes dustFloat{0%,100%{transform:translate(0,0);opacity:.15}25%{transform:translate(var(--dx),var(--dy));opacity:.4}50%{transform:translate(calc(var(--dx)*-0.5),calc(var(--dy)*1.2));opacity:.2}75%{transform:translate(calc(var(--dx)*0.7),calc(var(--dy)*-0.3));opacity:.35}}
+
+  .page{max-width:420px;width:100%;position:relative;z-index:1;text-align:center}
+
+  /* ═══ HEADER ═══ */
+  .header{padding:0 0 2rem;animation:fadeIn .8s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .h-cn{font-family:'Noto Serif SC',serif;font-weight:700;font-size:clamp(1.8rem,6vw,2.4rem);
+    background:linear-gradient(90deg,var(--gold),#f0d870,var(--gold));background-size:200% 100%;
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    animation:goldShimmer 4s ease infinite}
+  @keyframes goldShimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+  .h-en{font-family:'Cinzel Decorative',serif;font-weight:400;font-size:0.7rem;color:var(--dim);letter-spacing:0.25em;margin-top:0.2rem}
+  .h-sub{font-size:0.85rem;color:rgba(232,224,240,0.2);margin-top:0.5rem}
+
+  /* ═══ CARD ═══ */
+  .card-area{perspective:800px;margin:0 auto 1.5rem;width:220px;height:320px;cursor:pointer}
+
+  .card-flip{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .8s cubic-bezier(0.4,0,0.2,1);
+    animation:cardWobble 3s ease-in-out infinite}
+  @keyframes cardWobble{0%,100%{transform:rotateY(0) rotateZ(0)}25%{transform:rotateY(1deg) rotateZ(0.5deg)}75%{transform:rotateY(-1deg) rotateZ(-0.5deg)}}
+  .card-flip.flipped{transform:rotateY(180deg);animation:none}
+
+  .card-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;border:2px solid rgba(212,168,64,0.3);overflow:hidden;
+    box-shadow:0 0 20px rgba(212,168,64,0.1);animation:glowPulse 3s ease-in-out infinite}
+  @keyframes glowPulse{0%,100%{box-shadow:0 0 20px rgba(212,168,64,0.1)}50%{box-shadow:0 0 35px rgba(212,168,64,0.2),0 0 60px rgba(212,168,64,0.05)}}
+
+  /* Back */
+  .card-back{background:var(--mystic);
+    background-image:repeating-conic-gradient(rgba(212,168,64,0.06) 0deg 30deg,transparent 30deg 60deg);
+    display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .card-back::before{content:'';position:absolute;inset:12px;border:1px solid rgba(212,168,64,0.15);border-radius:8px}
+  .card-back::after{content:'✦';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:3rem;color:rgba(212,168,64,0.12)}
+  .card-back-text{font-family:'Cinzel Decorative',serif;font-size:0.6rem;color:rgba(212,168,64,0.3);letter-spacing:0.2em;position:relative;z-index:1;margin-top:80px}
+
+  /* Front */
+  .card-front{transform:rotateY(180deg);background:linear-gradient(180deg,#1a1030,var(--mystic));
+    display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem}
+  .card-front::before{content:'';position:absolute;inset:10px;border:1px solid rgba(212,168,64,0.12);border-radius:8px}
+  .cf-symbol{font-size:2.5rem;margin-bottom:0.5rem;opacity:0.7}
+  .cf-name{font-family:'Noto Serif SC',serif;font-weight:700;font-size:1.4rem;color:var(--gold);letter-spacing:0.08em}
+  .cf-en{font-family:'Cinzel Decorative',serif;font-size:0.55rem;color:var(--dim);letter-spacing:0.15em;margin-top:0.2rem}
+  .cf-keys{display:flex;gap:0.4rem;margin-top:0.8rem}
+  .cf-key{font-size:0.7rem;color:var(--silver);padding:0.2em 0.6em;border:1px solid rgba(200,192,216,0.12);border-radius:8px}
+  .cf-reading{font-size:0.88rem;color:rgba(232,224,240,0.45);margin-top:0.8rem;line-height:1.9}
+
+  .card-hint{font-size:0.82rem;color:var(--dim);opacity:0.4;margin-bottom:1rem}
+  .card-hint.hide{display:none}
+
+  /* ═══ REDRAW ═══ */
+  .redraw{display:none;margin-bottom:1.5rem}
+  .redraw.show{display:block}
+  .redraw-btn{font-family:'Noto Serif SC',serif;font-weight:400;font-size:0.9rem;color:var(--gold);
+    background:none;border:1px solid rgba(212,168,64,0.2);padding:0.5em 1.5em;border-radius:8px;cursor:pointer;
+    transition:all .2s;letter-spacing:0.05em}
+  .redraw-btn:hover{border-color:var(--gold);box-shadow:0 0 12px rgba(212,168,64,0.15)}
+
+  /* ═══ FOOTER ═══ */
+  .footer{padding:1rem 0}
+  .footer-motto{font-family:'Noto Serif SC',serif;font-weight:400;font-size:0.85rem;color:var(--dim);opacity:0.25}
+  .footer-disc{font-size:0.6rem;color:var(--dim);opacity:0.1;margin-top:0.3rem}
+
+  @media(max-width:400px){
+    body{padding:1.5rem 1rem}
+    .card-area{width:190px;height:280px}
+    .cf-name{font-size:1.2rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="stardust" id="stardust"></div>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <h1 class="h-cn">星尘塔罗</h1>
+    <div class="h-en">STARDUST TAROT</div>
+    <div class="h-sub">每日一牌 · 聆听宇宙的指引</div>
+  </header>
+
+  <!-- ═══ CARD ═══ -->
+  <div class="card-hint" id="hint">点击卡牌，抽取今日塔罗</div>
+  <div class="card-area" id="cardArea" onclick="drawCard()">
+    <div class="card-flip" id="cardFlip">
+      <div class="card-face card-back">
+        <div class="card-back-text">STARDUST</div>
+      </div>
+      <div class="card-face card-front" id="cardFront">
+        <div class="cf-symbol" id="cfSym"></div>
+        <div class="cf-name" id="cfName"></div>
+        <div class="cf-en" id="cfEn"></div>
+        <div class="cf-keys" id="cfKeys"></div>
+        <div class="cf-reading" id="cfRead"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ REDRAW ═══ -->
+  <div class="redraw" id="redraw">
+    <button class="redraw-btn" onclick="resetCard()">再抽一张</button>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">占卜仅供娱乐，人生由你掌握</div>
+    <div class="footer-disc">虚构品牌 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+// Stardust particles
+(function(){
+  var c=document.getElementById('stardust');
+  for(var i=0;i<28;i++){
+    var d=document.createElement('div');
+    d.className='dust';
+    var sz=1.5+Math.random()*2;
+    d.style.cssText='width:'+sz+'px;height:'+sz+'px;left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;--dd:'+(8+Math.random()*12)+'s;--ddd:'+(Math.random()*8)+'s;--dx:'+(Math.random()*50-25)+'px;--dy:'+(Math.random()*50-25)+'px';
+    c.appendChild(d);
+  }
+})();
+
+// Tarot data
+var cards=[
+  {sym:'☀️',name:'太阳',en:'THE SUN',keys:['积极','成功','快乐'],read:'今天是属于你的好日子。做那件一直犹豫的事吧。'},
+  {sym:'🌙',name:'月亮',en:'THE MOON',keys:['直觉','梦境','不确定'],read:'不是所有事都需要看清楚。有时候感觉比逻辑更靠谱。'},
+  {sym:'⭐',name:'星星',en:'THE STAR',keys:['希望','灵感','治愈'],read:'你正在被宇宙温柔地照顾着，即使你暂时感觉不到。'},
+  {sym:'🦁',name:'力量',en:'STRENGTH',keys:['勇气','内在力量','耐心'],read:'你比你想象的更强大。今天适合面对那些一直在逃避的事。'},
+  {sym:'🎡',name:'命运之轮',en:'WHEEL OF FORTUNE',keys:['变化','机遇','转折'],read:'有什么要变了。不用害怕，变化本身就是生命的常态。'},
+  {sym:'🌍',name:'世界',en:'THE WORLD',keys:['完成','圆满','新起点'],read:'一个阶段即将结束。好好庆祝，然后准备出发。'}
+];
+
+var flipped=false;
+function drawCard(){
+  if(flipped) return;
+  flipped=true;
+  var card=cards[Math.floor(Math.random()*cards.length)];
+  document.getElementById('cfSym').textContent=card.sym;
+  document.getElementById('cfName').textContent=card.name;
+  document.getElementById('cfEn').textContent=card.en;
+  document.getElementById('cfKeys').innerHTML=card.keys.map(function(k){return'<span class="cf-key">'+k+'</span>'}).join('');
+  document.getElementById('cfRead').textContent=card.read;
+  document.getElementById('cardFlip').classList.add('flipped');
+  document.getElementById('hint').classList.add('hide');
+  setTimeout(function(){document.getElementById('redraw').classList.add('show')},900);
+}
+
+function resetCard(){
+  flipped=false;
+  document.getElementById('cardFlip').classList.remove('flipped');
+  document.getElementById('redraw').classList.remove('show');
+  document.getElementById('hint').classList.remove('hide');
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
