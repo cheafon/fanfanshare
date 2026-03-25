@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>维修工单追踪 — 铁匠铺 IRONWORKS</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0a1a0a;--green:#30e848;--text:#80d080;--amber:#e8a020;--red:#e83030;--panel:#0a120a;--grid:#1a2a1a;--dim:rgba(48,232,72,0.2)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--bg);color:var(--text);font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:17px;line-height:1.8;display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;position:relative}
+
+  /* Grid bg */
+  body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:
+      repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(48,232,72,0.03) 39px,rgba(48,232,72,0.03) 40px),
+      repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(48,232,72,0.03) 39px,rgba(48,232,72,0.03) 40px)}
+
+  /* Scan line */
+  body::after{content:'';position:fixed;top:0;left:0;right:0;height:2px;z-index:9999;pointer-events:none;
+    background:linear-gradient(90deg,transparent 10%,rgba(48,232,72,0.25) 50%,transparent 90%);
+    animation:scanHUD 4s linear infinite}
+  @keyframes scanHUD{0%{top:-2px}100%{top:100vh}}
+
+  .hud{max-width:520px;width:100%;position:relative;z-index:1;animation:fadeIn .6s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* HUD corner brackets */
+  .bracket{position:relative;padding:1.5rem;margin-bottom:1rem}
+  .bracket::before{content:'';position:absolute;top:0;left:0;width:16px;height:16px;border-top:2px solid var(--green);border-left:2px solid var(--green)}
+  .bracket::after{content:'';position:absolute;top:0;right:0;width:16px;height:16px;border-top:2px solid var(--green);border-right:2px solid var(--green)}
+  .bracket-bot::before{content:'';position:absolute;bottom:0;left:0;width:16px;height:16px;border-bottom:2px solid var(--green);border-left:2px solid var(--green)}
+  .bracket-bot::after{content:'';position:absolute;bottom:0;right:0;width:16px;height:16px;border-bottom:2px solid var(--green);border-right:2px solid var(--green)}
+
+  /* ═══ HEADER ═══ */
+  .header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.3rem}
+  .sys-name{font-family:'Share Tech Mono',monospace;font-size:1.2rem;color:var(--green)}
+  .sys-sub{font-size:0.85rem;color:var(--dim);margin-top:0.1rem}
+  .sys-right{text-align:right}
+  .sys-clock{font-family:'Share Tech Mono',monospace;font-size:1.1rem;color:var(--green)}
+  .sys-status{font-family:'Share Tech Mono',monospace;font-size:0.6rem;color:var(--green);letter-spacing:0.08em;margin-top:0.2rem;display:flex;align-items:center;justify-content:flex-end;gap:0.4rem}
+  .status-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 1.5s ease-in-out infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+
+  /* ═══ TICKET INFO ═══ */
+  .ticket{background:var(--panel);border:1px solid rgba(48,232,72,0.08);padding:1rem 1.2rem}
+  .ticket-id{font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:var(--amber);letter-spacing:0.1em}
+  .ticket-device{font-weight:500;font-size:1.05rem;color:var(--green);margin-top:0.3rem}
+  .ticket-row{font-size:0.9rem;color:var(--dim);line-height:2}
+  .ticket-row strong{color:var(--text);font-weight:400}
+
+  /* ═══ PROGRESS GAUGE ═══ */
+  .gauge-area{text-align:center;padding:1.5rem 0}
+  .gauge{width:140px;height:140px;border-radius:50%;margin:0 auto;position:relative;
+    background:conic-gradient(var(--green) 0deg,var(--green) 234deg,rgba(48,232,72,0.08) 234deg,rgba(48,232,72,0.08) 360deg);
+    display:flex;align-items:center;justify-content:center}
+  .gauge-inner{width:110px;height:110px;border-radius:50%;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .gauge-pct{font-family:'Share Tech Mono',monospace;font-size:2.2rem;color:var(--green);line-height:1}
+  .gauge-label{font-family:'Share Tech Mono',monospace;font-size:0.55rem;color:var(--amber);letter-spacing:0.12em;margin-top:0.3rem}
+
+  /* ═══ STEPS ═══ */
+  .steps{padding:0}
+  .steps-title{font-family:'Share Tech Mono',monospace;font-size:0.55rem;color:var(--dim);letter-spacing:0.15em;margin-bottom:0.8rem}
+  .step{display:flex;gap:0.7rem;align-items:flex-start;margin-bottom:0.6rem;padding-left:0.5rem;border-left:1px solid rgba(48,232,72,0.08);position:relative}
+  .step::before{content:'';position:absolute;left:-4px;top:6px;width:7px;height:7px;border-radius:50%}
+  .step-done::before{background:var(--green)}
+  .step-active::before{background:var(--amber);animation:blink 1s ease-in-out infinite}
+  .step-wait::before{background:rgba(48,232,72,0.15)}
+
+  .step-info{flex:1}
+  .step-name{font-size:0.95rem;color:var(--text)}
+  .step-done .step-name{color:var(--dim)}
+  .step-active .step-name{color:var(--amber)}
+  .step-meta{font-family:'Share Tech Mono',monospace;font-size:0.6rem;color:rgba(48,232,72,0.25);letter-spacing:0.03em}
+
+  /* ═══ COST ═══ */
+  .cost{background:var(--panel);border:1px solid rgba(48,232,72,0.06);padding:1rem 1.2rem}
+  .cost-title{font-family:'Share Tech Mono',monospace;font-size:0.55rem;color:var(--dim);letter-spacing:0.12em;margin-bottom:0.5rem}
+  .cost-row{display:flex;justify-content:space-between;font-size:0.9rem;line-height:2}
+  .cost-row-name{color:var(--dim)}
+  .cost-row-val{font-family:'Share Tech Mono',monospace;color:var(--text)}
+  .cost-total{border-top:1px solid rgba(48,232,72,0.08);padding-top:0.4rem;margin-top:0.3rem}
+  .cost-total .cost-row-val{color:var(--green);font-size:1rem}
+  .cost-paid{display:flex;justify-content:space-between;margin-top:0.5rem;font-family:'Share Tech Mono',monospace;font-size:0.75rem}
+  .cost-paid-done{color:var(--dim)}
+  .cost-paid-remain{color:var(--amber)}
+
+  /* ═══ PICKUP ═══ */
+  .pickup{padding:0.8rem 0;font-size:0.9rem;color:var(--dim)}
+  .pickup strong{color:var(--text);font-weight:400}
+  .pickup-note{font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:rgba(48,232,72,0.25);margin-top:0.3rem}
+
+  /* ═══ FOOTER ═══ */
+  .footer{display:flex;justify-content:space-between;align-items:baseline;padding-top:0.5rem;border-top:1px solid rgba(48,232,72,0.06);flex-wrap:wrap;gap:0.3rem}
+  .footer-brand{font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:var(--green);opacity:0.4}
+  .footer-ver{font-family:'Share Tech Mono',monospace;font-size:0.5rem;color:var(--dim);opacity:0.2}
+
+  @media(max-width:500px){
+    body{padding:0.8rem}
+    .bracket{padding:1rem}
+    .header{flex-direction:column}
+    .sys-right{text-align:left}
+    .gauge{width:120px;height:120px}
+    .gauge-inner{width:92px;height:92px}
+    .footer{flex-direction:column}
+  }
+</style>
+</head>
+<body>
+
+<div class="hud">
+
+  <!-- ═══ HEADER ═══ -->
+  <div class="bracket bracket-bot" style="margin-bottom:1rem">
+    <header class="header">
+      <div>
+        <div class="sys-name">IRONWORKS</div>
+        <div class="sys-sub">铁匠铺 · 维修工单追踪系统</div>
+      </div>
+      <div class="sys-right">
+        <div class="sys-clock" id="clock">--:--:--</div>
+        <div class="sys-status"><span class="status-dot"></span>SYSTEM ONLINE</div>
+      </div>
+    </header>
+  </div>
+
+  <!-- ═══ TICKET ═══ -->
+  <div class="bracket bracket-bot">
+    <div class="ticket">
+      <div class="ticket-id">#IRW-2026-03847</div>
+      <div class="ticket-device">iPhone 15 Pro · 128GB · 深空黑</div>
+      <div class="ticket-row"><strong>故障：</strong>屏幕摔碎 + 后摄像头模组松动</div>
+      <div class="ticket-row"><strong>送修：</strong>2026.03.22 14:30</div>
+      <div class="ticket-row"><strong>预计：</strong>2026.03.26</div>
+    </div>
+  </div>
+
+  <!-- ═══ GAUGE ═══ -->
+  <div class="gauge-area">
+    <div class="gauge">
+      <div class="gauge-inner">
+        <div class="gauge-pct">65%</div>
+        <div class="gauge-label">REPAIRING</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ STEPS ═══ -->
+  <div class="bracket bracket-bot">
+    <div class="steps-title">REPAIR TIMELINE · 维修进度</div>
+    <div class="step step-done"><div class="step-info"><div class="step-name">接单检测</div><div class="step-meta">03.22 14:30 · 已确认故障</div></div></div>
+    <div class="step step-done"><div class="step-info"><div class="step-name">配件采购</div><div class="step-meta">03.23 10:00 · 原装屏幕到货</div></div></div>
+    <div class="step step-done"><div class="step-info"><div class="step-name">屏幕更换</div><div class="step-meta">03.24 16:00 · 已完成</div></div></div>
+    <div class="step step-active"><div class="step-info"><div class="step-name">摄像头校准</div><div class="step-meta">03.25 进行中 · 预计今日完成</div></div></div>
+    <div class="step step-wait"><div class="step-info"><div class="step-name">整机测试</div><div class="step-meta">待执行</div></div></div>
+    <div class="step step-wait"><div class="step-info"><div class="step-name">质检出库</div><div class="step-meta">待执行</div></div></div>
+  </div>
+
+  <!-- ═══ COST ═══ -->
+  <div class="bracket bracket-bot">
+    <div class="cost">
+      <div class="cost-title">COST BREAKDOWN · 费用明细</div>
+      <div class="cost-row"><span class="cost-row-name">屏幕更换（原装）</span><span class="cost-row-val">¥890</span></div>
+      <div class="cost-row"><span class="cost-row-name">摄像头维修</span><span class="cost-row-val">¥350</span></div>
+      <div class="cost-row"><span class="cost-row-name">人工费</span><span class="cost-row-val">¥100</span></div>
+      <div class="cost-row cost-total"><span class="cost-row-name">合计</span><span class="cost-row-val">¥1,340</span></div>
+      <div class="cost-paid"><span class="cost-paid-done">PAID: ¥500</span><span class="cost-paid-remain">DUE: ¥840</span></div>
+    </div>
+  </div>
+
+  <!-- ═══ PICKUP ═══ -->
+  <div class="pickup">
+    <div>维修完成后将短信通知取机</div>
+    <div><strong>地址：</strong>上海市徐汇区某某路 128 号</div>
+    <div><strong>营业：</strong>10:00 – 20:00</div>
+    <div class="pickup-note">IRONWORKS REPAIR CENTER · EST. 2020</div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <div class="footer">
+    <span class="footer-brand">IRONWORKS · 铁匠铺 · 修得了</span>
+    <span class="footer-ver">SYS v2.1.0 · 虚构品牌 · 仅供展示</span>
+  </div>
+
+</div>
+
+<script>
+// Live clock
+(function tick(){
+  var d=new Date();
+  var t=[d.getHours(),d.getMinutes(),d.getSeconds()].map(function(n){return n<10?'0'+n:n}).join(':');
+  document.getElementById('clock').textContent=t;
+  setTimeout(tick,1000);
+})();
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
