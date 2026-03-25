@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>歌词卡 — 倒带 REWIND</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--black:#1A1A1A;--shell:#E8DCC8;--orange:#E88030;--brown:#8A6840;--silver:#C0C0C0;--red:#E04040;--white:#F5F0E8;--dim:rgba(245,240,232,0.2)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--black);color:var(--white);font-family:'Noto Sans SC',sans-serif;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:2rem;-webkit-font-smoothing:antialiased;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E")}
+
+  .page{max-width:400px;width:100%;animation:fadeIn .5s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.5rem}
+  .h-title{font-family:'Rubik Mono One',monospace;font-size:1.6rem;color:var(--orange);letter-spacing:0.05em}
+  .h-en{font-size:0.75rem;color:var(--dim);letter-spacing:0.12em;margin-top:0.1rem}
+
+  /* ═══ CASSETTE TAPE ═══ */
+  .cassette{width:280px;height:180px;margin:0 auto 1.5rem;background:var(--shell);border-radius:10px;border:3px solid var(--brown);
+    position:relative;box-shadow:0 4px 16px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.3)}
+
+  /* Label area */
+  .tape-label{text-align:center;padding:10px 15px 6px;position:relative}
+  .tape-label-lines{position:absolute;inset:8px 30px;border-top:1px solid rgba(138,104,64,0.15);border-bottom:1px solid rgba(138,104,64,0.15);
+    background:repeating-linear-gradient(0deg,transparent,transparent 11px,rgba(138,104,64,0.08) 11px,rgba(138,104,64,0.08) 12px)}
+  .tape-song{font-family:'Rubik Mono One',monospace;font-size:0.75rem;color:var(--brown);position:relative;letter-spacing:0.05em}
+  .tape-side{font-size:0.55rem;color:var(--brown);opacity:0.5;position:relative;margin-top:1px;letter-spacing:0.15em}
+
+  /* Window */
+  .tape-window{width:180px;height:70px;margin:6px auto 0;background:rgba(26,26,26,0.85);border-radius:4px;position:relative;overflow:hidden;
+    border:2px solid var(--brown)}
+
+  /* Reels */
+  .reel{width:46px;height:46px;border-radius:50%;position:absolute;top:12px;
+    border:3px solid rgba(138,104,64,0.6);
+    background:repeating-conic-gradient(rgba(138,104,64,0.3) 0deg 30deg,transparent 30deg 60deg);
+    animation:reelSpin 8s linear infinite}
+  @keyframes reelSpin{to{transform:rotate(360deg)}}
+  .reel-l{left:18px}
+  .reel-r{right:18px}
+  .reel::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:12px;height:12px;border-radius:50%;
+    background:var(--brown);border:2px solid rgba(232,220,200,0.4)}
+
+  /* Tape strip between reels */
+  .tape-strip{position:absolute;top:33px;left:64px;width:52px;height:4px;background:var(--brown);opacity:0.5;border-radius:2px}
+
+  /* Bottom screws */
+  .screw{width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,#d0d0d0,#909090);position:absolute;bottom:8px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.4)}
+  .screw::after{content:'';position:absolute;top:3px;left:1px;width:6px;height:1.5px;background:rgba(0,0,0,0.3);border-radius:1px}
+  .screw-l{left:20px}
+  .screw-r{right:20px}
+
+  /* ═══ SONG INFO ═══ */
+  .song-info{text-align:center;margin-bottom:1.5rem}
+  .song-name{font-weight:600;font-size:1.3rem;color:var(--white)}
+  .song-artist{font-size:0.9rem;color:var(--dim);margin-top:0.1rem}
+  .song-meta{font-size:0.78rem;color:rgba(245,240,232,0.15);margin-top:0.2rem}
+
+  /* ═══ LYRICS ═══ */
+  .lyrics{text-align:center;margin-bottom:1.5rem;min-height:200px}
+  .lyric-line{font-size:1.05rem;line-height:2.4;color:rgba(245,240,232,0.15);transition:all .3s ease;cursor:default}
+  .lyric-line.active{color:var(--white);font-weight:600;transform:scale(1.02)}
+
+  /* ═══ CONTROLS ═══ */
+  .controls{display:flex;justify-content:center;align-items:center;gap:1rem;margin-bottom:1.5rem}
+  .ctrl-btn{width:44px;height:34px;border:none;border-radius:4px;cursor:pointer;font-size:1rem;
+    background:linear-gradient(180deg,#d8d8d8,#a0a0a0);color:#333;
+    box-shadow:0 2px 4px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.5);
+    transition:all .1s;display:flex;align-items:center;justify-content:center}
+  .ctrl-btn:hover{background:linear-gradient(180deg,#e0e0e0,#b0b0b0)}
+  .ctrl-btn:active{box-shadow:0 1px 2px rgba(0,0,0,0.3),inset 0 2px 4px rgba(0,0,0,0.15);transform:translateY(1px)}
+  .ctrl-play{width:52px;height:38px;font-size:1.2rem}
+
+  .indicator{display:flex;align-items:center;gap:0.4rem;justify-content:center;margin-top:0.6rem}
+  .ind-dot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:indBlink 1s ease-in-out infinite}
+  @keyframes indBlink{0%,100%{opacity:1}50%{opacity:0.2}}
+  .ind-text{font-size:0.65rem;color:var(--red);letter-spacing:0.1em;opacity:0.6}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center}
+  .footer-motto{font-size:0.82rem;color:var(--dim);opacity:0.35}
+  .footer-disc{font-size:0.58rem;color:var(--dim);opacity:0.15;margin-top:0.2rem}
+
+  @media(max-width:360px){
+    body{padding:1.5rem 0.8rem}
+    .cassette{width:260px;height:170px}
+    .tape-window{width:160px;height:62px}
+    .reel{width:40px;height:40px;top:11px}
+    .reel-l{left:14px}.reel-r{right:14px}
+    .tape-strip{left:56px;width:48px;top:30px}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="h-title">倒带</div>
+    <div class="h-en">REWIND · 歌词卡</div>
+  </header>
+
+  <!-- ═══ CASSETTE ═══ -->
+  <div class="cassette">
+    <div class="tape-label">
+      <div class="tape-label-lines"></div>
+      <div class="tape-song">夏日漫步 · SUMMER WALK</div>
+      <div class="tape-side">SIDE A · 46 MIN</div>
+    </div>
+    <div class="tape-window">
+      <div class="reel reel-l"></div>
+      <div class="reel reel-r"></div>
+      <div class="tape-strip"></div>
+    </div>
+    <div class="screw screw-l"></div>
+    <div class="screw screw-r"></div>
+  </div>
+
+  <!-- ═══ SONG INFO ═══ -->
+  <div class="song-info">
+    <div class="song-name">夏日漫步</div>
+    <div class="song-artist">虚构乐队 · 夏日限定</div>
+    <div class="song-meta">专辑：《走在路上》 · 2003 · 4:29</div>
+  </div>
+
+  <!-- ═══ LYRICS ═══ -->
+  <div class="lyrics" id="lyrics">
+    <div class="lyric-line">走在夏天的街道上</div>
+    <div class="lyric-line">阳光把影子拉得很长</div>
+    <div class="lyric-line">冰棍化了一半在手上</div>
+    <div class="lyric-line">来不及吃就滴在了鞋上</div>
+    <div class="lyric-line">那年的蝉鸣特别响</div>
+    <div class="lyric-line">响到现在还在耳边晃</div>
+    <div class="lyric-line">如果时间可以倒带</div>
+    <div class="lyric-line">我想回到那个夏天的傍晚</div>
+  </div>
+
+  <!-- ═══ CONTROLS ═══ -->
+  <div class="controls">
+    <button class="ctrl-btn">⏪</button>
+    <button class="ctrl-btn ctrl-play">▶</button>
+    <button class="ctrl-btn">⏩</button>
+  </div>
+  <div class="indicator">
+    <span class="ind-dot"></span>
+    <span class="ind-text">PLAYING</span>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">倒带 · REWIND · 用磁带的速度听歌</div>
+    <div class="footer-disc">虚构品牌 · 仅供展示 · 歌词为原创虚构内容</div>
+  </footer>
+
+</div>
+
+<script>
+// Lyrics auto-highlight cycling
+(function(){
+  var lines=document.querySelectorAll('.lyric-line');
+  var idx=0;
+  function highlight(){
+    lines.forEach(function(l){l.classList.remove('active')});
+    lines[idx].classList.add('active');
+    idx=(idx+1)%lines.length;
+  }
+  highlight();
+  setInterval(highlight,3000);
+})();
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

@@ -156,13 +156,13 @@
     }
 
     document.body.appendChild(bar);
-    // Dynamic padding based on actual nav height
-    requestAnimationFrame(() => {
-      document.body.style.paddingTop = bar.offsetHeight + 'px';
-      window.addEventListener('resize', () => {
-        document.body.style.paddingTop = bar.offsetHeight + 'px';
-      });
-    });
+    // Dynamic padding based on actual nav height — measure multiple times for reliability
+    function syncPad(){ document.body.style.paddingTop = bar.offsetHeight + 'px'; }
+    syncPad();
+    setTimeout(syncPad, 100);
+    setTimeout(syncPad, 500);
+    setTimeout(syncPad, 1500);
+    window.addEventListener('resize', syncPad);
 
     // Build drawer
     const overlay = document.createElement('div');
