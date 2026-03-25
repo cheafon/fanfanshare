@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>兴趣徽章 — 别针 PIN IT</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--silver:#C0C0C8;--red:#E04848;--blue:#4080C0;--green:#40A868;--yellow:#E8C040;--purple:#8860B8;--bg:#2A2A30;--white:#F0F0F0;--brown:#A07848}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--bg);color:var(--white);font-family:'Noto Sans SC','Fredoka',sans-serif;font-weight:400;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E")}
+
+  .page{max-width:480px;width:100%;animation:fadeIn .5s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.5rem}
+  .h-title{font-family:'Fredoka',sans-serif;font-weight:700;font-size:1.6rem;color:var(--silver);
+    text-shadow:1px 1px 0 rgba(0,0,0,0.3)}
+  .h-en{font-family:'Fredoka',sans-serif;font-weight:400;font-size:0.78rem;color:rgba(192,192,200,0.4);letter-spacing:0.1em;margin-top:0.1rem}
+  .h-user{font-size:0.88rem;color:rgba(192,192,200,0.3);margin-top:0.4rem}
+
+  /* ═══ BADGE GRID ═══ */
+  .badges{display:grid;grid-template-columns:repeat(3,1fr);gap:0.8rem;margin-bottom:1.5rem}
+
+  .badge{border-radius:14px;padding:0.8rem 0.5rem;text-align:center;position:relative;cursor:default;
+    border:3px solid;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.2),0 3px 6px rgba(0,0,0,0.25),0 0 0 1px rgba(0,0,0,0.1);
+    transition:all .2s;
+    opacity:0;animation:pinIn .4s cubic-bezier(0.34,1.56,0.64,1) forwards}
+  @keyframes pinIn{from{transform:scale(0) rotate(-10deg);opacity:0}to{transform:scale(1) rotate(var(--r,0deg));opacity:1}}
+  .badge:hover{transform:rotate(0deg) translateY(-3px) !important;box-shadow:inset 0 1px 0 rgba(255,255,255,0.2),0 6px 12px rgba(0,0,0,0.3),0 0 0 1px rgba(0,0,0,0.1)}
+
+  /* Metallic border colors via border-image simulation */
+  .badge{border-color:var(--silver);background-clip:padding-box}
+
+  /* Pin needle */
+  .badge::after{content:'';position:absolute;top:-8px;left:50%;transform:translateX(-50%);
+    width:6px;height:6px;border-radius:50%;
+    background:radial-gradient(circle at 35% 35%,#e8e8e8,var(--silver),#808088);
+    box-shadow:0 1px 2px rgba(0,0,0,0.3),0 8px 0 0 rgba(192,192,200,0.15)}
+
+  .badge-icon{font-size:1.6rem;margin-bottom:0.2rem}
+  .badge-label{font-family:'Fredoka',sans-serif;font-weight:600;font-size:0.85rem;color:#fff}
+
+  /* Enamel colors */
+  .e-brown{background:#8A6040;border-color:#6A4830}
+  .e-blue{background:var(--blue);border-color:#3068A0}
+  .e-red{background:var(--red);border-color:#B83838}
+  .e-green{background:var(--green);border-color:#308850}
+  .e-purple{background:var(--purple);border-color:#6848A0}
+  .e-yellow{background:var(--yellow);border-color:#C0A030;color:var(--bg)}
+  .e-yellow .badge-label{color:var(--bg)}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center}
+  .footer-motto{font-family:'Fredoka',sans-serif;font-size:0.85rem;color:var(--silver);opacity:0.3}
+  .footer-disc{font-size:0.58rem;color:rgba(192,192,200,0.15);margin-top:0.2rem}
+
+  @media(max-width:380px){.badges{grid-template-columns:repeat(3,1fr);gap:0.5rem}.badge{padding:0.6rem 0.3rem}}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <h1 class="h-title">别针</h1>
+    <div class="h-en">PIN IT · 我的兴趣徽章</div>
+    <div class="h-user">小雨的收藏 · 12 枚徽章</div>
+  </header>
+
+  <!-- ═══ BADGES ═══ -->
+  <div class="badges" id="badgeGrid"></div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">别针 · Pin It · 收集你喜欢的一切</div>
+    <div class="footer-disc">虚构 App · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+var pins=[
+  {icon:'☕',label:'咖啡',cls:'e-brown'},
+  {icon:'📚',label:'阅读',cls:'e-blue'},
+  {icon:'🎸',label:'吉他',cls:'e-red'},
+  {icon:'🏃',label:'跑步',cls:'e-green'},
+  {icon:'🎬',label:'电影',cls:'e-purple'},
+  {icon:'🍳',label:'做饭',cls:'e-yellow'},
+  {icon:'✈️',label:'旅行',cls:'e-blue'},
+  {icon:'🎮',label:'游戏',cls:'e-green'},
+  {icon:'📷',label:'摄影',cls:'e-red'},
+  {icon:'🧘',label:'瑜伽',cls:'e-purple'},
+  {icon:'🌱',label:'植物',cls:'e-green'},
+  {icon:'🎨',label:'画画',cls:'e-yellow'}
+];
+var grid=document.getElementById('badgeGrid');
+pins.forEach(function(p,i){
+  var r=(Math.random()*6-3).toFixed(1);
+  var d=(0.1+i*0.06).toFixed(2);
+  var div=document.createElement('div');
+  div.className='badge '+p.cls;
+  div.style.cssText='--r:'+r+'deg;animation-delay:'+d+'s';
+  div.innerHTML='<div class="badge-icon">'+p.icon+'</div><div class="badge-label">'+p.label+'</div>';
+  grid.appendChild(div);
+});
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
