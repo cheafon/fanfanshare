@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>野径 WILD PATH — 花艺工作室</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Infant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Serif+SC:wght@400;600&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--terra:#C07850;--sand:#E8D8C0;--green:#7A9870;--brown:#5A4030;--cream:#FFF5E8;--dterra:#8A5038;--grass:#D0B880;--dim:rgba(90,64,48,0.3)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--cream);color:var(--brown);font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:17px;line-height:1.8;
+    display:flex;justify-content:center;padding:2rem;-webkit-font-smoothing:antialiased;position:relative;
+    background-image:
+      radial-gradient(ellipse at 20% 30%,rgba(192,120,80,0.06) 0%,transparent 50%),
+      radial-gradient(ellipse at 80% 70%,rgba(122,152,112,0.05) 0%,transparent 45%);
+    background-size:200% 200%;animation:warmFlow 18s ease infinite}
+  @keyframes warmFlow{0%{background-position:0% 0%}50%{background-position:100% 100%}100%{background-position:0% 0%}}
+
+  .page{max-width:480px;width:100%;position:relative;z-index:1}
+
+  /* ═══ ORGANIC BLOB ═══ */
+  .blob-deco{position:fixed;z-index:0;pointer-events:none}
+  .blob-1{width:120px;height:120px;background:rgba(192,120,80,0.08);top:60px;right:-20px;
+    border-radius:60% 40% 70% 30% / 50% 60% 30% 70%;animation:blobMorph 10s ease-in-out infinite}
+  .blob-2{width:80px;height:80px;background:rgba(122,152,112,0.06);bottom:120px;left:-10px;
+    border-radius:40% 60% 30% 70% / 60% 30% 70% 40%;animation:blobMorph 12s ease-in-out infinite reverse}
+  @keyframes blobMorph{0%{border-radius:60% 40% 70% 30%/50% 60% 30% 70%}50%{border-radius:40% 60% 30% 70%/60% 40% 70% 30%}100%{border-radius:60% 40% 70% 30%/50% 60% 30% 70%}}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:2rem;animation:fadeIn .6s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+  /* CSS Flower */
+  .flower{width:30px;height:30px;position:relative;margin:0 auto 0.8rem}
+  .flower-center{width:8px;height:8px;border-radius:50%;background:var(--grass);position:absolute;top:11px;left:11px}
+  .petal{width:7px;height:7px;border-radius:50%;background:var(--terra);position:absolute;top:50%;left:50%;opacity:0.6}
+  .petal:nth-child(2){transform:translate(-50%,-50%) rotate(0deg) translateY(-10px)}
+  .petal:nth-child(3){transform:translate(-50%,-50%) rotate(72deg) translateY(-10px)}
+  .petal:nth-child(4){transform:translate(-50%,-50%) rotate(144deg) translateY(-10px)}
+  .petal:nth-child(5){transform:translate(-50%,-50%) rotate(216deg) translateY(-10px)}
+  .petal:nth-child(6){transform:translate(-50%,-50%) rotate(288deg) translateY(-10px)}
+
+  .h-title{font-family:'Noto Serif SC',serif;font-weight:600;font-size:clamp(1.8rem,5vw,2.4rem);color:var(--brown);letter-spacing:0.08em}
+  .h-en{font-family:'Cormorant Infant',serif;font-weight:300;font-style:italic;font-size:0.85rem;color:var(--terra);letter-spacing:0.1em;margin-top:0.1rem}
+  .h-motto{font-family:'Noto Serif SC',serif;font-weight:400;font-size:0.9rem;color:var(--dim);margin-top:0.5rem}
+
+  /* ═══ INTRO ═══ */
+  .intro{font-family:'Noto Serif SC',serif;font-weight:400;font-size:1rem;color:rgba(90,64,48,0.55);line-height:2.2;text-indent:2em;
+    margin-bottom:2rem;text-align:justify}
+
+  /* ═══ COURSES ═══ */
+  .courses{display:flex;flex-direction:column;gap:1rem;margin-bottom:2rem}
+  .course{background:var(--sand);padding:1.2rem;position:relative;overflow:hidden;
+    border-radius:20px 8px 20px 8px;/* organic asymmetric */
+    opacity:0;animation:fadeIn .5s ease forwards}
+  .course::before{content:'';position:absolute;top:0;right:0;width:60px;height:60px;background:var(--terra);opacity:0.06;
+    border-radius:0 8px 0 30px}
+  .course-name{font-family:'Noto Serif SC',serif;font-weight:600;font-size:1.1rem;color:var(--brown)}
+  .course-meta{font-family:'Cormorant Infant',serif;font-size:0.8rem;color:var(--terra);margin-top:0.2rem;letter-spacing:0.04em}
+  .course-desc{font-size:0.95rem;color:rgba(90,64,48,0.5);margin-top:0.4rem;line-height:1.8}
+  .course-tags{display:flex;gap:0.4rem;margin-top:0.5rem;flex-wrap:wrap}
+  .course-tag{font-size:0.75rem;color:var(--green);padding:0.2em 0.6em;border:1px solid rgba(122,152,112,0.2);border-radius:12px}
+
+  /* ═══ BOOKING ═══ */
+  .booking{margin-bottom:2rem}
+  .bk-title{font-family:'Noto Serif SC',serif;font-weight:600;font-size:1rem;color:var(--brown);margin-bottom:0.6rem}
+  .slots{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem}
+  .slot{background:var(--sand);padding:0.8rem;border-radius:12px;text-align:center;cursor:pointer;
+    transition:all .2s;border:2px solid transparent}
+  .slot:hover{background:rgba(192,120,80,0.1);border-color:var(--terra);transform:scale(1.03)}
+  .slot.full{opacity:0.4;cursor:default}
+  .slot.full:hover{transform:none;border-color:transparent;background:var(--sand)}
+  .slot-time{font-family:'Cormorant Infant',serif;font-weight:600;font-size:1rem;color:var(--brown)}
+  .slot-day{font-size:0.82rem;color:var(--dim)}
+  .slot-seats{font-size:0.72rem;color:var(--terra);margin-top:0.2rem}
+  .slot-seats.none{color:rgba(90,64,48,0.25)}
+
+  /* ═══ INFO ═══ */
+  .info{background:rgba(192,120,80,0.06);border-radius:16px;padding:1rem;margin-bottom:2rem;text-align:center}
+  .info-addr{font-family:'Noto Serif SC',serif;font-weight:400;font-size:0.95rem;color:var(--brown)}
+  .info-hint{font-size:0.88rem;color:var(--dim);margin-top:0.2rem}
+  .info-wx{font-family:'Cormorant Infant',serif;font-weight:600;font-size:0.9rem;color:var(--terra);margin-top:0.4rem}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center}
+  .footer-motto{font-family:'Noto Serif SC',serif;font-weight:400;font-size:0.9rem;color:var(--terra);opacity:0.4}
+  .footer-disc{font-size:0.6rem;color:var(--dim);opacity:0.2;margin-top:0.3rem}
+
+  @media(max-width:420px){
+    body{padding:1.5rem 1rem}
+    .slots{grid-template-columns:1fr 1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="blob-deco blob-1"></div>
+<div class="blob-deco blob-2"></div>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="flower">
+      <div class="flower-center"></div>
+      <div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div>
+    </div>
+    <h1 class="h-title">野径</h1>
+    <div class="h-en">Wild Path · 花艺工作室</div>
+    <div class="h-motto">让花回到自然的样子</div>
+  </header>
+
+  <!-- ═══ INTRO ═══ -->
+  <p class="intro">野径是一间藏在老弄堂里的花艺工作室。我们不用花泥，不用包装纸，只用最简单的方式让每一束花保持它本来的样子。</p>
+
+  <!-- ═══ COURSES ═══ -->
+  <div class="courses">
+    <div class="course" style="animation-delay:.2s">
+      <div class="course-name">自然系花束</div>
+      <div class="course-meta">2 hours · ¥288 per person</div>
+      <div class="course-desc">学会用季节花材做一束"看起来是随手摘的"花束。不需要任何基础。</div>
+      <div class="course-tags"><span class="course-tag">零基础</span><span class="course-tag">约会前</span><span class="course-tag">送给自己</span></div>
+    </div>
+    <div class="course" style="animation-delay:.35s;border-radius:8px 20px 8px 20px">
+      <div class="course-name">餐桌花艺</div>
+      <div class="course-meta">2.5 hours · ¥358 per person</div>
+      <div class="course-desc">用一个旧陶罐和几枝花，让餐桌变成最好看的地方。</div>
+      <div class="course-tags"><span class="course-tag">喜欢做饭</span><span class="course-tag">周末活动</span></div>
+    </div>
+    <div class="course" style="animation-delay:.5s">
+      <div class="course-name">干花花环</div>
+      <div class="course-meta">3 hours · ¥428 per person</div>
+      <div class="course-desc">做一个可以挂一整年的花环。用干花、棉花、松果和一点想象力。</div>
+      <div class="course-tags"><span class="course-tag">手工爱好者</span><span class="course-tag">送礼</span></div>
+    </div>
+  </div>
+
+  <!-- ═══ BOOKING ═══ -->
+  <section class="booking">
+    <div class="bk-title">本周可预约时段</div>
+    <div class="slots">
+      <div class="slot"><div class="slot-day">周六</div><div class="slot-time">10:00</div><div class="slot-seats">剩余 3 位</div></div>
+      <div class="slot"><div class="slot-day">周六</div><div class="slot-time">14:00</div><div class="slot-seats">剩余 5 位</div></div>
+      <div class="slot full"><div class="slot-day">周日</div><div class="slot-time">10:00</div><div class="slot-seats none">已满</div></div>
+      <div class="slot"><div class="slot-day">周日</div><div class="slot-time">14:00</div><div class="slot-seats">剩余 2 位</div></div>
+    </div>
+  </section>
+
+  <!-- ═══ INFO ═══ -->
+  <div class="info">
+    <div class="info-addr">上海市静安区某某弄 12 号</div>
+    <div class="info-hint">弄堂口有一棵大梧桐树，看到就到了</div>
+    <div class="info-wx">WeChat: wildpath_studio</div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">野径 · Wild Path · 花开自有时</div>
+    <div class="footer-disc">虚构工作室 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>
