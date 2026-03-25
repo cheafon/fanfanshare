@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>落子 CHECKMATE — 决策对比</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--wood:#2A1A10;--ivory:#F0E8D8;--bsq:#3A3028;--wsq:#E8DCC8;--gold:#C09820;--blue:#4060A0;--red:#A03030;--dim:rgba(240,232,216,0.3)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--wood);color:var(--ivory);font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;
+    /* Chessboard pattern */
+    background-image:repeating-conic-gradient(var(--bsq) 0% 25%,rgba(58,48,40,0.3) 0% 50%) 0 0/40px 40px;
+    background-blend-mode:soft-light}
+
+  .page{max-width:500px;width:100%;animation:fadeIn .5s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* Gold line */
+  .gold-rule{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.3;margin:1rem 0}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.2rem}
+  .h-piece{font-size:2rem;color:var(--gold);opacity:0.3;margin-bottom:0.3rem}
+  .h-title{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(1.6rem,5vw,2.2rem);color:var(--gold);letter-spacing:0.08em}
+  .h-en{font-family:'Playfair Display',serif;font-weight:400;font-style:italic;font-size:0.75rem;color:var(--dim);letter-spacing:0.12em;margin-top:0.1rem}
+  .h-question{font-family:'Noto Serif SC',serif;font-weight:600;font-size:1.2rem;color:var(--ivory);margin-top:0.8rem}
+
+  /* ═══ COMPARISON ═══ */
+  .compare{margin-bottom:1.2rem}
+
+  .sides{display:grid;grid-template-columns:1fr auto 1fr;gap:0}
+  .side{padding:0.8rem}
+  .side-a{background:rgba(240,232,216,0.04);border-radius:8px 0 0 8px}
+  .side-b{background:rgba(58,48,40,0.3);border-radius:0 8px 8px 0}
+  .side-header{text-align:center;margin-bottom:0.6rem}
+  .side-piece{font-size:1.8rem;opacity:0.4}
+  .side-name{font-family:'Noto Serif SC',serif;font-weight:700;font-size:1.1rem;margin-top:0.1rem}
+  .side-a .side-name{color:var(--ivory)}
+  .side-b .side-name{color:var(--gold)}
+
+  .vs{display:flex;align-items:center;justify-content:center;width:36px;background:rgba(192,152,32,0.06);
+    border-left:1px solid rgba(192,152,32,0.1);border-right:1px solid rgba(192,152,32,0.1)}
+  .vs-text{font-family:'Playfair Display',serif;font-weight:700;font-size:0.8rem;color:var(--gold);opacity:0.4;writing-mode:vertical-lr}
+
+  .row{display:grid;grid-template-columns:1fr auto 1fr;border-bottom:1px solid rgba(192,152,32,0.04);transition:all .15s}
+  .row:hover{background:rgba(192,152,32,0.03);border-bottom-color:rgba(192,152,32,0.1)}
+  .row-cell{padding:0.35rem 0.8rem;font-size:0.88rem;color:rgba(240,232,216,0.5)}
+  .row-a{text-align:left}
+  .row-b{text-align:right}
+  .row-label{display:flex;align-items:center;justify-content:center;width:36px;font-size:0.7rem;color:rgba(192,152,32,0.25);
+    border-left:1px solid rgba(192,152,32,0.04);border-right:1px solid rgba(192,152,32,0.04)}
+
+  /* ═══ VOTE ═══ */
+  .vote{text-align:center;margin-bottom:1.2rem}
+  .vote-q{font-family:'Noto Serif SC',serif;font-weight:600;font-size:1rem;color:var(--ivory);margin-bottom:0.6rem}
+  .vote-btns{display:flex;gap:0.6rem;justify-content:center;margin-bottom:0.6rem}
+  .vote-btn{font-family:'Playfair Display',serif;font-weight:700;font-size:0.9rem;padding:0.6em 1.5em;border:2px solid;border-radius:4px;
+    cursor:pointer;transition:all .15s;background:transparent}
+  .vote-btn:active{transform:scale(0.95)}
+  .btn-a{color:var(--ivory);border-color:rgba(240,232,216,0.2)}.btn-a:hover{background:rgba(240,232,216,0.08);border-color:var(--ivory)}
+  .btn-b{color:var(--gold);border-color:rgba(192,152,32,0.2)}.btn-b:hover{background:rgba(192,152,32,0.08);border-color:var(--gold)}
+  .btn-a.voted{background:rgba(240,232,216,0.12);border-color:var(--ivory)}
+  .btn-b.voted{background:rgba(192,152,32,0.1);border-color:var(--gold)}
+
+  /* Vote bar */
+  .vote-bar{height:8px;background:rgba(240,232,216,0.06);border-radius:4px;overflow:hidden;margin-bottom:0.3rem}
+  .vote-fill{height:100%;display:flex}
+  .fill-a{background:var(--ivory);transition:width .4s}
+  .fill-b{background:var(--gold);transition:width .4s}
+  .vote-pct{display:flex;justify-content:space-between;font-family:'Playfair Display',serif;font-size:0.78rem}
+  .pct-a{color:var(--ivory);opacity:0.5}
+  .pct-b{color:var(--gold);opacity:0.5}
+
+  /* ═══ ADVICE ═══ */
+  .advice{border:1px solid rgba(192,152,32,0.08);padding:1rem;margin-bottom:1rem;border-radius:4px}
+  .advice-title{font-family:'Playfair Display',serif;font-weight:400;font-style:italic;font-size:0.7rem;color:var(--gold);letter-spacing:0.1em;opacity:0.5;margin-bottom:0.4rem}
+  .adv{font-size:0.9rem;color:rgba(240,232,216,0.4);line-height:2}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center}
+  .footer-motto{font-family:'Playfair Display',serif;font-weight:400;font-style:italic;font-size:0.88rem;color:var(--gold);opacity:0.3}
+  .footer-disc{font-size:0.58rem;color:var(--dim);opacity:0.15;margin-top:0.2rem}
+
+  @media(max-width:450px){
+    body{padding:1rem}
+    .row-cell{padding:0.3rem 0.5rem;font-size:0.82rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="h-piece">♔</div>
+    <h1 class="h-title">落子</h1>
+    <div class="h-en">Checkmate · 今天的对弈</div>
+    <div class="gold-rule"></div>
+    <div class="h-question">周末去哪玩？</div>
+  </header>
+
+  <!-- ═══ COMPARISON ═══ -->
+  <div class="compare">
+    <div class="sides">
+      <div class="side side-a"><div class="side-header"><div class="side-piece">♔</div><div class="side-name">去海边</div></div></div>
+      <div class="vs"><span class="vs-text">VS</span></div>
+      <div class="side side-b"><div class="side-header"><div class="side-piece">♚</div><div class="side-name">泡温泉</div></div></div>
+    </div>
+
+    <div class="row"><div class="row-cell row-a">3 小时</div><div class="row-label">车程</div><div class="row-cell row-b">1.5 小时</div></div>
+    <div class="row"><div class="row-cell row-a">¥800</div><div class="row-label">费用</div><div class="row-cell row-b">¥500</div></div>
+    <div class="row"><div class="row-cell row-a">高</div><div class="row-label">体力</div><div class="row-cell row-b">低</div></div>
+    <div class="row"><div class="row-cell row-a">★★★★★</div><div class="row-label">拍照</div><div class="row-cell row-b">★★★☆☆</div></div>
+    <div class="row"><div class="row-cell row-a">晒伤 / 堵车</div><div class="row-label">风险</div><div class="row-cell row-b">人多排队</div></div>
+    <div class="row"><div class="row-cell row-a">想放空发呆</div><div class="row-label">适合</div><div class="row-cell row-b">想彻底放松</div></div>
+  </div>
+
+  <div class="gold-rule"></div>
+
+  <!-- ═══ VOTE ═══ -->
+  <div class="vote">
+    <div class="vote-q">你选哪边？</div>
+    <div class="vote-btns">
+      <button class="vote-btn btn-a" onclick="castVote('a')">♔ 去海边</button>
+      <button class="vote-btn btn-b" onclick="castVote('b')">♚ 泡温泉</button>
+    </div>
+    <div class="vote-bar"><div class="vote-fill"><div class="fill-a" id="fillA" style="width:62%"></div><div class="fill-b" id="fillB" style="width:38%"></div></div></div>
+    <div class="vote-pct"><span class="pct-a" id="pctA">62%</span><span class="pct-b" id="pctB">38%</span></div>
+  </div>
+
+  <!-- ═══ ADVICE ═══ -->
+  <div class="advice">
+    <div class="advice-title">STRATEGIC ADVICE</div>
+    <div class="adv">如果你最近很累 → 温泉</div>
+    <div class="adv">如果你想要回忆 → 海边</div>
+    <div class="adv">如果你选不了 → 投个硬币</div>
+  </div>
+
+  <div class="gold-rule"></div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">落子 · Checkmate · 人生就是一盘棋</div>
+    <div class="footer-disc">虚构工具 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+var votes={a:31,b:19};
+function castVote(side){
+  votes[side]++;
+  var total=votes.a+votes.b;
+  var pa=Math.round(votes.a/total*100);
+  var pb=100-pa;
+  document.getElementById('fillA').style.width=pa+'%';
+  document.getElementById('fillB').style.width=pb+'%';
+  document.getElementById('pctA').textContent=pa+'%';
+  document.getElementById('pctB').textContent=pb+'%';
+  document.querySelectorAll('.vote-btn').forEach(function(b){b.classList.remove('voted')});
+  document.querySelector('.btn-'+side).classList.add('voted');
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
