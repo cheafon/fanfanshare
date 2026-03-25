@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>三点半 3:30AM — 深夜食堂</title>
+<link href="https://fonts.googleapis.com/css2?family=Fascinate+Inline&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--black:#0A0A0F;--pink:#FF1493;--cyan:#00E5FF;--yellow:#FFE100;--brick:#2A2A28;--orange:#FF8C40;--glow:#F0F0FF;--dim:rgba(240,240,255,0.2)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--black);color:var(--glow);font-family:'Noto Sans SC',sans-serif;font-weight:400;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:2rem;-webkit-font-smoothing:antialiased;
+    /* Brick wall texture */
+    background-image:
+      repeating-linear-gradient(0deg,transparent,transparent 24px,rgba(60,58,55,0.2) 24px,rgba(60,58,55,0.2) 25px),
+      repeating-linear-gradient(90deg,transparent,transparent 49px,rgba(60,58,55,0.15) 49px,rgba(60,58,55,0.15) 50px),
+      repeating-linear-gradient(0deg,transparent 0px,transparent 24px,transparent 24px,transparent 49px,rgba(60,58,55,0.1) 49px,rgba(60,58,55,0.1) 50px);
+    background-size:50px 25px,50px 25px,100px 50px;
+    background-position:0 0,0 0,25px 0}
+
+  .page{max-width:440px;width:100%;animation:fadeIn .6s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* Neon glow mixins */
+  .neon-pink{color:var(--pink);text-shadow:0 0 4px var(--pink),0 0 11px var(--pink),0 0 19px var(--pink),0 0 40px var(--pink),0 0 80px rgba(255,20,147,0.15)}
+  .neon-cyan{color:var(--cyan);text-shadow:0 0 4px var(--cyan),0 0 11px var(--cyan),0 0 19px var(--cyan),0 0 40px rgba(0,229,255,0.3)}
+  .neon-yellow{color:var(--yellow);text-shadow:0 0 4px var(--yellow),0 0 11px var(--yellow),0 0 19px rgba(255,225,0,0.4)}
+  .neon-green{color:#39FF14;text-shadow:0 0 4px #39FF14,0 0 11px #39FF14,0 0 19px rgba(57,255,20,0.4)}
+  .neon-orange{color:var(--orange);text-shadow:0 0 4px var(--orange),0 0 11px rgba(255,140,64,0.5)}
+
+  /* Flicker */
+  .flicker{animation:flicker 4s linear infinite}
+  @keyframes flicker{0%,19%,21%,23%,25%,54%,56%,100%{opacity:1}20%,24%,55%{opacity:0.2}}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:2rem}
+  .h-title{font-weight:700;font-size:clamp(2.4rem,8vw,3.4rem);letter-spacing:0.08em;line-height:1.2}
+  .h-title .flicker-char{display:inline-block}
+  .h-en{font-family:'Fascinate Inline',cursive;font-size:clamp(1rem,3vw,1.4rem);margin-top:0.3rem}
+  .h-sub{font-size:0.85rem;color:var(--dim);margin-top:0.5rem;letter-spacing:0.06em}
+
+  /* ═══ INFO ═══ */
+  .info{text-align:center;margin-bottom:2rem}
+  .info-hours{font-weight:500;font-size:1rem}
+  .info-cd{font-family:'Fascinate Inline',cursive;font-size:0.82rem;color:var(--dim);margin-top:0.3rem}
+  .info-open{font-family:'Fascinate Inline',cursive;font-size:1.2rem;margin-top:0.4rem;letter-spacing:0.2em}
+
+  /* ═══ MENU ═══ */
+  .menu{margin-bottom:2rem}
+  .menu-cat{font-weight:700;font-size:1.05rem;margin-bottom:0.5rem;margin-top:1.2rem;letter-spacing:0.06em}
+
+  .item{display:flex;justify-content:space-between;align-items:baseline;padding:0.4rem 0;border-bottom:1px solid rgba(240,240,255,0.03);
+    transition:all .2s;cursor:default}
+  .item:hover{padding-left:0.5rem}
+  .item:hover .item-name{text-shadow:0 0 4px var(--cyan),0 0 11px var(--cyan),0 0 19px rgba(0,229,255,0.3);color:var(--cyan)}
+  .item-info{flex:1}
+  .item-name{font-weight:500;font-size:1rem;color:var(--glow);transition:all .2s}
+  .item-desc{font-size:0.78rem;color:rgba(240,240,255,0.2);margin-top:0.1rem}
+  .item-price{font-family:'Fascinate Inline',cursive;font-size:1rem;flex-shrink:0;margin-left:0.5rem}
+
+  /* ═══ QUOTE ═══ */
+  .quote{border:1px solid rgba(255,20,147,0.15);padding:1rem;text-align:center;margin-bottom:2rem;position:relative;
+    box-shadow:0 0 15px rgba(255,20,147,0.05),inset 0 0 15px rgba(255,20,147,0.03)}
+  .quote-text{font-weight:300;font-size:1rem;color:rgba(240,240,255,0.4);line-height:2;font-style:italic}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center}
+  .footer-motto{font-weight:300;font-size:0.85rem;color:var(--dim);opacity:0.4}
+  .footer-disc{font-size:0.58rem;color:var(--dim);opacity:0.15;margin-top:0.2rem}
+
+  @media(max-width:400px){
+    body{padding:1.5rem 1rem}
+    .h-title{font-size:2.2rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <h1 class="h-title neon-pink">三点<span class="flicker-char flicker">半</span></h1>
+    <div class="h-en neon-cyan">3:30 AM</div>
+    <div class="h-sub">深夜食堂 · 只在夜里营业</div>
+  </header>
+
+  <!-- ═══ INFO ═══ -->
+  <div class="info">
+    <div class="info-hours neon-yellow">22:00 — 05:00</div>
+    <div class="info-cd">距打烊还有 <span id="countdown">--:--:--</span></div>
+    <div class="info-open neon-green">OPEN</div>
+  </div>
+
+  <!-- ═══ MENU ═══ -->
+  <div class="menu">
+
+    <div class="menu-cat neon-orange">主食</div>
+    <div class="item"><div class="item-info"><div class="item-name">酸辣粉</div><div class="item-desc">够酸够辣够过瘾</div></div><div class="item-price neon-pink">¥15</div></div>
+    <div class="item"><div class="item-info"><div class="item-name">炒河粉</div><div class="item-desc">镬气十足</div></div><div class="item-price neon-pink">¥18</div></div>
+    <div class="item"><div class="item-info"><div class="item-name">泡面加蛋加肠</div><div class="item-desc">深夜标配</div></div><div class="item-price neon-pink">¥12</div></div>
+
+    <div class="menu-cat neon-orange">小食</div>
+    <div class="item"><div class="item-info"><div class="item-name">烤串拼盘</div><div class="item-desc">10 串 · 牛羊鸡混搭</div></div><div class="item-price neon-cyan">¥25</div></div>
+    <div class="item"><div class="item-info"><div class="item-name">炸鸡翅</div><div class="item-desc">现炸酥脆</div></div><div class="item-price neon-cyan">¥18</div></div>
+    <div class="item"><div class="item-info"><div class="item-name">关东煮拼盘</div><div class="item-desc">萝卜 · 鱼丸 · 豆腐</div></div><div class="item-price neon-cyan">¥20</div></div>
+
+    <div class="menu-cat neon-orange">饮品</div>
+    <div class="item"><div class="item-info"><div class="item-name">冰啤酒</div></div><div class="item-price neon-yellow">¥10</div></div>
+    <div class="item"><div class="item-info"><div class="item-name">柠檬茶</div></div><div class="item-price neon-yellow">¥8</div></div>
+    <div class="item"><div class="item-info"><div class="item-name">热豆浆</div><div class="item-desc">凌晨三点的温暖</div></div><div class="item-price neon-yellow">¥6</div></div>
+
+  </div>
+
+  <!-- ═══ QUOTE ═══ -->
+  <div class="quote">
+    <div class="quote-text">厨房在凌晨四点最忙。<br>来的都是有故事的人。</div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">三点半 · 3:30AM · 深夜里亮着的那盏灯</div>
+    <div class="footer-disc">虚构小馆 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+// Closing countdown (to 05:00)
+(function tick(){
+  var now=new Date();
+  var target=new Date(now);
+  target.setHours(5,0,0,0);
+  if(now.getHours()>=5&&now.getHours()<22)target.setDate(target.getDate()+1);
+  if(now.getHours()>=22)target.setDate(target.getDate()+1);
+  var diff=Math.max(0,target-now);
+  var h=Math.floor(diff/3600000);
+  var m=Math.floor((diff%3600000)/60000);
+  var s=Math.floor((diff%60000)/1000);
+  document.getElementById('countdown').textContent=(h<10?'0':'')+h+':'+(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+  setTimeout(tick,1000);
+})();
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
