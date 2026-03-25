@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>今日冷知识 — 蜂巢 HIVE MIND</title>
+<link href="https://fonts.googleapis.com/css2?family=Righteous&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--gold:#D8A830;--amber:#C88820;--brown:#5A3818;--pollen:#F8E880;--wax:#FFF8E0;--deep:#3A2010;--dim:rgba(58,32,16,0.3)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--wax);color:var(--deep);font-family:'Noto Sans SC',sans-serif;font-weight:400;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;position:relative;overflow-x:hidden}
+
+  /* Decorative hexagons in background */
+  .hex-bg{position:fixed;pointer-events:none;z-index:0;
+    clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%)}
+  .hb1{width:100px;height:115px;background:rgba(216,168,48,0.04);top:40px;right:-20px}
+  .hb2{width:70px;height:80px;background:rgba(200,136,32,0.03);bottom:100px;left:-10px}
+  .hb3{width:50px;height:58px;background:rgba(248,232,128,0.05);top:50%;right:10%}
+  .hb4{width:80px;height:92px;background:rgba(216,168,48,0.03);top:20%;left:5%}
+  .hb5{width:60px;height:69px;background:rgba(200,136,32,0.04);bottom:20%;right:5%}
+
+  .page{max-width:480px;width:100%;position:relative;z-index:1;animation:fadeIn .5s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.5rem}
+  .h-title{font-family:'Righteous',cursive;font-size:clamp(1.6rem,5vw,2.2rem);letter-spacing:0.06em;
+    background:linear-gradient(90deg,var(--gold),var(--pollen),var(--gold));background-size:200% 100%;
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    animation:honeyFlow 4s ease infinite}
+  @keyframes honeyFlow{0%{background-position:0% 0}100%{background-position:200% 0}}
+  .h-en{font-family:'Righteous',cursive;font-size:0.75rem;color:var(--dim);letter-spacing:0.12em;margin-top:0.1rem}
+  .h-sub{font-size:0.95rem;color:var(--amber);margin-top:0.5rem;font-weight:500}
+
+  /* ═══ FAQ CARDS ═══ */
+  .faqs{display:flex;flex-direction:column;gap:0.6rem;margin-bottom:1.5rem}
+
+  .faq{background:#fff;border-left:4px solid var(--gold);border-radius:4px 12px 12px 4px;padding:1rem 1.2rem;
+    cursor:pointer;transition:all .2s;position:relative;overflow:hidden;
+    opacity:0;animation:fadeIn .4s ease forwards}
+  .faq:hover{box-shadow:0 2px 12px rgba(216,168,48,0.15);border-left-color:var(--amber)}
+  .faq.open{background:rgba(248,232,128,0.08)}
+
+  /* Hex accent decoration */
+  .faq::after{content:'';position:absolute;top:-10px;right:-10px;width:40px;height:46px;
+    clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+    background:rgba(216,168,48,0.04);transition:background .2s}
+  .faq:hover::after{background:rgba(216,168,48,0.08)}
+
+  .faq-q{font-weight:600;font-size:1rem;color:var(--brown);display:flex;justify-content:space-between;align-items:center}
+  .faq-arrow{font-size:0.8rem;color:var(--gold);transition:transform .2s;flex-shrink:0;margin-left:0.5rem}
+  .faq.open .faq-arrow{transform:rotate(90deg)}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s;font-weight:300;font-size:0.95rem;color:rgba(58,32,16,0.55);line-height:1.9}
+  .faq.open .faq-a{max-height:120px;padding-top:0.6rem}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center}
+  .footer-motto{font-family:'Righteous',cursive;font-size:0.88rem;color:var(--gold);opacity:0.4}
+  .footer-disc{font-size:0.58rem;color:var(--dim);opacity:0.2;margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1rem}}
+</style>
+</head>
+<body>
+
+<div class="hex-bg hb1"></div>
+<div class="hex-bg hb2"></div>
+<div class="hex-bg hb3"></div>
+<div class="hex-bg hb4"></div>
+<div class="hex-bg hb5"></div>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <h1 class="h-title">蜂巢</h1>
+    <div class="h-en">HIVE MIND · 今日冷知识</div>
+    <div class="h-sub">你知道吗？</div>
+  </header>
+
+  <!-- ═══ FAQ ═══ -->
+  <div class="faqs">
+
+    <div class="faq" style="animation-delay:.15s" onclick="toggleFaq(this)">
+      <div class="faq-q">蜜蜂一生能产多少蜂蜜？<span class="faq-arrow">▸</span></div>
+      <div class="faq-a">约十二分之一茶匙。所以每一滴蜂蜜都来之不易。一罐蜂蜜背后是无数蜜蜂一生的劳动。</div>
+    </div>
+
+    <div class="faq" style="animation-delay:.25s" onclick="toggleFaq(this)">
+      <div class="faq-q">为什么蜂巢是六边形的？<span class="faq-arrow">▸</span></div>
+      <div class="faq-a">因为六边形是用最少材料围出最大面积的形状，同时能完美无缝拼接。蜜蜂是天生的数学家。</div>
+    </div>
+
+    <div class="faq" style="animation-delay:.35s" onclick="toggleFaq(this)">
+      <div class="faq-q">章鱼有几个心脏？<span class="faq-arrow">▸</span></div>
+      <div class="faq-a">三个。两个把血液泵到鳃，一个把血液泵到全身。游泳时主心脏会停跳，所以章鱼更喜欢爬行。</div>
+    </div>
+
+    <div class="faq" style="animation-delay:.45s" onclick="toggleFaq(this)">
+      <div class="faq-q">人一生会走多少路？<span class="faq-arrow">▸</span></div>
+      <div class="faq-a">平均约 18 万公里，相当于绕地球 4.5 圈。你的双脚比你想象的更努力。</div>
+    </div>
+
+    <div class="faq" style="animation-delay:.55s" onclick="toggleFaq(this)">
+      <div class="faq-q">金鱼的记忆真的只有 7 秒吗？<span class="faq-arrow">▸</span></div>
+      <div class="faq-a">不是。科学实验证明金鱼能记住至少 5 个月的事情。这是一个流传很广的谣言。</div>
+    </div>
+
+    <div class="faq" style="animation-delay:.65s" onclick="toggleFaq(this)">
+      <div class="faq-q">世界上最安静的地方在哪？<span class="faq-arrow">▸</span></div>
+      <div class="faq-a">微软总部的一间消音室，安静到 -20.6 分贝。在里面待久了你能听到自己的心跳和血液流动。</div>
+    </div>
+
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">蜂巢 · Hive Mind · 知识像蜂蜜，越尝越甜</div>
+    <div class="footer-disc">虚构品牌 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+function toggleFaq(el){
+  el.classList.toggle('open');
+  // Close others
+  document.querySelectorAll('.faq').forEach(function(f){if(f!==el)f.classList.remove('open')});
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
