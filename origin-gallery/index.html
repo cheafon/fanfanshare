@@ -23,13 +23,13 @@
   .header { max-width:1100px; margin:0 auto; padding:2.5rem 2rem 1.5rem; position:relative; z-index:1; }
   .header-top { display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem; }
   .header-left {}
-  .brand { display:flex; align-items:baseline; gap:0.5rem; }
-  .brand-name { font-family:'Fredoka One',cursive; font-size:2.2rem; color:var(--dark); }
-  .brand-label { font-family:'Fredoka One',cursive; font-size:1.2rem; color:var(--pink); }
-  .brand-hint { font-size:1rem; color:var(--blue); font-weight:700; margin-left:0.8rem; letter-spacing:0.02em; }
-  .gen-line { display:flex; align-items:center; gap:0.4rem; margin-top:0.4rem; font-family:'Fredoka One',cursive; font-size:0.95rem; color:var(--pink); }
+  .brand { display:flex; align-items:baseline; gap:0.4rem; flex-wrap:nowrap; }
+  .brand-name { font-family:'Fredoka One',cursive; font-size:2.2rem; color:var(--dark); white-space:nowrap; }
+  .brand-label { font-family:'Fredoka One',cursive; font-size:1.2rem; color:var(--pink); white-space:nowrap; }
+  .brand-hint { font-size:0.85rem; color:var(--blue); font-weight:700; margin-left:0.5rem; white-space:nowrap; }
+  .gen-line { display:flex; align-items:center; gap:0.4rem; margin-top:0.4rem; font-family:'Fredoka One',cursive; font-size:0.85rem; color:var(--pink); white-space:nowrap; }
   .gen-count-sep { color:#ddd; margin:0 0.1rem; }
-  .gen-count .num { font-size:1.1rem; color:var(--coral); }
+  .gen-count .num { font-size:1rem; color:var(--coral); }
   .claude-icon { height:24px; width:auto; vertical-align:middle; animation:ccBounce 2s ease-in-out infinite; }
   .spinner { display:inline-block; width:14px; height:14px; border:2.5px solid var(--pink); border-top-color:var(--blue); border-radius:50%; animation:spin 0.8s linear infinite; vertical-align:middle; margin-left:4px; }
   @keyframes spin { to { transform:rotate(360deg); } }
