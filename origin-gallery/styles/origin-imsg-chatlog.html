@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>今晚吃什么 — 聊天记录</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#f2f2f7;--blue:#007aff;--gray:#e5e5ea;--text:#1c1c1e;--white:#fff;--green:#34c759;--glass:rgba(255,255,255,0.72);--dim:rgba(28,28,30,0.35)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--bg);color:var(--text);font-family:'Noto Sans SC','Nunito',sans-serif;font-size:17px;line-height:1.5;display:flex;justify-content:center;-webkit-font-smoothing:antialiased}
+
+  .phone{max-width:420px;width:100%;min-height:100vh;position:relative;background:var(--bg)}
+
+  /* ═══ NAV BAR ═══ */
+  .nav{position:fixed;top:0;left:50%;transform:translateX(-50%);max-width:420px;width:100%;z-index:100;
+    background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    border-bottom:0.5px solid rgba(0,0,0,0.08);padding:12px 16px;display:flex;align-items:center;gap:10px}
+  .nav-back{font-size:1.2rem;color:var(--blue);cursor:pointer;text-decoration:none}
+  .nav-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#ff9a9e,#fad0c4,#a1c4fd);flex-shrink:0;position:relative}
+  .nav-online{position:absolute;bottom:0;right:0;width:10px;height:10px;border-radius:50%;background:var(--green);border:2px solid var(--white);
+    animation:onlinePulse 2s ease-in-out infinite}
+  @keyframes onlinePulse{0%,100%{box-shadow:0 0 0 0 rgba(52,199,89,0.3)}50%{box-shadow:0 0 0 4px rgba(52,199,89,0)}}
+  .nav-info{flex:1}
+  .nav-name{font-weight:600;font-size:0.95rem;color:var(--text)}
+  .nav-status{font-size:0.7rem;color:var(--dim)}
+
+  /* ═══ CHAT AREA ═══ */
+  .chat{padding:70px 12px 80px;min-height:100vh}
+
+  .timestamp{text-align:center;font-size:0.72rem;color:var(--dim);margin:12px 0;opacity:0}
+
+  /* Bubble base */
+  .msg{display:flex;margin-bottom:4px;opacity:0;transform:scale(0.85) translateY(10px)}
+  .msg.show{opacity:1;transform:scale(1) translateY(0);transition:all .35s cubic-bezier(0.34,1.56,0.64,1)}
+  .msg-left{justify-content:flex-start}
+  .msg-right{justify-content:flex-end}
+
+  .bubble{max-width:75%;padding:8px 14px;font-size:1rem;line-height:1.55;position:relative;word-break:break-word}
+
+  /* Left (other) bubble */
+  .bubble-gray{background:var(--gray);color:var(--text);border-radius:18px 18px 18px 6px}
+  .msg-left+.msg-left .bubble-gray{border-radius:6px 18px 18px 6px}
+
+  /* Right (me) bubble */
+  .bubble-blue{background:var(--blue);color:var(--white);border-radius:18px 18px 6px 18px}
+  .msg-right+.msg-right .bubble-blue{border-radius:18px 6px 6px 18px}
+
+  /* Group spacing */
+  .msg-gap{margin-top:10px}
+
+  /* ═══ TYPING INDICATOR ═══ */
+  .typing{display:none;justify-content:flex-start;margin-bottom:4px}
+  .typing.show{display:flex}
+  .typing-bubble{background:var(--gray);border-radius:18px 18px 18px 6px;padding:10px 16px;display:flex;gap:4px;align-items:center}
+  .typing-dot{width:7px;height:7px;border-radius:50%;background:rgba(28,28,30,0.3);animation:typingBounce .9s ease-in-out infinite}
+  .typing-dot:nth-child(2){animation-delay:.15s}
+  .typing-dot:nth-child(3){animation-delay:.3s}
+  @keyframes typingBounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+
+  /* ═══ INPUT BAR ═══ */
+  .input-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);max-width:420px;width:100%;z-index:100;
+    background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    border-top:0.5px solid rgba(0,0,0,0.08);padding:8px 12px;display:flex;gap:8px;align-items:center}
+  .input-field{flex:1;background:var(--white);border:0.5px solid rgba(0,0,0,0.1);border-radius:20px;padding:8px 14px;
+    font-family:inherit;font-size:0.9rem;color:var(--dim);outline:none}
+  .send-btn{width:32px;height:32px;border-radius:50%;background:var(--blue);border:none;color:var(--white);
+    font-size:0.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    transition:transform .1s}
+  .send-btn:active{transform:scale(0.9)}
+
+  .footer-disc{text-align:center;font-size:0.6rem;color:var(--dim);opacity:0.3;padding:4px 0;
+    position:fixed;bottom:56px;left:50%;transform:translateX(-50%);max-width:420px;width:100%;z-index:99}
+</style>
+</head>
+<body>
+
+<div class="phone">
+
+  <!-- ═══ NAV ═══ -->
+  <div class="nav">
+    <span class="nav-back">‹</span>
+    <div class="nav-avatar"><div class="nav-online"></div></div>
+    <div class="nav-info">
+      <div class="nav-name">小鱼</div>
+      <div class="nav-status">在线</div>
+    </div>
+  </div>
+
+  <!-- ═══ CHAT ═══ -->
+  <div class="chat" id="chat">
+    <div class="timestamp" id="ts">今天 18:32</div>
+
+    <!-- Typing indicator -->
+    <div class="typing" id="typing">
+      <div class="typing-bubble">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ INPUT BAR ═══ -->
+  <div class="footer-disc">虚构对话 · 仅供展示</div>
+  <div class="input-bar">
+    <input class="input-field" placeholder="输入消息…" readonly>
+    <button class="send-btn">↑</button>
+  </div>
+
+</div>
+
+<script>
+var messages=[
+  {side:'left',text:'今晚吃什么'},
+  {side:'right',text:'随便'},
+  {side:'left',text:'随便是哪家店'},
+  {side:'right',text:'真的随便 你决定'},
+  {side:'left',text:'火锅？'},
+  {side:'right',text:'太热了'},
+  {side:'left',text:'日料？'},
+  {side:'right',text:'昨天刚吃过'},
+  {side:'left',text:'那你说吃什么！！！',gap:true},
+  {side:'right',text:'我说了 随便'},
+  {side:'left',text:'……'},
+  {side:'left',text:'我已经在海底捞门口了'},
+  {side:'left',text:'你来不来'},
+  {side:'right',text:'来了来了 路上了',gap:true},
+  {side:'right',text:'帮我点个番茄锅底 谢谢老婆 ❤️'},
+  {side:'left',text:'哼',gap:true}
+];
+
+var chat=document.getElementById('chat');
+var typing=document.getElementById('typing');
+var ts=document.getElementById('ts');
+var idx=0;
+var prevSide='';
+
+function showTimestamp(){
+  ts.style.transition='opacity .3s';
+  ts.style.opacity='1';
+}
+
+function showTyping(side){
+  if(side==='left'){
+    typing.classList.add('show');
+    chat.appendChild(typing);
+    scrollBottom();
+  }
+}
+function hideTyping(){typing.classList.remove('show')}
+
+function addMessage(){
+  if(idx>=messages.length){hideTyping();return}
+  var m=messages[idx];
+  hideTyping();
+
+  var div=document.createElement('div');
+  div.className='msg msg-'+m.side+(m.gap?' msg-gap':'');
+
+  var bubble=document.createElement('div');
+  bubble.className='bubble bubble-'+(m.side==='left'?'gray':'blue');
+  bubble.textContent=m.text;
+  div.appendChild(bubble);
+
+  chat.insertBefore(div,typing);
+  prevSide=m.side;
+
+  // Trigger animation
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      div.classList.add('show');
+    });
+  });
+
+  scrollBottom();
+  idx++;
+
+  // Next message
+  if(idx<messages.length){
+    var nextSide=messages[idx].side;
+    var delay=nextSide==='left'?1200:800;
+    if(nextSide==='left'){
+      setTimeout(function(){showTyping('left');},400);
+      setTimeout(addMessage,delay+600);
+    }else{
+      setTimeout(addMessage,delay);
+    }
+  }
+}
+
+function scrollBottom(){
+  setTimeout(function(){window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})},50);
+}
+
+// Start sequence
+setTimeout(showTimestamp,300);
+setTimeout(function(){showTyping('left')},800);
+setTimeout(addMessage,1600);
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
