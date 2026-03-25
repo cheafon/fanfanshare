@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日打卡 — 小确幸 TINY JOY</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--white:#F0F0F0;--blue:#2878C8;--sky:#88C0E8;--terra:#D88040;--grout:#D8D8D8;--deep:#1A3860;--gold:#D0A830;--dim:rgba(26,56,96,0.3)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--white);color:var(--deep);font-family:'Noto Sans SC',sans-serif;font-weight:400;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;
+    /* Subtle tile grid bg */
+    background-image:
+      linear-gradient(90deg,var(--grout) 1px,transparent 1px),
+      linear-gradient(0deg,var(--grout) 1px,transparent 1px);
+    background-size:48px 48px;background-position:center}
+
+  .page{max-width:440px;width:100%;animation:fadeIn .5s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.5rem}
+  .h-title{font-family:'Archivo Black',sans-serif;font-size:1.6rem;color:var(--blue)}
+  .h-en{font-size:0.75rem;color:var(--dim);letter-spacing:0.12em;margin-top:0.1rem}
+  .h-streak{font-family:'Archivo Black',sans-serif;font-size:1rem;color:var(--terra);margin-top:0.6rem}
+  .h-streak .num{font-size:1.4rem;color:var(--gold)}
+
+  /* ═══ MOSAIC WALL ═══ */
+  .mosaic{margin-bottom:1.5rem}
+  .mosaic-title{font-weight:700;font-size:0.9rem;margin-bottom:0.6rem;display:flex;justify-content:space-between;align-items:center}
+  .mosaic-month{color:var(--blue)}
+  .mosaic-label{font-size:0.75rem;color:var(--dim)}
+
+  .mosaic-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+
+  /* Weekday headers */
+  .mosaic-day{text-align:center;font-size:0.65rem;color:var(--dim);padding:2px 0;font-weight:500}
+
+  /* Tiles */
+  .tile{aspect-ratio:1;border-radius:4px;position:relative;overflow:hidden;cursor:default;
+    transition:transform .2s,background .3s;font-size:0.7rem;display:flex;align-items:center;justify-content:center;font-weight:500}
+  .tile-done{background:var(--blue);color:rgba(255,255,255,0.7)}
+  .tile-empty{background:transparent}
+  .tile-future{background:rgba(0,0,0,0.04);color:rgba(26,56,96,0.2)}
+  .tile-today{background:rgba(208,168,48,0.1);color:var(--gold);border:2px solid var(--gold);cursor:pointer;
+    animation:todayPulse 2s ease-in-out infinite}
+  @keyframes todayPulse{0%,100%{box-shadow:0 0 0 0 rgba(208,168,48,0.2)}50%{box-shadow:0 0 0 4px rgba(208,168,48,0)}}
+  .tile-today.checked{background:var(--blue);color:rgba(255,255,255,0.7);border-color:var(--blue);animation:none}
+
+  /* Tile hover shine */
+  .tile:not(.tile-empty)::after{content:'';position:absolute;top:0;left:-200%;width:200%;height:100%;
+    background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,0.25) 50%,transparent 60%);
+    transition:left .4s ease}
+  .tile:not(.tile-empty):hover::after{left:100%}
+  .tile:not(.tile-empty):hover{transform:scale(1.08)}
+
+  /* Bounce on check */
+  .tile.bounce{animation:tileBounce .3s ease}
+  @keyframes tileBounce{0%{transform:scale(1)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
+
+  /* ═══ STATS ═══ */
+  .stats{display:flex;justify-content:space-around;margin-bottom:1.5rem;padding:1rem;background:#fff;border-radius:12px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+  .stat{text-align:center}
+  .stat-val{font-family:'Archivo Black',sans-serif;font-size:1.2rem;color:var(--deep)}
+  .stat-label{font-size:0.75rem;color:var(--dim);margin-top:0.1rem}
+
+  /* Conic ring */
+  .ring-wrap{width:56px;height:56px;margin:0 auto 0.2rem;border-radius:50%;
+    background:conic-gradient(var(--blue) 0deg,var(--blue) 277deg,rgba(0,0,0,0.06) 277deg,rgba(0,0,0,0.06) 360deg);
+    display:flex;align-items:center;justify-content:center}
+  .ring-inner{width:42px;height:42px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;
+    font-family:'Archivo Black',sans-serif;font-size:0.75rem;color:var(--blue)}
+
+  /* ═══ HABITS ═══ */
+  .habits{margin-bottom:1.5rem;background:#fff;border-radius:12px;padding:1rem;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+  .habits-title{font-weight:700;font-size:0.9rem;margin-bottom:0.5rem;color:var(--blue)}
+  .habit{display:flex;align-items:center;gap:0.6rem;padding:0.5rem 0;border-bottom:1px solid rgba(0,0,0,0.04);cursor:pointer;user-select:none}
+  .habit:last-child{border-bottom:none}
+  .habit-check{width:22px;height:22px;border-radius:6px;border:2px solid var(--grout);display:flex;align-items:center;justify-content:center;
+    font-size:0.7rem;color:#fff;transition:all .15s;flex-shrink:0}
+  .habit.done .habit-check{background:var(--blue);border-color:var(--blue)}
+  .habit.done .habit-check::after{content:'✓'}
+  .habit-text{font-size:0.95rem;color:var(--deep)}
+  .habit.done .habit-text{color:var(--dim);text-decoration:line-through}
+  .habit-time{margin-left:auto;font-size:0.78rem;color:var(--dim)}
+
+  /* ═══ QUOTE ═══ */
+  .quote{text-align:center;font-size:0.92rem;color:var(--dim);margin-bottom:1.5rem;padding:0 1rem;line-height:2;opacity:0.6}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center}
+  .footer-motto{font-family:'Archivo Black',sans-serif;font-size:0.8rem;color:var(--blue);opacity:0.4;letter-spacing:0.05em}
+  .footer-disc{font-size:0.58rem;color:var(--dim);opacity:0.2;margin-top:0.2rem}
+
+  @media(max-width:400px){
+    body{padding:1rem}
+    .mosaic-grid{gap:3px}
+    .stats{flex-wrap:wrap;gap:0.5rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <h1 class="h-title">小确幸</h1>
+    <div class="h-en">TINY JOY · 每日打卡</div>
+    <div class="h-streak">连续打卡 <span class="num" id="streakNum">0</span> 天</div>
+  </header>
+
+  <!-- ═══ MOSAIC WALL ═══ -->
+  <section class="mosaic">
+    <div class="mosaic-title">
+      <span class="mosaic-month">2026 年 3 月</span>
+      <span class="mosaic-label">点击今天的格子打卡</span>
+    </div>
+    <div class="mosaic-grid" id="mosaicGrid">
+      <div class="mosaic-day">一</div><div class="mosaic-day">二</div><div class="mosaic-day">三</div><div class="mosaic-day">四</div><div class="mosaic-day">五</div><div class="mosaic-day">六</div><div class="mosaic-day">日</div>
+    </div>
+  </section>
+
+  <!-- ═══ STATS ═══ -->
+  <div class="stats">
+    <div class="stat"><div class="stat-val" id="statDone">24/31</div><div class="stat-label">本月打卡</div></div>
+    <div class="stat">
+      <div class="ring-wrap"><div class="ring-inner">77%</div></div>
+      <div class="stat-label">完成率</div>
+    </div>
+    <div class="stat"><div class="stat-val">18 天</div><div class="stat-label">最长连续</div></div>
+  </div>
+
+  <!-- ═══ HABITS ═══ -->
+  <div class="habits">
+    <div class="habits-title">今日习惯</div>
+    <div class="habit done" onclick="toggleHabit(this)">
+      <div class="habit-check"></div>
+      <span class="habit-text">早起</span>
+      <span class="habit-time">06:30</span>
+    </div>
+    <div class="habit done" onclick="toggleHabit(this)">
+      <div class="habit-check"></div>
+      <span class="habit-text">跑步 3km</span>
+      <span class="habit-time">07:15</span>
+    </div>
+    <div class="habit" onclick="toggleHabit(this)">
+      <div class="habit-check"></div>
+      <span class="habit-text">读书 30 分钟</span>
+      <span class="habit-time">待完成</span>
+    </div>
+  </div>
+
+  <!-- ═══ QUOTE ═══ -->
+  <div class="quote">坚持的意义不在于每天都完美，而在于每天都试一试。</div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">TINY JOY · 好习惯，从今天开始</div>
+    <div class="footer-disc">虚构 App · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+// Build mosaic calendar for March 2026 (starts on Sunday)
+(function(){
+  var grid=document.getElementById('mosaicGrid');
+  // March 1 = Sunday, so 6 empty cells (Mon-Sat)
+  for(var e=0;e<6;e++){
+    var empty=document.createElement('div');
+    empty.className='tile tile-empty';
+    grid.appendChild(empty);
+  }
+  for(var d=1;d<=31;d++){
+    var tile=document.createElement('div');
+    if(d<=24){
+      tile.className='tile tile-done';
+    }else if(d===25){
+      tile.className='tile tile-today';
+      tile.onclick=function(){
+        if(!this.classList.contains('checked')){
+          this.classList.add('checked','bounce');
+          document.getElementById('statDone').textContent='25/31';
+        }
+      };
+    }else{
+      tile.className='tile tile-future';
+    }
+    tile.textContent=d;
+    grid.appendChild(tile);
+  }
+})();
+
+// Streak countUp
+(function(){
+  var el=document.getElementById('streakNum');
+  var target=18,dur=1200,start=performance.now();
+  function tick(now){
+    var p=Math.min((now-start)/dur,1);
+    el.textContent=Math.round(target*(1-Math.pow(1-p,3)));
+    if(p<1)requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
+
+// Habit toggle
+function toggleHabit(el){el.classList.toggle('done')}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
