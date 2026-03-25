@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小鱼 30 岁啦！— FISH'S 30TH BIRTHDAY BASH</title>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=ZCOOL+KuaiLe&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--pink:#ff6b8a;--blue:#4088ff;--yellow:#ffd040;--green:#40d8a0;--orange:#ff8840;--purple:#9060e0;--dark:#1a1028}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--dark);color:#2a2028;font-family:'Noto Sans SC',sans-serif;font-size:17px;line-height:1.8;display:flex;justify-content:center;padding:2rem;-webkit-font-smoothing:antialiased;min-height:100vh;position:relative;overflow-x:hidden}
+
+  /* Confetti container */
+  .confetti-box{position:fixed;inset:0;pointer-events:none;z-index:10;overflow:hidden}
+  .confetti-piece{position:absolute;top:-20px;width:10px;height:10px;opacity:0.8;animation:confettiFall var(--dur) linear infinite var(--del)}
+  @keyframes confettiFall{0%{transform:translateY(-20px) rotate(0deg) translateX(0)}25%{transform:translateY(25vh) rotate(90deg) translateX(var(--sway))}50%{transform:translateY(50vh) rotate(180deg) translateX(calc(var(--sway)*-0.5))}75%{transform:translateY(75vh) rotate(270deg) translateX(var(--sway))}100%{transform:translateY(105vh) rotate(360deg) translateX(0)}}
+
+  .page{max-width:480px;width:100%;position:relative;z-index:1}
+
+  /* ═══ CARD ═══ */
+  .card{background:#fff;border-radius:24px;padding:2rem 1.5rem;position:relative;overflow:visible;
+    box-shadow:0 8px 30px rgba(0,0,0,0.2);animation:cardIn .6s ease}
+  @keyframes cardIn{from{opacity:0;transform:scale(0.95) translateY(15px)}to{opacity:1;transform:scale(1) translateY(0)}}
+
+  /* ═══ BALLOONS ═══ */
+  .balloons{display:flex;justify-content:center;gap:1.2rem;margin-bottom:0.5rem;height:80px;position:relative}
+  .balloon{width:36px;height:44px;border-radius:50%;position:relative;animation:balloonFloat 3s ease-in-out infinite var(--bd,0s)}
+  @keyframes balloonFloat{0%,100%{transform:translateY(0) rotate(var(--br,0deg))}50%{transform:translateY(-8px) rotate(calc(var(--br,0deg) + 3deg))}}
+  .balloon::after{content:'';position:absolute;bottom:-18px;left:50%;width:1px;height:18px;background:rgba(0,0,0,0.1);transform:translateX(-50%)}
+  .balloon::before{content:'';position:absolute;bottom:-3px;left:50%;transform:translateX(-50%);border-left:4px solid transparent;border-right:4px solid transparent;border-top:5px solid inherit}
+  .b-pink{background:var(--pink);border-color:var(--pink);--bd:0s;--br:-3deg}
+  .b-pink::before{border-top-color:var(--pink)}
+  .b-blue{background:var(--blue);border-color:var(--blue);--bd:0.3s;--br:2deg}
+  .b-blue::before{border-top-color:var(--blue)}
+  .b-yellow{background:var(--yellow);border-color:var(--yellow);--bd:0.6s;--br:-1deg}
+  .b-yellow::before{border-top-color:var(--yellow)}
+  .b-green{background:var(--green);border-color:var(--green);--bd:0.9s;--br:2deg}
+  .b-green::before{border-top-color:var(--green)}
+
+  /* ═══ HERO ═══ */
+  .hero{text-align:center;padding:0.5rem 0 1.5rem}
+  .hero-title{font-family:'ZCOOL KuaiLe',cursive;font-size:clamp(1.8rem,6vw,2.4rem);line-height:1.3;
+    background:linear-gradient(90deg,var(--pink),var(--orange),var(--yellow),var(--green),var(--blue),var(--purple));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    animation:bounceIn .6s .2s ease both}
+  @keyframes bounceIn{0%{opacity:0;transform:scale(0.3)}50%{transform:scale(1.05)}70%{transform:scale(0.95)}100%{opacity:1;transform:scale(1)}}
+  .hero-en{font-family:'Bungee',cursive;font-size:clamp(0.6rem,1.8vw,0.8rem);color:var(--purple);letter-spacing:0.08em;margin-top:0.2rem}
+
+  .big-num{font-family:'Bungee',cursive;font-size:clamp(5rem,15vw,7rem);line-height:1;margin:0.5rem 0;
+    background:linear-gradient(135deg,var(--pink),var(--blue),var(--purple));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    animation:bounceIn .6s .4s ease both}
+
+  /* ═══ INVITE TEXT ═══ */
+  .invite{text-align:center;padding:0 0.5rem 1.5rem}
+  .invite p{font-size:1rem;color:rgba(42,32,40,0.55);line-height:2;margin-bottom:0.4rem}
+
+  /* ═══ DETAILS ═══ */
+  .details{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-bottom:1.5rem}
+  .det{text-align:center;padding:0.8rem;border-radius:14px}
+  .det-pink{background:rgba(255,107,138,0.08)}
+  .det-blue{background:rgba(64,136,255,0.08)}
+  .det-yellow{background:rgba(255,208,64,0.1)}
+  .det-green{background:rgba(64,216,160,0.08)}
+  .det-label{font-family:'Bungee',cursive;font-size:0.5rem;color:rgba(42,32,40,0.3);letter-spacing:0.1em}
+  .det-val{font-weight:500;font-size:0.95rem;color:var(--dark);margin-top:0.2rem}
+
+  /* ═══ ACTIVITIES ═══ */
+  .activities{margin-bottom:1.5rem}
+  .act-title{font-family:'ZCOOL KuaiLe',cursive;font-size:1.1rem;color:var(--purple);text-align:center;margin-bottom:0.6rem}
+  .act{font-size:0.95rem;color:rgba(42,32,40,0.5);text-align:center;line-height:2.2}
+
+  /* ═══ RSVP ═══ */
+  .rsvp{text-align:center;padding:1.2rem;border-radius:16px;
+    background:linear-gradient(135deg,rgba(255,107,138,0.06),rgba(64,136,255,0.06),rgba(144,96,224,0.06))}
+  .rsvp-title{font-family:'ZCOOL KuaiLe',cursive;font-size:1.3rem;color:var(--pink)}
+  .rsvp-info{font-size:0.9rem;color:rgba(42,32,40,0.4);margin-top:0.3rem;line-height:2}
+
+  .rsvp-btn{display:inline-block;font-family:'ZCOOL KuaiLe',cursive;font-size:1.1rem;color:#fff;margin-top:0.8rem;
+    background:linear-gradient(135deg,var(--pink),var(--purple));border:none;padding:0.7em 2.5em;border-radius:14px;cursor:pointer;
+    box-shadow:0 4px 12px rgba(255,107,138,0.3);transition:all .2s}
+  .rsvp-btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(255,107,138,0.4)}
+  .rsvp-btn:active{transform:translateY(0)}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;padding:1.5rem 0 0.5rem}
+  .footer-motto{font-family:'ZCOOL KuaiLe',cursive;font-size:1rem;color:rgba(255,255,255,0.3)}
+  .footer-disc{font-size:0.68rem;color:rgba(255,255,255,0.1);margin-top:0.5rem}
+
+  @media(max-width:500px){
+    body{padding:1rem}
+    .card{padding:1.5rem 1.2rem}
+    .details{grid-template-columns:1fr 1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="confetti-box" id="confettiBox"></div>
+
+<div class="page">
+
+  <div class="card">
+
+    <!-- ═══ BALLOONS ═══ -->
+    <div class="balloons">
+      <div class="balloon b-pink"></div>
+      <div class="balloon b-blue"></div>
+      <div class="balloon b-yellow"></div>
+      <div class="balloon b-green"></div>
+    </div>
+
+    <!-- ═══ HERO ═══ -->
+    <section class="hero">
+      <h1 class="hero-title">小鱼 30 岁啦！</h1>
+      <div class="hero-en">FISH'S 30TH BIRTHDAY BASH</div>
+      <div class="big-num">30</div>
+    </section>
+
+    <!-- ═══ INVITE TEXT ═══ -->
+    <div class="invite">
+      <p>是的，我终于 30 了。</p>
+      <p>与其在家对着蛋糕许愿，不如叫上你们一起嗨。</p>
+      <p>不用带礼物（但如果你非要带我也不拦你）。</p>
+    </div>
+
+    <!-- ═══ DETAILS ═══ -->
+    <div class="details">
+      <div class="det det-pink"><div class="det-label">DATE</div><div class="det-val">4月12日 周六</div></div>
+      <div class="det det-blue"><div class="det-label">TIME</div><div class="det-val">19:00 嗨到凌晨</div></div>
+      <div class="det det-yellow"><div class="det-label">VENUE</div><div class="det-val">SPACE 派对空间</div></div>
+      <div class="det det-green"><div class="det-label">DRESS CODE</div><div class="det-val">穿你最快乐的衣服</div></div>
+    </div>
+
+    <!-- ═══ ACTIVITIES ═══ -->
+    <div class="activities">
+      <div class="act-title">当晚节目</div>
+      <div class="act">
+        🎂 定制提拉米苏蛋糕<br>
+        🍕 无限披萨和炸鸡<br>
+        🎤 KTV 包房（麦霸请排队）<br>
+        🎮 Switch 马里奥赛车锦标赛<br>
+        🍺 精酿啤酒 + 鸡尾酒 + 气泡水
+      </div>
+    </div>
+
+    <!-- ═══ RSVP ═══ -->
+    <div class="rsvp">
+      <div class="rsvp-title">来不来？给个话！</div>
+      <div class="rsvp-info">截止 4 月 8 日 · 微信回复小鱼<br>带 +1 也行，提前说一声就好</div>
+      <button class="rsvp-btn">我来！算我一个</button>
+    </div>
+
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">30 岁，新的开始。一起庆祝！</div>
+    <div class="footer-disc">页面来源：虚构派对 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+// Confetti generator
+(function(){
+  var box=document.getElementById('confettiBox');
+  var colors=['#ff6b8a','#4088ff','#ffd040','#40d8a0','#ff8840','#9060e0','#fff'];
+  for(var i=0;i<35;i++){
+    var p=document.createElement('div');
+    p.className='confetti-piece';
+    var c=colors[Math.floor(Math.random()*colors.length)];
+    var w=Math.random()*8+5;
+    var h=Math.random()>0.5?w:w*0.5;
+    var r=Math.random()>0.5?'50%':'2px';
+    p.style.cssText='left:'+Math.random()*100+'%;width:'+w+'px;height:'+h+'px;background:'+c+';border-radius:'+r+';--dur:'+(3+Math.random()*4)+'s;--del:'+(Math.random()*5)+'s;--sway:'+(Math.random()*40-20)+'px';
+    box.appendChild(p);
+  }
+})();
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
