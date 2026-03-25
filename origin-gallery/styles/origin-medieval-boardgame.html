@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>龙火传说 DRAGONFIRE TALES — 规则概要</title>
+<link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--parch:#e8d8b8;--red:#8a2020;--blue:#2040a0;--ink:#1a1810;--gold:#b89840;--brown:#4a3020;--margin:#c8b088;--dim:rgba(74,48,32,0.35)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--parch);color:var(--ink);font-family:'Noto Sans SC',sans-serif;font-size:17px;line-height:2;display:flex;justify-content:center;padding:2rem;-webkit-font-smoothing:antialiased;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E")}
+
+  .codex{max-width:540px;width:100%;position:relative;padding:2.5rem 2rem;animation:fadeIn .8s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* Ornamental corner borders */
+  .codex::before{content:'';position:absolute;top:12px;left:12px;right:12px;bottom:12px;
+    border:1.5px solid var(--gold);opacity:0.25;pointer-events:none}
+  .codex::after{content:'';position:absolute;top:20px;left:20px;right:20px;bottom:20px;
+    border:0.5px solid var(--gold);opacity:0.12;pointer-events:none}
+
+  /* Corner decorations */
+  .corner{position:absolute;width:24px;height:24px;opacity:0.3}
+  .corner::before,.corner::after{content:'';position:absolute;background:var(--gold)}
+  .corner::before{width:24px;height:2px}
+  .corner::after{width:2px;height:24px}
+  .c-tl{top:6px;left:6px}.c-tl::before{top:0;left:0}.c-tl::after{top:0;left:0}
+  .c-tr{top:6px;right:6px}.c-tr::before{top:0;right:0}.c-tr::after{top:0;right:0}
+  .c-bl{bottom:6px;left:6px}.c-bl::before{bottom:0;left:0}.c-bl::after{bottom:0;left:0}
+  .c-br{bottom:6px;right:6px}.c-br::before{bottom:0;right:0}.c-br::after{bottom:0;right:0}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;padding-bottom:1.5rem}
+  .header-cn{font-family:'Noto Serif SC',serif;font-weight:700;font-size:clamp(1.8rem,5vw,2.4rem);color:var(--gold);letter-spacing:0.12em;
+    text-shadow:1px 1px 0 rgba(255,255,255,0.2)}
+  .header-en{font-family:'MedievalSharp',cursive;font-size:clamp(0.85rem,2.5vw,1.1rem);color:var(--red);letter-spacing:0.1em;margin-top:0.2rem}
+  .header-vol{font-family:'Noto Serif SC',serif;font-weight:400;font-size:0.85rem;color:var(--dim);margin-top:0.4rem;letter-spacing:0.1em}
+
+  /* Red-blue divider */
+  .rb-div{display:flex;align-items:center;justify-content:center;gap:4px;margin:1rem 0;height:4px}
+  .rb-div span{height:2px;flex:1}
+  .rb-red{background:var(--red);opacity:0.3}
+  .rb-blue{background:var(--blue);opacity:0.2}
+  .rb-gold{width:6px;height:6px;background:var(--gold);opacity:0.25;transform:rotate(45deg);flex:none}
+
+  /* ═══ DROP CAP ═══ */
+  .drop-cap{float:left;font-family:'MedievalSharp',cursive;font-size:3.5rem;line-height:0.75;margin:0.1em 0.12em 0 0;color:var(--red);
+    text-shadow:1px 1px 0 rgba(255,255,255,0.3)}
+  .drop-cap-blue{color:var(--blue)}
+
+  .para{font-family:'Noto Serif SC',serif;font-weight:400;font-size:1.05rem;color:rgba(26,24,16,0.65);line-height:2.2;margin-bottom:1rem;text-align:justify}
+  .para::after{content:'';display:block;clear:both}
+
+  /* ═══ GAME INFO ═══ */
+  .info{display:grid;grid-template-columns:1fr 1fr;gap:0.3rem 1.5rem;margin-bottom:1.5rem;padding:0.8rem;border:1px solid rgba(184,152,64,0.1)}
+  .info-item{font-size:0.9rem;color:var(--dim)}
+  .info-item strong{color:var(--brown);font-weight:500}
+  .info-wide{grid-column:1/-1;font-size:0.85rem;color:var(--dim);border-top:1px solid rgba(184,152,64,0.08);padding-top:0.4rem;margin-top:0.2rem}
+
+  /* ═══ CHAPTERS ═══ */
+  .chapter{margin-bottom:1.5rem}
+  .ch-title{font-family:'Noto Serif SC',serif;font-weight:700;font-size:1.1rem;color:var(--red);letter-spacing:0.06em;margin-bottom:0.3rem}
+  .ch-title-en{font-family:'MedievalSharp',cursive;font-size:0.7rem;color:var(--dim);margin-top:-0.1rem;margin-bottom:0.4rem}
+  .ch-text{font-size:1rem;color:rgba(26,24,16,0.55);line-height:2.2;text-align:justify}
+
+  /* ═══ MARGIN NOTES ═══ */
+  .margin-notes{border-left:2px solid rgba(184,152,64,0.15);padding:0.8rem 1rem;margin:1rem 0;background:rgba(200,176,136,0.08)}
+  .margin-title{font-family:'MedievalSharp',cursive;font-size:0.75rem;color:var(--gold);letter-spacing:0.08em;margin-bottom:0.3rem}
+  .margin-text{font-family:'Noto Serif SC',serif;font-style:normal;font-size:0.88rem;color:var(--dim);line-height:1.9}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;padding-top:1rem}
+  .footer-brand{font-family:'MedievalSharp',cursive;font-size:0.9rem;color:var(--gold);opacity:0.4;letter-spacing:0.08em}
+  .footer-note{font-size:0.78rem;color:var(--dim);opacity:0.3;margin-top:0.2rem}
+  .footer-disc{font-size:0.65rem;color:var(--dim);opacity:0.15;margin-top:0.6rem}
+
+  /* Page number */
+  .page-num{font-family:'MedievalSharp',cursive;font-size:0.75rem;color:var(--gold);opacity:0.25;text-align:center;margin-top:0.8rem}
+
+  @media(max-width:500px){
+    body{padding:0.8rem}
+    .codex{padding:2rem 1.2rem}
+    .info{grid-template-columns:1fr}
+    .drop-cap{font-size:2.8rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="codex">
+  <div class="corner c-tl"></div>
+  <div class="corner c-tr"></div>
+  <div class="corner c-bl"></div>
+  <div class="corner c-br"></div>
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <h1 class="header-cn">龙火传说</h1>
+    <div class="header-en">Dragonfire Tales</div>
+    <div class="header-vol">规则概要 · 第一卷</div>
+  </header>
+
+  <div class="rb-div"><span class="rb-red"></span><span class="rb-gold"></span><span class="rb-blue"></span><span class="rb-gold"></span><span class="rb-red"></span></div>
+
+  <!-- ═══ OVERVIEW ═══ -->
+  <p class="para"><span class="drop-cap">在</span>龙火大陆，四个王国为争夺最后一条龙的控制权而战。你将扮演一位王国领主，通过征兵、筑城、外交和魔法，在七个回合内统一大陆——或者至少活到最后。</p>
+
+  <!-- ═══ GAME INFO ═══ -->
+  <div class="info">
+    <div class="info-item"><strong>玩家：</strong>2–5 人</div>
+    <div class="info-item"><strong>时长：</strong>60–90 分钟</div>
+    <div class="info-item"><strong>年龄：</strong>12+</div>
+    <div class="info-item"><strong>设计：</strong>虚构工作室</div>
+    <div class="info-wide"><strong>内含：</strong>1 张地图板 · 120 张卡牌 · 5 套王国棋子 · 30 枚金币 · 1 条龙</div>
+  </div>
+
+  <div class="rb-div"><span class="rb-blue"></span><span class="rb-gold"></span><span class="rb-red"></span><span class="rb-gold"></span><span class="rb-blue"></span></div>
+
+  <!-- ═══ CHAPTERS ═══ -->
+  <section class="chapter">
+    <div class="ch-title">第一章 · 回合流程</div>
+    <div class="ch-title-en">Chapter I — Turn Sequence</div>
+    <p class="ch-text">每回合分三个阶段：征召（抽 2 张卡）、行动（打出卡牌或移动棋子）、结算（收取领地金币）。先手玩家每回合轮换。</p>
+  </section>
+
+  <section class="chapter">
+    <div class="ch-title">第二章 · 战斗</div>
+    <div class="ch-title-en">Chapter II — Combat</div>
+    <p class="ch-text">当两个玩家的棋子在同一格时触发战斗。比较双方的总战力（棋子 + 卡牌加成）。战力高者胜出，败者退回首都。平局双方都退。</p>
+  </section>
+
+  <section class="chapter">
+    <div class="ch-title">第三章 · 龙的觉醒</div>
+    <div class="ch-title-en">Chapter III — The Dragon Awakens</div>
+    <p class="ch-text">第五回合开始，龙醒来。每回合随机移动并烧毁一个区域。被烧毁的区域不能驻军。控制龙的方法只有一个——集齐三张龙火符文卡。</p>
+  </section>
+
+  <section class="chapter">
+    <div class="ch-title">第四章 · 胜利条件</div>
+    <div class="ch-title-en">Chapter IV — Victory</div>
+    <p class="ch-text">七回合结束时，控制最多领地的玩家获胜。如果有人控制了龙，直接获胜。如果龙烧光了所有区域……所有人都输了。</p>
+  </section>
+
+  <!-- ═══ MARGIN NOTES ═══ -->
+  <div class="margin-notes">
+    <div class="margin-title">Nota Bene</div>
+    <div class="margin-text">新手建议先玩 3 人局，熟悉基本规则后再挑战满人局。</div>
+    <div class="margin-text" style="margin-top:0.3rem">高级变体：加入「黑暗魔法」扩展包，解锁第五个王国和 40 张新卡牌。</div>
+  </div>
+
+  <div class="rb-div"><span class="rb-red"></span><span class="rb-gold"></span><span class="rb-blue"></span><span class="rb-gold"></span><span class="rb-red"></span></div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-brand">Dragonfire Tales</div>
+    <div class="footer-note">此规则为概要版 · 完整规则见盒内说明书</div>
+    <div class="footer-disc">页面来源：虚构桌游 · 仅供展示</div>
+  </footer>
+
+  <div class="page-num">— I —</div>
+
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>
