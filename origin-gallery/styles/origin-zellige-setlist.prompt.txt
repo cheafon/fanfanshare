@@ -1,0 +1,34 @@
+Generate a concert setlist recap page for fictional venue "回响现场 ECHO LIVE", styled as Zellige Tile / Moroccan geometric mosaic aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: deep emerald (#0D4D3A), sapphire blue (#1A3A6B), ruby red (#8B1A2B), gold grout (#C9A84C), dark tile (#1A1A2E), cream text (#F5F0E5), dim rgba(245,240,229,0.3). Typography: Amiri (Arabic-influenced serif, elegant) English headings, Noto Sans SC 400/600 Chinese 17px+. Layout: ZELLIGE — dark background with geometric tile pattern, setlist in clean cards with jewel-tone accents, gold divider lines.
+
+Animation: Medium — Required:
+1. CSS ZELLIGE PATTERN: Background with repeating geometric star-and-cross pattern using repeating-linear-gradient at multiple angles (0deg, 60deg, 120deg) with gold lines creating Islamic star grid illusion, or repeating-conic-gradient creating 8-pointed star tiles
+2. CSS JEWEL CARDS: Setlist song cards with alternating jewel-tone left borders (emerald, sapphire, ruby cycling), gold top line accent
+3. JS SETLIST REVEAL: Songs appear one by one with staggered fade-in from left, simulating a setlist being unveiled song by song, with slight delay between each
+4. CSS GOLD DIVIDERS: Section dividers using repeating diamond/geometric pattern in gold (small gold squares rotated 45deg repeating)
+5. HOVER TILE GLOW: Song cards on hover show jewel-tone inner glow matching their accent color
+
+Page structure:
+1. Header: "回响现场" + "ECHO LIVE" + "SETLIST RECAP"
+2. Concert info: "陈默 2026 春巡 · 上海站" + date "2026.03.22 SAT" + venue "回响现场 · 820人场" + "SOLD OUT"
+3. Setlist (12 songs, staggered reveal, alternating jewel accents):
+   01. 失眠的鲸鱼 (开场)
+   02. 第七大道
+   03. 末班地铁
+   04. 南方以南
+   05. 你好陌生人
+   06. 二十三岁的雪 (钢琴独奏)
+   07. 城市动物园
+   08. 凌晨四点的便利店
+   09. 我们的公路电影
+   10. 海风 (新歌首唱)
+   11. 再见晚安 (返场)
+   12. 时间旅行者 (返场)
+4. Concert stats: 演出时长 127分钟 · 曲目 12首 · 返场 2首
+5. Fan quote: "谢谢你们今晚的眼泪和笑声。下次见。—— 陈默"
+6. Footer: "回响现场 · ECHO LIVE · 让音乐回响" + disclaimer
+
+Zellige pattern: Background uses overlapping repeating-linear-gradients at 0deg, 60deg, 120deg with thin gold lines (1px) creating a geometric web. Alternatively, repeating-conic-gradient(from 0deg at 50% 50%, gold 0deg 2deg, transparent 2deg 45deg) at small size for star-point pattern. Dark tile base color with gold geometric overlay.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-zellige-setlist.html. Do NOT open.
