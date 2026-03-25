@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>电梯楼层 — 星光广场 STARLIGHT PLAZA</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--black:#0a0a0a;--red:#ff2020;--green:#20ff40;--amber:#ff8800;--dim:#1a1410;--panel:#1a1a1a;--silver:#808888}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#121212;color:#888;font-family:'Noto Sans SC',sans-serif;font-weight:400;font-size:17px;line-height:1.6;
+    display:flex;justify-content:center;align-items:center;min-height:100vh;padding:1.5rem;-webkit-font-smoothing:antialiased}
+
+  .elevator{max-width:360px;width:100%;animation:fadeIn .5s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* Panel frame */
+  .panel{background:var(--black);border-radius:16px;padding:2rem 1.5rem;position:relative;overflow:hidden;
+    border:2px solid #2a2a2a;
+    box-shadow:0 0 0 1px #333,0 8px 24px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.03)}
+  /* Reflection glare */
+  .panel::before{content:'';position:absolute;top:0;left:-50%;width:200%;height:100%;
+    background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,0.015) 45%,rgba(255,255,255,0.03) 50%,rgba(255,255,255,0.015) 55%,transparent 60%);
+    pointer-events:none}
+
+  /* ═══ 7-SEGMENT DISPLAY ═══ */
+  .display-area{display:flex;justify-content:center;align-items:center;gap:1.5rem;margin-bottom:1.5rem}
+
+  .digit{width:60px;height:100px;position:relative}
+  .seg{position:absolute;background:var(--dim);transition:background .15s,box-shadow .15s}
+  .seg.on{background:var(--red);box-shadow:0 0 8px rgba(255,32,32,0.4)}
+  .seg.flash{background:var(--green);box-shadow:0 0 12px rgba(32,255,64,0.5)}
+
+  /* Horizontal segments */
+  .seg-h{height:6px;width:36px;left:12px;border-radius:3px}
+  .seg-a{top:0}
+  .seg-d{bottom:0}
+  .seg-g{top:47px}
+
+  /* Vertical segments */
+  .seg-v{width:6px;height:38px;border-radius:3px}
+  .seg-b{right:4px;top:8px}
+  .seg-c{right:4px;top:55px}
+  .seg-e{left:4px;top:55px}
+  .seg-f{left:4px;top:8px}
+
+  /* Arrows */
+  .arrows{display:flex;flex-direction:column;gap:0.4rem;align-items:center}
+  .arrow{font-size:1.8rem;color:var(--dim);transition:color .2s;line-height:1}
+  .arrow.active{color:var(--red);animation:arrowBlink .6s ease-in-out infinite}
+  @keyframes arrowBlink{0%,100%{opacity:1}50%{opacity:0.3}}
+
+  .status-text{text-align:center;font-size:0.85rem;color:var(--amber);margin-bottom:1.2rem;letter-spacing:0.1em;
+    min-height:1.4em}
+
+  /* ═══ FLOOR GUIDE ═══ */
+  .guide{border-top:1px solid #222;padding-top:1rem;margin-bottom:1rem}
+  .guide-title{font-size:0.65rem;color:#444;letter-spacing:0.12em;margin-bottom:0.5rem;text-transform:uppercase}
+  .floor-item{display:flex;justify-content:space-between;align-items:center;padding:0.3rem 0.4rem;font-size:0.88rem;color:#555;
+    transition:all .2s;border-radius:4px}
+  .floor-item.current{color:var(--green);background:rgba(32,255,64,0.04);font-weight:500;
+    box-shadow:inset 2px 0 0 var(--green)}
+  .floor-code{font-weight:600;width:2.5rem;flex-shrink:0}
+  .floor-name{flex:1;text-align:right;font-size:0.82rem}
+
+  /* ═══ ELEVATOR INFO ═══ */
+  .elev-info{display:flex;justify-content:space-between;font-size:0.75rem;color:#444;padding:0.6rem 0;border-top:1px solid #222}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;margin-top:1rem}
+  .footer-brand{font-size:0.8rem;color:#444;letter-spacing:0.08em}
+  .footer-disc{font-size:0.58rem;color:#333;margin-top:0.2rem}
+
+  @media(max-width:380px){
+    .digit{width:48px;height:80px}
+    .seg-h{width:28px;left:10px}
+    .seg-v{height:30px}
+    .seg-a{top:0}.seg-d{bottom:0}.seg-g{top:37px}
+    .seg-b{top:6px}.seg-c{top:43px}.seg-e{top:43px}.seg-f{top:6px}
+  }
+</style>
+</head>
+<body>
+
+<div class="elevator">
+  <div class="panel">
+
+    <!-- ═══ DISPLAY ═══ -->
+    <div class="display-area">
+      <div class="arrows">
+        <div class="arrow" id="arrowUp">▲</div>
+        <div class="arrow" id="arrowDown">▼</div>
+      </div>
+      <div class="digit" id="dig1">
+        <div class="seg seg-h seg-a"></div>
+        <div class="seg seg-v seg-b"></div>
+        <div class="seg seg-v seg-c"></div>
+        <div class="seg seg-h seg-d"></div>
+        <div class="seg seg-v seg-e"></div>
+        <div class="seg seg-v seg-f"></div>
+        <div class="seg seg-h seg-g"></div>
+      </div>
+      <div class="digit" id="dig2">
+        <div class="seg seg-h seg-a"></div>
+        <div class="seg seg-v seg-b"></div>
+        <div class="seg seg-v seg-c"></div>
+        <div class="seg seg-h seg-d"></div>
+        <div class="seg seg-v seg-e"></div>
+        <div class="seg seg-v seg-f"></div>
+        <div class="seg seg-h seg-g"></div>
+      </div>
+    </div>
+
+    <div class="status-text" id="statusText">上行</div>
+
+    <!-- ═══ FLOOR GUIDE ═══ -->
+    <div class="guide">
+      <div class="guide-title">FLOOR GUIDE</div>
+      <div class="floor-item" data-floor="B1"><span class="floor-code">B1</span><span class="floor-name">停车场</span></div>
+      <div class="floor-item" data-floor="1"><span class="floor-code">1F</span><span class="floor-name">大堂 / 奢侈品</span></div>
+      <div class="floor-item" data-floor="2"><span class="floor-code">2F</span><span class="floor-name">女装 / 美妆</span></div>
+      <div class="floor-item" data-floor="3"><span class="floor-code">3F</span><span class="floor-name">男装 / 运动</span></div>
+      <div class="floor-item" data-floor="4"><span class="floor-code">4F</span><span class="floor-name">儿童 / 母婴</span></div>
+      <div class="floor-item" data-floor="5"><span class="floor-code">5F</span><span class="floor-name">餐饮 / 美食广场</span></div>
+      <div class="floor-item" data-floor="6"><span class="floor-code">6F</span><span class="floor-name">电影院 / KTV</span></div>
+    </div>
+
+    <!-- ═══ INFO ═══ -->
+    <div class="elev-info">
+      <span>电梯 #A2</span>
+      <span>1000kg / 13人</span>
+      <span id="runStatus">运行中</span>
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    <div class="footer-brand">星光广场 · STARLIGHT PLAZA</div>
+    <div class="footer-disc">虚构商场 · 仅供展示</div>
+  </footer>
+</div>
+
+<script>
+// 7-segment patterns: which segments are ON for each character
+var patterns={
+  '0':'abcdef','1':'bc','2':'abdeg','3':'abcdg','4':'bcfg',
+  '5':'acdfg','6':'acdefg','7':'abc','8':'abcdefg','9':'abcdfg',
+  'B':'cdefg','b':'cdefg',' ':'','-':'g'
+};
+
+function setDigit(digitEl,ch){
+  var p=patterns[ch]||'';
+  var segs=digitEl.querySelectorAll('.seg');
+  segs.forEach(function(s){
+    var segName=s.className.match(/seg-([a-g])/);
+    if(segName){
+      var letter=segName[1];
+      s.classList.toggle('on',p.indexOf(letter)!==-1);
+    }
+  });
+}
+
+function setDisplay(text){
+  var d1=document.getElementById('dig1');
+  var d2=document.getElementById('dig2');
+  if(text.length===1){setDigit(d1,' ');setDigit(d2,text)}
+  else if(text==='B1'){setDigit(d1,'B');setDigit(d2,'1')}
+  else{setDigit(d1,text[0]);setDigit(d2,text[1])}
+}
+
+function flashDigits(){
+  document.querySelectorAll('.digit .seg.on').forEach(function(s){
+    s.classList.add('flash');
+    setTimeout(function(){s.classList.remove('flash')},300);
+  });
+}
+
+// Floor sequence
+var sequence=['B1','1','2','3','4','5','6','5','4','3','2','1'];
+var idx=0;
+var prevFloor='B1';
+
+function getDirection(prev,curr){
+  var order=['B1','1','2','3','4','5','6'];
+  var pi=order.indexOf(prev),ci=order.indexOf(curr);
+  if(ci>pi)return'up';
+  if(ci<pi)return'down';
+  return'stop';
+}
+
+function updateFloor(){
+  var floor=sequence[idx];
+  var dir=getDirection(prevFloor,floor);
+
+  setDisplay(floor==='B1'?'B1':floor.length===1?'0'+floor:floor);
+  flashDigits();
+
+  // Arrows
+  document.getElementById('arrowUp').classList.toggle('active',dir==='up');
+  document.getElementById('arrowDown').classList.toggle('active',dir==='down');
+
+  // Status
+  var statusEl=document.getElementById('statusText');
+  if(dir==='up')statusEl.textContent='▲ 上行';
+  else if(dir==='down')statusEl.textContent='▼ 下行';
+  else statusEl.textContent='— 到达';
+
+  // Highlight floor in guide
+  document.querySelectorAll('.floor-item').forEach(function(el){
+    el.classList.toggle('current',el.dataset.floor===floor);
+  });
+
+  prevFloor=floor;
+  idx=(idx+1)%sequence.length;
+}
+
+// Start
+setDisplay('01');
+document.querySelector('[data-floor="1"]').classList.add('current');
+setTimeout(function(){
+  updateFloor();
+  setInterval(updateFloor,2000);
+},500);
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
