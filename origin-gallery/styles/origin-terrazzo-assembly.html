@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>组装指南 — 方寸 SQUAREINCH</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#E8E4E0;--pink:#E8A0A0;--blue:#80A8C8;--green:#80B890;--yellow:#D8C070;--text:#3A3838;--cream:#F8F5F0;--dim:rgba(58,56,56,0.35)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--bg);color:var(--text);font-family:'Noto Sans SC','DM Sans',sans-serif;font-weight:400;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;position:relative;overflow-x:hidden}
+
+  /* Terrazzo chips container */
+  .chips{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .chip{position:absolute;pointer-events:none}
+
+  .page{max-width:480px;width:100%;position:relative;z-index:1;animation:fadeIn .5s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.5rem}
+  .h-title{font-family:'DM Sans',sans-serif;font-weight:700;font-size:1.5rem;color:var(--text);letter-spacing:0.06em}
+  .h-en{font-family:'DM Sans',sans-serif;font-weight:400;font-size:0.75rem;color:var(--dim);letter-spacing:0.12em;margin-top:0.1rem}
+  .h-product{font-size:0.88rem;color:var(--dim);margin-top:0.4rem;padding:0.3em 0.8em;background:var(--cream);border-radius:6px;display:inline-block}
+
+  /* ═══ TOOLS ═══ */
+  .tools{background:var(--cream);border-radius:12px;padding:1rem;margin-bottom:1.2rem;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+  .tools-title{font-family:'DM Sans',sans-serif;font-weight:600;font-size:0.85rem;color:var(--text);margin-bottom:0.4rem}
+  .tool{display:flex;align-items:center;gap:0.5rem;padding:0.3rem 0;cursor:pointer;user-select:none;font-size:0.92rem;color:var(--dim);transition:color .15s}
+  .tool.checked{color:var(--text)}
+  .tool.checked .tool-box{background:var(--green);border-color:var(--green)}
+  .tool.checked .tool-box::after{content:'✓';color:#fff;font-size:0.6rem}
+  .tool-box{width:18px;height:18px;border:2px solid var(--dim);border-radius:4px;display:flex;align-items:center;justify-content:center;
+    transition:all .15s;flex-shrink:0}
+  .tools-time{font-family:'DM Sans',sans-serif;font-size:0.78rem;color:var(--dim);margin-top:0.4rem}
+
+  /* ═══ STEPS ═══ */
+  .steps{display:flex;flex-direction:column;gap:0.8rem;margin-bottom:1.2rem}
+  .step{background:var(--cream);border-radius:12px;padding:1rem 1.2rem;position:relative;
+    box-shadow:0 2px 8px rgba(0,0,0,0.04);transition:all .2s;cursor:default;
+    opacity:0;animation:fadeIn .4s ease forwards}
+  .step:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,0.08)}
+
+  .step-num{font-family:'DM Sans',sans-serif;font-weight:700;font-size:0.65rem;color:var(--blue);letter-spacing:0.08em;
+    display:inline-block;padding:0.15em 0.5em;background:rgba(128,168,200,0.1);border-radius:4px}
+  .step-title{font-weight:600;font-size:1.05rem;color:var(--text);margin-top:0.3rem}
+  .step-desc{font-weight:300;font-size:0.92rem;color:var(--dim);margin-top:0.2rem;line-height:1.8}
+
+  /* ═══ NOTES ═══ */
+  .notes{background:rgba(232,160,160,0.08);border-left:3px solid var(--pink);border-radius:0 8px 8px 0;padding:0.8rem 1rem;margin-bottom:1.5rem}
+  .notes-title{font-family:'DM Sans',sans-serif;font-weight:600;font-size:0.82rem;color:var(--pink);margin-bottom:0.3rem}
+  .note{font-size:0.9rem;color:var(--dim);line-height:2}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center}
+  .footer-motto{font-family:'DM Sans',sans-serif;font-weight:500;font-size:0.85rem;color:var(--dim);opacity:0.4}
+  .footer-disc{font-size:0.58rem;color:var(--dim);opacity:0.2;margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1rem}}
+</style>
+</head>
+<body>
+
+<div class="chips" id="chips"></div>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="h-title">方寸</div>
+    <div class="h-en">SQUAREINCH · 组装指南</div>
+    <div class="h-product">松木简易书架 SQ-B01</div>
+  </header>
+
+  <!-- ═══ TOOLS ═══ -->
+  <div class="tools">
+    <div class="tools-title">准备工具</div>
+    <div class="tool" onclick="this.classList.toggle('checked')"><div class="tool-box"></div>十字螺丝刀</div>
+    <div class="tool" onclick="this.classList.toggle('checked')"><div class="tool-box"></div>橡皮锤</div>
+    <div class="tool" onclick="this.classList.toggle('checked')"><div class="tool-box"></div>铅笔（标记用）</div>
+    <div class="tools-time">预计组装时间：30 分钟</div>
+  </div>
+
+  <!-- ═══ STEPS ═══ -->
+  <div class="steps">
+
+    <div class="step" style="animation-delay:.2s">
+      <div class="step-num">STEP 1 / 5</div>
+      <div class="step-title">打开包装，确认零件</div>
+      <div class="step-desc">2 块侧板 + 3 块隔板 + 1 块顶板 + 1 块底板 + 16 颗螺丝 + 8 个木榫。如有缺失请联系客服。</div>
+    </div>
+
+    <div class="step" style="animation-delay:.3s">
+      <div class="step-num">STEP 2 / 5</div>
+      <div class="step-title">安装木榫到侧板</div>
+      <div class="step-desc">将 8 个木榫分别插入侧板的预留孔中。用橡皮锤轻轻敲入，不要用蛮力。</div>
+    </div>
+
+    <div class="step" style="animation-delay:.4s">
+      <div class="step-num">STEP 3 / 5</div>
+      <div class="step-title">连接隔板</div>
+      <div class="step-desc">将 3 块隔板通过木榫对准侧板，依次插入。从下往上安装，确保水平。</div>
+    </div>
+
+    <div class="step" style="animation-delay:.5s">
+      <div class="step-num">STEP 4 / 5</div>
+      <div class="step-title">固定顶板和底板</div>
+      <div class="step-desc">将顶板和底板对准后用螺丝固定。先拧松，全部对齐后再拧紧。</div>
+    </div>
+
+    <div class="step" style="animation-delay:.6s">
+      <div class="step-num">STEP 5 / 5</div>
+      <div class="step-title">检查和调整</div>
+      <div class="step-desc">轻轻晃动检查稳固性。如有晃动请检查螺丝是否拧紧。完成！</div>
+    </div>
+
+  </div>
+
+  <!-- ═══ NOTES ═══ -->
+  <div class="notes">
+    <div class="notes-title">注意事项</div>
+    <div class="note">· 请在平整地面上组装</div>
+    <div class="note">· 建议两人配合</div>
+    <div class="note">· 不要过度拧紧螺丝</div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">方寸 · SQUAREINCH · 好家具，自己动手</div>
+    <div class="footer-disc">虚构品牌 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+// Terrazzo chips
+(function(){
+  var c=document.getElementById('chips');
+  var colors=['#E8A0A0','#80A8C8','#80B890','#D8C070'];
+  var shapes=['50%','polygon(50% 0%,100% 100%,0% 100%)','polygon(25% 0%,100% 0%,75% 100%,0% 100%)','polygon(50% 0%,100% 50%,50% 100%,0% 50%)'];
+  for(var i=0;i<35;i++){
+    var d=document.createElement('div');
+    d.className='chip';
+    var sz=4+Math.random()*10;
+    var color=colors[Math.floor(Math.random()*colors.length)];
+    var shape=shapes[Math.floor(Math.random()*shapes.length)];
+    d.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;width:'+sz+'px;height:'+sz+'px;background:'+color+';clip-path:'+shape+';opacity:'+(0.12+Math.random()*0.18).toFixed(2)+';transform:rotate('+Math.floor(Math.random()*360)+'deg)';
+    c.appendChild(d);
+  }
+})();
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
