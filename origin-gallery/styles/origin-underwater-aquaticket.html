@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>电子门票 — 深蓝 DEEP BLUE</title>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--deep:#081830;--cyan:#1890A8;--bubble:rgba(255,255,255,0.08);--ray:#F0D868;--coral:#E87898;--green:#40C8A0;--glass:rgba(255,255,255,0.08)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:linear-gradient(180deg,#081830 0%,#0C2848 30%,#103858 60%,#1890A8 100%);
+    color:#e0f0ff;font-family:'Noto Sans SC','Quicksand',sans-serif;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;align-items:center;min-height:100vh;padding:1.5rem;
+    -webkit-font-smoothing:antialiased;overflow:hidden;position:relative}
+
+  /* Light rays */
+  body::before{content:'';position:fixed;top:-20%;right:-10%;width:60%;height:80%;
+    background:radial-gradient(ellipse,rgba(240,216,104,0.04) 0%,transparent 60%);
+    animation:rayDrift 12s ease-in-out infinite alternate;pointer-events:none;z-index:0}
+  @keyframes rayDrift{0%{transform:translate(0,0) rotate(-5deg)}100%{transform:translate(-30px,20px) rotate(5deg)}}
+
+  /* Bubble container */
+  .bubbles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .bub{position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);
+    animation:rise var(--bd) linear infinite var(--bdd)}
+  @keyframes rise{0%{transform:translateY(0) scale(1);opacity:var(--bo)}100%{transform:translateY(-110vh) scale(1.2);opacity:0}}
+
+  .page{max-width:420px;width:100%;position:relative;z-index:1}
+
+  /* Glass ticket card */
+  .ticket{background:rgba(255,255,255,0.06);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:1.5rem;
+    box-shadow:0 8px 32px rgba(0,0,0,0.2);animation:fadeIn .6s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+
+  /* ═══ HEADER ═══ */
+  .t-header{text-align:center;padding-bottom:1rem;border-bottom:1px solid rgba(255,255,255,0.06)}
+  .t-name{font-family:'Quicksand',sans-serif;font-weight:700;font-size:1.6rem;color:#fff;letter-spacing:0.06em}
+  .t-en{font-family:'Quicksand',sans-serif;font-weight:400;font-size:0.72rem;color:rgba(255,255,255,0.35);letter-spacing:0.15em;margin-top:0.1rem}
+  .t-loc{font-size:0.85rem;color:rgba(255,255,255,0.25);margin-top:0.3rem}
+
+  /* ═══ TICKET INFO ═══ */
+  .t-info{padding:1rem 0;display:grid;grid-template-columns:1fr 1fr;gap:0.4rem 1rem}
+  .t-field{}
+  .t-label{font-family:'Quicksand',sans-serif;font-size:0.6rem;color:rgba(255,255,255,0.2);letter-spacing:0.08em;text-transform:uppercase}
+  .t-val{font-weight:600;font-size:0.95rem;color:#fff;margin-top:0.05rem}
+  .t-val-price{font-family:'Quicksand',sans-serif;font-weight:700;font-size:1.3rem;color:var(--green)}
+  .t-wide{grid-column:1/-1}
+
+  /* ═══ RULES ═══ */
+  .t-rules{padding:0.6rem 0;border-top:1px solid rgba(255,255,255,0.04);font-size:0.82rem;color:rgba(255,255,255,0.25);line-height:2}
+
+  /* ═══ QR CODE ═══ */
+  .qr-area{text-align:center;padding:1rem 0;border-top:1px solid rgba(255,255,255,0.04)}
+  .qr{display:inline-grid;grid-template-columns:repeat(9,6px);gap:2px;margin-bottom:0.4rem}
+  .qr-cell{width:6px;height:6px;border-radius:1px}
+  .qr-b{background:rgba(255,255,255,0.7)}
+  .qr-w{background:rgba(255,255,255,0.05)}
+  .qr-num{font-family:'Quicksand',sans-serif;font-size:0.7rem;color:rgba(255,255,255,0.2);letter-spacing:0.1em}
+
+  /* ═══ EXHIBITION ═══ */
+  .exhibit{margin-top:1rem;padding:0.8rem;background:rgba(232,120,152,0.06);border:1px solid rgba(232,120,152,0.1);border-radius:10px;text-align:center}
+  .exhibit-title{font-family:'Quicksand',sans-serif;font-weight:700;font-size:0.85rem;color:var(--coral)}
+  .exhibit-desc{font-size:0.85rem;color:rgba(255,255,255,0.3);margin-top:0.2rem}
+
+  /* ═══ WAVE ═══ */
+  .wave{position:fixed;bottom:0;left:0;right:0;height:40px;z-index:0;pointer-events:none}
+  .wave svg{width:200%;height:100%;animation:waveMove 6s ease-in-out infinite alternate}
+  @keyframes waveMove{0%{transform:translateX(0)}100%{transform:translateX(-25%)}}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;margin-top:1rem;position:relative;z-index:1}
+  .footer-motto{font-family:'Quicksand',sans-serif;font-size:0.8rem;color:rgba(255,255,255,0.2)}
+  .footer-disc{font-size:0.55rem;color:rgba(255,255,255,0.08);margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1rem}.ticket{padding:1.2rem}}
+</style>
+</head>
+<body>
+
+<div class="bubbles" id="bubbles"></div>
+
+<!-- Wave bottom -->
+<div class="wave">
+  <svg viewBox="0 0 1200 40" preserveAspectRatio="none"><path d="M0,20 C200,5 400,35 600,18 C800,2 1000,30 1200,15 L1200,40 L0,40 Z" fill="rgba(24,144,168,0.15)"/></svg>
+</div>
+
+<div class="page">
+
+  <div class="ticket">
+
+    <!-- ═══ HEADER ═══ -->
+    <div class="t-header">
+      <div class="t-name">深蓝</div>
+      <div class="t-en">DEEP BLUE AQUARIUM</div>
+      <div class="t-loc">上海海洋世界</div>
+    </div>
+
+    <!-- ═══ INFO ═══ -->
+    <div class="t-info">
+      <div class="t-field"><div class="t-label">TICKET</div><div class="t-val">成人票</div></div>
+      <div class="t-field"><div class="t-label">DATE</div><div class="t-val">2026.03.25</div></div>
+      <div class="t-field"><div class="t-label">SESSION</div><div class="t-val">10:00–12:00</div></div>
+      <div class="t-field"><div class="t-label">QTY</div><div class="t-val">2 张</div></div>
+      <div class="t-field t-wide"><div class="t-label">TOTAL</div><div class="t-val-price">¥360</div></div>
+    </div>
+
+    <!-- ═══ RULES ═══ -->
+    <div class="t-rules">
+      请在入场时间前 15 分钟到达 · 出示电子票扫码入场 · 当日有效
+    </div>
+
+    <!-- ═══ QR ═══ -->
+    <div class="qr-area">
+      <div class="qr" id="qrGrid"></div>
+      <div class="qr-num">DB-20260325-0847</div>
+    </div>
+
+    <!-- ═══ EXHIBITION ═══ -->
+    <div class="exhibit">
+      <div class="exhibit-title">本月特展：深海发光生物</div>
+      <div class="exhibit-desc">在黑暗中遇见光 — 水母 · 灯笼鱼 · 深海章鱼</div>
+    </div>
+
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">深蓝 · Deep Blue · 探索海洋的奥秘</div>
+    <div class="footer-disc">虚构水族馆 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+// Bubbles
+(function(){
+  var c=document.getElementById('bubbles');
+  for(var i=0;i<22;i++){
+    var b=document.createElement('div');
+    b.className='bub';
+    var sz=4+Math.random()*12;
+    b.style.cssText='width:'+sz+'px;height:'+sz+'px;left:'+Math.random()*100+'%;bottom:-20px;--bd:'+(4+Math.random()*5)+'s;--bdd:'+(Math.random()*8)+'s;--bo:'+(0.08+Math.random()*0.15);
+    c.appendChild(b);
+  }
+})();
+
+// QR code simulation
+(function(){
+  var grid=document.getElementById('qrGrid');
+  // Corner patterns + random center
+  var pattern=[
+    1,1,1,0,1,0,1,1,1,
+    1,0,1,0,0,0,1,0,1,
+    1,1,1,0,1,0,1,1,1,
+    0,0,0,0,1,0,0,0,0,
+    1,0,1,1,0,1,1,0,1,
+    0,0,0,0,1,0,0,0,0,
+    1,1,1,0,0,0,1,1,1,
+    1,0,1,0,1,0,1,0,1,
+    1,1,1,0,1,0,1,1,1
+  ];
+  // Randomize middle area
+  for(var i=0;i<81;i++){
+    if(i>=27&&i<54&&i%9>=3&&i%9<6)pattern[i]=Math.random()>0.5?1:0;
+  }
+  pattern.forEach(function(v){
+    var cell=document.createElement('div');
+    cell.className='qr-cell '+(v?'qr-b':'qr-w');
+    grid.appendChild(cell);
+  });
+})();
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
