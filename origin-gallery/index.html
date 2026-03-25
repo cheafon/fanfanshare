@@ -237,16 +237,30 @@ const gallery = document.getElementById('gallery');
 const pagerEl = document.getElementById('pager');
 const favFilterBtn = document.getElementById('favFilter');
 
+function copyToClipboard(text) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    return navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
+  }
+  return fallbackCopy(text);
+}
+function fallbackCopy(text) {
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;left:-9999px;top:-9999px';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); } catch(e) {}
+  document.body.removeChild(ta);
+  return Promise.resolve();
+}
 function copyPrompt(id, btn) {
   fetch('styles/origin-' + id + '.prompt.txt')
     .then(r => r.ok ? r.text() : Promise.reject())
-    .then(text => {
-      navigator.clipboard.writeText(text).then(() => {
-        btn.textContent = '✓';
-        btn.classList.add('copied');
-        setTimeout(() => { btn.textContent = '📋'; btn.classList.remove('copied'); }, 1500);
-      });
-    })
+    .then(text => copyToClipboard(text).then(() => {
+      btn.textContent = '✓';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = '📋'; btn.classList.remove('copied'); }, 1500);
+    }))
     .catch(() => { btn.textContent = '✗'; setTimeout(() => { btn.textContent = '📋'; }, 1500); });
 }
 
