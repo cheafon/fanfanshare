@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>海边的卡夫卡 — 潮汐 TIDAL WAVE</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0a0818;--purple:#6020c0;--blue:#2060e0;--pink:#e040a0;--orange:#f08020;--light:#f0f0f8;--dim:rgba(240,240,248,0.25)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--bg);color:var(--light);font-family:'Noto Sans SC',sans-serif;font-size:17px;line-height:1.7;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:1.5rem;-webkit-font-smoothing:antialiased;overflow:hidden;position:relative}
+
+  /* ═══ FLOWING GRADIENT BG ═══ */
+  .bg-flow{position:fixed;inset:0;z-index:0;
+    background:
+      radial-gradient(ellipse at 30% 30%,rgba(96,32,192,0.2) 0%,transparent 50%),
+      radial-gradient(ellipse at 70% 70%,rgba(32,96,224,0.15) 0%,transparent 45%),
+      radial-gradient(ellipse at 50% 80%,rgba(224,64,160,0.1) 0%,transparent 40%),
+      var(--bg);
+    background-size:200% 200%;animation:bgFlow 20s ease infinite}
+  @keyframes bgFlow{0%{background-position:0% 0%}33%{background-position:100% 50%}66%{background-position:50% 100%}100%{background-position:0% 0%}}
+
+  .player{max-width:400px;width:100%;position:relative;z-index:1;text-align:center}
+
+  /* ═══ MORPHING BLOB ═══ */
+  .blob-wrap{position:relative;width:200px;height:200px;margin:0 auto 2rem}
+  .blob-glow{position:absolute;inset:-20px;border-radius:50%;background:radial-gradient(circle,rgba(96,32,192,0.2),transparent 70%);animation:glowPulse 4s ease-in-out infinite}
+  @keyframes glowPulse{0%,100%{opacity:0.5;transform:scale(1)}50%{opacity:0.8;transform:scale(1.05)}}
+
+  .blob{width:200px;height:200px;
+    background:linear-gradient(135deg,var(--purple),var(--blue),var(--pink),var(--orange));background-size:300% 300%;
+    animation:blobMorph 8s ease-in-out infinite,blobSpin 20s linear infinite,blobGrad 6s ease infinite;
+    box-shadow:0 0 40px rgba(96,32,192,0.3),0 0 80px rgba(224,64,160,0.1)}
+  @keyframes blobMorph{
+    0%{border-radius:60% 40% 70% 30% / 50% 60% 30% 70%}
+    25%{border-radius:40% 60% 30% 70% / 60% 30% 70% 40%}
+    50%{border-radius:50% 50% 60% 40% / 40% 70% 30% 60%}
+    75%{border-radius:70% 30% 50% 50% / 30% 50% 60% 40%}
+    100%{border-radius:60% 40% 70% 30% / 50% 60% 30% 70%}}
+  @keyframes blobSpin{to{transform:rotate(360deg)}}
+  @keyframes blobGrad{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+  /* ═══ SONG INFO ═══ */
+  .song{margin-bottom:1.5rem}
+  .song-title{font-weight:600;font-size:1.5rem;color:var(--light);letter-spacing:0.03em}
+  .song-artist{font-family:'Outfit',sans-serif;font-weight:400;font-size:0.9rem;color:var(--dim);margin-top:0.2rem}
+  .song-album{font-family:'Outfit',sans-serif;font-size:0.75rem;color:rgba(240,240,248,0.15);margin-top:0.2rem}
+
+  /* ═══ AUDIO SPECTRUM ═══ */
+  .spectrum{display:flex;align-items:flex-end;justify-content:center;gap:4px;height:50px;margin-bottom:1.5rem}
+  .bar{width:6px;border-radius:3px;animation:barJump var(--bd,0.8s) ease-in-out infinite var(--dd,0s)}
+  @keyframes barJump{0%,100%{transform:scaleY(0.2)}50%{transform:scaleY(var(--bh,1))}}
+
+  /* ═══ PROGRESS ═══ */
+  .progress{margin-bottom:1.2rem;padding:0 0.5rem}
+  .prog-track{height:4px;background:rgba(255,255,255,0.06);border-radius:2px;position:relative;overflow:hidden}
+  .prog-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--purple),var(--pink));width:0%;animation:progGrow 240s linear forwards}
+  @keyframes progGrow{to{width:100%}}
+  .prog-thumb{position:absolute;top:-4px;width:12px;height:12px;border-radius:50%;background:var(--light);
+    box-shadow:0 0 8px rgba(224,64,160,0.4);animation:thumbMove 240s linear forwards}
+  @keyframes thumbMove{from{left:0%}to{left:calc(100% - 12px)}}
+  .prog-times{display:flex;justify-content:space-between;margin-top:0.4rem}
+  .prog-time{font-family:'Outfit',sans-serif;font-size:0.7rem;color:var(--dim)}
+
+  /* ═══ CONTROLS ═══ */
+  .controls{display:flex;align-items:center;justify-content:center;gap:1.5rem;margin-bottom:2rem}
+  .ctrl{background:none;border:none;color:var(--dim);font-size:1.2rem;cursor:pointer;transition:color .2s;padding:0.3rem}
+  .ctrl:hover{color:var(--light)}
+  .ctrl-sm{font-size:0.9rem;opacity:0.4}
+  .ctrl-sm:hover{opacity:0.8}
+
+  .play-btn{width:56px;height:56px;border-radius:50%;border:none;background:linear-gradient(135deg,var(--purple),var(--pink));
+    color:var(--light);font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 0 20px rgba(96,32,192,0.3);animation:playPulse 2s ease-in-out infinite;transition:transform .15s}
+  @keyframes playPulse{0%,100%{box-shadow:0 0 20px rgba(96,32,192,0.3)}50%{box-shadow:0 0 35px rgba(224,64,160,0.4),0 0 60px rgba(96,32,192,0.15)}}
+  .play-btn:hover{transform:scale(1.05)}
+  .play-btn:active{transform:scale(0.95)}
+
+  /* ═══ LYRICS ═══ */
+  .lyrics{margin-bottom:1.5rem}
+  .lyric{font-size:0.95rem;line-height:2.2;transition:all .3s}
+  .lyric-active{color:var(--light);font-weight:500}
+  .lyric-dim{color:rgba(240,240,248,0.15)}
+
+  /* ═══ FOOTER ═══ */
+  .footer{padding-top:0.5rem}
+  .footer-brand{font-family:'Outfit',sans-serif;font-weight:500;font-size:0.75rem;color:var(--dim);letter-spacing:0.1em;opacity:0.3}
+  .footer-disc{font-size:0.6rem;color:var(--dim);opacity:0.1;margin-top:0.2rem}
+
+  @media(max-width:500px){
+    body{padding:1rem;align-items:flex-start;padding-top:2rem}
+    .blob-wrap{width:160px;height:160px}
+    .blob{width:160px;height:160px}
+    .controls{gap:1rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-flow"></div>
+
+<div class="player">
+
+  <!-- ═══ MORPHING BLOB ═══ -->
+  <div class="blob-wrap">
+    <div class="blob-glow"></div>
+    <div class="blob"></div>
+  </div>
+
+  <!-- ═══ SONG INFO ═══ -->
+  <div class="song">
+    <div class="song-title">海边的卡夫卡</div>
+    <div class="song-artist">落日飞车 Sunset Rollercoaster</div>
+    <div class="song-album">浪漫的体质 · 2020</div>
+  </div>
+
+  <!-- ═══ SPECTRUM ═══ -->
+  <div class="spectrum" id="spectrum"></div>
+
+  <!-- ═══ PROGRESS ═══ -->
+  <div class="progress">
+    <div class="prog-track">
+      <div class="prog-fill"></div>
+      <div class="prog-thumb"></div>
+    </div>
+    <div class="prog-times">
+      <span class="prog-time" id="elapsed">0:00</span>
+      <span class="prog-time">4:02</span>
+    </div>
+  </div>
+
+  <!-- ═══ CONTROLS ═══ -->
+  <div class="controls">
+    <button class="ctrl ctrl-sm">🔀</button>
+    <button class="ctrl">⏮</button>
+    <button class="play-btn">▶</button>
+    <button class="ctrl">⏭</button>
+    <button class="ctrl ctrl-sm">🔁</button>
+  </div>
+
+  <!-- ═══ LYRICS ═══ -->
+  <div class="lyrics">
+    <div class="lyric lyric-active">在海边写下你的名字</div>
+    <div class="lyric lyric-dim">等潮水来把它带走</div>
+    <div class="lyric lyric-dim">无所谓 反正明天还会想起</div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-brand">潮汐 · TIDAL WAVE</div>
+    <div class="footer-disc">虚构 App · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+// Generate spectrum bars
+(function(){
+  var s=document.getElementById('spectrum');
+  var colors=['#6020c0','#5030d0','#4040e0','#3050e0','#2060e0','#3060d0','#5050c0','#8040b0','#a040a0','#c04090','#e04080','#e04060'];
+  for(var i=0;i<12;i++){
+    var b=document.createElement('div');
+    b.className='bar';
+    b.style.cssText='height:50px;background:'+colors[i]+';--bd:'+(0.5+Math.random()*0.6)+'s;--dd:'+(i*0.08)+'s;--bh:'+(0.4+Math.random()*0.6);
+    s.appendChild(b);
+  }
+})();
+
+// Elapsed time counter
+(function(){
+  var el=document.getElementById('elapsed');
+  var sec=0;
+  setInterval(function(){
+    sec++;
+    if(sec>242) sec=0;
+    var m=Math.floor(sec/60);
+    var s=sec%60;
+    el.textContent=m+':'+(s<10?'0'+s:s);
+  },1000);
+})();
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
