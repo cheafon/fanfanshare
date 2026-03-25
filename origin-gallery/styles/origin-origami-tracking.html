@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>物流追踪 — 纸鹤快运 CRANE EXPRESS</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#F8F8F8;--crease:#E0E0E0;--blue:#3080C0;--dblue:#205080;--green:#40A870;--orange:#E08840;--text:#2A2A30;--dim:rgba(42,42,48,0.3)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--bg);color:var(--text);font-family:'Noto Sans SC','Rubik',sans-serif;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:2rem;-webkit-font-smoothing:antialiased;position:relative;overflow-x:hidden}
+
+  /* Triangle decorations */
+  .tri-deco{position:fixed;pointer-events:none;z-index:0;opacity:0.04}
+  .tri-deco-1{top:60px;right:-20px;width:120px;height:120px;background:var(--blue);clip-path:polygon(50% 0%,100% 100%,0% 100%)}
+  .tri-deco-2{bottom:100px;left:-15px;width:80px;height:80px;background:var(--orange);clip-path:polygon(0% 0%,100% 50%,0% 100%)}
+  .tri-deco-3{top:40%;right:5%;width:60px;height:60px;background:var(--green);clip-path:polygon(50% 0%,100% 100%,0% 100%);transform:rotate(30deg)}
+
+  .page{max-width:460px;width:100%;position:relative;z-index:1;animation:fadeIn .5s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.5rem;display:flex;flex-direction:column;align-items:center}
+
+  /* CSS Origami Crane */
+  .crane{width:50px;height:40px;position:relative;margin-bottom:0.6rem}
+  .crane-body{position:absolute;width:30px;height:24px;background:var(--blue);clip-path:polygon(0% 50%,50% 0%,100% 50%,50% 100%);top:10px;left:10px}
+  .crane-wing-l{position:absolute;width:22px;height:16px;background:var(--dblue);clip-path:polygon(100% 100%,0% 50%,100% 0%);top:6px;left:0}
+  .crane-wing-r{position:absolute;width:22px;height:16px;background:var(--dblue);clip-path:polygon(0% 100%,100% 50%,0% 0%);top:6px;right:0}
+  .crane-head{position:absolute;width:12px;height:8px;background:var(--blue);clip-path:polygon(0% 50%,100% 0%,100% 100%);top:2px;left:19px}
+
+  .h-title{font-weight:700;font-size:1.4rem;color:var(--text)}
+  .h-en{font-family:'Rubik',sans-serif;font-weight:400;font-size:0.7rem;color:var(--dim);letter-spacing:0.12em}
+
+  /* ═══ PACKAGE INFO ═══ */
+  .pkg{background:#fff;border-radius:10px;padding:1.2rem;margin-bottom:1.5rem;position:relative;overflow:hidden;
+    box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+  /* Fold crease */
+  .pkg::before{content:'';position:absolute;inset:0;
+    background:linear-gradient(135deg,transparent 49%,rgba(0,0,0,0.025) 49.5%,rgba(0,0,0,0.025) 50.5%,transparent 51%);pointer-events:none}
+  .pkg-num{font-family:'Rubik',sans-serif;font-weight:600;font-size:0.75rem;color:var(--blue);letter-spacing:0.05em;margin-bottom:0.4rem}
+  .pkg-row{display:flex;justify-content:space-between;font-size:0.9rem;color:var(--dim);line-height:2}
+  .pkg-row strong{color:var(--text);font-weight:500}
+  .pkg-eta{font-family:'Rubik',sans-serif;font-weight:600;font-size:0.85rem;color:var(--green);margin-top:0.3rem;text-align:right}
+
+  /* ═══ TIMELINE ═══ */
+  .timeline{margin-bottom:1.5rem;position:relative;padding-left:24px}
+  /* Vertical line */
+  .timeline::before{content:'';position:absolute;left:8px;top:8px;bottom:8px;width:2px;background:var(--crease)}
+
+  .tl-node{position:relative;padding:0 0 1.2rem 20px;
+    opacity:0;transform:translateX(-15px);animation:nodeIn .4s ease forwards}
+  @keyframes nodeIn{to{opacity:1;transform:translateX(0)}}
+  .tl-node:last-child{padding-bottom:0}
+
+  /* Dot */
+  .tl-dot{position:absolute;left:-20px;top:4px;width:14px;height:14px;border-radius:50%;border:2px solid}
+  .dot-done{border-color:var(--green);background:var(--green)}
+  .dot-done::after{content:'';position:absolute;top:3px;left:2px;width:5px;height:3px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg)}
+  .dot-current{border-color:var(--blue);background:var(--blue);animation:dotPulse 1.5s ease-in-out infinite}
+  @keyframes dotPulse{0%,100%{box-shadow:0 0 0 0 rgba(48,128,192,0.3)}50%{box-shadow:0 0 0 6px rgba(48,128,192,0)}}
+  .dot-pending{border-color:var(--crease);background:var(--bg)}
+
+  .tl-time{font-family:'Rubik',sans-serif;font-size:0.72rem;color:var(--dim)}
+  .tl-status{font-weight:600;font-size:1rem;color:var(--text);margin-top:0.1rem}
+  .tl-status-current{color:var(--blue)}
+  .tl-desc{font-size:0.88rem;color:var(--dim);margin-top:0.1rem}
+
+  /* Origami arrow markers on timeline */
+  .tl-arrow{position:absolute;left:-28px;top:2px;width:8px;height:8px;background:var(--green);
+    clip-path:polygon(0% 0%,100% 50%,0% 100%);opacity:0.5}
+  .tl-node:nth-child(odd) .tl-arrow{display:none}
+
+  /* ═══ CONTACT ═══ */
+  .contact{background:#fff;border-radius:10px;padding:1rem;margin-bottom:1.5rem;text-align:center;
+    box-shadow:0 2px 8px rgba(0,0,0,0.04);position:relative;overflow:hidden}
+  .contact::before{content:'';position:absolute;inset:0;
+    background:linear-gradient(135deg,transparent 49%,rgba(0,0,0,0.02) 49.5%,rgba(0,0,0,0.02) 50.5%,transparent 51%);pointer-events:none}
+  .contact-text{font-size:0.9rem;color:var(--dim)}
+  .contact-phone{font-family:'Rubik',sans-serif;font-weight:600;color:var(--blue);font-size:0.95rem;margin-top:0.2rem}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center}
+  .footer-motto{font-weight:500;font-size:0.85rem;color:var(--dim);opacity:0.4}
+  .footer-disc{font-size:0.58rem;color:var(--dim);opacity:0.2;margin-top:0.2rem}
+
+  @media(max-width:400px){
+    body{padding:1.5rem 1rem}
+    .timeline{padding-left:20px}
+    .tl-node{padding-left:16px}
+  }
+</style>
+</head>
+<body>
+
+<div class="tri-deco tri-deco-1"></div>
+<div class="tri-deco tri-deco-2"></div>
+<div class="tri-deco tri-deco-3"></div>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="crane">
+      <div class="crane-wing-l"></div>
+      <div class="crane-body"></div>
+      <div class="crane-wing-r"></div>
+      <div class="crane-head"></div>
+    </div>
+    <div class="h-title">纸鹤快运</div>
+    <div class="h-en">CRANE EXPRESS · 物流追踪</div>
+  </header>
+
+  <!-- ═══ PACKAGE INFO ═══ -->
+  <div class="pkg">
+    <div class="pkg-num">CR20260325-78421</div>
+    <div class="pkg-row"><span><strong>发件：</strong>上海市浦东新区</span></div>
+    <div class="pkg-row"><span><strong>收件：</strong>北京市朝阳区</span></div>
+    <div class="pkg-eta">预计明天 3/26 送达</div>
+  </div>
+
+  <!-- ═══ TIMELINE ═══ -->
+  <div class="timeline">
+
+    <div class="tl-node" style="animation-delay:.1s">
+      <div class="tl-dot dot-done"></div>
+      <div class="tl-time">3月23日 15:30</div>
+      <div class="tl-status">已揽收</div>
+      <div class="tl-desc">上海浦东营业点已揽件 · 快递员：小王</div>
+    </div>
+
+    <div class="tl-node" style="animation-delay:.25s">
+      <div class="tl-dot dot-done"></div>
+      <div class="tl-time">3月23日 18:45</div>
+      <div class="tl-status">已到达上海转运中心</div>
+      <div class="tl-desc">包裹已到达上海浦东转运中心</div>
+    </div>
+
+    <div class="tl-node" style="animation-delay:.4s">
+      <div class="tl-dot dot-done"></div>
+      <div class="tl-time">3月24日 02:10</div>
+      <div class="tl-status">运输中</div>
+      <div class="tl-desc">包裹正在从上海发往北京 · 车牌：沪 A-XXXXX</div>
+    </div>
+
+    <div class="tl-node" style="animation-delay:.55s">
+      <div class="tl-dot dot-done"></div>
+      <div class="tl-time">3月25日 06:30</div>
+      <div class="tl-status">已到达北京转运中心</div>
+      <div class="tl-desc">包裹已到达北京顺义转运中心</div>
+    </div>
+
+    <div class="tl-node" style="animation-delay:.7s">
+      <div class="tl-dot dot-current"></div>
+      <div class="tl-time">3月25日 10:15</div>
+      <div class="tl-status tl-status-current">派送中</div>
+      <div class="tl-desc">快递员小李正在派送 · 预计今日 14:00 前送达</div>
+    </div>
+
+    <div class="tl-node" style="animation-delay:.85s">
+      <div class="tl-dot dot-pending"></div>
+      <div class="tl-time">预计 3月25日</div>
+      <div class="tl-status" style="color:var(--dim)">等待签收</div>
+    </div>
+
+  </div>
+
+  <!-- ═══ CONTACT ═══ -->
+  <div class="contact">
+    <div class="contact-text">如有问题请联系</div>
+    <div class="contact-phone">400-XXX-XXXX</div>
+    <div class="contact-text" style="margin-top:0.2rem;font-size:0.82rem">也可在 App 内联系快递员</div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">纸鹤快运 · CRANE EXPRESS · 每一件都用心折叠</div>
+    <div class="footer-disc">虚构物流 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>
