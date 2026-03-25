@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>星辰计划 STELLAR PROGRAM — 发射倒计时</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--space:#0a1030;--white:#e8e0d8;--orange:#f06020;--yellow:#f0c020;--green:#40c870;--silver:#b0b8c8;--red:#c03030;--dim:rgba(176,184,200,0.25)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--space);color:var(--white);font-family:'Noto Sans SC',sans-serif;font-size:17px;line-height:1.7;display:flex;justify-content:center;padding:2rem;-webkit-font-smoothing:antialiased;min-height:100vh;position:relative;overflow-x:hidden}
+
+  .stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .star-dot{position:absolute;width:2px;height:2px;background:var(--white);border-radius:50%;animation:twinkle var(--sd) ease-in-out infinite var(--sdd)}
+  .star-dot.bright{width:3px;height:3px;box-shadow:0 0 4px rgba(232,224,216,0.4)}
+  @keyframes twinkle{0%,100%{opacity:.1}50%{opacity:.85}}
+
+  .page{max-width:480px;width:100%;position:relative;z-index:1;text-align:center}
+
+  /* ═══ HEADER ═══ */
+  .header{padding:0 0 1.5rem;animation:fadeIn .6s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .h-title{font-weight:700;font-size:clamp(1.6rem,5vw,2.2rem);letter-spacing:0.08em}
+  .h-en{font-family:'Orbitron',sans-serif;font-weight:400;font-size:0.7rem;color:var(--silver);letter-spacing:0.2em;margin-top:0.2rem}
+  .h-mission{font-family:'Orbitron',sans-serif;font-weight:600;font-size:0.6rem;color:var(--orange);letter-spacing:0.15em;margin-top:0.6rem;
+    display:inline-block;border:1px solid rgba(240,96,32,0.3);padding:0.3em 1em;border-radius:2px}
+
+  /* ═══ ROCKET ═══ */
+  .rocket-area{height:220px;position:relative;margin:1rem 0 1.5rem;display:flex;justify-content:center;align-items:flex-end}
+  .rocket{position:relative;width:40px;animation:rocketShake .15s ease-in-out infinite alternate}
+  @keyframes rocketShake{0%{transform:translateX(-0.5px) translateY(0.3px)}100%{transform:translateX(0.5px) translateY(-0.3px)}}
+
+  /* Nose */
+  .r-nose{width:0;height:0;border-left:20px solid transparent;border-right:20px solid transparent;border-bottom:30px solid var(--red);margin:0 auto;position:relative;z-index:2}
+
+  /* Body */
+  .r-body{width:40px;height:80px;background:linear-gradient(90deg,#c8c0b8,var(--white),#c8c0b8);border-radius:0 0 4px 4px;position:relative;z-index:1;margin:0 auto}
+  .r-body::before{content:'';position:absolute;top:15px;left:50%;transform:translateX(-50%);width:14px;height:14px;border-radius:50%;border:2px solid var(--silver);background:rgba(64,200,112,0.15)}
+  .r-body::after{content:'SP';position:absolute;bottom:10px;left:50%;transform:translateX(-50%);font-family:'Orbitron',sans-serif;font-size:0.45rem;color:var(--red);letter-spacing:0.1em;font-weight:700}
+
+  /* Fins */
+  .r-fins{position:relative;width:70px;height:20px;margin:-2px auto 0}
+  .r-fin-l,.r-fin-r{position:absolute;bottom:0;width:0;height:0}
+  .r-fin-l{left:0;border-right:15px solid var(--silver);border-bottom:20px solid transparent}
+  .r-fin-r{right:0;border-left:15px solid var(--silver);border-bottom:20px solid transparent}
+  .r-fin-base{position:absolute;bottom:0;left:15px;right:15px;height:4px;background:var(--silver);border-radius:0 0 2px 2px}
+
+  /* Flame */
+  .r-flame{width:24px;height:60px;margin:-2px auto 0;position:relative;filter:blur(1px)}
+  .flame-core{position:absolute;top:0;left:50%;transform:translateX(-50%);width:14px;height:45px;
+    background:linear-gradient(180deg,#fff 0%,var(--yellow) 30%,var(--orange) 60%,rgba(240,96,32,0) 100%);
+    border-radius:50% 50% 50% 50% / 20% 20% 80% 80%;animation:flameFlicker .1s ease-in-out infinite alternate}
+  .flame-outer{position:absolute;top:5px;left:50%;transform:translateX(-50%);width:22px;height:50px;
+    background:linear-gradient(180deg,rgba(240,192,32,0.6) 0%,rgba(240,96,32,0.3) 50%,transparent 100%);
+    border-radius:50% 50% 50% 50% / 20% 20% 80% 80%;animation:flameFlicker .12s ease-in-out infinite alternate-reverse;filter:blur(3px)}
+  @keyframes flameFlicker{0%{transform:translateX(-50%) scaleX(1) scaleY(1)}100%{transform:translateX(-50%) scaleX(0.85) scaleY(1.08)}}
+
+  /* Smoke particles */
+  .smoke{position:absolute;bottom:-10px;left:50%;width:4px;height:4px;border-radius:50%;background:rgba(176,184,200,0.15);
+    animation:smokeRise 1.5s ease-out infinite var(--smkd,0s)}
+  @keyframes smokeRise{0%{transform:translate(-50%,0) scale(1);opacity:.3}100%{transform:translate(calc(-50% + var(--smkx,0px)),-40px) scale(3);opacity:0}}
+
+  /* ═══ COUNTDOWN ═══ */
+  .cd{margin-bottom:1.5rem}
+  .cd-label{font-family:'Orbitron',sans-serif;font-weight:400;font-size:0.6rem;color:var(--orange);letter-spacing:0.2em;margin-bottom:0.6rem}
+  .cd-boxes{display:flex;justify-content:center;gap:0.6rem}
+  .cd-box{background:rgba(232,224,216,0.04);border:1px solid rgba(232,224,216,0.08);padding:0.6rem 0.4rem;min-width:68px;border-radius:4px}
+  .cd-num{font-family:'Orbitron',sans-serif;font-weight:800;font-size:clamp(1.6rem,5vw,2.2rem);color:var(--white);line-height:1;
+    transition:transform .15s,opacity .15s}
+  .cd-num.flip{transform:scaleY(0.8);opacity:0.6}
+  .cd-unit{font-family:'Orbitron',sans-serif;font-size:0.5rem;color:var(--dim);letter-spacing:0.1em;margin-top:0.3rem}
+
+  /* ═══ MISSION INFO ═══ */
+  .info{border:1px solid rgba(232,224,216,0.06);padding:1rem;margin-bottom:1rem;text-align:left}
+  .info-title{font-family:'Orbitron',sans-serif;font-size:0.55rem;color:var(--dim);letter-spacing:0.15em;margin-bottom:0.5rem}
+  .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.3rem 1.2rem}
+  .info-row{font-size:0.88rem;color:rgba(232,224,216,0.5)}
+  .info-row strong{color:var(--white);font-weight:500}
+
+  /* ═══ STATUS ═══ */
+  .status{text-align:left;margin-bottom:1.5rem;padding:0 0.5rem}
+  .status-title{font-family:'Orbitron',sans-serif;font-size:0.55rem;color:var(--dim);letter-spacing:0.15em;margin-bottom:0.4rem}
+  .st{font-size:0.88rem;color:rgba(232,224,216,0.45);line-height:2}
+  .st-done{color:var(--green);opacity:0.7}
+  .st-active{color:var(--orange)}
+  .st-wait{color:rgba(232,224,216,0.2)}
+
+  /* ═══ FOOTER ═══ */
+  .footer{padding:0.5rem 0}
+  .footer-motto{font-weight:500;font-size:0.9rem;color:var(--dim);opacity:0.3;letter-spacing:0.06em}
+  .footer-disc{font-size:0.6rem;color:var(--dim);opacity:0.1;margin-top:0.3rem}
+
+  @media(max-width:450px){
+    body{padding:1rem}
+    .cd-boxes{gap:0.4rem}
+    .cd-box{min-width:58px;padding:0.5rem 0.3rem}
+    .info-grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <h1 class="h-title">星辰计划</h1>
+    <div class="h-en">STELLAR PROGRAM · 中国民营航天</div>
+    <div class="h-mission">MISSION SP-001</div>
+  </header>
+
+  <!-- ═══ ROCKET ═══ -->
+  <div class="rocket-area">
+    <div class="rocket" id="rocket">
+      <div class="r-nose"></div>
+      <div class="r-body"></div>
+      <div class="r-fins">
+        <div class="r-fin-l"></div>
+        <div class="r-fin-r"></div>
+        <div class="r-fin-base"></div>
+      </div>
+      <div class="r-flame">
+        <div class="flame-outer"></div>
+        <div class="flame-core"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ COUNTDOWN ═══ -->
+  <div class="cd">
+    <div class="cd-label">T — MINUS</div>
+    <div class="cd-boxes">
+      <div class="cd-box"><div class="cd-num" id="cdD">--</div><div class="cd-unit">DAYS</div></div>
+      <div class="cd-box"><div class="cd-num" id="cdH">--</div><div class="cd-unit">HRS</div></div>
+      <div class="cd-box"><div class="cd-num" id="cdM">--</div><div class="cd-unit">MIN</div></div>
+      <div class="cd-box"><div class="cd-num" id="cdS">--</div><div class="cd-unit">SEC</div></div>
+    </div>
+  </div>
+
+  <!-- ═══ MISSION INFO ═══ -->
+  <div class="info">
+    <div class="info-title">MISSION PARAMETERS</div>
+    <div class="info-grid">
+      <div class="info-row"><strong>火箭：</strong>星辰一号</div>
+      <div class="info-row"><strong>型号：</strong>STELLAR-1</div>
+      <div class="info-row"><strong>发射场：</strong>酒泉</div>
+      <div class="info-row"><strong>载荷：</strong>3 颗通信卫星</div>
+      <div class="info-row"><strong>轨道：</strong>LEO 500km</div>
+      <div class="info-row"><strong>窗口：</strong>04.15 10:00 CST</div>
+    </div>
+  </div>
+
+  <!-- ═══ STATUS ═══ -->
+  <div class="status">
+    <div class="status-title">MISSION STATUS</div>
+    <div class="st st-done">✅ 火箭总装完成</div>
+    <div class="st st-done">✅ 静态点火测试通过</div>
+    <div class="st st-done">✅ 载荷对接完成</div>
+    <div class="st st-active">🔄 发射场合练中</div>
+    <div class="st st-wait">⏳ 最终发射准备</div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">星辰计划 · 仰望星空，脚踏实地</div>
+    <div class="footer-disc">虚构航天 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+// Stars
+(function(){
+  var c=document.getElementById('stars');
+  for(var i=0;i<50;i++){
+    var s=document.createElement('div');
+    s.className='star-dot'+(Math.random()>0.85?' bright':'');
+    s.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;--sd:'+(2+Math.random()*4)+'s;--sdd:'+(Math.random()*4)+'s';
+    c.appendChild(s);
+  }
+})();
+
+// Smoke particles for rocket
+(function(){
+  var r=document.getElementById('rocket');
+  for(var i=0;i<5;i++){
+    var p=document.createElement('div');
+    p.className='smoke';
+    p.style.cssText='--smkd:'+(i*0.3)+'s;--smkx:'+(Math.random()*20-10)+'px';
+    r.appendChild(p);
+  }
+})();
+
+// Countdown
+var target=new Date('2026-04-15T10:00:00+08:00').getTime();
+var prev={d:'',h:'',m:'',s:''};
+function flipNum(el,val){
+  if(val!==prev[el.id.replace('cd','').toLowerCase()]){
+    el.classList.add('flip');
+    setTimeout(function(){el.textContent=val;el.classList.remove('flip')},80);
+    prev[el.id.replace('cd','').toLowerCase()]=val;
+  }
+}
+function tick(){
+  var now=Date.now();
+  var diff=Math.max(0,target-now);
+  var d=Math.floor(diff/86400000);
+  var h=Math.floor((diff%86400000)/3600000);
+  var m=Math.floor((diff%3600000)/60000);
+  var s=Math.floor((diff%60000)/1000);
+  flipNum(document.getElementById('cdD'),String(d).padStart(2,'0'));
+  flipNum(document.getElementById('cdH'),String(h).padStart(2,'0'));
+  flipNum(document.getElementById('cdM'),String(m).padStart(2,'0'));
+  flipNum(document.getElementById('cdS'),String(s).padStart(2,'0'));
+}
+tick();
+setInterval(tick,1000);
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
