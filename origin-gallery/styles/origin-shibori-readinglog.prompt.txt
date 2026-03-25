@@ -1,0 +1,33 @@
+Generate a personal reading tracker page for fictional app "书虫 BOOKWORM", styled as Shibori / Japanese indigo tie-dye resist aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: deep indigo (#1B2A4A), shibori blue (#2C4A7C), light indigo (#4A6FA5), resist white (#F5F0E8), warm linen (#FAF5EB), accent rust (#C4724A), dim rgba(27,42,74,0.3). Typography: Crimson Pro (elegant book serif) English, Noto Serif SC 400/600 Chinese 17px+. Layout: SHIBORI — warm linen background with organic shibori pattern (CSS radial-gradient circles simulating tie-dye resist spots), book cards in clean white, reading progress visualization.
+
+Animation: Medium — Required:
+1. CSS SHIBORI PATTERN: Background with organic tie-dye resist pattern using multiple overlapping radial-gradients (circles of varying sizes at random positions, indigo fading to white edges, simulating shibori arashi/kumo patterns) + subtle SVG noise for fabric texture
+2. CSS PROGRESS RINGS: Annual reading goal shown as conic-gradient circle (e.g., 18/24 books = 75%), with smooth fill animation on load from 0 to target percentage, indigo to rust gradient
+3. JS BOOK COUNTER: Animated count-up for total books read (0 to 18), pages read (0 to 5,420), reading days (0 to 127)
+4. BOOK CARDS STAGGER: Currently reading and completed books enter with gentle slide-up + fade, staggered delays
+5. HOVER FABRIC: Book cards on hover show subtle indigo shadow deepening, simulating fabric pressing effect
+
+Page structure:
+1. Header: "书虫" + "BOOKWORM" + "2026 阅读记录" + user name "林小舟的书架"
+2. Reading stats overview: 3 counters with count-up animation:
+   - 已读 18 本 (target 24)
+   - 累计 5,420 页
+   - 阅读 127 天
+3. Annual goal ring: conic-gradient 75% progress circle with "18/24" centered, animated fill
+4. Currently reading (1 book with progress bar):
+   - 《百年孤独》加西亚·马尔克斯 · 进度 68% (page 280/412)
+5. Recently finished (3 books, staggered):
+   - 《克拉拉与太阳》石黑一雄 · 3月12日读完 · 8.5分
+   - 《额尔古纳河右岸》迟子建 · 2月28日读完 · 9.0分
+   - 《小王子》圣埃克苏佩里 · 2月15日读完 · 9.5分
+6. Want to read list (3 books, simple list):
+   - 《树上的男爵》卡尔维诺
+   - 《呼兰河传》萧红
+   - 《人间失格》太宰治
+7. Footer: "书虫 · BOOKWORM · 一本书，一段旅程" + disclaimer
+
+Shibori pattern: 6-8 radial-gradient circles of varying sizes (80-200px) at different positions, using indigo-to-transparent gradients, overlapping to create organic tie-dye look. Background base is warm linen. SVG feTurbulence noise at very low opacity for fabric grain.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-shibori-readinglog.html. Do NOT open.

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>林小舟的书架 — 书虫 BOOKWORM</title>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--indigo:#1B2A4A;--shibori:#2C4A7C;--light:#4A6FA5;--resist:#F5F0E8;--linen:#FAF5EB;--rust:#C4724A;--dim:rgba(27,42,74,0.3)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--linen);color:var(--indigo);font-family:'Noto Serif SC','Crimson Pro',serif;font-weight:400;font-size:17px;line-height:1.8;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    /* Shibori tie-dye pattern — overlapping indigo circles */
+    background-image:
+      radial-gradient(circle 120px at 15% 8%,rgba(44,74,124,0.07) 0%,transparent 70%),
+      radial-gradient(circle 80px at 85% 12%,rgba(27,42,74,0.05) 0%,transparent 70%),
+      radial-gradient(circle 150px at 50% 35%,rgba(74,111,165,0.04) 0%,transparent 70%),
+      radial-gradient(circle 100px at 10% 55%,rgba(44,74,124,0.06) 0%,transparent 70%),
+      radial-gradient(circle 180px at 80% 60%,rgba(27,42,74,0.04) 0%,transparent 70%),
+      radial-gradient(circle 90px at 35% 80%,rgba(74,111,165,0.05) 0%,transparent 70%),
+      radial-gradient(circle 130px at 70% 90%,rgba(44,74,124,0.06) 0%,transparent 70%),
+      radial-gradient(circle 70px at 55% 15%,rgba(27,42,74,0.04) 0%,transparent 70%)}
+
+  /* Fabric grain */
+  .grain{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.02}
+
+  .page{max-width:460px;width:100%;position:relative;z-index:1}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.5rem;animation:riseIn .6s ease both}
+  @keyframes riseIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .h-brand{font-weight:600;font-size:1.5rem;color:var(--indigo);letter-spacing:0.12em}
+  .h-en{font-family:'Crimson Pro',serif;font-weight:400;font-size:0.72rem;color:var(--dim);letter-spacing:0.2em;margin-top:0.05rem}
+  .h-year{font-family:'Crimson Pro',serif;font-size:0.82rem;color:var(--light);margin-top:0.4rem}
+  .h-user{font-size:0.9rem;color:var(--dim);margin-top:0.15rem}
+
+  /* ═══ CARDS ═══ */
+  .card{background:var(--resist);border-radius:8px;padding:1.2rem;margin-bottom:1rem;
+    box-shadow:0 2px 8px rgba(27,42,74,0.04);transition:all .25s;
+    opacity:0;animation:riseIn .5s ease forwards}
+  .card:hover{box-shadow:0 4px 16px rgba(27,42,74,0.08);transform:translateY(-2px)}
+
+  .card-label{font-family:'Crimson Pro',serif;font-weight:600;font-size:0.68rem;color:var(--light);letter-spacing:0.12em;margin-bottom:0.6rem}
+
+  /* ═══ STATS ═══ */
+  .stats{display:flex;gap:0.6rem;margin-bottom:1rem;animation:riseIn .5s ease both;animation-delay:.1s}
+  .stat{flex:1;background:var(--resist);border-radius:8px;padding:0.8rem 0.6rem;text-align:center;
+    box-shadow:0 2px 8px rgba(27,42,74,0.04)}
+  .stat-num{font-family:'Crimson Pro',serif;font-weight:700;font-size:1.5rem;color:var(--indigo)}
+  .stat-unit{font-size:0.75rem;color:var(--dim);margin-top:0.1rem}
+
+  /* ═══ GOAL RING ═══ */
+  .goal-card{animation-delay:.2s;display:flex;align-items:center;gap:1.2rem}
+  .ring-wrap{width:100px;height:100px;position:relative;flex-shrink:0}
+  .ring{width:100%;height:100%;border-radius:50%;
+    background:conic-gradient(var(--indigo) 0%,var(--shibori) 37.5%,var(--rust) 75%,rgba(27,42,74,0.08) 75%);
+    mask:radial-gradient(circle,transparent 58%,black 60%);-webkit-mask:radial-gradient(circle,transparent 58%,black 60%);
+    animation:ringFill 1.5s cubic-bezier(0.4,0,0.2,1) both;animation-delay:.6s}
+  @keyframes ringFill{from{background:conic-gradient(var(--indigo) 0%,rgba(27,42,74,0.08) 0%)}
+    to{background:conic-gradient(var(--indigo) 0%,var(--shibori) 37.5%,var(--rust) 75%,rgba(27,42,74,0.08) 75%)}}
+  .ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .ring-num{font-family:'Crimson Pro',serif;font-weight:700;font-size:1.3rem;color:var(--indigo);line-height:1}
+  .ring-sub{font-size:0.65rem;color:var(--dim);margin-top:0.15rem}
+  .goal-text{flex:1}
+  .goal-title{font-weight:600;font-size:1rem;color:var(--indigo)}
+  .goal-desc{font-size:0.85rem;color:var(--dim);margin-top:0.2rem;line-height:1.7}
+
+  /* ═══ CURRENTLY READING ═══ */
+  .reading-card{animation-delay:.35s}
+  .book-now{display:flex;gap:0.8rem}
+  .book-cover{width:60px;height:84px;border-radius:3px;flex-shrink:0;
+    background:linear-gradient(135deg,var(--indigo),var(--shibori) 40%,var(--light));
+    box-shadow:2px 2px 6px rgba(27,42,74,0.15);display:flex;align-items:center;justify-content:center}
+  .book-cover-text{font-size:0.6rem;color:var(--resist);writing-mode:vertical-rl;letter-spacing:0.15em;font-weight:600}
+  .book-info{flex:1}
+  .book-title{font-weight:600;font-size:1rem;color:var(--indigo)}
+  .book-author{font-size:0.82rem;color:var(--dim);margin-top:0.1rem}
+  .progress-bar{height:6px;background:rgba(27,42,74,0.06);border-radius:3px;margin-top:0.6rem;overflow:hidden}
+  .progress-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--shibori),var(--rust));
+    width:0%;animation:barFill 1.2s ease forwards;animation-delay:.8s}
+  @keyframes barFill{to{width:68%}}
+  .progress-text{font-family:'Crimson Pro',serif;font-size:0.78rem;color:var(--light);margin-top:0.3rem}
+
+  /* ═══ FINISHED BOOKS ═══ */
+  .finished-card{animation-delay:.5s}
+  .book-item{display:flex;justify-content:space-between;align-items:center;padding:0.6rem 0;
+    border-bottom:1px solid rgba(27,42,74,0.04);opacity:0;animation:riseIn .4s ease forwards}
+  .book-item:last-child{border:none}
+  .bi-left{}
+  .bi-title{font-weight:600;font-size:0.95rem;color:var(--indigo)}
+  .bi-meta{font-size:0.78rem;color:var(--dim);margin-top:0.1rem}
+  .bi-score{font-family:'Crimson Pro',serif;font-weight:700;font-size:1.1rem;color:var(--rust);
+    min-width:2.5em;text-align:right}
+
+  /* ═══ WANT TO READ ═══ */
+  .want-card{animation-delay:.65s}
+  .want-item{display:flex;align-items:center;gap:0.6rem;padding:0.4rem 0}
+  .want-dot{width:8px;height:8px;border-radius:50%;border:2px solid var(--light);flex-shrink:0}
+  .want-title{font-size:0.92rem;color:var(--indigo)}
+  .want-author{font-size:0.8rem;color:var(--dim);margin-left:0.3rem}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;padding:0.5rem 0;animation:riseIn .5s ease both;animation-delay:.8s}
+  .footer-motto{font-family:'Crimson Pro',serif;font-size:0.82rem;color:var(--light);opacity:0.4;letter-spacing:0.04em;font-style:italic}
+  .footer-disc{font-size:0.58rem;color:var(--dim);opacity:0.15;margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1rem}.stats{flex-direction:column;gap:0.4rem}.stat{padding:0.6rem}
+    .goal-card{flex-direction:column;text-align:center}.ring-wrap{margin:0 auto}}
+</style>
+</head>
+<body>
+
+<svg class="grain" width="100%" height="100%">
+  <filter id="gf"><feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="4" stitchTiles="stitch"/></filter>
+  <rect width="100%" height="100%" filter="url(#gf)"/>
+</svg>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="h-brand">书虫</div>
+    <div class="h-en">BOOKWORM</div>
+    <div class="h-year">2026 阅读记录</div>
+    <div class="h-user">林小舟的书架</div>
+  </header>
+
+  <!-- ═══ STATS ═══ -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num" data-target="18" data-suffix="">0</div>
+      <div class="stat-unit">已读（本）</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" data-target="5420" data-suffix="">0</div>
+      <div class="stat-unit">累计（页）</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" data-target="127" data-suffix="">0</div>
+      <div class="stat-unit">阅读（天）</div>
+    </div>
+  </div>
+
+  <!-- ═══ GOAL RING ═══ -->
+  <div class="card goal-card" style="animation-delay:.2s">
+    <div class="ring-wrap">
+      <div class="ring"></div>
+      <div class="ring-center">
+        <div class="ring-num">18/24</div>
+        <div class="ring-sub">年度目标</div>
+      </div>
+    </div>
+    <div class="goal-text">
+      <div class="goal-title">年度阅读目标</div>
+      <div class="goal-desc">已完成 75%，还剩 6 本。按当前速度，预计 5 月中旬达成目标。继续加油！</div>
+    </div>
+  </div>
+
+  <!-- ═══ CURRENTLY READING ═══ -->
+  <div class="card reading-card" style="animation-delay:.35s">
+    <div class="card-label">READING NOW</div>
+    <div class="book-now">
+      <div class="book-cover"><span class="book-cover-text">百年孤独</span></div>
+      <div class="book-info">
+        <div class="book-title">《百年孤独》</div>
+        <div class="book-author">加西亚·马尔克斯</div>
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+        <div class="progress-text">280 / 412 页 · 68%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ RECENTLY FINISHED ═══ -->
+  <div class="card finished-card" style="animation-delay:.5s">
+    <div class="card-label">RECENTLY FINISHED</div>
+
+    <div class="book-item" style="animation-delay:.6s">
+      <div class="bi-left">
+        <div class="bi-title">《克拉拉与太阳》</div>
+        <div class="bi-meta">石黑一雄 · 3月12日读完</div>
+      </div>
+      <div class="bi-score">8.5</div>
+    </div>
+
+    <div class="book-item" style="animation-delay:.7s">
+      <div class="bi-left">
+        <div class="bi-title">《额尔古纳河右岸》</div>
+        <div class="bi-meta">迟子建 · 2月28日读完</div>
+      </div>
+      <div class="bi-score">9.0</div>
+    </div>
+
+    <div class="book-item" style="animation-delay:.8s">
+      <div class="bi-left">
+        <div class="bi-title">《小王子》</div>
+        <div class="bi-meta">圣埃克苏佩里 · 2月15日读完</div>
+      </div>
+      <div class="bi-score">9.5</div>
+    </div>
+  </div>
+
+  <!-- ═══ WANT TO READ ═══ -->
+  <div class="card want-card" style="animation-delay:.65s">
+    <div class="card-label">WANT TO READ</div>
+    <div class="want-item">
+      <div class="want-dot"></div>
+      <span class="want-title">《树上的男爵》</span><span class="want-author">卡尔维诺</span>
+    </div>
+    <div class="want-item">
+      <div class="want-dot"></div>
+      <span class="want-title">《呼兰河传》</span><span class="want-author">萧红</span>
+    </div>
+    <div class="want-item">
+      <div class="want-dot"></div>
+      <span class="want-title">《人间失格》</span><span class="want-author">太宰治</span>
+    </div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">书虫 · BOOKWORM · 一本书，一段旅程</div>
+    <div class="footer-disc">虚构应用 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+// Count-up animation
+document.querySelectorAll('.stat-num').forEach(function(el){
+  var target=parseInt(el.dataset.target);
+  var duration=1200;
+  var start=performance.now();
+  function tick(now){
+    var elapsed=now-start;
+    var progress=Math.min(elapsed/duration,1);
+    var eased=1-Math.pow(1-progress,3);
+    el.textContent=Math.floor(eased*target).toLocaleString();
+    if(progress<1)requestAnimationFrame(tick);
+    else el.textContent=target.toLocaleString();
+  }
+  setTimeout(function(){requestAnimationFrame(tick)},400);
+});
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
