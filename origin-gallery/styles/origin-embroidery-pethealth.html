@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>宠物健康档案 — 绣爪 STITCH PAW</title>
+<link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--linen:#F0E8D8;--red:#C84848;--blue:#4878A8;--green:#4A9868;--yellow:#D8A840;--hoop:#A07848;--grid:#D8D0C0;--dark:#3A3028;--dim:rgba(58,48,40,0.3)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--linen);color:var(--dark);font-family:'Noto Sans SC',sans-serif;font-weight:400;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;
+    /* Cross-stitch grid */
+    background-image:
+      repeating-linear-gradient(0deg,transparent,transparent 11px,rgba(216,208,192,0.3) 11px,rgba(216,208,192,0.3) 12px),
+      repeating-linear-gradient(90deg,transparent,transparent 11px,rgba(216,208,192,0.3) 11px,rgba(216,208,192,0.3) 12px)}
+
+  .page{max-width:460px;width:100%;animation:fadeIn .5s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* Embroidery hoop */
+  .hoop{border-radius:50%;border:5px solid var(--hoop);box-shadow:inset 0 2px 4px rgba(0,0,0,0.08),0 2px 6px rgba(0,0,0,0.06);
+    background:var(--linen);display:flex;align-items:center;justify-content:center;flex-direction:column;
+    transition:transform .2s}
+  .hoop:hover{transform:rotate(2deg)}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.5rem}
+  .header-hoop{width:100px;height:100px;margin:0 auto 0.8rem}
+  .header-hoop .hoop-icon{font-size:2rem}
+  .h-title{font-family:'Amatic SC',cursive;font-weight:700;font-size:2rem;color:var(--hoop);letter-spacing:0.06em}
+  .h-en{font-family:'Amatic SC',cursive;font-size:1rem;color:var(--dim);letter-spacing:0.1em}
+
+  /* ═══ PET INFO ═══ */
+  .pet-info{background:rgba(255,255,255,0.4);border:2px solid var(--grid);padding:1rem;margin-bottom:1.5rem;
+    border-radius:4px}
+  .pet-name{font-weight:600;font-size:1.2rem;color:var(--dark)}
+  .pet-detail{font-size:0.9rem;color:var(--dim);line-height:2}
+
+  /* ═══ HEALTH GRID ═══ */
+  .health{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.8rem;margin-bottom:1.5rem}
+
+  .health-card{opacity:0;animation:fadeIn .4s ease forwards}
+  .health-hoop{width:100%;aspect-ratio:1;padding:0.6rem;text-align:center}
+  .hc-label{font-family:'Amatic SC',cursive;font-weight:700;font-size:1.1rem;color:var(--dark)}
+  .hc-val{font-size:0.82rem;color:var(--dim);margin-top:0.1rem}
+  .hc-status{font-size:0.72rem;font-weight:600;margin-top:0.3rem;padding:0.15em 0.5em;border-radius:3px;display:inline-block}
+  .st-ok{color:var(--green);background:rgba(74,152,104,0.08);border:1px solid rgba(74,152,104,0.15)}
+  .st-warn{color:var(--yellow);background:rgba(216,168,64,0.08);border:1px solid rgba(216,168,64,0.2)}
+
+  /* ═══ ADVICE ═══ */
+  .advice{background:rgba(255,255,255,0.3);border:2px solid var(--grid);border-left:4px solid var(--green);padding:1rem;
+    margin-bottom:1.5rem;border-radius:0 4px 4px 0}
+  .advice-text{font-size:0.95rem;color:rgba(58,48,40,0.6);line-height:2}
+  .advice-doc{font-family:'Amatic SC',cursive;font-weight:700;font-size:0.95rem;color:var(--hoop);margin-top:0.4rem}
+
+  .next-check{text-align:center;font-family:'Amatic SC',cursive;font-weight:700;font-size:1.1rem;color:var(--blue);margin-bottom:1.5rem}
+
+  /* ═══ CROSS-STITCH HEART ═══ */
+  .heart-deco{display:flex;justify-content:center;margin-bottom:1.5rem}
+  .xheart{width:3px;height:3px;background:transparent;position:relative;
+    box-shadow:
+      3px 0 0 var(--red),6px 0 0 var(--red),12px 0 0 var(--red),15px 0 0 var(--red),
+      0 3px 0 var(--red),3px 3px 0 var(--red),6px 3px 0 var(--red),9px 3px 0 var(--red),12px 3px 0 var(--red),15px 3px 0 var(--red),18px 3px 0 var(--red),
+      0 6px 0 var(--red),3px 6px 0 var(--red),6px 6px 0 var(--red),9px 6px 0 var(--red),12px 6px 0 var(--red),15px 6px 0 var(--red),18px 6px 0 var(--red),
+      3px 9px 0 var(--red),6px 9px 0 var(--red),9px 9px 0 var(--red),12px 9px 0 var(--red),15px 9px 0 var(--red),
+      6px 12px 0 var(--red),9px 12px 0 var(--red),12px 12px 0 var(--red),
+      9px 15px 0 var(--red)}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center}
+  .footer-motto{font-family:'Amatic SC',cursive;font-weight:700;font-size:1.1rem;color:var(--hoop);opacity:0.5}
+  .footer-disc{font-size:0.58rem;color:var(--dim);opacity:0.2;margin-top:0.2rem}
+
+  @media(max-width:420px){
+    body{padding:1rem}
+    .health{grid-template-columns:1fr 1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="header-hoop hoop"><span class="hoop-icon">🐾</span></div>
+    <h1 class="h-title">绣爪</h1>
+    <div class="h-en">Stitch Paw · 宠物健康档案</div>
+  </header>
+
+  <!-- ═══ PET INFO ═══ -->
+  <div class="pet-info">
+    <div class="pet-name">布丁</div>
+    <div class="pet-detail">英短金渐层 · 3 岁 · ♂ · 5.2 kg<br>体检日期：2026.03.20</div>
+  </div>
+
+  <!-- ═══ HEALTH ═══ -->
+  <div class="health">
+    <div class="health-card" style="animation-delay:.15s"><div class="hoop health-hoop"><div class="hc-label">体重</div><div class="hc-val">5.2 kg</div><div class="hc-status st-ok">正常</div></div></div>
+    <div class="health-card" style="animation-delay:.25s"><div class="hoop health-hoop"><div class="hc-label">疫苗</div><div class="hc-val">已接种</div><div class="hc-status st-ok">完成</div></div></div>
+    <div class="health-card" style="animation-delay:.35s"><div class="hoop health-hoop"><div class="hc-label">驱虫</div><div class="hc-val">上次 2 月</div><div class="hc-status st-warn">需更新</div></div></div>
+    <div class="health-card" style="animation-delay:.45s"><div class="hoop health-hoop"><div class="hc-label">牙齿</div><div class="hc-val">轻度结石</div><div class="hc-status st-warn">注意</div></div></div>
+    <div class="health-card" style="animation-delay:.55s"><div class="hoop health-hoop"><div class="hc-label">心脏</div><div class="hc-val">听诊正常</div><div class="hc-status st-ok">正常</div></div></div>
+    <div class="health-card" style="animation-delay:.65s"><div class="hoop health-hoop"><div class="hc-label">血检</div><div class="hc-val">各项正常</div><div class="hc-status st-ok">正常</div></div></div>
+  </div>
+
+  <!-- ═══ ADVICE ═══ -->
+  <div class="advice">
+    <div class="advice-text">布丁整体健康状况良好。建议下月做一次驱虫，牙结石建议半年内洁牙一次。少吃零食，多喝水。</div>
+    <div class="advice-doc">—— 主治医生 王医生</div>
+  </div>
+
+  <div class="next-check">下次体检：2026.09.20</div>
+
+  <!-- ═══ HEART ═══ -->
+  <div class="heart-deco"><span class="xheart"></span></div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">绣爪 · Stitch Paw · 用心守护每一只毛孩子</div>
+    <div class="footer-disc">虚构医院 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>
