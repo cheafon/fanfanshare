@@ -1,0 +1,29 @@
+Generate a pet memorial tribute page for a fictional cat named "豆沙", styled as Pressed Flower / dried botanical specimen aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: antique paper (#F5EDE0), dried rose (#C4858A), pressed green (#7A9E7E), dried lavender (#9B8BB4), aged gold (#BFA87A), soft brown (#8B7355), warm white (#FBF8F3), dim rgba(139,115,85,0.3). Typography: Sorts Mill Goudy (classic Goudy revival, delicate serif) English, Noto Serif SC 300/400/600 Chinese 17px+. Layout: PRESSED FLOWER — warm antique paper background with faint botanical line decorations, centered single-column memorial, gentle and reverent spacing.
+
+Animation: Low-Medium (gentle, respectful) — Required:
+1. CSS PRESSED FLOWERS: 4-5 CSS-only flower/leaf shapes scattered as decorative elements using border-radius combinations (petal shapes) and clip-path (leaf shapes), in muted dried rose/green/lavender colors, very low opacity (0.06-0.12), positioned fixed around the page like pressed specimens
+2. CSS GENTLE FADE: All content sections fade in very gently with long duration (0.8s+), staggered, creating a slow, contemplative reveal
+3. JS MEMORIAL COUNTER: "陪伴了我们 X 天" — count-up from 0 to 4,382 (12 years) with slow easing, warm and respectful pace
+4. CSS BOTANICAL BORDER: Thin decorative border around main memorial area using repeating gradient to simulate pressed leaf vine pattern
+5. HOVER WARMTH: Cards on hover show very subtle warm glow, like candlelight
+
+Page structure:
+1. Header: Simple, reverent — "永远的豆沙" + dates "2014.06.12 — 2026.02.08"
+2. Memorial circle: CSS circular frame (double border, dried rose color) with cat initial "豆" centered, surrounded by subtle pressed flower decoration
+3. Tribute text: "你来过这个世界，留下了满屋子的毛和永远填不满的猫粮碗。" — warm, personal memorial words
+4. Life stats (gentle count-up):
+   - 陪伴 4,382 天
+   - 吃掉 2,190 罐猫粮
+   - 打翻 countless 杯水
+5. Memory cards (3 gentle memories, staggered fade):
+   - "第一次回家" — 2014年夏天，你缩在纸箱角落，眼睛比身体还大
+   - "最爱的位置" — 永远是键盘上。你觉得那是你的床。
+   - "最后的下午" — 阳光照在你最喜欢的窗台，你闭上眼睛，很安详
+6. Final words: "谢谢你选择了我们。下辈子还做我的猫好不好。"
+7. Footer: soft, minimal — "豆沙 · 2014–2026 · 永远的小朋友"
+
+Pressed flowers: CSS shapes using multiple border-radius values to create asymmetric petal forms (e.g., border-radius: 80% 20% 70% 30% / 50% 60% 40% 50%). Each "flower" is 2-3 overlapping petal divs rotated at different angles. Leaf shapes use clip-path: ellipse() with rotation. All at very low opacity on fixed positions.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-pressedflower-petmemorial.html. Do NOT open.
