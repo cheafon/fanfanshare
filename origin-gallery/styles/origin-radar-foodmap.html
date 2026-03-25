@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>觅食雷达 FOOD RADAR — 附近美食</title>
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0A1A0A;--green:#30E848;--bright:#60FF80;--dark:#1A3A1A;--red:#FF4040;--dgray:#2A3A2A;--dim:rgba(48,232,72,0.25)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--bg);color:var(--green);font-family:'Noto Sans SC',sans-serif;font-weight:400;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E")}
+
+  .page{max-width:440px;width:100%;animation:fadeIn .5s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.5rem}
+  .h-title{font-family:'VT323',monospace;font-size:1.8rem;color:var(--green);letter-spacing:0.08em;
+    text-shadow:0 0 8px rgba(48,232,72,0.3)}
+  .h-en{font-family:'VT323',monospace;font-size:0.85rem;color:var(--dim);letter-spacing:0.12em}
+  .h-loc{font-family:'VT323',monospace;font-size:0.78rem;color:rgba(48,232,72,0.35);margin-top:0.3rem}
+
+  /* ═══ RADAR SCOPE ═══ */
+  .radar-wrap{display:flex;justify-content:center;margin-bottom:1.5rem}
+  .radar{width:260px;height:260px;border-radius:50%;background:var(--bg);border:2px solid rgba(48,232,72,0.2);
+    position:relative;overflow:hidden;box-shadow:0 0 20px rgba(48,232,72,0.05),inset 0 0 20px rgba(48,232,72,0.03)}
+
+  /* Concentric rings */
+  .ring{position:absolute;border-radius:50%;border:1px solid rgba(48,232,72,0.1)}
+  .ring-1{width:86px;height:86px;top:87px;left:87px}
+  .ring-2{width:172px;height:172px;top:44px;left:44px}
+
+  /* Ring labels */
+  .ring-label{position:absolute;font-family:'VT323',monospace;font-size:0.6rem;color:rgba(48,232,72,0.2)}
+  .rl-1{top:50%;left:calc(50% + 46px);transform:translateY(-50%)}
+  .rl-2{top:50%;left:calc(50% + 89px);transform:translateY(-50%)}
+  .rl-3{top:50%;left:calc(50% + 126px);transform:translateY(-50%)}
+
+  /* Crosshair */
+  .radar::before{content:'';position:absolute;top:50%;left:0;right:0;height:1px;background:rgba(48,232,72,0.08)}
+  .radar::after{content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;background:rgba(48,232,72,0.08)}
+
+  /* Sweep line */
+  .sweep{position:absolute;inset:0;border-radius:50%;
+    background:conic-gradient(from 0deg,transparent 0deg,rgba(48,232,72,0.15) 0deg,rgba(96,255,128,0.08) 15deg,transparent 30deg);
+    animation:sweep 3s linear infinite}
+  @keyframes sweep{to{transform:rotate(360deg)}}
+
+  /* Center dot */
+  .center-dot{position:absolute;top:50%;left:50%;width:6px;height:6px;border-radius:50%;background:var(--bright);
+    transform:translate(-50%,-50%);box-shadow:0 0 6px var(--green);z-index:2}
+
+  /* Target dots */
+  .target{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--green);z-index:2;cursor:pointer;
+    box-shadow:0 0 4px var(--green);transition:all .15s}
+  .target:hover{background:var(--bright);box-shadow:0 0 10px var(--bright);transform:scale(1.5)}
+  .target-tip{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:rgba(10,26,10,0.9);
+    border:1px solid rgba(48,232,72,0.2);padding:3px 8px;border-radius:4px;white-space:nowrap;
+    font-family:'VT323',monospace;font-size:0.72rem;color:var(--green);opacity:0;pointer-events:none;transition:opacity .15s;z-index:3}
+  .target:hover .target-tip{opacity:1}
+
+  /* ═══ TARGET LIST ═══ */
+  .targets{margin-bottom:1rem}
+  .tgt-title{font-family:'VT323',monospace;font-size:0.7rem;color:var(--dim);letter-spacing:0.12em;margin-bottom:0.4rem}
+  .tgt-row{display:flex;align-items:center;gap:0.5rem;padding:0.35rem 0.5rem;font-size:0.9rem;color:rgba(48,232,72,0.5);
+    border-bottom:1px solid rgba(48,232,72,0.04);transition:all .15s}
+  .tgt-row:hover{background:rgba(48,232,72,0.03);color:var(--green)}
+  .tgt-id{font-family:'VT323',monospace;font-size:0.75rem;color:var(--dim);width:16px}
+  .tgt-dist{font-family:'VT323',monospace;font-size:0.82rem;color:var(--green);width:48px}
+  .tgt-name{flex:1;font-weight:500}
+  .tgt-rate{font-family:'VT323',monospace;font-size:0.85rem;color:var(--bright)}
+
+  /* ═══ STATUS ═══ */
+  .status{display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.3rem;font-family:'VT323',monospace;font-size:0.75rem;color:var(--dim);
+    padding:0.5rem;border:1px solid rgba(48,232,72,0.06);margin-bottom:1rem}
+  .sig-bar{color:var(--green)}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center}
+  .footer-motto{font-family:'VT323',monospace;font-size:0.85rem;color:var(--dim);opacity:0.4}
+  .footer-disc{font-size:0.58rem;color:var(--dim);opacity:0.15;margin-top:0.2rem}
+
+  @media(max-width:360px){
+    .radar{width:220px;height:220px}
+    .ring-1{width:72px;height:72px;top:74px;left:74px}
+    .ring-2{width:146px;height:146px;top:37px;left:37px}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="h-title">觅食雷达</div>
+    <div class="h-en">FOOD RADAR · 探测中…</div>
+    <div class="h-loc">当前位置：上海市静安区</div>
+  </header>
+
+  <!-- ═══ RADAR ═══ -->
+  <div class="radar-wrap">
+    <div class="radar">
+      <div class="ring ring-1"></div>
+      <div class="ring ring-2"></div>
+      <span class="ring-label rl-1">100m</span>
+      <span class="ring-label rl-2">300m</span>
+      <span class="ring-label rl-3">500m</span>
+      <div class="sweep"></div>
+      <div class="center-dot"></div>
+
+      <!-- Target dots -->
+      <div class="target" id="t-a" style="top:38%;left:62%"><div class="target-tip">小杨生煎 120m</div></div>
+      <div class="target" id="t-b" style="top:22%;left:42%"><div class="target-tip">一兰拉面 230m</div></div>
+      <div class="target" id="t-c" style="top:60%;left:25%"><div class="target-tip">MANNER 350m</div></div>
+      <div class="target" id="t-d" style="top:55%;left:68%"><div class="target-tip">张爷爷空心面 180m</div></div>
+      <div class="target" id="t-e" style="top:15%;left:70%"><div class="target-tip">奈雪の茶 450m</div></div>
+    </div>
+  </div>
+
+  <!-- ═══ TARGET LIST ═══ -->
+  <div class="targets">
+    <div class="tgt-title">TARGET LIST · 探测目标</div>
+    <div class="tgt-row"><span class="tgt-id">A</span><span class="tgt-dist">120m</span><span class="tgt-name">小杨生煎</span><span class="tgt-rate">★ 4.7</span></div>
+    <div class="tgt-row"><span class="tgt-id">B</span><span class="tgt-dist">230m</span><span class="tgt-name">一兰拉面</span><span class="tgt-rate">★ 4.5</span></div>
+    <div class="tgt-row"><span class="tgt-id">C</span><span class="tgt-dist">350m</span><span class="tgt-name">MANNER 咖啡</span><span class="tgt-rate">★ 4.6</span></div>
+    <div class="tgt-row"><span class="tgt-id">D</span><span class="tgt-dist">180m</span><span class="tgt-name">张爷爷空心面</span><span class="tgt-rate">★ 4.8</span></div>
+    <div class="tgt-row"><span class="tgt-id">E</span><span class="tgt-dist">450m</span><span class="tgt-name">奈雪の茶</span><span class="tgt-rate">★ 4.3</span></div>
+  </div>
+
+  <!-- ═══ STATUS ═══ -->
+  <div class="status">
+    <span>扫描半径：500m</span>
+    <span>已发现 5 个目标</span>
+    <span>信号：<span class="sig-bar">████</span>░ 良好</span>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">觅食雷达 · FOOD RADAR · 好吃的逃不出 500 米</div>
+    <div class="footer-disc">虚构 App · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+// Target blink animation (simulating radar echo)
+(function(){
+  var targets=document.querySelectorAll('.target');
+  function blink(){
+    targets.forEach(function(t){
+      if(Math.random()>0.6){
+        t.style.opacity='0.3';
+        setTimeout(function(){t.style.opacity='1'},200+Math.random()*300);
+      }
+    });
+  }
+  setInterval(blink,800);
+})();
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
