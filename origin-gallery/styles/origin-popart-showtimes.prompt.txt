@@ -1,0 +1,33 @@
+Generate a movie showtimes page for fictional "星光影城 STARLIGHT CINEMA", styled as Pop Art Halftone / Lichtenstein comic aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: pop yellow (#FFD700), pop red (#FF1744), pop blue (#2979FF), comic black (#1A1A1A), white (#FFFFFF), light gray (#F5F5F5). Typography: Bangers (comic book display, bold uppercase) English headings, Noto Sans SC 600/700 Chinese 17px+. Layout: POP ART — white/yellow background with Ben-Day halftone dot pattern, movie cards with thick black borders, speech bubble elements, comic book grid feel.
+
+Animation: Medium-High — Required:
+1. CSS BEN-DAY DOTS: Background covered with halftone dot pattern using repeating-radial-gradient (small colored dots at regular intervals, different colors in different sections — red dots on yellow, blue dots on white)
+2. CSS SPEECH BUBBLES: Movie descriptions in comic speech bubble shapes (border-radius + triangle pseudo-element tail), with thick 3px black borders
+3. JS SHOWTIME SELECTOR: Click a movie to highlight it, showtimes pulse briefly with scale animation. Active movie gets a POW/BAM style burst decoration
+4. CSS COMIC BORDERS: All cards have thick 3-4px black borders with slight offset box-shadow (comic print registration offset effect in cyan/magenta)
+5. STAGGERED POP: Movie cards enter with a punchy scale-bounce animation (scale 0 → 1.1 → 1), staggered delays
+
+Page structure:
+1. Header: "星光影城" in comic style + "STARLIGHT CINEMA" + "今日排片" + date badge in starburst shape
+2. Now showing banner: "正在热映" with action lines (CSS radiating lines from center)
+3. Movie cards (4 movies, thick borders, speech bubble descriptions):
+   - 《时间旅行者的早餐》科幻 · 128分钟 · 导演：张未来
+     场次: 10:30 | 13:15 | 16:00 | 19:45 | 22:10
+     "如果时间是一条河，你愿意逆流而上吗？"
+   - 《猫和他的城市》动画 · 96分钟 · 导演：李小鱼
+     场次: 09:50 | 11:40 | 14:20 | 16:30
+     "一只猫，一座城，无数种可能"
+   - 《最后的书店》文艺 · 112分钟 · 导演：王安宁
+     场次: 11:00 | 15:30 | 20:00
+     "在所有人都不读书的年代，他开了一家书店"
+   - 《极速追击3》动作 · 135分钟 · 导演：陈烈风
+     场次: 10:00 | 13:00 | 16:30 | 19:00 | 21:30
+     "这一次，没有退路"
+4. Ticket info: prices, 3D/IMAX badges
+5. Footer: "星光影城 · STARLIGHT · 好电影值得大银幕" + disclaimer
+
+Ben-Day dots: repeating-radial-gradient(circle, var(--red) 1.5px, transparent 1.5px) with background-size:8px 8px creates classic halftone. Different sections use different dot colors. Comic offset: box-shadow: 4px 4px 0 var(--blue) or var(--red) for misregistration print effect. Starburst: clip-path polygon with many points creating spiky star shape for date badge.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-popart-showtimes.html. Do NOT open.

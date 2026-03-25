@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>今日排片 — 星光影城 STARLIGHT CINEMA</title>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Noto+Sans+SC:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--yellow:#FFD700;--red:#FF1744;--blue:#2979FF;--black:#1A1A1A;--white:#FFFFFF;--gray:#F5F5F5}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--white);color:var(--black);font-family:'Noto Sans SC',sans-serif;font-weight:600;font-size:17px;line-height:1.6;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    background-image:repeating-radial-gradient(circle,var(--red) 1px,transparent 1px);
+    background-size:10px 10px;background-color:var(--yellow);background-blend-mode:normal;
+    /* Ben-Day on body at very low opacity */
+    background-image:repeating-radial-gradient(circle,rgba(255,23,68,0.06) 1.2px,transparent 1.2px);
+    background-size:8px 8px}
+
+  .page{max-width:480px;width:100%;position:relative;z-index:1}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.5rem;position:relative;
+    animation:popIn .5s cubic-bezier(0.34,1.56,0.64,1) both}
+  @keyframes popIn{0%{transform:scale(0);opacity:0}100%{transform:scale(1);opacity:1}}
+
+  .h-title{font-family:'Bangers',cursive;font-size:clamp(2.2rem,8vw,3rem);color:var(--black);letter-spacing:0.06em;
+    text-shadow:3px 3px 0 var(--yellow),-1px -1px 0 var(--red);line-height:1.1}
+  .h-en{font-family:'Bangers',cursive;font-size:0.85rem;color:var(--blue);letter-spacing:0.15em}
+
+  /* Starburst date badge */
+  .starburst{display:inline-block;background:var(--red);color:var(--white);font-family:'Bangers',cursive;
+    font-size:0.75rem;letter-spacing:0.08em;padding:0.8em 1.2em;margin-top:0.8rem;position:relative;
+    clip-path:polygon(50% 0%,61% 11%,75% 3%,78% 18%,95% 18%,88% 32%,100% 42%,90% 52%,97% 66%,82% 68%,80% 85%,67% 77%,57% 92%,50% 80%,43% 92%,33% 77%,20% 85%,18% 68%,3% 66%,10% 52%,0% 42%,12% 32%,5% 18%,22% 18%,25% 3%,39% 11%);
+    animation:popIn .5s cubic-bezier(0.34,1.56,0.64,1) both;animation-delay:.2s}
+
+  /* ═══ ACTION LINES BANNER ═══ */
+  .banner{position:relative;text-align:center;padding:1.5rem 0;margin-bottom:1.2rem;overflow:hidden;
+    animation:popIn .5s cubic-bezier(0.34,1.56,0.64,1) both;animation-delay:.15s}
+  .banner::before{content:'';position:absolute;inset:-50%;
+    background:conic-gradient(from 0deg,var(--yellow) 0deg,transparent 4deg,transparent 16deg,var(--yellow) 20deg,transparent 24deg,transparent 36deg,var(--yellow) 40deg,transparent 44deg,transparent 56deg,var(--yellow) 60deg,transparent 64deg,transparent 76deg,var(--yellow) 80deg,transparent 84deg,transparent 96deg,var(--yellow) 100deg,transparent 104deg,transparent 116deg,var(--yellow) 120deg,transparent 124deg,transparent 136deg,var(--yellow) 140deg,transparent 144deg,transparent 156deg,var(--yellow) 160deg,transparent 164deg,transparent 176deg,var(--yellow) 180deg,transparent 184deg,transparent 196deg,var(--yellow) 200deg,transparent 204deg,transparent 216deg,var(--yellow) 220deg,transparent 224deg,transparent 236deg,var(--yellow) 240deg,transparent 244deg,transparent 256deg,var(--yellow) 260deg,transparent 264deg,transparent 276deg,var(--yellow) 280deg,transparent 284deg,transparent 296deg,var(--yellow) 300deg,transparent 304deg,transparent 316deg,var(--yellow) 320deg,transparent 324deg,transparent 336deg,var(--yellow) 340deg,transparent 344deg,transparent 356deg);
+    opacity:0.3;pointer-events:none}
+  .banner-text{font-family:'Bangers',cursive;font-size:1.6rem;color:var(--red);letter-spacing:0.1em;position:relative;
+    text-shadow:2px 2px 0 var(--yellow)}
+
+  /* ═══ MOVIE CARDS ═══ */
+  .movies{display:flex;flex-direction:column;gap:1rem;margin-bottom:1.5rem}
+  .movie{background:var(--white);border:3.5px solid var(--black);padding:1.2rem;position:relative;
+    box-shadow:4px 4px 0 var(--blue);transition:all .15s;cursor:default;
+    opacity:0;animation:cardPop .4s cubic-bezier(0.34,1.56,0.64,1) forwards;
+    /* Ben-Day dots inside card */
+    background-image:repeating-radial-gradient(circle,rgba(41,121,255,0.04) 1px,transparent 1px);
+    background-size:6px 6px}
+  @keyframes cardPop{0%{transform:scale(0.6) rotate(-2deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
+  .movie:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--red)}
+  .movie:nth-child(2){box-shadow:4px 4px 0 var(--red)}
+  .movie:nth-child(2):hover{box-shadow:6px 6px 0 var(--blue)}
+  .movie:nth-child(3){box-shadow:4px 4px 0 var(--yellow)}
+  .movie:nth-child(3):hover{box-shadow:6px 6px 0 var(--red)}
+  .movie:nth-child(4){box-shadow:-4px 4px 0 var(--blue)}
+  .movie:nth-child(4):hover{box-shadow:-6px 6px 0 var(--yellow)}
+
+  .m-genre{font-family:'Bangers',cursive;font-size:0.7rem;letter-spacing:0.1em;display:inline-block;
+    padding:0.15em 0.6em;border:2px solid var(--black);margin-bottom:0.3rem}
+  .m-genre.scifi{background:var(--blue);color:var(--white)}
+  .m-genre.anim{background:var(--yellow);color:var(--black)}
+  .m-genre.drama{background:var(--white);color:var(--black)}
+  .m-genre.action{background:var(--red);color:var(--white)}
+
+  .m-title{font-weight:700;font-size:1.15rem;color:var(--black);line-height:1.4}
+  .m-meta{font-size:0.82rem;color:rgba(26,26,26,0.5);font-weight:400;margin-top:0.1rem}
+
+  /* Speech bubble tagline */
+  .bubble{position:relative;background:var(--yellow);border:2.5px solid var(--black);border-radius:16px;
+    padding:0.5em 0.8em;margin-top:0.6rem;font-size:0.88rem;font-weight:600;color:var(--black);display:inline-block;max-width:100%}
+  .bubble::after{content:'';position:absolute;bottom:-10px;left:20px;width:0;height:0;
+    border-left:8px solid transparent;border-right:8px solid transparent;border-top:10px solid var(--yellow)}
+  .bubble::before{content:'';position:absolute;bottom:-14px;left:18px;width:0;height:0;
+    border-left:10px solid transparent;border-right:10px solid transparent;border-top:13px solid var(--black)}
+
+  /* Showtimes */
+  .times{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.8rem}
+  .time-btn{font-family:'Bangers',cursive;font-size:0.9rem;letter-spacing:0.04em;
+    padding:0.4em 0.8em;border:2.5px solid var(--black);background:var(--white);color:var(--black);
+    cursor:pointer;transition:all .12s;position:relative}
+  .time-btn:hover{background:var(--yellow);transform:scale(1.06)}
+  .time-btn:active{transform:scale(0.95)}
+  .time-btn.selected{background:var(--red);color:var(--white);
+    animation:timePop .25s cubic-bezier(0.34,1.56,0.64,1)}
+  @keyframes timePop{0%{transform:scale(1)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
+
+  /* ═══ TICKET INFO ═══ */
+  .tickets{background:var(--black);border:3.5px solid var(--black);padding:1rem 1.2rem;margin-bottom:1.2rem;
+    animation:popIn .5s cubic-bezier(0.34,1.56,0.64,1) both;animation-delay:.8s;
+    background-image:repeating-radial-gradient(circle,rgba(255,215,0,0.08) 1px,transparent 1px);background-size:6px 6px}
+  .tickets-title{font-family:'Bangers',cursive;font-size:1rem;color:var(--yellow);letter-spacing:0.1em;margin-bottom:0.5rem}
+  .price-row{display:flex;justify-content:space-between;align-items:center;padding:0.3rem 0}
+  .price-label{font-size:0.88rem;color:rgba(255,255,255,0.6);font-weight:400}
+  .price-badge{font-family:'Bangers',cursive;font-size:0.85rem;padding:0.2em 0.6em;border:2px solid;display:inline-block}
+  .price-badge.std{border-color:var(--yellow);color:var(--yellow)}
+  .price-badge.imax{border-color:var(--blue);color:var(--blue)}
+  .price-badge.vip{border-color:var(--red);color:var(--red)}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;animation:popIn .5s ease both;animation-delay:.9s}
+  .footer-motto{font-family:'Bangers',cursive;font-size:0.85rem;color:var(--blue);letter-spacing:0.06em;opacity:0.5}
+  .footer-disc{font-size:0.58rem;color:rgba(26,26,26,0.2);margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1rem}.movie{padding:1rem}.times{gap:0.3rem}.time-btn{font-size:0.82rem;padding:0.35em 0.6em}}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="h-title">星光影城</div>
+    <div class="h-en">STARLIGHT CINEMA</div>
+    <div class="starburst">3月25日 · 周二</div>
+  </header>
+
+  <!-- ═══ ACTION LINES BANNER ═══ -->
+  <div class="banner">
+    <div class="banner-text">正在热映</div>
+  </div>
+
+  <!-- ═══ MOVIES ═══ -->
+  <div class="movies">
+
+    <div class="movie" style="animation-delay:.25s">
+      <span class="m-genre scifi">SCI-FI 科幻</span>
+      <div class="m-title">《时间旅行者的早餐》</div>
+      <div class="m-meta">128 分钟 · 导演：张未来</div>
+      <div class="bubble">如果时间是一条河，你愿意逆流而上吗？</div>
+      <div class="times">
+        <button class="time-btn" onclick="selectTime(this)">10:30</button>
+        <button class="time-btn" onclick="selectTime(this)">13:15</button>
+        <button class="time-btn" onclick="selectTime(this)">16:00</button>
+        <button class="time-btn" onclick="selectTime(this)">19:45</button>
+        <button class="time-btn" onclick="selectTime(this)">22:10</button>
+      </div>
+    </div>
+
+    <div class="movie" style="animation-delay:.38s">
+      <span class="m-genre anim">ANIMATION 动画</span>
+      <div class="m-title">《猫和他的城市》</div>
+      <div class="m-meta">96 分钟 · 导演：李小鱼</div>
+      <div class="bubble">一只猫，一座城，无数种可能</div>
+      <div class="times">
+        <button class="time-btn" onclick="selectTime(this)">09:50</button>
+        <button class="time-btn" onclick="selectTime(this)">11:40</button>
+        <button class="time-btn" onclick="selectTime(this)">14:20</button>
+        <button class="time-btn" onclick="selectTime(this)">16:30</button>
+      </div>
+    </div>
+
+    <div class="movie" style="animation-delay:.51s">
+      <span class="m-genre drama">DRAMA 文艺</span>
+      <div class="m-title">《最后的书店》</div>
+      <div class="m-meta">112 分钟 · 导演：王安宁</div>
+      <div class="bubble">在所有人都不读书的年代，他开了一家书店</div>
+      <div class="times">
+        <button class="time-btn" onclick="selectTime(this)">11:00</button>
+        <button class="time-btn" onclick="selectTime(this)">15:30</button>
+        <button class="time-btn" onclick="selectTime(this)">20:00</button>
+      </div>
+    </div>
+
+    <div class="movie" style="animation-delay:.64s">
+      <span class="m-genre action">ACTION 动作</span>
+      <div class="m-title">《极速追击 3》</div>
+      <div class="m-meta">135 分钟 · 导演：陈烈风</div>
+      <div class="bubble">这一次，没有退路</div>
+      <div class="times">
+        <button class="time-btn" onclick="selectTime(this)">10:00</button>
+        <button class="time-btn" onclick="selectTime(this)">13:00</button>
+        <button class="time-btn" onclick="selectTime(this)">16:30</button>
+        <button class="time-btn" onclick="selectTime(this)">19:00</button>
+        <button class="time-btn" onclick="selectTime(this)">21:30</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══ TICKETS ═══ -->
+  <div class="tickets">
+    <div class="tickets-title">TICKET PRICES</div>
+    <div class="price-row"><span class="price-label">2D 标准厅</span><span class="price-badge std">¥45</span></div>
+    <div class="price-row"><span class="price-label">IMAX 巨幕厅</span><span class="price-badge imax">¥80</span></div>
+    <div class="price-row"><span class="price-label">VIP 沙发厅</span><span class="price-badge vip">¥120</span></div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">STARLIGHT CINEMA · 好电影值得大银幕</div>
+    <div class="footer-disc">虚构影城 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+function selectTime(btn){
+  // Deselect siblings in same movie
+  var siblings=btn.parentElement.querySelectorAll('.time-btn');
+  siblings.forEach(function(b){b.classList.remove('selected')});
+  btn.classList.add('selected');
+  // Re-trigger animation
+  btn.style.animation='none';void btn.offsetWidth;btn.style.animation='timePop .25s cubic-bezier(0.34,1.56,0.64,1)';
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
