@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>停车缴费 — 泊位 PARK HERE</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--indigo:#4a48e8;--coral:#f06848;--white:#fff;--dark:#1a1a28;--gray:#f0f0f8;--green:#28c878;--yellow:#f0b830;--dim:rgba(26,26,40,0.35)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--gray);color:var(--dark);font-family:'Noto Sans SC','DM Sans',sans-serif;font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;display:flex;justify-content:center}
+
+  .page{max-width:460px;width:100%;animation:fadeIn .6s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* ═══ GRADIENT HEADER ═══ */
+  .grad-header{background:linear-gradient(135deg,var(--indigo),var(--coral));padding:2.5rem 2rem 5rem;text-align:center;border-radius:0 0 30px 30px}
+  .logo{font-family:'DM Sans',sans-serif;font-weight:700;font-size:1.1rem;color:var(--white);letter-spacing:0.08em;opacity:0.8}
+  .logo-sub{font-family:'DM Sans',sans-serif;font-weight:400;font-size:0.7rem;color:rgba(255,255,255,0.5);letter-spacing:0.1em;margin-top:0.1rem}
+  .plate{font-family:'DM Sans',sans-serif;font-weight:700;font-size:clamp(1.8rem,5vw,2.4rem);color:var(--white);margin-top:1.2rem;letter-spacing:0.06em}
+  .plate-label{font-size:0.75rem;color:rgba(255,255,255,0.4);margin-top:0.2rem}
+
+  /* ═══ PAYMENT CARD ═══ */
+  .pay-card{background:var(--white);border-radius:24px;margin:-3rem 1rem 0;padding:2rem 1.5rem;position:relative;
+    box-shadow:0 8px 30px rgba(0,0,0,0.08)}
+
+  .amount{text-align:center;margin-bottom:1.2rem}
+  .amount-num{font-family:'DM Sans',sans-serif;font-weight:700;font-size:clamp(3rem,10vw,4rem);line-height:1;
+    background:linear-gradient(135deg,var(--indigo),var(--coral));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .amount-note{font-size:0.85rem;color:var(--dim);margin-top:0.3rem}
+
+  /* Details */
+  .details{border-top:1px solid rgba(26,26,40,0.06);padding-top:1rem}
+  .det-row{display:flex;justify-content:space-between;align-items:center;padding:0.35rem 0;font-size:0.95rem}
+  .det-label{color:var(--dim)}
+  .det-val{font-weight:500;color:var(--dark)}
+  .det-val-live{font-family:'DM Sans',sans-serif;font-weight:600}
+  .tag-billing{font-family:'DM Sans',sans-serif;font-size:0.65rem;font-weight:600;color:var(--dark);background:var(--yellow);padding:0.2em 0.6em;border-radius:8px;opacity:0.8}
+
+  /* Breakdown */
+  .breakdown{margin-top:1rem;padding:0.8rem;background:var(--gray);border-radius:14px}
+  .bd-title{font-family:'DM Sans',sans-serif;font-weight:600;font-size:0.7rem;color:var(--dim);letter-spacing:0.05em;margin-bottom:0.4rem}
+  .bd-row{display:flex;justify-content:space-between;font-size:0.85rem;line-height:2;color:rgba(26,26,40,0.5)}
+  .bd-row-free{color:var(--green)}
+  .bd-total{display:flex;justify-content:space-between;font-weight:600;font-size:1rem;color:var(--dark);border-top:1px solid rgba(26,26,40,0.06);padding-top:0.4rem;margin-top:0.3rem}
+
+  /* Pay button */
+  .pay-btn{display:block;width:100%;font-family:'Noto Sans SC','DM Sans',sans-serif;font-weight:600;font-size:1.1rem;color:var(--white);
+    background:linear-gradient(135deg,var(--indigo),var(--coral));border:none;padding:1em;border-radius:16px;margin-top:1.5rem;
+    cursor:pointer;box-shadow:0 4px 15px rgba(74,72,232,0.2);transition:all .2s;letter-spacing:0.03em}
+  .pay-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(74,72,232,0.3)}
+  .pay-btn:active{transform:translateY(0)}
+  .pay-methods{text-align:center;font-size:0.78rem;color:var(--dim);margin-top:0.6rem}
+
+  /* ═══ TIPS ═══ */
+  .tips{padding:1rem 1.5rem;margin:0 1rem}
+  .tip{font-size:0.85rem;color:rgba(26,26,40,0.3);line-height:2;text-align:center}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;padding:1.5rem 0 1rem}
+  .footer-motto{font-weight:500;font-size:0.85rem;color:var(--dim);opacity:0.4}
+  .footer-disc{font-size:0.65rem;color:var(--dim);opacity:0.15;margin-top:0.3rem}
+
+  @media(max-width:500px){
+    .grad-header{padding:2rem 1.5rem 4rem;border-radius:0 0 24px 24px}
+    .pay-card{margin:-2.5rem 0.8rem 0;padding:1.5rem 1.2rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ GRADIENT HEADER ═══ -->
+  <header class="grad-header">
+    <div class="logo">泊位</div>
+    <div class="logo-sub">PARK HERE · 智能停车</div>
+    <div class="plate">沪 A · 12345</div>
+    <div class="plate-label">车牌号码</div>
+  </header>
+
+  <!-- ═══ PAYMENT CARD ═══ -->
+  <div class="pay-card">
+
+    <div class="amount">
+      <div class="amount-num">¥18.00</div>
+      <div class="amount-note">首小时免费 · 之后 ¥6/小时</div>
+    </div>
+
+    <div class="details">
+      <div class="det-row"><span class="det-label">停车场</span><span class="det-val">环球金融中心 B2</span></div>
+      <div class="det-row"><span class="det-label">车位号</span><span class="det-val">B2-A-0823</span></div>
+      <div class="det-row"><span class="det-label">入场时间</span><span class="det-val">今天 09:15</span></div>
+      <div class="det-row"><span class="det-label">当前时间</span><span class="det-val det-val-live" id="currentTime">--:--</span></div>
+      <div class="det-row"><span class="det-label">停车时长</span><span class="det-val det-val-live" id="duration">--</span></div>
+      <div class="det-row"><span class="det-label">状态</span><span class="tag-billing">计费中</span></div>
+    </div>
+
+    <div class="breakdown">
+      <div class="bd-title">费用明细</div>
+      <div class="bd-row bd-row-free"><span>首小时</span><span>免费</span></div>
+      <div class="bd-row"><span>第 2 小时</span><span>¥6.00</span></div>
+      <div class="bd-row"><span>第 3 小时</span><span>¥6.00</span></div>
+      <div class="bd-row"><span>超出部分（不足 1h 按 1h）</span><span>¥6.00</span></div>
+      <div class="bd-total"><span>合计</span><span>¥18.00</span></div>
+    </div>
+
+    <button class="pay-btn">立即支付 ¥18.00</button>
+    <div class="pay-methods">支持微信支付 · 支付宝 · 银联云闪付</div>
+
+  </div>
+
+  <!-- ═══ TIPS ═══ -->
+  <div class="tips">
+    <div class="tip">支付后请在 15 分钟内驶离停车场</div>
+    <div class="tip">如有疑问请联系停车场管理处 400-XXX-XXXX</div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">泊位 · 让停车更简单</div>
+    <div class="footer-disc">页面来源：虚构品牌 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+(function tick(){
+  var now=new Date();
+  var h=now.getHours(),m=now.getMinutes();
+  document.getElementById('currentTime').textContent='今天 '+(h<10?'0'+h:h)+':'+(m<10?'0'+m:m);
+  // Duration from 09:15
+  var entry=new Date(now);entry.setHours(9,15,0,0);
+  var diff=Math.max(0,now-entry);
+  var dh=Math.floor(diff/3600000);
+  var dm=Math.floor((diff%3600000)/60000);
+  document.getElementById('duration').textContent=dh+' 小时 '+dm+' 分';
+  setTimeout(tick,10000);
+})();
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

@@ -52,4 +52,5 @@ window.__NAV_META = {
   'kawaii-petreport': { name: '豆花日报 · 卡哇伊宠报', desc: '宠物寄养日报 — 白底+樱花粉+薰衣草紫+天空蓝+薄荷绿+柠檬黄、Quicksand圆润+ZCOOL快乐体、超大圆角24px+emoji状态图标+粉彩标签+泡泡对话框(三角伪元素)+圆形头像渐变+微晃wiggle动画+6维状态网格、Kawaii Pastel卡哇伊', tags: ['light','kawaii','pastel','pet','cute','rounded','report','japanese'] },
   'topo-hiking': { name: '武功山 · 等高线徒步', desc: '登山路线指南 — 地图米+等高线棕+海拔绿+路径橙+危险红、IBM Plex Mono等宽+Noto Sans SC、CSS等高线背景(repeating-radial-gradient同心椭圆)+虚线路径border+海拔标注+地图比例尺+经纬度坐标+图例装备清单+2天分段时间线、Topographic Map等高线', tags: ['light','topo','hiking','map','outdoor','contour','monospace','nature'] },
   'neonwire-esports': { name: '星际争霸 · 霓虹电竞', desc: '电竞战报排行榜 — 虚空黑+霓虹青+霓虹粉+霓虹紫、Rajdhani棱角紧凑+Noto Sans SC、纯线框transparent+border描边+多层box-shadow霓虹发光+斜角clip-path裁切+呼吸发光动画+3:1比分大数字+MVP数据卡+5人排行榜+对局记录、Neon Wireframe霓虹线框', tags: ['dark','neon','wireframe','esports','gaming','glow','tron','competitive'] },
+  'duotone-parking': { name: '泊位 · 双色停车', desc: '停车缴费页 — 靛蓝→珊瑚渐变+纯白+浅灰+成功绿+警告黄、DM Sans几何+Noto Sans SC、大面积双色渐变顶部+白色浮动卡片负margin叠加+超大金额渐变文字+圆角20px+渐变支付按钮+JS实时时钟+停车时长计算+费用明细、Duotone Gradient双色调', tags: ['light','duotone','gradient','parking','payment','modern','clean','app'] },
 };
