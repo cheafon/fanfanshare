@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GR-2026-0042 永动记忆储存装置 — 齿轮研究所</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--leather:#2A1F14;--brass:#B8860B;--copper:#B87333;--paper:#F0E6D0;--rivet:#8A8A8A;--steam:#E8E0D0;--dim:rgba(42,31,20,0.35)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--paper);color:var(--leather);font-family:'Noto Serif SC','Playfair Display',serif;font-weight:400;font-size:17px;line-height:1.8;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative;
+    background-image:
+      radial-gradient(ellipse at 30% 20%,rgba(184,115,51,0.05) 0%,transparent 50%),
+      radial-gradient(ellipse at 80% 70%,rgba(42,31,20,0.04) 0%,transparent 50%),
+      repeating-linear-gradient(45deg,transparent,transparent 30px,rgba(42,31,20,0.008) 30px,rgba(42,31,20,0.008) 31px),
+      repeating-linear-gradient(-45deg,transparent,transparent 30px,rgba(42,31,20,0.008) 30px,rgba(42,31,20,0.008) 31px)}
+
+  .noise{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.025}
+  .steam-layer{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .steam{position:absolute;border-radius:50%;background:rgba(232,224,208,0.4);filter:blur(2px);
+    animation:steamRise linear infinite}
+  @keyframes steamRise{
+    0%{transform:translateY(0) translateX(0);opacity:0}
+    10%{opacity:var(--o)}
+    80%{opacity:var(--o)}
+    100%{transform:translateY(-100vh) translateX(var(--dx));opacity:0}}
+
+  /* Decorative gears */
+  .gears{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .gear{position:absolute;border-radius:50%;
+    background:repeating-conic-gradient(var(--brass) 0deg 12deg,rgba(42,31,20,0.3) 12deg 24deg);
+    opacity:0.06}
+  .gear::after{content:'';position:absolute;inset:30%;border-radius:50%;
+    background:radial-gradient(circle,var(--brass),rgba(42,31,20,0.4));border:2px solid rgba(184,134,11,0.3)}
+  .gear-1{width:180px;height:180px;top:-30px;right:-40px;animation:spin 20s linear infinite}
+  .gear-2{width:120px;height:120px;top:50px;right:60px;animation:spin 15s linear infinite reverse}
+  .gear-3{width:90px;height:90px;bottom:10%;left:-20px;animation:spin 12s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  .page{max-width:480px;width:100%;position:relative;z-index:1}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.5rem;padding-bottom:1rem;
+    border-bottom:3px double var(--brass);animation:fadeIn .6s ease both}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .h-brand{font-weight:600;font-size:1.4rem;color:var(--brass);letter-spacing:0.15em}
+  .h-en{font-family:'Playfair Display',serif;font-weight:400;font-size:0.7rem;color:var(--dim);letter-spacing:0.2em;margin-top:0.05rem}
+  .h-type{font-size:0.88rem;color:var(--leather);margin-top:0.5rem;letter-spacing:0.1em}
+  .h-patent{font-family:'Playfair Display',serif;font-weight:600;font-size:0.65rem;color:var(--copper);
+    border:1.5px solid var(--copper);padding:0.2em 0.8em;display:inline-block;margin-top:0.4rem;letter-spacing:0.1em}
+
+  /* ═══ CARDS ═══ */
+  .card{background:rgba(240,230,208,0.6);border:1.5px solid rgba(184,134,11,0.2);padding:1.2rem;margin-bottom:1rem;
+    position:relative;transition:all .3s;opacity:0;animation:fadeIn .5s ease forwards;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.3)}
+  .card:hover{box-shadow:0 0 20px rgba(184,134,11,0.12),inset 0 1px 0 rgba(255,255,255,0.3)}
+
+  /* Brass rivets at corners */
+  .card::before,.card::after{content:'';position:absolute;width:10px;height:10px;border-radius:50%;
+    background:radial-gradient(circle at 35% 35%,#D4A820,var(--brass),#7A5A00);
+    box-shadow:inset 0 1px 2px rgba(255,255,255,0.3),0 1px 2px rgba(0,0,0,0.2)}
+  .card::before{top:6px;left:6px}
+  .card::after{top:6px;right:6px}
+  .rivet-bl,.rivet-br{position:absolute;width:10px;height:10px;border-radius:50%;
+    background:radial-gradient(circle at 35% 35%,#D4A820,var(--brass),#7A5A00);
+    box-shadow:inset 0 1px 2px rgba(255,255,255,0.3),0 1px 2px rgba(0,0,0,0.2)}
+  .rivet-bl{bottom:6px;left:6px}
+  .rivet-br{bottom:6px;right:6px}
+
+  .card-label{font-family:'Playfair Display',serif;font-weight:700;font-size:0.65rem;color:var(--brass);
+    letter-spacing:0.15em;margin-bottom:0.5rem;text-transform:uppercase}
+
+  /* ═══ TITLE ═══ */
+  .title-card{animation-delay:.15s}
+  .inv-title{font-weight:600;font-size:1.3rem;color:var(--leather);line-height:1.5}
+  .inv-meta{font-size:0.85rem;color:var(--dim);margin-top:0.3rem}
+
+  /* ═══ SPECS ═══ */
+  .specs-card{animation-delay:.25s}
+  .spec-row{display:flex;justify-content:space-between;padding:0.35rem 0;border-bottom:1px dotted rgba(184,134,11,0.15)}
+  .spec-row:last-child{border:none}
+  .spec-label{font-size:0.85rem;color:var(--dim)}
+  .spec-val{font-size:0.85rem;color:var(--leather);text-align:right}
+
+  /* ═══ ABSTRACT ═══ */
+  .abstract-card{animation-delay:.35s}
+  .abstract-text{font-size:0.92rem;color:rgba(42,31,20,0.65);line-height:2;text-indent:2em}
+
+  /* ═══ CLAIMS ═══ */
+  .claims-card{animation-delay:.45s}
+  .claim{padding:0.5rem 0;border-bottom:1px dotted rgba(184,134,11,0.1);font-size:0.9rem;color:rgba(42,31,20,0.6);line-height:2}
+  .claim:last-child{border:none}
+  .claim-num{font-family:'Playfair Display',serif;font-weight:700;color:var(--brass);margin-right:0.3rem}
+
+  /* ═══ TECHNICAL DIAGRAM ═══ */
+  .diagram-card{animation-delay:.55s;display:flex;flex-direction:column;align-items:center}
+  .diagram{position:relative;width:220px;height:160px;margin:0.5rem 0}
+  .d-gear{position:absolute;border-radius:50%;border:2px solid var(--leather);
+    background:repeating-conic-gradient(rgba(184,134,11,0.1) 0deg 15deg,transparent 15deg 30deg)}
+  .d-gear-1{width:80px;height:80px;top:20px;left:30px;animation:spin 8s linear infinite}
+  .d-gear-2{width:60px;height:60px;top:35px;left:100px;animation:spin 6s linear infinite reverse}
+  .d-gear-1::after,.d-gear-2::after{content:'';position:absolute;inset:25%;border-radius:50%;
+    border:1.5px solid var(--leather);background:rgba(184,134,11,0.05)}
+  .d-rod{position:absolute;height:1.5px;background:var(--leather)}
+  .d-rod-1{width:50px;top:95px;left:55px;transform:rotate(-15deg)}
+  .d-rod-2{width:35px;top:110px;left:90px;transform:rotate(25deg)}
+  .d-label{position:absolute;font-family:'Playfair Display',serif;font-size:0.55rem;color:var(--dim);font-style:italic}
+  .d-label-1{top:5px;left:35px}
+  .d-label-2{top:10px;left:105px}
+  .d-label-3{top:125px;left:45px}
+  .d-coil{position:absolute;width:40px;height:50px;bottom:10px;right:30px;
+    border:1.5px solid var(--copper);border-radius:4px}
+  .d-coil::before{content:'';position:absolute;inset:6px;
+    background:repeating-linear-gradient(0deg,transparent,transparent 4px,var(--copper) 4px,var(--copper) 5px)}
+  .d-crystal{position:absolute;width:16px;height:24px;bottom:15px;right:10px;
+    background:linear-gradient(135deg,rgba(184,134,11,0.15),rgba(184,134,11,0.05));
+    clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+    border:1px solid rgba(184,134,11,0.3)}
+  .d-fig{font-family:'Playfair Display',serif;font-size:0.7rem;color:var(--dim);font-style:italic;text-align:center;margin-top:0.3rem}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;padding:0.5rem 0;border-top:3px double var(--brass);margin-top:0.5rem;
+    animation:fadeIn .5s ease both;animation-delay:.7s}
+  .footer-motto{font-family:'Playfair Display',serif;font-size:0.82rem;color:var(--brass);opacity:0.45;font-style:italic}
+  .footer-disc{font-size:0.58rem;color:var(--dim);opacity:0.15;margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1rem}.card{padding:1rem}.diagram{transform:scale(0.85)}}
+</style>
+</head>
+<body>
+
+<svg class="noise" width="100%" height="100%">
+  <filter id="nf"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/></filter>
+  <rect width="100%" height="100%" filter="url(#nf)"/>
+</svg>
+
+<div class="gears">
+  <div class="gear gear-1"></div>
+  <div class="gear gear-2"></div>
+  <div class="gear gear-3"></div>
+</div>
+
+<div class="steam-layer" id="steamLayer"></div>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="h-brand">齿轮研究所</div>
+    <div class="h-en">GEAR INSTITUTE</div>
+    <div class="h-type">发明专利说明书</div>
+    <div class="h-patent">GR-2026-0042</div>
+  </header>
+
+  <!-- ═══ TITLE ═══ -->
+  <div class="card title-card" style="animation-delay:.15s">
+    <span class="rivet-bl"></span><span class="rivet-br"></span>
+    <div class="inv-title">永动记忆储存装置</div>
+    <div class="inv-meta">Perpetual Memory Storage Device</div>
+  </div>
+
+  <!-- ═══ SPECS ═══ -->
+  <div class="card specs-card" style="animation-delay:.25s">
+    <span class="rivet-bl"></span><span class="rivet-br"></span>
+    <div class="card-label">SPECIFICATIONS</div>
+    <div class="spec-row"><span class="spec-label">分类号</span><span class="spec-val">G11C-042/26</span></div>
+    <div class="spec-row"><span class="spec-label">申请日</span><span class="spec-val">2026 年 1 月 15 日</span></div>
+    <div class="spec-row"><span class="spec-label">发明人</span><span class="spec-val">周铜生</span></div>
+    <div class="spec-row"><span class="spec-label">代理机构</span><span class="spec-val">齿轮研究所专利部</span></div>
+  </div>
+
+  <!-- ═══ ABSTRACT ═══ -->
+  <div class="card abstract-card" style="animation-delay:.35s">
+    <span class="rivet-bl"></span><span class="rivet-br"></span>
+    <div class="card-label">ABSTRACT / 摘要</div>
+    <p class="abstract-text">本发明公开了一种基于微型齿轮阵列与铜质导体线圈的记忆储存装置。该装置通过精密齿轮组将人类神经电信号转化为机械编码，再经由谐振铜线圈放大后，以结晶形态封存于特制水晶核心中。本装置可实现记忆的永久保存与无损还原，解决了人类记忆随时间衰退的根本性问题。</p>
+  </div>
+
+  <!-- ═══ CLAIMS ═══ -->
+  <div class="card claims-card" style="animation-delay:.45s">
+    <span class="rivet-bl"></span><span class="rivet-br"></span>
+    <div class="card-label">CLAIMS / 权利要求</div>
+    <div class="claim"><span class="claim-num">1.</span>一种基于微型齿轮阵列的记忆编码装置，包含：铜质导体线圈矩阵，用于捕获神经信号；微型齿轮阵列，将电信号转化为机械编码；水晶存储核心，以结晶形态永久保存记忆数据。</div>
+    <div class="claim"><span class="claim-num">2.</span>根据权利要求 1 所述装置，其中铜线圈工作频率为 47.3 Hz，与人类海马体 θ 波频率共振，实现无损记忆读取。</div>
+    <div class="claim"><span class="claim-num">3.</span>一种利用权利要求 1–2 所述装置进行记忆提取的方法，包括：佩戴铜质感应冠，启动齿轮编码序列，将特定记忆片段结晶化并转存至水晶核心。</div>
+  </div>
+
+  <!-- ═══ DIAGRAM ═══ -->
+  <div class="card diagram-card" style="animation-delay:.55s">
+    <span class="rivet-bl"></span><span class="rivet-br"></span>
+    <div class="card-label">FIG.1 / 附图</div>
+    <div class="diagram">
+      <div class="d-gear d-gear-1"></div>
+      <div class="d-gear d-gear-2"></div>
+      <div class="d-rod d-rod-1"></div>
+      <div class="d-rod d-rod-2"></div>
+      <div class="d-coil"></div>
+      <div class="d-crystal"></div>
+      <span class="d-label d-label-1">主齿轮 A</span>
+      <span class="d-label d-label-2">副齿轮 B</span>
+      <span class="d-label d-label-3">铜线圈矩阵</span>
+    </div>
+    <div class="d-fig">Fig.1 — 永动记忆储存装置结构示意图</div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">齿轮研究所 · Gear Institute · 齿轮不停，思想不止</div>
+    <div class="footer-disc">虚构专利 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+// Steam particles
+(function(){
+  var layer=document.getElementById('steamLayer');
+  for(var i=0;i<18;i++){
+    var s=document.createElement('div');
+    s.className='steam';
+    var sz=3+Math.random()*6;
+    var dur=8+Math.random()*12;
+    var delay=Math.random()*dur;
+    var op=(0.15+Math.random()*0.25).toFixed(2);
+    var dx=(-20+Math.random()*40)+'px';
+    s.style.cssText='width:'+sz+'px;height:'+sz+'px;left:'+Math.random()*100+'%;bottom:-10px;'+
+      '--o:'+op+';--dx:'+dx+';animation-duration:'+dur+'s;animation-delay:-'+delay+'s';
+    layer.appendChild(s);
+  }
+})();
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

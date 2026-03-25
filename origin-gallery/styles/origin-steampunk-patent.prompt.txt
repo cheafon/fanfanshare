@@ -1,0 +1,30 @@
+Generate an invention patent specification page for fictional "齿轮研究所 GEAR INSTITUTE", styled as Steampunk Brass / Victorian industrial aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: dark leather (#2A1F14), brass gold (#B8860B), copper (#B87333), aged paper (#F0E6D0), rivet silver (#8A8A8A), steam white (#E8E0D0), dim rgba(42,31,20,0.35). Typography: Playfair Display (Victorian elegant serif) English, Noto Serif SC 400/600 Chinese 17px+. Layout: STEAMPUNK — aged paper background with leather texture, brass-framed sections, gear decorations, technical specification format.
+
+Animation: Medium-High — Required:
+1. CSS ROTATING GEARS: 2-3 decorative gear shapes made with conic-gradient (alternating brass/dark segments creating gear teeth illusion) + border-radius:50%, continuously rotating at different speeds and directions. Positioned as decorative elements.
+2. CSS BRASS RIVETS: Small circular rivet decorations on card borders using radial-gradient (brass center highlight + dark edge shadow), positioned with pseudo-elements at corners of sections
+3. JS STEAM PARTICLES: 15+ small white/gray circular particles rising slowly from bottom, varying opacity and size, simulating steam wisps. Each particle drifts slightly left/right while rising.
+4. CSS LEATHER TEXTURE: Background with SVG noise for leather grain + warm brown radial-gradient spots + repeating-linear-gradient fine cross-hatch
+5. HOVER BRASS GLOW: Cards on hover show warm brass glow (box-shadow with brass color), simulating lamp light hitting metal
+
+Page structure:
+1. Header: "齿轮研究所" + "GEAR INSTITUTE" + "发明专利说明书" + Patent number "GR-2026-0042"
+2. Invention title: "永动记忆储存装置" (Perpetual Memory Storage Device) + filing date + inventor name "周铜生"
+3. Technical specs card (brass-bordered):
+   - 分类号: G11C-042/26
+   - 申请日: 2026年1月15日
+   - 发明人: 周铜生
+   - 代理机构: 齿轮研究所专利部
+4. Abstract/摘要: Technical description of the fictional invention — a steampunk memory device that uses micro-gears and copper coils to store human memories in crystallized form
+5. Claims/权利要求 (3 claims, numbered):
+   1. 一种基于微型齿轮阵列的记忆编码装置...
+   2. 根据权利要求1所述装置，其中铜线圈频率...
+   3. 一种利用权利要求1-2所述装置的记忆提取方法...
+6. Technical drawing area: CSS art simulating a gear mechanism diagram (circles, lines, labels)
+7. Footer: "齿轮研究所 · GEAR INSTITUTE · 齿轮不停，思想不止" + disclaimer
+
+Gears: conic-gradient(repeating, var(--brass) 0deg 15deg, var(--dark) 15deg 30deg) creates gear-tooth pattern in a circle. Two gears at different sizes, one rotating clockwise (20s), one counter-clockwise (15s), interlocking visually. Steam: JS creates 15 divs with white/gray background, border-radius:50%, random sizes (3-8px), rising from bottom with translateY animation + slight horizontal drift with sin-wave effect.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-steampunk-patent.html. Do NOT open.
