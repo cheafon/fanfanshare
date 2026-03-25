@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>保密通知 — 封印 SEALED</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--wax:#8B2020;--deep:#601018;--parch:#F0E4C8;--ink:#1A1810;--gold:#C09830;--bright:#D04040;--dim:rgba(26,24,16,0.3)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--parch);color:var(--ink);font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:17px;line-height:2;
+    display:flex;justify-content:center;padding:2rem;-webkit-font-smoothing:antialiased;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E")}
+
+  .page{max-width:560px;width:100%;animation:fadeIn .6s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* Gold double rule */
+  .gold-rule{border:none;height:0;border-top:3px double var(--gold);opacity:0.4;margin:0}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;padding:1.5rem 0}
+  .h-title{font-family:'Noto Serif SC',serif;font-weight:700;font-size:clamp(1.6rem,5vw,2.2rem);color:var(--ink);letter-spacing:0.12em}
+  .h-en{font-family:'EB Garamond',serif;font-weight:400;font-style:italic;font-size:0.85rem;color:var(--dim);letter-spacing:0.12em;margin-top:0.1rem}
+
+  /* ═══ WAX SEAL ═══ */
+  .seal-area{display:flex;justify-content:center;margin:1.5rem 0}
+  .seal{width:80px;height:80px;border-radius:50%;
+    background:radial-gradient(circle at 38% 32%,var(--bright),var(--wax) 50%,var(--deep) 85%);
+    box-shadow:2px 3px 8px rgba(0,0,0,0.25),0 0 0 3px var(--deep),inset 0 -2px 4px rgba(0,0,0,0.15);
+    display:flex;align-items:center;justify-content:center;
+    animation:sealIn .7s cubic-bezier(0.34,1.56,0.64,1) both}
+  @keyframes sealIn{from{transform:scale(0) rotate(-180deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+  .seal-letter{font-family:'EB Garamond',serif;font-weight:600;font-size:2rem;color:rgba(240,228,200,0.6);
+    text-shadow:0 1px 2px rgba(0,0,0,0.2)}
+
+  /* ═══ NOTICE BODY ═══ */
+  .notice{padding:0 1rem}
+  .notice-to{font-family:'Noto Serif SC',serif;font-weight:600;font-size:1rem;margin-bottom:0.1rem}
+  .notice-date{font-family:'EB Garamond',serif;font-size:0.85rem;color:var(--dim);margin-bottom:1rem}
+  .notice-intro{font-family:'Noto Serif SC',serif;font-weight:400;font-size:1.05rem;color:rgba(26,24,16,0.7);margin-bottom:1rem;
+    text-indent:2em;text-align:justify}
+
+  .clauses{counter-reset:clause;margin-bottom:1.5rem}
+  .clause{counter-increment:clause;padding-left:2em;position:relative;margin-bottom:0.8rem;
+    font-size:1rem;color:rgba(26,24,16,0.6);text-align:justify;
+    opacity:0;animation:fadeIn .4s ease forwards}
+  .clause::before{content:counter(clause)'.';position:absolute;left:0;font-family:'EB Garamond',serif;font-weight:600;color:var(--wax)}
+
+  /* ═══ SIGNATURE ═══ */
+  .signature{padding:1rem;border-top:1px solid rgba(192,152,48,0.15);margin-top:1rem}
+  .sig-agree{font-family:'Noto Serif SC',serif;font-weight:400;font-size:0.95rem;color:var(--ink);margin-bottom:1rem}
+  .sig-line{display:flex;justify-content:space-between;gap:2rem;flex-wrap:wrap}
+  .sig-field{flex:1;min-width:150px}
+  .sig-label{font-family:'EB Garamond',serif;font-size:0.78rem;color:var(--dim)}
+  .sig-underline{border-bottom:1px solid var(--ink);height:30px;margin-top:0.2rem}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;padding-top:1rem}
+  .footer-motto{font-family:'Noto Serif SC',serif;font-weight:400;font-size:0.88rem;color:var(--gold);opacity:0.4}
+  .footer-disc{font-size:0.65rem;color:var(--dim);opacity:0.25;margin-top:0.3rem}
+
+  @media(max-width:500px){
+    body{padding:1.5rem 1rem}
+    .notice{padding:0}
+    .sig-line{flex-direction:column;gap:1rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <hr class="gold-rule">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <h1 class="h-title">封印</h1>
+    <div class="h-en">Sealed · 保密通知</div>
+  </header>
+
+  <hr class="gold-rule">
+
+  <!-- ═══ WAX SEAL ═══ -->
+  <div class="seal-area">
+    <div class="seal"><span class="seal-letter">S</span></div>
+  </div>
+
+  <!-- ═══ NOTICE BODY ═══ -->
+  <div class="notice">
+    <div class="notice-to">致：全体相关方</div>
+    <div class="notice-date">发出日期：2026 年 3 月 25 日</div>
+    <p class="notice-intro">本文件及其附件中包含的所有信息均为机密信息，受以下条款约束。请仔细阅读并遵守。</p>
+
+    <div class="clauses">
+      <div class="clause" style="animation-delay:.3s">接收方应对所有标记为「机密」的信息严格保密，未经书面授权不得向任何第三方披露、复制或传播。</div>
+      <div class="clause" style="animation-delay:.45s">本保密义务自信息接收之日起五（5）年内持续有效，不因双方合作关系的终止而失效。</div>
+      <div class="clause" style="animation-delay:.6s">违反本协议的任何条款，违约方应承担由此产生的全部法律责任，包括但不限于损害赔偿和合理的律师费用。</div>
+      <div class="clause" style="animation-delay:.75s">以下信息不受本协议约束：（a）已合法公开的信息；（b）接收前已知悉的信息；（c）经独立开发且有书面记录的信息。</div>
+    </div>
+  </div>
+
+  <hr class="gold-rule">
+
+  <!-- ═══ SIGNATURE ═══ -->
+  <div class="signature">
+    <div class="sig-agree">已阅读并同意上述全部条款：</div>
+    <div class="sig-line">
+      <div class="sig-field"><div class="sig-label">Signature · 签名</div><div class="sig-underline"></div></div>
+      <div class="sig-field"><div class="sig-label">Date · 日期</div><div class="sig-underline"></div></div>
+    </div>
+  </div>
+
+  <hr class="gold-rule">
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">封印 · Sealed · 信任始于保密</div>
+    <div class="footer-disc">虚构法务 · 仅供展示 · 不构成法律建议</div>
+  </footer>
+
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>
