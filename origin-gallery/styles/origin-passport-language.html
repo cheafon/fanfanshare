@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>语言学习护照 — 语境 LINGUAL</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--pblue:#1A3060;--red:#C83838;--green:#2A6840;--sgray:#D8D0C0;--paper:#F0EBE0;--ink:#2A2820;--gold:#C8A040;--dim:rgba(42,40,32,0.3)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--paper);color:var(--ink);font-family:'Noto Sans SC','IBM Plex Sans',sans-serif;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;
+    /* Security watermark pattern */
+    background-image:
+      repeating-linear-gradient(45deg,transparent,transparent 4px,rgba(200,192,176,0.08) 4px,rgba(200,192,176,0.08) 5px),
+      repeating-linear-gradient(-45deg,transparent,transparent 4px,rgba(200,192,176,0.06) 4px,rgba(200,192,176,0.06) 5px),
+      repeating-linear-gradient(0deg,transparent,transparent 19px,rgba(200,192,176,0.04) 19px,rgba(200,192,176,0.04) 20px)}
+
+  .page{max-width:460px;width:100%;animation:fadeIn .5s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* ═══ PASSPORT COVER ═══ */
+  .cover{background:linear-gradient(135deg,#1a3060,#243868,#1a3060);border-radius:8px;padding:2rem 1.5rem;text-align:center;
+    margin-bottom:1.5rem;position:relative;overflow:hidden;
+    box-shadow:0 4px 16px rgba(0,0,0,0.15)}
+  .cover::before{content:'';position:absolute;inset:8px;border:1px solid rgba(200,160,64,0.15);border-radius:4px;pointer-events:none}
+
+  /* CSS simplified emblem */
+  .emblem{width:50px;height:50px;border-radius:50%;border:2px solid rgba(200,160,64,0.25);margin:0 auto 0.8rem;
+    display:flex;align-items:center;justify-content:center}
+  .emblem-inner{width:30px;height:30px;border-radius:50%;border:1.5px solid rgba(200,160,64,0.2);
+    display:flex;align-items:center;justify-content:center;font-size:0.9rem;color:var(--gold);opacity:0.4}
+
+  .cover-title{font-weight:600;font-size:1.5rem;letter-spacing:0.1em;
+    background:linear-gradient(90deg,var(--gold),#e8c870,var(--gold));background-size:200% 100%;
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    animation:goldShimmer 5s ease infinite}
+  @keyframes goldShimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+  .cover-en{font-family:'IBM Plex Sans',sans-serif;font-weight:300;font-size:0.7rem;color:rgba(200,160,64,0.4);letter-spacing:0.2em;margin-top:0.2rem}
+  .cover-lang{font-family:'IBM Plex Sans',sans-serif;font-weight:500;font-size:0.85rem;color:rgba(200,160,64,0.5);margin-top:0.6rem;letter-spacing:0.08em}
+
+  /* ═══ INFO PAGE ═══ */
+  .info{background:#fff;border-radius:6px;padding:1rem 1.2rem;margin-bottom:1.5rem;
+    box-shadow:0 2px 8px rgba(0,0,0,0.04);border:1px solid rgba(200,192,176,0.2)}
+  .info-title{font-family:'IBM Plex Sans',sans-serif;font-weight:300;font-size:0.6rem;color:var(--dim);letter-spacing:0.12em;margin-bottom:0.5rem;text-transform:uppercase}
+  .info-row{display:flex;justify-content:space-between;font-size:0.9rem;line-height:2;border-bottom:1px solid rgba(200,192,176,0.15)}
+  .info-row:last-child{border-bottom:none}
+  .info-key{color:var(--dim);font-weight:400}
+  .info-val{font-weight:600;color:var(--ink)}
+
+  /* ═══ STAMPS ═══ */
+  .stamps{position:relative;min-height:280px;margin-bottom:1.5rem;padding:1rem}
+  .stamps-title{font-family:'IBM Plex Sans',sans-serif;font-weight:300;font-size:0.6rem;color:var(--dim);letter-spacing:0.12em;margin-bottom:1rem;text-transform:uppercase}
+
+  .stamp{position:relative;display:inline-block;padding:0.6rem 1rem;margin:0.4rem;opacity:0.7;
+    font-family:'IBM Plex Sans',sans-serif;text-align:center;
+    transform:scale(0);animation:stampIn .4s cubic-bezier(0.34,1.56,0.64,1) forwards}
+  @keyframes stampIn{to{transform:scale(1) rotate(var(--sr,0deg))}}
+
+  .stamp-circle{border-radius:50%;width:90px;height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .stamp-rect{border-radius:4px}
+
+  .stamp-red{border:3px solid var(--red);color:var(--red)}
+  .stamp-green{border:3px solid var(--green);color:var(--green)}
+  .stamp-blue{border:3px solid var(--pblue);color:var(--pblue)}
+
+  .stamp-main{font-weight:700;font-size:0.78rem;letter-spacing:0.04em}
+  .stamp-sub{font-weight:300;font-size:0.6rem;margin-top:0.1rem;opacity:0.6}
+
+  /* ═══ DATA ═══ */
+  .data{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-bottom:1.5rem}
+  .data-card{background:#fff;border-radius:6px;padding:0.8rem;text-align:center;
+    border:1px solid rgba(200,192,176,0.15);box-shadow:0 1px 4px rgba(0,0,0,0.03)}
+  .data-val{font-family:'IBM Plex Sans',sans-serif;font-weight:700;font-size:1.2rem;color:var(--pblue)}
+  .data-label{font-size:0.78rem;color:var(--dim);margin-top:0.1rem}
+
+  /* ═══ NEXT ═══ */
+  .next{background:rgba(26,48,96,0.04);border:1px dashed rgba(26,48,96,0.12);border-radius:6px;padding:1rem;text-align:center;margin-bottom:1.5rem}
+  .next-title{font-family:'IBM Plex Sans',sans-serif;font-weight:600;font-size:0.7rem;color:var(--pblue);letter-spacing:0.1em}
+  .next-goal{font-weight:600;font-size:1.1rem;color:var(--ink);margin-top:0.3rem}
+  .next-desc{font-size:0.88rem;color:var(--dim);margin-top:0.2rem}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center}
+  .footer-motto{font-weight:400;font-size:0.85rem;color:var(--dim);opacity:0.5}
+  .footer-disc{font-size:0.58rem;color:var(--dim);opacity:0.2;margin-top:0.2rem}
+
+  @media(max-width:400px){
+    body{padding:1rem}
+    .stamp-circle{width:78px;height:78px}
+    .data{grid-template-columns:1fr 1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ COVER ═══ -->
+  <div class="cover">
+    <div class="emblem"><div class="emblem-inner">語</div></div>
+    <div class="cover-title">语境</div>
+    <div class="cover-en">LINGUAL · 语言学习护照</div>
+    <div class="cover-lang">日本語 · JAPANESE</div>
+  </div>
+
+  <!-- ═══ INFO ═══ -->
+  <div class="info">
+    <div class="info-title">Personal Information</div>
+    <div class="info-row"><span class="info-key">学习者</span><span class="info-val">陈小雨</span></div>
+    <div class="info-row"><span class="info-key">学习语言</span><span class="info-val">日语 Japanese</span></div>
+    <div class="info-row"><span class="info-key">开始日期</span><span class="info-val">2025.09.01</span></div>
+    <div class="info-row"><span class="info-key">当前等级</span><span class="info-val">N3 中级</span></div>
+    <div class="info-row"><span class="info-key">学习天数</span><span class="info-val">206 天</span></div>
+  </div>
+
+  <!-- ═══ STAMPS ═══ -->
+  <div class="stamps">
+    <div class="stamps-title">Milestones · 学习里程碑</div>
+
+    <div class="stamp stamp-circle stamp-red" style="--sr:-3deg;animation-delay:.2s">
+      <div class="stamp-main">五十音</div>
+      <div class="stamp-main">CLEARED</div>
+      <div class="stamp-sub">2025.09.15</div>
+    </div>
+
+    <div class="stamp stamp-rect stamp-green" style="--sr:5deg;animation-delay:.35s">
+      <div class="stamp-main">N5 合格</div>
+      <div class="stamp-sub">2025.11.20</div>
+    </div>
+
+    <div class="stamp stamp-circle stamp-blue" style="--sr:-8deg;animation-delay:.5s">
+      <div class="stamp-main">1000</div>
+      <div class="stamp-main">単語</div>
+      <div class="stamp-sub">2026.01.10</div>
+    </div>
+
+    <div class="stamp stamp-rect stamp-red" style="--sr:2deg;animation-delay:.65s">
+      <div class="stamp-main">N4 合格</div>
+      <div class="stamp-sub">2026.02.15</div>
+    </div>
+
+    <div class="stamp stamp-circle stamp-green" style="--sr:-5deg;animation-delay:.8s">
+      <div class="stamp-main">N3</div>
+      <div class="stamp-main">挑戦中</div>
+      <div class="stamp-sub">2026.03.25</div>
+    </div>
+  </div>
+
+  <!-- ═══ DATA ═══ -->
+  <div class="data">
+    <div class="data-card"><div class="data-val">2,847</div><div class="data-label">已学単語</div></div>
+    <div class="data-card"><div class="data-val">156</div><div class="data-label">語法条目</div></div>
+    <div class="data-card"><div class="data-val">312 h</div><div class="data-label">学習時間</div></div>
+    <div class="data-card"><div class="data-val">89</div><div class="data-label">会話練習</div></div>
+  </div>
+
+  <!-- ═══ NEXT ═══ -->
+  <div class="next">
+    <div class="next-title">NEXT DESTINATION</div>
+    <div class="next-goal">N2 · 目标 2026.08</div>
+    <div class="next-desc">还需约 1,000 个单词和 80 条语法</div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">语境 · LINGUAL · 每一门语言都是一次旅行</div>
+    <div class="footer-disc">虚构 App · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>
