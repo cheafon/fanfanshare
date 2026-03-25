@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>猜猜看 GUESS IT — emoji猜成语</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=ZCOOL+KuaiLe&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--yellow:#FFD23F;--blue:#4088FF;--pink:#FF6B9D;--green:#34D399;--white:#FFF;--dark:#1A1A2E;--bg:#F8F7FF}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--dark);font-family:'Noto Sans SC',sans-serif;font-size:17px;line-height:1.6;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(circle at 20% 80%,rgba(255,210,63,0.08) 0%,transparent 50%),radial-gradient(circle at 80% 20%,rgba(64,136,255,0.06) 0%,transparent 50%)}
+
+  .game{max-width:420px;width:100%}
+
+  /* ═══ TOP BAR ═══ */
+  .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem}
+  .logo{font-family:'ZCOOL KuaiLe',cursive;font-size:1.3rem;color:var(--dark)}
+  .score-display{font-family:'Fredoka',sans-serif;font-weight:600;font-size:1rem;color:var(--blue)}
+  .score-num{display:inline-block;transition:transform .2s}
+  .score-num.jump{animation:scoreJump .3s ease}
+  @keyframes scoreJump{0%{transform:scale(1)}50%{transform:scale(1.4)}100%{transform:scale(1)}}
+  .progress{font-family:'Fredoka',sans-serif;font-size:0.8rem;color:rgba(26,26,46,0.4)}
+
+  /* ═══ QUESTION AREA ═══ */
+  .question{text-align:center;margin-bottom:1.5rem;min-height:180px}
+  .emoji-display{font-size:3.5rem;margin-bottom:0.8rem;letter-spacing:0.2em;
+    animation:bounceIn .5s cubic-bezier(0.34,1.56,0.64,1) both}
+  @keyframes bounceIn{0%{transform:scale(0);opacity:0}100%{transform:scale(1);opacity:1}}
+  .q-prompt{font-size:0.9rem;color:rgba(26,26,46,0.45)}
+
+  /* ═══ OPTIONS ═══ */
+  .options{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-bottom:1.5rem}
+  .opt-btn{font-family:'ZCOOL KuaiLe',cursive;font-size:1.05rem;color:var(--dark);
+    background:var(--white);border:3px solid rgba(26,26,46,0.08);border-radius:16px;padding:0.9em 0.6em;
+    cursor:pointer;transition:all .15s;text-align:center;position:relative}
+  .opt-btn:hover:not(.disabled){transform:scale(1.04);border-color:var(--blue);box-shadow:0 4px 12px rgba(64,136,255,0.15)}
+  .opt-btn:active:not(.disabled){transform:scale(0.97)}
+  .opt-btn.disabled{cursor:default;opacity:0.6}
+  .opt-btn.correct{border-color:var(--green);background:rgba(52,211,153,0.08);animation:correctPop .3s ease}
+  @keyframes correctPop{0%{transform:scale(1)}50%{transform:scale(1.08)}100%{transform:scale(1)}}
+  .opt-btn.correct::after{content:'✓';position:absolute;top:4px;right:8px;color:var(--green);font-weight:700;font-size:0.8rem}
+  .opt-btn.wrong{border-color:var(--pink);animation:shake .4s ease}
+  @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(2px)}}
+  .opt-btn.wrong::after{content:'✗';position:absolute;top:4px;right:8px;color:var(--pink);font-weight:700;font-size:0.8rem}
+  .opt-btn.reveal{border-color:var(--green);background:rgba(52,211,153,0.06)}
+
+  .opt-prefix{font-family:'Fredoka',sans-serif;font-weight:600;font-size:0.7rem;color:var(--blue);display:block;margin-bottom:0.1rem}
+
+  /* ═══ GAME OVER ═══ */
+  .gameover{display:none;text-align:center;padding:2rem 0;animation:bounceIn .5s ease both}
+  .gameover.show{display:block}
+  .go-emoji{font-size:3rem;margin-bottom:0.5rem}
+  .go-title{font-family:'ZCOOL KuaiLe',cursive;font-size:1.6rem;color:var(--dark)}
+  .go-score{font-family:'Fredoka',sans-serif;font-weight:700;font-size:2.5rem;
+    background:linear-gradient(135deg,var(--blue),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    margin:0.5rem 0}
+  .go-rating{font-size:1rem;color:rgba(26,26,46,0.5);margin-bottom:1.5rem}
+  .replay-btn{font-family:'ZCOOL KuaiLe',cursive;font-size:1.1rem;color:var(--white);
+    background:linear-gradient(135deg,var(--blue),var(--pink));border:none;padding:0.8em 2.5em;border-radius:16px;
+    cursor:pointer;box-shadow:0 4px 12px rgba(64,136,255,0.25);transition:all .2s}
+  .replay-btn:hover{transform:scale(1.05);box-shadow:0 6px 18px rgba(64,136,255,0.3)}
+
+  /* Progress bar */
+  .prog-bar{height:6px;background:rgba(26,26,46,0.06);border-radius:3px;margin-bottom:1.5rem;overflow:hidden}
+  .prog-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--pink));border-radius:3px;transition:width .3s}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;padding:0.5rem 0}
+  .footer-disc{font-size:0.6rem;color:rgba(26,26,46,0.15)}
+
+  .hide{display:none!important}
+</style>
+</head>
+<body>
+
+<div class="game">
+
+  <!-- ═══ TOP BAR ═══ -->
+  <div class="topbar">
+    <div class="logo">猜猜看</div>
+    <div class="score-display">分数: <span class="score-num" id="scoreNum">0</span></div>
+    <div class="progress" id="progress">第 1 题 / 8</div>
+  </div>
+
+  <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+
+  <!-- ═══ QUESTION ═══ -->
+  <div id="questionArea">
+    <div class="question">
+      <div class="emoji-display" id="emojiDisplay"></div>
+      <div class="q-prompt">这些 emoji 代表什么成语？</div>
+    </div>
+    <div class="options" id="optionsGrid"></div>
+  </div>
+
+  <!-- ═══ GAME OVER ═══ -->
+  <div class="gameover" id="gameover">
+    <div class="go-emoji" id="goEmoji">🎉</div>
+    <div class="go-title">游戏结束！</div>
+    <div class="go-score" id="goScore">0/8</div>
+    <div class="go-rating" id="goRating"></div>
+    <button class="replay-btn" onclick="startGame()">再来一局</button>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-disc">虚构游戏 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+var questions=[
+  {emoji:'🐴🏃💨',answer:'马不停蹄',wrong:['走马观花','一马当先','万马奔腾']},
+  {emoji:'🌧️☔🌧️☔',answer:'倾盆大雨',wrong:['暴风骤雨','风雨交加','大雨滂沱']},
+  {emoji:'🐔🐶😱',answer:'鸡犬不宁',wrong:['鸡飞蛋打','鸡犬升天','鸡鸣狗盗']},
+  {emoji:'💧⬇️🪨📤',answer:'水落石出',wrong:['水到渠成','滴水穿石','石破天惊']},
+  {emoji:'🔥👁️✨',answer:'火眼金睛',wrong:['怒火中烧','炉火纯青','星火燎原']},
+  {emoji:'🐟💧😊',answer:'如鱼得水',wrong:['鱼目混珠','浑水摸鱼','缘木求鱼']},
+  {emoji:'🏔️🌊📏',answer:'山高水长',wrong:['山清水秀','高山流水','千山万水']},
+  {emoji:'🌍🔄🌏',answer:'翻天覆地',wrong:['天翻地覆','开天辟地','惊天动地']}
+];
+
+var score=0,current=0,shuffled=[],answered=false;
+var prefixes=['A','B','C','D'];
+
+function shuffle(arr){
+  var a=arr.slice();
+  for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}
+  return a;
+}
+
+function startGame(){
+  score=0;current=0;answered=false;
+  shuffled=shuffle(questions);
+  document.getElementById('scoreNum').textContent='0';
+  document.getElementById('gameover').classList.remove('show');
+  document.getElementById('questionArea').classList.remove('hide');
+  showQuestion();
+}
+
+function showQuestion(){
+  if(current>=shuffled.length){endGame();return}
+  answered=false;
+  var q=shuffled[current];
+  document.getElementById('progress').textContent='第 '+(current+1)+' 题 / 8';
+  document.getElementById('progFill').style.width=(current/8*100)+'%';
+
+  var emojiEl=document.getElementById('emojiDisplay');
+  emojiEl.style.animation='none';void emojiEl.offsetWidth;emojiEl.style.animation='bounceIn .5s cubic-bezier(0.34,1.56,0.64,1) both';
+  emojiEl.textContent=q.emoji;
+
+  var opts=shuffle([q.answer].concat(q.wrong));
+  var grid=document.getElementById('optionsGrid');
+  grid.innerHTML='';
+  opts.forEach(function(opt,i){
+    var btn=document.createElement('button');
+    btn.className='opt-btn';
+    btn.innerHTML='<span class="opt-prefix">'+prefixes[i]+'</span>'+opt;
+    btn.dataset.answer=opt;
+    btn.onclick=function(){checkAnswer(this,q.answer)};
+    grid.appendChild(btn);
+  });
+}
+
+function checkAnswer(btn,correct){
+  if(answered)return;
+  answered=true;
+  var all=document.querySelectorAll('.opt-btn');
+  all.forEach(function(b){b.classList.add('disabled')});
+
+  if(btn.dataset.answer===correct){
+    btn.classList.add('correct');
+    score++;
+    var sn=document.getElementById('scoreNum');
+    sn.textContent=score;
+    sn.classList.remove('jump');void sn.offsetWidth;sn.classList.add('jump');
+  }else{
+    btn.classList.add('wrong');
+    all.forEach(function(b){if(b.dataset.answer===correct)b.classList.add('reveal')});
+  }
+
+  current++;
+  setTimeout(showQuestion,1500);
+}
+
+function endGame(){
+  document.getElementById('questionArea').classList.add('hide');
+  document.getElementById('progFill').style.width='100%';
+  var go=document.getElementById('gameover');
+  go.classList.add('show');
+  document.getElementById('goScore').textContent=score+'/8';
+
+  var rating,emoji;
+  if(score===8){rating='满分！你是成语大师！';emoji='🏆'}
+  else if(score>=6){rating='优秀！差一点就满分了';emoji='🎉'}
+  else if(score>=4){rating='不错！继续加油';emoji='👍'}
+  else{rating='再试试，你可以的！';emoji='💪'}
+  document.getElementById('goRating').textContent=rating;
+  document.getElementById('goEmoji').textContent=emoji;
+}
+
+startGame();
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
