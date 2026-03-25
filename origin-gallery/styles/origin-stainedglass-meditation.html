@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>正念冥想 — 光隙 LIGHT BETWEEN</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--lead:#1A1A1A;--blue:#2060C0;--red:#C03040;--emerald:#30A060;--amber:#D0A030;--amethyst:#7840B0;--light:#F8F0E8;--dim:rgba(248,240,232,0.25)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--lead);color:var(--light);font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:17px;line-height:1.8;
+    display:flex;justify-content:center;align-items:center;min-height:100vh;padding:2rem;-webkit-font-smoothing:antialiased;
+    overflow:hidden;position:relative}
+
+  /* Stained glass panels */
+  .glass{position:fixed;pointer-events:none;z-index:0}
+  .g1{top:-5%;left:-5%;width:35%;height:40%;background:var(--blue);opacity:0.07;clip-path:polygon(20% 0%,100% 15%,80% 100%,0% 70%)}
+  .g2{top:10%;right:-5%;width:30%;height:35%;background:var(--red);opacity:0.06;clip-path:polygon(0% 20%,100% 0%,90% 100%,10% 80%)}
+  .g3{bottom:-5%;left:10%;width:40%;height:30%;background:var(--emerald);opacity:0.06;clip-path:polygon(10% 0%,90% 10%,100% 90%,0% 100%)}
+  .g4{bottom:10%;right:5%;width:25%;height:35%;background:var(--amber);opacity:0.08;clip-path:polygon(0% 0%,100% 20%,80% 100%,15% 85%)}
+  .g5{top:40%;left:5%;width:20%;height:25%;background:var(--amethyst);opacity:0.05;clip-path:polygon(30% 0%,100% 10%,70% 100%,0% 80%)}
+
+  /* Light flow */
+  .light-flow{position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:radial-gradient(ellipse at 50% 30%,rgba(248,240,232,0.04) 0%,transparent 60%);
+    background-size:200% 200%;animation:lightDrift 15s ease infinite}
+  @keyframes lightDrift{0%{background-position:30% 20%}50%{background-position:70% 60%}100%{background-position:30% 20%}}
+
+  .page{max-width:400px;width:100%;position:relative;z-index:1;text-align:center}
+
+  /* ═══ HEADER ═══ */
+  .header{margin-bottom:2rem;animation:fadeIn .8s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .h-title{font-family:'Cinzel',serif;font-weight:600;font-size:clamp(1.6rem,5vw,2.2rem);color:var(--light);letter-spacing:0.12em}
+  .h-en{font-family:'Cinzel',serif;font-weight:400;font-size:0.7rem;color:var(--dim);letter-spacing:0.2em;margin-top:0.2rem}
+
+  /* ═══ BREATHING CIRCLE ═══ */
+  .breath-area{margin-bottom:2rem}
+  .breath-circle{width:200px;height:200px;border-radius:50%;margin:0 auto;position:relative;
+    background:conic-gradient(from 0deg,var(--blue),var(--amethyst),var(--red),var(--amber),var(--blue));
+    display:flex;align-items:center;justify-content:center;
+    transition:transform 4s ease-in-out;
+    box-shadow:0 0 40px rgba(32,96,192,0.08)}
+  .breath-circle.inhale{transform:scale(1.3)}
+  .breath-circle.exhale{transform:scale(1)}
+
+  .breath-inner{width:170px;height:170px;border-radius:50%;background:var(--lead);
+    display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .breath-text{font-family:'Noto Serif SC',serif;font-weight:600;font-size:1.1rem;color:var(--light);opacity:0.6;
+    transition:opacity .5s;min-height:1.5em}
+  .breath-timer{font-family:'Cinzel',serif;font-size:2rem;color:var(--dim);margin-top:0.3rem;letter-spacing:0.08em}
+
+  /* ═══ GUIDED TEXT ═══ */
+  .guided{min-height:3em;margin-bottom:2rem}
+  .guided-text{font-family:'Noto Serif SC',serif;font-weight:400;font-size:1.05rem;color:rgba(248,240,232,0.4);
+    transition:opacity .8s;line-height:2}
+
+  /* ═══ START BUTTON ═══ */
+  .start-btn{font-family:'Cinzel',serif;font-weight:500;font-size:0.9rem;color:var(--light);
+    background:none;border:1px solid rgba(248,240,232,0.15);padding:0.7em 2em;border-radius:4px;
+    cursor:pointer;letter-spacing:0.12em;transition:all .2s}
+  .start-btn:hover{border-color:rgba(248,240,232,0.3);background:rgba(248,240,232,0.03)}
+  .start-btn.running{border-color:var(--red);color:var(--red)}
+
+  /* ═══ FOOTER ═══ */
+  .footer{margin-top:2rem}
+  .footer-motto{font-family:'Noto Serif SC',serif;font-weight:400;font-size:0.85rem;color:var(--dim);opacity:0.3}
+  .footer-disc{font-size:0.58rem;color:var(--dim);opacity:0.12;margin-top:0.3rem}
+
+  @media(max-width:400px){
+    body{padding:1.5rem}
+    .breath-circle{width:160px;height:160px}
+    .breath-inner{width:136px;height:136px}
+  }
+</style>
+</head>
+<body>
+
+<!-- Stained glass panels -->
+<div class="glass g1"></div>
+<div class="glass g2"></div>
+<div class="glass g3"></div>
+<div class="glass g4"></div>
+<div class="glass g5"></div>
+<div class="light-flow"></div>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <h1 class="h-title">光隙</h1>
+    <div class="h-en">LIGHT BETWEEN · 正念冥想</div>
+  </header>
+
+  <!-- ═══ BREATHING ═══ -->
+  <div class="breath-area">
+    <div class="breath-circle" id="breathCircle">
+      <div class="breath-inner">
+        <div class="breath-text" id="breathText">准备好了吗</div>
+        <div class="breath-timer" id="timer">5:00</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ GUIDED TEXT ═══ -->
+  <div class="guided">
+    <div class="guided-text" id="guidedText">点击下方按钮，开始 5 分钟冥想</div>
+  </div>
+
+  <!-- ═══ START ═══ -->
+  <button class="start-btn" id="startBtn" onclick="toggleMeditation()">开始冥想</button>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">光隙 · 在光与影之间，找到宁静</div>
+    <div class="footer-disc">虚构品牌 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+var running=false,breathInterval=null,timerInterval=null,guideInterval=null;
+var remaining=300; // 5 minutes
+var circle=document.getElementById('breathCircle');
+var breathEl=document.getElementById('breathText');
+var timerEl=document.getElementById('timer');
+var guideEl=document.getElementById('guidedText');
+var btn=document.getElementById('startBtn');
+
+var phrases=['闭上眼睛','感受你的呼吸','吸气，感受空气进入身体','呼气，释放所有的紧张','你不需要去任何地方','此刻，你就在这里','这就够了'];
+var phraseIdx=0;
+var isInhale=true;
+
+function updateTimer(){
+  var m=Math.floor(remaining/60);
+  var s=remaining%60;
+  timerEl.textContent=m+':'+(s<10?'0':'')+s;
+  remaining--;
+  if(remaining<0){stopMeditation();timerEl.textContent='0:00';guideEl.textContent='冥想结束，感谢你给自己这段时间。';btn.textContent='再来一次'}
+}
+
+function breathCycle(){
+  if(isInhale){
+    circle.classList.add('inhale');circle.classList.remove('exhale');
+    breathEl.textContent='吸气…';
+  }else{
+    circle.classList.remove('inhale');circle.classList.add('exhale');
+    breathEl.textContent='呼气…';
+  }
+  isInhale=!isInhale;
+}
+
+function cycleGuide(){
+  guideEl.style.opacity='0';
+  setTimeout(function(){
+    guideEl.textContent=phrases[phraseIdx];
+    guideEl.style.opacity='1';
+    phraseIdx=(phraseIdx+1)%phrases.length;
+  },400);
+}
+
+function toggleMeditation(){
+  if(running){stopMeditation();return}
+  running=true;remaining=300;phraseIdx=0;isInhale=true;
+  btn.textContent='暂停';btn.classList.add('running');
+  breathCycle();
+  breathInterval=setInterval(breathCycle,4000);
+  updateTimer();
+  timerInterval=setInterval(updateTimer,1000);
+  cycleGuide();
+  guideInterval=setInterval(cycleGuide,8000);
+}
+
+function stopMeditation(){
+  running=false;
+  clearInterval(breathInterval);clearInterval(timerInterval);clearInterval(guideInterval);
+  circle.classList.remove('inhale');circle.classList.add('exhale');
+  breathEl.textContent='已暂停';
+  btn.textContent='继续冥想';btn.classList.remove('running');
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
