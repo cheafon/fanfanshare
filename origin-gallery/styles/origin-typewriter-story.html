@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>最后一班地铁 — 打字机 THE TYPEWRITER</title>
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#FAFAF5;--ink:#1A1A18;--fade:#888880;--whiteout:#F5F5F0;--red:#D04040;--blue:#3060A0;--rule:#D0D8E8}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--paper);color:var(--ink);font-family:'Special Elite','Noto Sans SC',monospace;font-size:17px;line-height:28px;
+    display:flex;justify-content:center;padding:2rem;-webkit-font-smoothing:auto;
+    /* Ruled lines */
+    background-image:repeating-linear-gradient(0deg,transparent,transparent 27px,var(--rule) 27px,var(--rule) 28px);
+    background-position:0 4px}
+
+  .ms{max-width:600px;width:100%;animation:fadeIn .5s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* Manuscript header */
+  .ms-header{margin-bottom:1.5rem;padding-bottom:0.5rem;border-bottom:1px solid var(--fade)}
+  .ms-pub{font-size:0.8rem;color:var(--fade);letter-spacing:0.08em}
+  .ms-num{font-size:0.75rem;color:var(--fade);float:right}
+  .ms-author{font-size:0.9rem;color:var(--fade);margin-top:0.5rem}
+
+  /* Typewriter title with cursor */
+  .ms-title{font-size:clamp(1.4rem,4vw,1.8rem);color:var(--ink);margin:0.8rem 0 0.3rem;letter-spacing:0.04em;min-height:1.5em}
+  .cursor{display:inline-block;width:2px;height:1.2em;background:var(--ink);margin-left:2px;vertical-align:text-bottom;
+    animation:blink 0.8s steps(1) infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+  /* Story body */
+  .story p{text-indent:2em;margin-bottom:0;font-size:1.05rem;color:var(--ink);line-height:28px}
+  .story p+p{margin-top:0}
+
+  /* White-out correction */
+  .strikethrough{text-decoration:line-through;color:var(--fade);position:relative}
+  .correction{color:var(--blue);font-weight:500;position:relative}
+  .correction::before{content:'↑';font-size:0.7rem;position:absolute;top:-14px;left:0;color:var(--blue)}
+
+  /* Red annotations */
+  .anno{color:var(--red);font-size:0.85rem;transform:rotate(-2deg);display:inline-block;margin-left:0.5rem;font-style:italic}
+  .anno-block{color:var(--red);font-size:0.85rem;transform:rotate(-3deg);margin:0.3rem 0 0.3rem 2rem;font-style:italic}
+
+  /* End mark */
+  .end-mark{text-align:center;color:var(--fade);margin:1.5rem 0;letter-spacing:0.5em;font-size:0.9rem}
+
+  /* Editor note */
+  .editor-note{border-top:1px solid var(--fade);padding-top:0.8rem;margin-top:1rem;color:var(--red);font-size:0.88rem;font-style:italic;
+    transform:rotate(-1deg);line-height:28px}
+
+  /* Page number */
+  .page-num{text-align:center;color:var(--fade);font-size:0.8rem;margin-top:1.5rem}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;margin-top:1rem}
+  .footer-motto{font-size:0.82rem;color:var(--fade);opacity:0.5}
+  .footer-disc{font-size:0.6rem;color:var(--fade);opacity:0.25;margin-top:0.2rem}
+
+  @media(max-width:500px){
+    body{padding:1.5rem 1rem}
+    .story p{font-size:1rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="ms">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="ms-header">
+    <span class="ms-num">MS-2026-037</span>
+    <div class="ms-pub">打字机 · THE TYPEWRITER · 文学季刊</div>
+    <div class="ms-author">作者：林小北</div>
+    <div class="ms-title" id="title"></div>
+  </header>
+
+  <!-- ═══ STORY ═══ -->
+  <div class="story">
+
+    <p>地铁站里只剩下我一个人了。显示屏上写着「末班车 23:45」，现在是 23:42。三分钟。我数着秒，试图不去想你刚才在电话里说的那句话。</p>
+
+    <p>站台对面的广告牌上，一个女人举着一杯咖啡笑着。广告语写着「每一天都值得被认真对待」。我觉得<span class="strikethrough">这很讽刺</span> <span class="correction">她说得对</span>。<span class="anno">改得好 ✓</span></p>
+
+    <p>风从隧道口涌出来，带着地下特有的温热和铁锈味。列车的灯光在远处出现了，像一只正在靠近的巨大萤火虫。我站起来，拍了拍裤子上并不存在的灰。</p>
+
+    <p>我上了车。车厢里除了我，还有一个戴耳机的年轻人，一个抱着熟睡孩子的女人，和一个看报纸的老人。我们四个人，坐在这座城市最后一班地铁上，各自沉默着。谁也不知道谁的故事，但此刻我们共享同一段隧道里的黑暗和光明。</p>
+    <div class="anno-block">这段很好，保留</div>
+
+    <p>列车启动了。窗外的站台向后退去，连同今天所有的事情。我把手机从口袋里掏出来，看了一眼屏幕。我决定——到站的时候给你回一个电话。不是因为想通了，只是因为有些话，不该让最后一班地铁替我说。</p>
+
+  </div>
+
+  <div class="end-mark">—— 完 ——</div>
+
+  <!-- ═══ EDITOR NOTE ═══ -->
+  <div class="editor-note">
+    初稿 · 第二段修改后可发表。结尾很好，有留白。—— 编辑 张<br>
+    审稿日期：2026.03.25
+  </div>
+
+  <div class="page-num">— 1 / 1 —</div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">打字机 · THE TYPEWRITER · 每个故事都值得被打出来</div>
+    <div class="footer-disc">虚构杂志 · 仅供展示 · 故事为原创虚构</div>
+  </footer>
+
+</div>
+
+<script>
+// Typewriter title effect
+(function(){
+  var text='最后一班地铁';
+  var el=document.getElementById('title');
+  var idx=0;
+  el.innerHTML='<span class="cursor"></span>';
+  function type(){
+    if(idx<text.length){
+      el.innerHTML=text.substring(0,idx+1)+'<span class="cursor"></span>';
+      idx++;
+      setTimeout(type,120+Math.random()*80);
+    }
+  }
+  setTimeout(type,600);
+})();
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
