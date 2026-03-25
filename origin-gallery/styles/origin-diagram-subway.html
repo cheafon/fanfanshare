@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>星城地铁 STARCITY METRO — 线路图</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--red:#E83030;--blue:#2878F0;--green:#28B868;--gray:#E0E0E0;--text:#1a1a1a;--orange:#F0A030;--bg:#F8F8FA;--dim:rgba(26,26,26,0.3)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:'Noto Sans SC','Barlow',sans-serif;font-size:17px;line-height:1.7;display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased}
+
+  .page{max-width:640px;width:100%;background:#fff;border-radius:16px;padding:1.5rem;box-shadow:0 2px 12px rgba(0,0,0,0.04);animation:fadeIn .5s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* ═══ HEADER ═══ */
+  .header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.8rem;margin-bottom:1rem}
+  .h-info{}
+  .h-title{font-weight:600;font-size:1.4rem}
+  .h-en{font-family:'Barlow',sans-serif;font-weight:500;font-size:0.72rem;color:var(--dim);letter-spacing:0.1em}
+
+  .filters{display:flex;gap:0.4rem;flex-wrap:wrap}
+  .filter-btn{font-family:'Barlow',sans-serif;font-weight:600;font-size:0.75rem;padding:0.35em 0.8em;border-radius:8px;border:2px solid var(--gray);
+    background:#fff;color:var(--text);cursor:pointer;transition:all .15s;letter-spacing:0.02em}
+  .filter-btn:hover{border-color:var(--text)}
+  .filter-btn.active{color:#fff;border-color:transparent}
+  .f-all.active{background:var(--text);border-color:var(--text)}
+  .f-1.active{background:var(--red)}
+  .f-2.active{background:var(--blue)}
+  .f-3.active{background:var(--green)}
+
+  /* ═══ SVG MAP ═══ */
+  .map-wrap{margin:0.5rem 0 1rem;overflow-x:auto}
+  .map-svg{width:100%;height:auto;display:block}
+
+  /* Line drawing animation */
+  .metro-line{fill:none;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;
+    stroke-dasharray:800;stroke-dashoffset:800;animation:drawLine 1.5s ease forwards}
+  @keyframes drawLine{to{stroke-dashoffset:0}}
+  .line-1{stroke:var(--red);animation-delay:0s}
+  .line-2{stroke:var(--blue);animation-delay:0.3s}
+  .line-3{stroke:var(--green);animation-delay:0.6s}
+
+  /* Faded state */
+  .metro-line.faded,.station-group.faded{opacity:0.1;transition:opacity .3s}
+  .metro-line:not(.faded),.station-group:not(.faded){transition:opacity .3s}
+
+  /* Station circles */
+  .station{fill:#fff;stroke-width:3;cursor:pointer;transition:r .15s}
+  .station:hover{r:8}
+  .station-s1{stroke:var(--red)}
+  .station-s2{stroke:var(--blue)}
+  .station-s3{stroke:var(--green)}
+
+  /* Transfer station */
+  .transfer-ring{fill:none;stroke-width:2.5}
+
+  /* Station names */
+  .sname{font-family:'Noto Sans SC',sans-serif;font-size:11px;fill:var(--text);font-weight:500}
+
+  /* Tooltip */
+  .tooltip{position:fixed;background:var(--text);color:#fff;font-size:0.78rem;padding:0.4em 0.8em;border-radius:8px;
+    pointer-events:none;opacity:0;transition:opacity .15s;z-index:100;white-space:nowrap;
+    box-shadow:0 4px 12px rgba(0,0,0,0.15)}
+  .tooltip.show{opacity:1}
+
+  /* ═══ LEGEND ═══ */
+  .legend{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin-bottom:1rem;padding:0.8rem;background:var(--bg);border-radius:10px}
+  .leg{display:flex;align-items:center;gap:0.3rem;font-size:0.8rem;color:var(--dim)}
+  .leg-dot{width:12px;height:12px;border-radius:50%;border:3px solid}
+  .leg-line{width:20px;height:4px;border-radius:2px}
+
+  /* ═══ INFO ═══ */
+  .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:1rem}
+  .info-card{padding:0.8rem;background:var(--bg);border-radius:10px}
+  .info-title{font-family:'Barlow',sans-serif;font-weight:600;font-size:0.65rem;color:var(--dim);letter-spacing:0.08em;margin-bottom:0.3rem}
+  .info-text{font-size:0.88rem;color:rgba(26,26,26,0.6);line-height:1.7}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;padding:0.5rem 0}
+  .footer-motto{font-weight:500;font-size:0.85rem;color:var(--dim);opacity:0.4}
+  .footer-disc{font-size:0.6rem;color:var(--dim);opacity:0.15;margin-top:0.2rem}
+
+  @media(max-width:500px){
+    body{padding:0.8rem}
+    .page{padding:1rem}
+    .header{flex-direction:column}
+    .info-grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="h-info">
+      <div class="h-title">星城地铁</div>
+      <div class="h-en">STARCITY METRO · 线路图</div>
+    </div>
+    <div class="filters">
+      <button class="filter-btn f-all active" onclick="filterLine('all')">全部</button>
+      <button class="filter-btn f-1" onclick="filterLine('1')">1号线</button>
+      <button class="filter-btn f-2" onclick="filterLine('2')">2号线</button>
+      <button class="filter-btn f-3" onclick="filterLine('3')">3号线</button>
+    </div>
+  </header>
+
+  <!-- ═══ SVG MAP ═══ -->
+  <div class="map-wrap">
+    <svg class="map-svg" viewBox="0 0 600 500" xmlns="http://www.w3.org/2000/svg">
+
+      <!-- Line 1: Red, Horizontal -->
+      <polyline class="metro-line line-1" data-line="1" points="60,200 160,200 280,200 380,200 460,200 560,200"/>
+
+      <!-- Line 2: Blue, Vertical -->
+      <polyline class="metro-line line-2" data-line="2" points="280,40 280,120 280,200 280,300 280,380 280,460"/>
+
+      <!-- Line 3: Green, Diagonal -->
+      <polyline class="metro-line line-3" data-line="3" points="100,400 180,350 280,300 380,260 480,220"/>
+
+      <!-- Transfer station rings -->
+      <g class="station-group" data-line="1 2">
+        <circle class="transfer-ring" cx="280" cy="200" r="12" stroke="var(--red)"/>
+        <circle class="transfer-ring" cx="280" cy="200" r="8" stroke="var(--blue)"/>
+      </g>
+      <g class="station-group" data-line="2 3">
+        <circle class="transfer-ring" cx="280" cy="300" r="12" stroke="var(--blue)"/>
+        <circle class="transfer-ring" cx="280" cy="300" r="8" stroke="var(--green)"/>
+      </g>
+
+      <!-- Line 1 stations -->
+      <g class="station-group" data-line="1">
+        <circle class="station station-s1" cx="60" cy="200" r="6" data-name="西湖公园" data-info="1号线 · 首班06:05 末班23:00"/>
+        <text class="sname" x="60" y="185" text-anchor="middle">西湖公园</text>
+      </g>
+      <g class="station-group" data-line="1">
+        <circle class="station station-s1" cx="160" cy="200" r="6" data-name="市政府" data-info="1号线 · 首班06:08 末班23:03"/>
+        <text class="sname" x="160" y="185" text-anchor="middle">市政府</text>
+      </g>
+      <g class="station-group" data-line="1 2">
+        <circle class="station station-s1" cx="280" cy="200" r="6" data-name="中心广场" data-info="换乘站 · 1号线 ↔ 2号线" style="stroke:var(--orange)"/>
+        <text class="sname" x="280" y="224" text-anchor="middle" font-weight="600" fill="var(--orange)">中心广场</text>
+      </g>
+      <g class="station-group" data-line="1">
+        <circle class="station station-s1" cx="380" cy="200" r="6" data-name="科技园" data-info="1号线 · 首班06:14 末班23:09"/>
+        <text class="sname" x="380" y="185" text-anchor="middle">科技园</text>
+      </g>
+      <g class="station-group" data-line="1">
+        <circle class="station station-s1" cx="460" cy="200" r="6" data-name="大学城" data-info="1号线 · 首班06:17 末班23:12"/>
+        <text class="sname" x="460" y="185" text-anchor="middle">大学城</text>
+      </g>
+      <g class="station-group" data-line="1">
+        <circle class="station station-s1" cx="560" cy="200" r="6" data-name="高铁站" data-info="1号线终点 · 接驳高铁"/>
+        <text class="sname" x="560" y="185" text-anchor="middle">高铁站</text>
+      </g>
+
+      <!-- Line 2 stations -->
+      <g class="station-group" data-line="2">
+        <circle class="station station-s2" cx="280" cy="40" r="6" data-name="北山" data-info="2号线起点 · 首班06:00"/>
+        <text class="sname" x="296" y="44" text-anchor="start">北山</text>
+      </g>
+      <g class="station-group" data-line="2">
+        <circle class="station station-s2" cx="280" cy="120" r="6" data-name="老街" data-info="2号线 · 首班06:04 末班23:02"/>
+        <text class="sname" x="296" y="124" text-anchor="start">老街</text>
+      </g>
+      <g class="station-group" data-line="2 3">
+        <circle class="station station-s2" cx="280" cy="300" r="6" data-name="商业中心" data-info="换乘站 · 2号线 ↔ 3号线" style="stroke:var(--orange)"/>
+        <text class="sname" x="296" y="304" text-anchor="start" font-weight="600" fill="var(--orange)">商业中心</text>
+      </g>
+      <g class="station-group" data-line="2">
+        <circle class="station station-s2" cx="280" cy="380" r="6" data-name="南门" data-info="2号线 · 首班06:15"/>
+        <text class="sname" x="296" y="384" text-anchor="start">南门</text>
+      </g>
+      <g class="station-group" data-line="2">
+        <circle class="station station-s2" cx="280" cy="460" r="6" data-name="机场" data-info="2号线终点 · 接驳航站楼"/>
+        <text class="sname" x="296" y="464" text-anchor="start">机场</text>
+      </g>
+
+      <!-- Line 3 stations -->
+      <g class="station-group" data-line="3">
+        <circle class="station station-s3" cx="100" cy="400" r="6" data-name="森林公园" data-info="3号线起点 · 首班06:10"/>
+        <text class="sname" x="100" y="420" text-anchor="middle">森林公园</text>
+      </g>
+      <g class="station-group" data-line="3">
+        <circle class="station station-s3" cx="180" cy="350" r="6" data-name="体育馆" data-info="3号线 · 首班06:14"/>
+        <text class="sname" x="180" y="370" text-anchor="middle">体育馆</text>
+      </g>
+      <g class="station-group" data-line="3">
+        <circle class="station station-s3" cx="380" cy="260" r="6" data-name="创意园" data-info="3号线 · 首班06:22"/>
+        <text class="sname" x="380" y="280" text-anchor="middle">创意园</text>
+      </g>
+      <g class="station-group" data-line="3">
+        <circle class="station station-s3" cx="480" cy="220" r="6" data-name="滨江" data-info="3号线终点 · 临江风景"/>
+        <text class="sname" x="480" y="240" text-anchor="middle">滨江</text>
+      </g>
+
+    </svg>
+  </div>
+
+  <!-- Tooltip -->
+  <div class="tooltip" id="tooltip"></div>
+
+  <!-- ═══ LEGEND ═══ -->
+  <div class="legend">
+    <div class="leg"><div class="leg-line" style="background:var(--red)"></div>1号线</div>
+    <div class="leg"><div class="leg-line" style="background:var(--blue)"></div>2号线</div>
+    <div class="leg"><div class="leg-line" style="background:var(--green)"></div>3号线</div>
+    <div class="leg"><div class="leg-dot" style="border-color:var(--text)"></div>普通站</div>
+    <div class="leg"><div class="leg-dot" style="border-color:var(--orange);background:var(--orange);opacity:0.2"></div>换乘站</div>
+  </div>
+
+  <!-- ═══ INFO ═══ -->
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="info-title">TRANSFER · 换乘</div>
+      <div class="info-text">中心广场：1号线 ↔ 2号线<br>商业中心：2号线 ↔ 3号线</div>
+    </div>
+    <div class="info-card">
+      <div class="info-title">OPERATIONS · 运营</div>
+      <div class="info-text">06:00 — 23:00<br>高峰 3min · 平峰 5min</div>
+    </div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">星城地铁 · 连接城市每一个角落</div>
+    <div class="footer-disc">虚构城市 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+// Station hover tooltip
+var tip=document.getElementById('tooltip');
+document.querySelectorAll('.station').forEach(function(s){
+  s.addEventListener('mouseenter',function(e){
+    tip.textContent=s.dataset.name+' — '+s.dataset.info;
+    tip.classList.add('show');
+  });
+  s.addEventListener('mousemove',function(e){
+    tip.style.left=(e.clientX+12)+'px';
+    tip.style.top=(e.clientY-30)+'px';
+  });
+  s.addEventListener('mouseleave',function(){tip.classList.remove('show')});
+});
+
+// Line filter
+function filterLine(line){
+  document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active')});
+  if(line==='all'){
+    document.querySelector('.f-all').classList.add('active');
+    document.querySelectorAll('.metro-line,.station-group').forEach(function(el){el.classList.remove('faded')});
+  }else{
+    document.querySelector('.f-'+line).classList.add('active');
+    document.querySelectorAll('.metro-line').forEach(function(el){
+      el.classList.toggle('faded',el.dataset.line!==line);
+    });
+    document.querySelectorAll('.station-group').forEach(function(el){
+      var lines=el.dataset.line.split(' ');
+      el.classList.toggle('faded',lines.indexOf(line)===-1);
+    });
+  }
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
