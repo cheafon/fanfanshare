@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>生日愿望清单 — 心愿盒 WISH BOX</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--pink:#F0A0B8;--blue:#70A0D0;--gold:#D8B840;--green:#60B880;--silver:#D0D0D8;--choco:#2A1818;--cream:#FFF5E8;--dim:rgba(42,24,24,0.3)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--cream);color:var(--choco);font-family:'Noto Sans SC',sans-serif;font-weight:400;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E")}
+
+  .page{max-width:460px;width:100%;animation:fadeIn .5s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.5rem}
+  .h-title{font-family:'Pacifico',cursive;font-size:clamp(1.8rem,6vw,2.4rem);color:var(--gold);
+    text-shadow:1px 1px 0 rgba(216,184,64,0.2)}
+  .h-en{font-family:'Pacifico',cursive;font-size:0.85rem;color:var(--dim);margin-top:0.1rem}
+  .h-sub{font-size:0.9rem;color:rgba(42,24,24,0.4);margin-top:0.4rem}
+
+  /* ═══ GIFT CARDS ═══ */
+  .gifts{display:flex;flex-direction:column;gap:0.8rem;margin-bottom:1.5rem}
+
+  .gift{border-radius:12px;padding:1rem 1.2rem;position:relative;overflow:hidden;cursor:pointer;
+    transition:all .25s;
+    opacity:0;animation:fadeIn .4s ease forwards}
+  .gift:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,0.08)}
+
+  /* Foil shine overlay */
+  .gift::after{content:'';position:absolute;top:0;left:-200%;width:200%;height:100%;
+    background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,0.15) 45%,rgba(255,255,255,0.25) 50%,rgba(255,255,255,0.15) 55%,transparent 60%);
+    transition:left .6s ease;pointer-events:none}
+  .gift:hover::after{left:100%}
+
+  /* Twist decoration */
+  .gift::before{content:'';position:absolute;left:-6px;top:50%;transform:translateY(-50%) rotate(45deg);
+    width:12px;height:12px;background:inherit;border-radius:2px;opacity:0.6}
+
+  .gift-pink{background:var(--pink)}
+  .gift-blue{background:var(--blue)}
+  .gift-gold{background:var(--gold)}
+  .gift-green{background:var(--green)}
+
+  .gift-name{font-weight:600;font-size:1.05rem;color:#fff}
+  .gift-price{font-family:'Pacifico',cursive;font-size:0.85rem;color:rgba(255,255,255,0.7);margin-top:0.1rem}
+  .gift-desc{font-size:0.88rem;color:rgba(255,255,255,0.5);margin-top:0.3rem;max-height:0;overflow:hidden;transition:max-height .3s ease}
+  .gift:hover .gift-desc,.gift.expanded .gift-desc{max-height:60px}
+
+  .gift-status{position:absolute;top:0.8rem;right:0.8rem;font-size:0.72rem;padding:0.2em 0.6em;border-radius:8px;font-weight:500}
+  .gs-open{background:rgba(255,255,255,0.25);color:#fff}
+  .gs-claimed{background:rgba(0,0,0,0.15);color:rgba(255,255,255,0.7)}
+
+  .claim-btn{display:inline-block;margin-top:0.4rem;font-size:0.78rem;color:#fff;background:rgba(0,0,0,0.15);
+    border:1px solid rgba(255,255,255,0.2);border-radius:6px;padding:0.25em 0.8em;cursor:pointer;
+    transition:all .15s}
+  .claim-btn:hover{background:rgba(0,0,0,0.25);border-color:rgba(255,255,255,0.4)}
+
+  /* ═══ INSTRUCTIONS ═══ */
+  .instructions{text-align:center;margin-bottom:1.5rem;padding:0.8rem;background:rgba(216,184,64,0.06);border-radius:12px;
+    border:1px dashed rgba(216,184,64,0.15)}
+  .inst-text{font-size:0.9rem;color:rgba(42,24,24,0.45)}
+  .inst-contact{font-family:'Pacifico',cursive;font-size:0.85rem;color:var(--gold);margin-top:0.3rem}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center}
+  .footer-motto{font-family:'Pacifico',cursive;font-size:0.95rem;color:var(--gold);opacity:0.4}
+  .footer-disc{font-size:0.58rem;color:var(--dim);opacity:0.2;margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1rem}}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <h1 class="h-title">心愿盒</h1>
+    <div class="h-en">Wish Box</div>
+    <div class="h-sub">小明的生日愿望清单 · 4月12日就是我的生日啦</div>
+  </header>
+
+  <!-- ═══ GIFTS ═══ -->
+  <div class="gifts">
+
+    <div class="gift gift-pink" style="animation-delay:.15s" onclick="toggleDesc(this)">
+      <span class="gift-status gs-open" onclick="event.stopPropagation();claimGift(this)">认领</span>
+      <div class="gift-name">AirPods Pro</div>
+      <div class="gift-price">¥1,899</div>
+      <div class="gift-desc">旧的已经用了两年，右耳有杂音了</div>
+    </div>
+
+    <div class="gift gift-blue" style="animation-delay:.25s">
+      <span class="gift-status gs-claimed">小红已认领 ✓</span>
+      <div class="gift-name">一箱精酿啤酒</div>
+      <div class="gift-price">~¥200</div>
+      <div class="gift-desc">什么牌子都行，惊喜更好</div>
+    </div>
+
+    <div class="gift gift-gold" style="animation-delay:.35s" onclick="toggleDesc(this)">
+      <span class="gift-status gs-open" onclick="event.stopPropagation();claimGift(this)">认领</span>
+      <div class="gift-name">Kindle Paperwhite</div>
+      <div class="gift-price">¥999</div>
+      <div class="gift-desc">想在地铁上看书，手机太容易刷微博</div>
+    </div>
+
+    <div class="gift gift-green" style="animation-delay:.45s">
+      <span class="gift-status gs-claimed">阿海已认领 ✓</span>
+      <div class="gift-name">两张电影票</div>
+      <div class="gift-price">~¥100</div>
+      <div class="gift-desc">和谁看不重要，看什么都行</div>
+    </div>
+
+    <div class="gift gift-pink" style="animation-delay:.55s" onclick="toggleDesc(this)">
+      <span class="gift-status gs-open" onclick="event.stopPropagation();claimGift(this)">认领</span>
+      <div class="gift-name">一顿好吃的</div>
+      <div class="gift-price">预算随意</div>
+      <div class="gift-desc">带我去吃那家排队很久的 omakase</div>
+    </div>
+
+    <div class="gift gift-blue" style="animation-delay:.65s" onclick="toggleDesc(this)">
+      <span class="gift-status gs-open" onclick="event.stopPropagation();claimGift(this)">认领</span>
+      <div class="gift-name">一封信</div>
+      <div class="gift-price">¥0</div>
+      <div class="gift-desc">手写的那种。比任何礼物都珍贵。</div>
+    </div>
+
+  </div>
+
+  <!-- ═══ INSTRUCTIONS ═══ -->
+  <div class="instructions">
+    <div class="inst-text">看中哪个就认领吧，别让我知道</div>
+    <div class="inst-contact">联系小红（组织者）：wishbox_hong</div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">Wish Box · 最好的礼物是你记得</div>
+    <div class="footer-disc">虚构工具 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+function toggleDesc(el){el.classList.toggle('expanded')}
+function claimGift(btn){
+  btn.textContent='已认领 ✓';
+  btn.className='gift-status gs-claimed';
+  btn.onclick=null;
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
