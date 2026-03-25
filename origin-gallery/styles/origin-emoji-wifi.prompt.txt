@@ -1,0 +1,68 @@
+请生成一个单页 HTML 网页，要求如下：
+
+【网页类型】WiFi连接成功页 / WiFi Connected Landing / 咖啡厅WiFi登录后页面
+【品牌】虚构咖啡厅「猫咖星人 CAT CAFÉ COSMOS」— 连上咖啡厅WiFi后看到的欢迎页
+【主题】一个表情符号艺术风格的WiFi连接成功页面，用emoji构建整个视觉系统
+
+【视觉风格】Emoji Art / 表情符号艺术 / emoji设计语言
+- 色调：纯白 (#ffffff)、浅灰 (#f8f8fa)、深灰文字 (#1a1a1a)、WiFi蓝 (#007AFF)、成功绿 (#34C759)、温暖橙 (#FF9500)、浅蓝背景 (#F0F5FF)
+- 字体：Poppins（现代几何圆润无衬线）英文、Noto Sans SC 400/600（中文 17px+）
+- 布局：现代简洁式 — 白色干净背景，emoji作为所有图标和装饰元素（不用传统icon），信息层级清晰，中央WiFi信号动画
+- 动效：中高！
+  * CSS WiFi信号环扩散（3层同心圆从中心向外脉动扩散）
+  * emoji rain（顶部emoji随机掉落，猫+咖啡+星星等）
+  * JS网速数字递增（显示连接速度）
+  * emoji旋转装饰（几个emoji缓慢旋转漂浮）
+  * 连接成功的checkmark弹入动画
+
+【页面结构】
+
+1. emoji rain背景（JS生成emoji从顶部缓慢掉落：🐱☕⭐🌙🐾）
+
+2. 连接成功标识：
+   - WiFi信号动画（3层蓝色同心弧形从中心向外脉动）
+   - ✅ 绿色checkmark弹入
+   - "连接成功！" 大标题
+   - "CONNECTED TO CAT CAFÉ COSMOS"
+
+3. 网络信息（emoji图标+数据）：
+   - 📶 网络名称：CatCafe_5G
+   - ⚡ 下载速度：JS递增到 128 Mbps
+   - 📡 信号强度：极好
+   - 🔒 加密方式：WPA3
+
+4. 咖啡厅欢迎信息：
+   - 🐱 "欢迎来到猫咖星人！"
+   - ☕ "WiFi密码每小时更新，但猫的可爱是永恒的"
+   - 📸 "拍到的猫咪照片可以@我们的小红书：猫咖星人"
+
+5. 今日推荐（emoji卡片）：
+   - ☕ 招牌燕麦拿铁 ¥32 "今日特惠 ¥25"
+   - 🍰 巴斯克芝士蛋糕 ¥38
+   - 🐱 猫咪互动时间：14:00-16:00（免费）
+
+6. WiFi使用须知：
+   - ⏰ 免费使用 2 小时
+   - 🚫 请勿下载大文件占用带宽
+   - 💡 如需延长请到吧台续杯
+
+7. 页脚：
+   - "猫咖星人 · CAT CAFÉ COSMOS"
+   - "WiFi由 🐱 提供动力"
+   - "页面来源：虚构咖啡厅 · 仅供展示"
+
+【技术要求】
+- 单个 HTML 文件，所有 CSS 和 JS 内联
+- 使用 Google Fonts：Poppins、Noto Sans SC
+- 响应式设计，适配手机和桌面
+- 中文为主，正文字号至少 17px
+- 生产级品质
+- 必须实现：
+  1. CSS WiFi信号扩散（3层同心弧从中心向外脉动+透明度渐隐）
+  2. JS emoji rain（10+个emoji从顶部随机位置掉落+旋转）
+  3. JS速度数字递增（0→128 Mbps countUp）
+  4. checkmark弹入动画（scale bounce）
+  5. emoji旋转装饰漂浮
+
+【参考】这个提示词来自 HTML 创意工坊：https://cheafon.github.io/fanfanshare/origin-gallery/
+风格名称：Emoji WiFi 表情WiFi
