@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>使用说明书 — 磨石 GRINDSTONE</title>
+<link href="https://fonts.googleapis.com/css2?family=Staatliches&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--denim:#1A3050;--wash:#4878A0;--stitch:#D8A830;--leather:#8A6030;--rivet:#C0C0C0;--thread:#E8E0D0;--dim:rgba(232,224,208,0.3)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--denim);color:var(--thread);font-family:'Noto Sans SC',sans-serif;font-weight:400;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:2rem;-webkit-font-smoothing:antialiased;
+    /* Denim diagonal weave texture */
+    background-image:
+      repeating-linear-gradient(45deg,transparent,transparent 2px,rgba(72,120,160,0.06) 2px,rgba(72,120,160,0.06) 3px),
+      repeating-linear-gradient(-45deg,transparent,transparent 3px,rgba(72,120,160,0.04) 3px,rgba(72,120,160,0.04) 4px),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E")}
+
+  .page{max-width:460px;width:100%;animation:fadeIn .5s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* Leather patch */
+  .leather{background:linear-gradient(135deg,#9a7040,var(--leather),#7a5028);border-radius:6px;padding:1.2rem;position:relative;
+    box-shadow:0 3px 10px rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.08);
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 128 128' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+    transition:transform .2s}
+  .leather:hover{transform:translateY(-2px)}
+
+  /* CSS Rivet */
+  .rivet{width:12px;height:12px;border-radius:50%;position:absolute;
+    background:radial-gradient(circle at 35% 35%,#e0e0e0,#a0a0a0,#606060);
+    box-shadow:0 1px 2px rgba(0,0,0,0.3),inset 0 0.5px 0 rgba(255,255,255,0.3)}
+
+  /* Yellow stitch line */
+  .stitch{border:3px dashed var(--stitch);border-radius:0;margin:1.2rem 0;opacity:0.4}
+  .stitch-box{border:2px dashed var(--stitch);border-radius:6px;padding:1rem;opacity:0.6}
+
+  /* ═══ HEADER ═══ */
+  .header{margin-bottom:1.2rem;text-align:center;
+    opacity:0;animation:fadeIn .5s .1s ease forwards}
+  .header .leather{padding:1.5rem}
+  .h-title{font-weight:700;font-size:1.6rem;color:var(--thread);letter-spacing:0.08em}
+  .h-en{font-family:'Staatliches',cursive;font-size:0.8rem;color:rgba(232,224,208,0.5);letter-spacing:0.15em;margin-top:0.1rem}
+  .h-model{font-family:'Staatliches',cursive;font-size:0.65rem;color:rgba(232,224,208,0.3);letter-spacing:0.12em;margin-top:0.4rem}
+
+  /* ═══ QUOTE ═══ */
+  .quote{text-align:center;font-weight:300;font-size:0.95rem;color:var(--dim);margin-bottom:1.2rem;padding:0 1rem;
+    opacity:0;animation:fadeIn .5s .2s ease forwards}
+
+  /* ═══ STEPS ═══ */
+  .steps{margin-bottom:0.5rem}
+  .step{margin-bottom:1rem;opacity:0;animation:fadeIn .5s ease forwards}
+  .step .leather{padding:1rem 1.2rem}
+  .step-num{font-family:'Staatliches',cursive;font-size:0.7rem;color:var(--stitch);letter-spacing:0.1em}
+  .step-title{font-weight:700;font-size:1.05rem;color:var(--thread);margin-top:0.1rem}
+  .step-desc{font-weight:300;font-size:0.92rem;color:rgba(232,224,208,0.5);margin-top:0.3rem;line-height:1.8}
+  .step-rec{font-family:'Staatliches',cursive;font-size:0.7rem;color:var(--stitch);margin-top:0.4rem;letter-spacing:0.03em;opacity:0.7}
+
+  /* ═══ CARE ═══ */
+  .care{margin-bottom:1.2rem;opacity:0;animation:fadeIn .5s .8s ease forwards}
+  .care-title{font-family:'Staatliches',cursive;font-size:0.7rem;color:var(--stitch);letter-spacing:0.12em;margin-bottom:0.5rem}
+  .care-item{font-weight:300;font-size:0.9rem;color:rgba(232,224,208,0.45);line-height:2}
+
+  /* ═══ SPECS ═══ */
+  .specs{margin-bottom:1.5rem;text-align:center;opacity:0;animation:fadeIn .5s .9s ease forwards}
+  .specs .leather{padding:1rem}
+  .specs-title{font-family:'Staatliches',cursive;font-size:0.65rem;color:rgba(232,224,208,0.3);letter-spacing:0.12em;margin-bottom:0.5rem}
+  .spec-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.3rem 1rem}
+  .spec{display:flex;justify-content:space-between;font-size:0.88rem}
+  .spec-key{color:rgba(232,224,208,0.35)}
+  .spec-val{color:var(--thread);font-weight:500}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center}
+  .footer-motto{font-weight:500;font-size:0.88rem;color:var(--dim);opacity:0.4}
+  .footer-disc{font-size:0.6rem;color:var(--dim);opacity:0.15;margin-top:0.2rem}
+
+  @media(max-width:400px){
+    body{padding:1.5rem 1rem}
+    .spec-grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="leather">
+      <div class="rivet" style="top:8px;left:8px"></div>
+      <div class="rivet" style="top:8px;right:8px"></div>
+      <div class="rivet" style="bottom:8px;left:8px"></div>
+      <div class="rivet" style="bottom:8px;right:8px"></div>
+      <h1 class="h-title">磨石</h1>
+      <div class="h-en">GRINDSTONE · 手动咖啡磨豆机</div>
+      <div class="h-model">MODEL GS-01 · 使用说明书</div>
+    </div>
+  </header>
+
+  <!-- ═══ QUOTE ═══ -->
+  <div class="quote">一台好的手动磨豆机，值得你花 30 秒研磨的耐心。</div>
+
+  <hr class="stitch">
+
+  <!-- ═══ STEPS ═══ -->
+  <div class="steps">
+    <div class="step" style="animation-delay:.3s">
+      <div class="leather">
+        <div class="step-num">STEP 01</div>
+        <div class="step-title">调整研磨度</div>
+        <div class="step-desc">逆时针旋转底部旋钮 = 更粗<br>顺时针旋转 = 更细</div>
+        <div class="step-rec">推荐：手冲 6-8 格 · 意式 2-4 格 · 法压 10-12 格</div>
+      </div>
+    </div>
+
+    <hr class="stitch">
+
+    <div class="step" style="animation-delay:.45s">
+      <div class="leather">
+        <div class="step-num">STEP 02</div>
+        <div class="step-title">加入咖啡豆</div>
+        <div class="step-desc">打开顶盖，加入 15–18g 咖啡豆（约一平勺）。不要超过最大刻度线。</div>
+      </div>
+    </div>
+
+    <hr class="stitch">
+
+    <div class="step" style="animation-delay:.6s">
+      <div class="leather">
+        <div class="step-num">STEP 03</div>
+        <div class="step-title">开始研磨</div>
+        <div class="step-desc">握住机身，匀速转动摇杆。约 30–45 秒完成，听到声音变轻就好了。</div>
+      </div>
+    </div>
+
+    <hr class="stitch">
+
+    <div class="step" style="animation-delay:.75s">
+      <div class="leather">
+        <div class="step-num">STEP 04</div>
+        <div class="step-title">倒出咖啡粉</div>
+        <div class="step-desc">拧开底部粉仓，将咖啡粉倒入滤杯。建议研磨后立即冲泡。</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="stitch">
+
+  <!-- ═══ CARE ═══ -->
+  <div class="care">
+    <div class="stitch-box">
+      <div class="care-title">CARE · 清洁保养</div>
+      <div class="care-item">· 每周用刷子清理刀盘残粉</div>
+      <div class="care-item">· 不要水洗陶瓷刀盘</div>
+      <div class="care-item">· 摇杆轴心每月滴一滴食用油</div>
+    </div>
+  </div>
+
+  <!-- ═══ SPECS ═══ -->
+  <div class="specs">
+    <div class="leather">
+      <div class="rivet" style="top:6px;left:6px"></div>
+      <div class="rivet" style="top:6px;right:6px"></div>
+      <div class="specs-title">SPECIFICATIONS</div>
+      <div class="spec-grid">
+        <div class="spec"><span class="spec-key">材质</span><span class="spec-val">胡桃木 + 304钢</span></div>
+        <div class="spec"><span class="spec-key">刀盘</span><span class="spec-val">陶瓷</span></div>
+        <div class="spec"><span class="spec-key">容量</span><span class="spec-val">25g</span></div>
+        <div class="spec"><span class="spec-key">重量</span><span class="spec-val">380g</span></div>
+        <div class="spec"><span class="spec-key">保修</span><span class="spec-val">2 年</span></div>
+        <div class="spec"><span class="spec-key">产地</span><span class="spec-val">中国</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">磨石 · GRINDSTONE · 慢慢磨，慢慢喝</div>
+    <div class="footer-disc">虚构品牌 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>
