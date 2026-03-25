@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>今日穿搭 — 快照 SNAPSHOT</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--gray:#E8E4E0;--warm:#F0D8A0;--red:#D04040;--blue:#4080B0;--white:#fff;--black:#1A1A18;--brown:#8A7060;--dim:rgba(26,26,24,0.3)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--gray);color:var(--black);font-family:'Noto Sans SC',sans-serif;font-weight:400;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E")}
+
+  .page{max-width:460px;width:100%;animation:fadeIn .5s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.5rem;position:relative}
+
+  /* Viewfinder crosshair */
+  .crosshair{width:50px;height:50px;position:relative;margin:0 auto 0.8rem}
+  .crosshair::before{content:'';position:absolute;top:50%;left:0;right:0;height:1px;background:rgba(64,128,176,0.25)}
+  .crosshair::after{content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;background:rgba(64,128,176,0.25)}
+  .crosshair-circle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:30px;height:30px;border-radius:50%;border:1px solid rgba(64,128,176,0.15)}
+
+  .h-title{font-weight:500;font-size:1.4rem;color:var(--black)}
+  .h-en{font-family:'Caveat',cursive;font-size:1.1rem;color:var(--brown);margin-top:0.1rem}
+  .h-date{font-size:0.82rem;color:var(--dim);margin-top:0.3rem}
+
+  /* ═══ WEATHER ═══ */
+  .weather{text-align:center;margin-bottom:1.5rem;font-size:0.9rem;color:var(--dim)}
+  .weather-main{font-weight:500;color:var(--black)}
+
+  /* ═══ POLAROID CARDS ═══ */
+  .polaroids{display:flex;flex-direction:column;gap:1.2rem;align-items:center;margin-bottom:1.5rem}
+
+  .polaroid{background:var(--white);padding:10px 10px 44px;box-shadow:2px 3px 10px rgba(0,0,0,0.08);
+    width:90%;max-width:340px;position:relative;cursor:default;
+    transition:transform .25s;
+    opacity:0;filter:blur(5px);animation:develop .8s ease forwards}
+  @keyframes develop{to{opacity:1;filter:blur(0)}}
+  .polaroid:hover{transform:perspective(500px) rotateY(3deg) translateY(-3px);box-shadow:4px 6px 16px rgba(0,0,0,0.12)}
+
+  .pol-photo{width:100%;height:160px;border-radius:1px}
+  .pol-warm{background:linear-gradient(135deg,#e8c890,#d8b878,#e0c8a0)}
+  .pol-cool{background:linear-gradient(135deg,#a0c0d8,#90b0c8,#b0c8d8)}
+
+  .pol-style{font-weight:500;font-size:0.82rem;color:var(--brown);margin-top:8px}
+  .pol-items{font-size:0.88rem;color:var(--dim);margin-top:4px;line-height:1.8}
+  .pol-note{font-family:'Caveat',cursive;font-size:1.1rem;color:var(--brown);
+    position:absolute;bottom:10px;right:14px;transform:rotate(-2deg)}
+
+  /* ═══ TIPS ═══ */
+  .tips{text-align:center;margin-bottom:1.5rem}
+  .tip{font-family:'Caveat',cursive;font-size:1.1rem;color:var(--brown);line-height:2;opacity:0.6}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center}
+  .footer-motto{font-family:'Caveat',cursive;font-size:1rem;color:var(--brown);opacity:0.4}
+  .footer-disc{font-size:0.58rem;color:var(--dim);opacity:0.2;margin-top:0.2rem}
+
+  @media(max-width:400px){
+    body{padding:1rem}
+    .polaroid{width:95%}
+    .pol-photo{height:140px}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="crosshair"><div class="crosshair-circle"></div></div>
+    <h1 class="h-title">快照</h1>
+    <div class="h-en">Snapshot · 今日穿搭</div>
+    <div class="h-date">2026.03.25 · 星期二</div>
+  </header>
+
+  <!-- ═══ WEATHER ═══ -->
+  <div class="weather">
+    <span class="weather-main">上海 · 18°C · 多云</span><br>
+    早晚温差大，建议叠穿
+  </div>
+
+  <!-- ═══ POLAROIDS ═══ -->
+  <div class="polaroids">
+
+    <div class="polaroid" style="transform:rotate(-2deg);animation-delay:.2s">
+      <div class="pol-photo pol-warm"></div>
+      <div class="pol-style">轻商务</div>
+      <div class="pol-items">米色针织衫 + 深蓝直筒裤<br>白色乐福鞋 · 棕色皮带</div>
+      <div class="pol-note">办公室也可以很好看</div>
+    </div>
+
+    <div class="polaroid" style="transform:rotate(3deg);animation-delay:.5s">
+      <div class="pol-photo pol-cool"></div>
+      <div class="pol-style">周末休闲</div>
+      <div class="pol-items">灰色卫衣 + 卡其工装裤<br>New Balance 574 · 棒球帽</div>
+      <div class="pol-note">遛狗逛超市都 OK</div>
+    </div>
+
+    <div class="polaroid" style="transform:rotate(-1deg);animation-delay:.8s">
+      <div class="pol-photo pol-warm" style="background:linear-gradient(135deg,#3a3838,#4a4848,#3a3838)"></div>
+      <div class="pol-style">约会必杀</div>
+      <div class="pol-items">黑色高领毛衣 + 深色修身牛仔<br>切尔西靴 · 银色项链</div>
+      <div class="pol-note">简单但不会出错</div>
+    </div>
+
+  </div>
+
+  <!-- ═══ TIPS ═══ -->
+  <div class="tips">
+    <div class="tip">不知道穿什么的时候，穿黑色</div>
+    <div class="tip">好的穿搭不是贵，是合适</div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">Snapshot · 拍下今天最好看的自己</div>
+    <div class="footer-disc">虚构 App · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>
