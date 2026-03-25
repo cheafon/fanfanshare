@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>上海天气 — 知天 SKYWISE</title>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--sky1:#4A90D9;--sky2:#87CEEB;--sky3:#B8D8F0;--white:#fff;--orange:#F0A030;--blue:#3070B0;--glass:rgba(255,255,255,0.18);--glass-b:rgba(255,255,255,0.3)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{min-height:100vh;font-family:'Noto Sans SC','Urbanist',sans-serif;font-size:17px;line-height:1.6;color:#fff;
+    background:linear-gradient(180deg,var(--sky1),var(--sky2),var(--sky3));background-size:100% 200%;
+    animation:skyFlow 12s ease infinite;-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative;
+    display:flex;justify-content:center;padding:1.5rem}
+  @keyframes skyFlow{0%,100%{background-position:0 0}50%{background-position:0 100%}}
+
+  /* ═══ CSS SUN ═══ */
+  .sun-wrap{position:fixed;top:40px;right:40px;z-index:0;animation:sunSpin 20s linear infinite}
+  @keyframes sunSpin{to{transform:rotate(360deg)}}
+  .sun{width:60px;height:60px;border-radius:50%;background:var(--orange);
+    box-shadow:0 0 30px rgba(240,160,48,0.4),0 0 60px rgba(240,160,48,0.15);position:relative}
+  .sun::before,.sun::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(240,160,48,0.6)}
+  .sun::before{width:2px;height:84px;box-shadow:28px 0 0 0 rgba(240,160,48,0.6),-28px 0 0 0 rgba(240,160,48,0.6)}
+  .sun::after{width:84px;height:2px;box-shadow:0 28px 0 0 rgba(240,160,48,0.6),0 -28px 0 0 rgba(240,160,48,0.6)}
+  .ray-diag{position:absolute;top:50%;left:50%;width:2px;height:76px;background:rgba(240,160,48,0.4);
+    transform:translate(-50%,-50%) rotate(45deg)}
+  .ray-diag::after{content:'';position:absolute;top:50%;left:50%;width:76px;height:2px;background:rgba(240,160,48,0.4);
+    transform:translate(-50%,-50%)}
+
+  /* ═══ CSS CLOUDS ═══ */
+  .cloud{position:fixed;z-index:0;opacity:0.6}
+  .cloud-body{position:relative}
+  .cloud-body span{position:absolute;border-radius:50%;background:rgba(255,255,255,0.7)}
+  .cloud-1{top:80px;left:-60px;animation:drift 25s linear infinite}
+  .cloud-2{top:180px;right:-80px;animation:drift 30s linear infinite reverse;opacity:0.4}
+  .cloud-3{top:300px;left:20%;animation:drift 35s linear infinite;opacity:0.3}
+  @keyframes drift{0%{transform:translateX(-100px)}100%{transform:translateX(calc(100vw + 100px))}}
+
+  .page{max-width:420px;width:100%;position:relative;z-index:1}
+
+  /* Glass card */
+  .glass{background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,0.25);border-radius:20px}
+
+  /* ═══ TODAY ═══ */
+  .today{padding:1.5rem;text-align:center;margin-bottom:0.8rem;animation:fadeIn .5s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+  .city-time{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
+  .city{font-weight:600;font-size:1.1rem}
+  .live-time{font-family:'Urbanist',sans-serif;font-weight:400;font-size:0.85rem;opacity:0.7}
+
+  /* Mini CSS sun icon */
+  .weather-icon{width:70px;height:70px;margin:0 auto 0.5rem;position:relative}
+  .wi-sun{width:40px;height:40px;border-radius:50%;background:var(--orange);position:absolute;top:15px;left:15px;
+    box-shadow:0 0 15px rgba(240,160,48,0.5);animation:iconSpin 10s linear infinite}
+  @keyframes iconSpin{to{transform:rotate(360deg)}}
+  .wi-sun::before,.wi-sun::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(240,160,48,0.5)}
+  .wi-sun::before{width:1.5px;height:56px}
+  .wi-sun::after{width:56px;height:1.5px}
+
+  .temp{font-family:'Urbanist',sans-serif;font-weight:800;font-size:clamp(4rem,12vw,5rem);line-height:1;
+    background:linear-gradient(135deg,var(--orange),#F0C060);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .weather-desc{font-weight:500;font-size:1.05rem;opacity:0.85;margin-top:0.2rem}
+  .weather-details{display:flex;justify-content:center;gap:1rem;margin-top:0.8rem;font-size:0.82rem;opacity:0.6;flex-wrap:wrap}
+
+  /* ═══ DETAIL CARDS ═══ */
+  .details{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;margin-bottom:0.8rem}
+  .detail{padding:0.8rem 0.5rem;text-align:center;animation:fadeIn .5s ease both}
+  .det-val{font-family:'Urbanist',sans-serif;font-weight:700;font-size:1rem}
+  .det-label{font-size:0.75rem;opacity:0.6;margin-top:0.2rem}
+
+  /* ═══ 7-DAY FORECAST ═══ */
+  .forecast{padding:1rem;margin-bottom:1rem;animation:fadeIn .5s .2s ease both}
+  .fc-title{font-weight:500;font-size:0.85rem;margin-bottom:0.6rem;opacity:0.7}
+  .fc-row{display:flex;gap:0.4rem;overflow-x:auto;padding-bottom:0.3rem;-webkit-overflow-scrolling:touch}
+  .fc-row::-webkit-scrollbar{display:none}
+  .fc-day{min-width:72px;text-align:center;padding:0.6rem 0.3rem;background:rgba(255,255,255,0.08);border-radius:12px;flex-shrink:0;
+    transition:background .2s}
+  .fc-day:hover{background:rgba(255,255,255,0.15)}
+  .fc-name{font-size:0.75rem;opacity:0.6}
+  .fc-icon{font-size:1.3rem;margin:0.3rem 0}
+  .fc-temps{font-family:'Urbanist',sans-serif;font-size:0.78rem}
+  .fc-hi{font-weight:700;color:rgba(240,180,80,0.9)}
+  .fc-lo{font-weight:400;opacity:0.5}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center}
+  .footer-motto{font-size:0.82rem;opacity:0.35}
+  .footer-disc{font-size:0.6rem;opacity:0.15;margin-top:0.2rem}
+
+  @media(max-width:420px){
+    body{padding:1rem 0.8rem}
+    .sun-wrap{top:20px;right:20px;transform:scale(0.7)}
+    .details{grid-template-columns:1fr 1fr 1fr;gap:0.4rem}
+  }
+</style>
+</head>
+<body>
+
+<!-- CSS Sun -->
+<div class="sun-wrap">
+  <div class="sun"><div class="ray-diag"></div></div>
+</div>
+
+<!-- CSS Clouds -->
+<div class="cloud cloud-1"><div class="cloud-body"><span style="width:60px;height:40px;top:10px;left:0"></span><span style="width:50px;height:50px;top:0;left:30px"></span><span style="width:45px;height:35px;top:12px;left:60px"></span></div></div>
+<div class="cloud cloud-2"><div class="cloud-body"><span style="width:50px;height:35px;top:8px;left:0"></span><span style="width:40px;height:40px;top:0;left:25px"></span><span style="width:35px;height:28px;top:10px;left:50px"></span></div></div>
+<div class="cloud cloud-3"><div class="cloud-body"><span style="width:40px;height:28px;top:6px;left:0"></span><span style="width:35px;height:35px;top:0;left:20px"></span></div></div>
+
+<div class="page">
+
+  <!-- ═══ TODAY ═══ -->
+  <div class="today glass">
+    <div class="city-time">
+      <span class="city">上海</span>
+      <span class="live-time" id="liveTime">--:--</span>
+    </div>
+    <div class="weather-icon"><div class="wi-sun"></div></div>
+    <div class="temp">24°</div>
+    <div class="weather-desc">晴转多云</div>
+    <div class="weather-details">
+      <span>体感 22°</span>
+      <span>湿度 65%</span>
+      <span>东南风 3级</span>
+      <span>AQI 68 良</span>
+    </div>
+  </div>
+
+  <!-- ═══ DETAILS ═══ -->
+  <div class="details">
+    <div class="detail glass" style="animation-delay:.1s"><div class="det-val">06:12 / 18:15</div><div class="det-label">日出 / 日落</div></div>
+    <div class="detail glass" style="animation-delay:.2s"><div class="det-val">强</div><div class="det-label">紫外线</div></div>
+    <div class="detail glass" style="animation-delay:.3s"><div class="det-val">20%</div><div class="det-label">降水概率</div></div>
+  </div>
+
+  <!-- ═══ 7-DAY ═══ -->
+  <div class="forecast glass">
+    <div class="fc-title">7 日预报</div>
+    <div class="fc-row">
+      <div class="fc-day"><div class="fc-name">周二</div><div class="fc-icon">☀️</div><div class="fc-temps"><span class="fc-hi">24°</span> <span class="fc-lo">15°</span></div></div>
+      <div class="fc-day"><div class="fc-name">周三</div><div class="fc-icon">⛅</div><div class="fc-temps"><span class="fc-hi">22°</span> <span class="fc-lo">14°</span></div></div>
+      <div class="fc-day"><div class="fc-name">周四</div><div class="fc-icon">🌧️</div><div class="fc-temps"><span class="fc-hi">18°</span> <span class="fc-lo">12°</span></div></div>
+      <div class="fc-day"><div class="fc-name">周五</div><div class="fc-icon">🌧️</div><div class="fc-temps"><span class="fc-hi">16°</span> <span class="fc-lo">11°</span></div></div>
+      <div class="fc-day"><div class="fc-name">周六</div><div class="fc-icon">☁️</div><div class="fc-temps"><span class="fc-hi">19°</span> <span class="fc-lo">13°</span></div></div>
+      <div class="fc-day"><div class="fc-name">周日</div><div class="fc-icon">☀️</div><div class="fc-temps"><span class="fc-hi">23°</span> <span class="fc-lo">14°</span></div></div>
+      <div class="fc-day"><div class="fc-name">周一</div><div class="fc-icon">☀️</div><div class="fc-temps"><span class="fc-hi">25°</span> <span class="fc-lo">16°</span></div></div>
+    </div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">知天 · SKYWISE · 知天气，好出行</div>
+    <div class="footer-disc">虚构 App · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+(function tick(){
+  var d=new Date();
+  var h=d.getHours(),m=d.getMinutes();
+  document.getElementById('liveTime').textContent=(h<10?'0':'')+h+':'+(m<10?'0':'')+m;
+  setTimeout(tick,10000);
+})();
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
