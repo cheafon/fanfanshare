@@ -1,0 +1,75 @@
+请生成一个单页 HTML 网页，要求如下：
+
+【网页类型】智能家居控制面板 / Smart Home Dashboard / 家庭设备控制
+【品牌】虚构品牌「芯居 CHIP HOME」— 智能家居中控面板
+【主题】一个电路板风格的智能家居控制面板，设备控制像电路元件一样排列
+
+【视觉风格】Circuit Board / 电路板 / PCB
+- 色调：PCB绿 (#0A3A20)、铜走线 (#C0882 0)、焊点银 (#D0D0D0)、LED红 (#FF3030)、LED绿 (#30FF50)、LED蓝 (#3080FF)、丝印白 (#E8E8E0)
+- 字体：Share Tech Mono（等宽技术字体）英文/数据、Noto Sans SC 400/600（中文 17px+）
+- 布局：电路板式 — PCB绿底+CSS电路走线(repeating-linear-gradient直角线路)+设备卡片像电子元件，圆形焊点装饰，LED状态指示灯
+- 动效：中 —
+  * CSS电路走线纹理(repeating-linear-gradient直角网格线)
+  * JS设备开关toggle(LED灯色变化)
+  * 焊点圆点装饰(CSS圆形+金属渐变)
+  * 温度/湿度数字实时跳动
+  * LED呼吸闪烁
+
+【页面结构】
+
+1. 头部（丝印标注风格）：
+   - "芯居" 标题（丝印白，像PCB丝印层文字）
+   - "CHIP HOME · 中控面板"
+   - 系统状态：在线 · 已连接 6 台设备
+
+2. 设备控制卡片（4个，电路元件风格）：
+
+   客厅灯光（开关toggle）：
+   - LED指示灯（绿=开/红=关）
+   - JS点击toggle开关
+   - 亮度：80%
+
+   空调（温度控制）：
+   - 当前温度：24°C
+   - 设定温度：26°C
+   - 模式：制冷
+   - LED蓝色指示
+
+   窗帘（开合状态）：
+   - 状态：已关闭 60%
+   - 进度条显示开合度
+   - JS点击切换
+
+   安防摄像头（状态监控）：
+   - 状态：录制中
+   - LED红色闪烁
+   - 已录制：4h 23min
+
+3. 环境数据（焊点圆形数据面板）：
+   - 室内温度：24.5°C
+   - 湿度：62%
+   - PM2.5：35（优）
+   - 每个数据有焊点圆形边框
+
+4. 电路走线装饰（CSS直角线路连接各元件）
+
+5. 页脚：
+   - "芯居 · CHIP HOME · 让家更聪明"
+   - "FIRMWARE v3.2.1"
+   - "页面来源：虚构品牌 · 仅供展示"
+
+【技术要求】
+- 单个 HTML 文件，所有 CSS 和 JS 内联
+- 使用 Google Fonts：Share Tech Mono、Noto Sans SC
+- 响应式设计，适配手机和桌面
+- 中文为主，正文字号至少 17px
+- 生产级品质
+- 必须实现：
+  1. CSS电路走线纹理(repeating-linear-gradient直角细线+PCB绿底)
+  2. JS设备开关toggle(点击切换开/关+LED灯色变化)
+  3. CSS焊点(圆形radial-gradient金属质感)
+  4. LED指示灯(小圆+box-shadow发光+呼吸闪烁)
+  5. 丝印文字样式(白色等宽+大写)
+
+【参考】这个提示词来自 HTML 创意工坊：https://cheafon.github.io/fanfanshare/origin-gallery/
+风格名称：Circuit Smart Home 电路智居

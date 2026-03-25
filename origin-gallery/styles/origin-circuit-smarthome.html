@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>芯居 CHIP HOME — 智能家居中控</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--pcb:#0A3A20;--copper:#C08820;--solder:#D0D0D0;--red:#FF3030;--green:#30FF50;--blue:#3080FF;--silk:#E8E8E0;--dim:rgba(232,232,224,0.25)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--pcb);color:var(--silk);font-family:'Noto Sans SC',sans-serif;font-weight:400;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;
+    /* Circuit traces */
+    background-image:
+      repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(192,136,32,0.06) 39px,rgba(192,136,32,0.06) 40px),
+      repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(192,136,32,0.06) 39px,rgba(192,136,32,0.06) 40px),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E")}
+
+  .page{max-width:460px;width:100%;animation:fadeIn .5s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* Silkscreen text style */
+  .silk-text{font-family:'Share Tech Mono',monospace;color:var(--silk);text-transform:uppercase;letter-spacing:0.1em}
+
+  /* LED */
+  .led{width:8px;height:8px;border-radius:50%;flex-shrink:0;transition:all .3s}
+  .led-on{background:var(--green);box-shadow:0 0 6px var(--green),0 0 12px var(--green)}
+  .led-off{background:var(--red);box-shadow:0 0 4px rgba(255,48,48,0.3)}
+  .led-blue{background:var(--blue);box-shadow:0 0 6px var(--blue),0 0 12px var(--blue)}
+  .led-blink{animation:ledBlink 1s ease-in-out infinite}
+  @keyframes ledBlink{0%,100%{opacity:1}50%{opacity:0.3}}
+  .led-breathe{animation:ledBreathe 2s ease-in-out infinite}
+  @keyframes ledBreathe{0%,100%{box-shadow:0 0 4px var(--green),0 0 8px var(--green)}50%{box-shadow:0 0 8px var(--green),0 0 20px var(--green)}}
+
+  /* Solder point */
+  .solder{width:10px;height:10px;border-radius:50%;
+    background:radial-gradient(circle at 35% 35%,#f0f0f0,#c0c0c0,#808080);
+    box-shadow:0 1px 2px rgba(0,0,0,0.3)}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.5rem;position:relative}
+  .h-title{font-weight:600;font-size:1.4rem;letter-spacing:0.08em}
+  .h-en{font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:var(--copper);letter-spacing:0.15em;margin-top:0.1rem}
+  .h-status{display:flex;align-items:center;justify-content:center;gap:0.4rem;margin-top:0.5rem;font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:var(--dim)}
+
+  /* Copper trace decoration */
+  .trace{height:1px;background:var(--copper);opacity:0.15;margin:1rem 0}
+
+  /* ═══ DEVICES ═══ */
+  .devices{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-bottom:1rem}
+  .device{background:rgba(10,58,32,0.6);border:1px solid rgba(192,136,32,0.12);border-radius:4px;padding:1rem;
+    position:relative;cursor:pointer;transition:all .15s}
+  .device:hover{border-color:rgba(192,136,32,0.25);background:rgba(10,58,32,0.8)}
+
+  /* Corner solder points */
+  .device .solder{position:absolute}
+  .s-tl{top:4px;left:4px}
+  .s-tr{top:4px;right:4px}
+
+  .dev-header{display:flex;align-items:center;gap:0.5rem;margin-bottom:0.4rem}
+  .dev-name{font-weight:600;font-size:0.95rem}
+  .dev-status{font-family:'Share Tech Mono',monospace;font-size:0.65rem;margin-top:0.2rem}
+  .dev-status-on{color:var(--green)}
+  .dev-status-off{color:var(--red)}
+
+  .dev-detail{font-size:0.85rem;color:var(--dim);margin-top:0.3rem;line-height:1.6}
+  .dev-val{font-family:'Share Tech Mono',monospace;font-size:1.1rem;color:var(--silk)}
+
+  /* Progress bar for curtain */
+  .prog-bar{height:4px;background:rgba(192,136,32,0.1);border-radius:2px;margin-top:0.4rem;overflow:hidden}
+  .prog-fill{height:100%;background:var(--copper);border-radius:2px;transition:width .3s}
+
+  /* ═══ ENVIRONMENT ═══ */
+  .env{display:flex;justify-content:space-around;margin-bottom:1rem;padding:0.8rem;border:1px solid rgba(192,136,32,0.08);border-radius:4px}
+  .env-item{text-align:center}
+  .env-circle{width:56px;height:56px;border-radius:50%;border:2px solid rgba(192,136,32,0.15);margin:0 auto 0.3rem;
+    display:flex;align-items:center;justify-content:center;position:relative}
+  .env-circle::before{content:'';position:absolute;inset:-4px;border-radius:50%;border:1px solid rgba(192,136,32,0.06)}
+  .env-val{font-family:'Share Tech Mono',monospace;font-weight:600;font-size:0.9rem;color:var(--silk)}
+  .env-label{font-size:0.72rem;color:var(--dim)}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;margin-top:0.5rem}
+  .footer-motto{font-weight:500;font-size:0.85rem;color:var(--dim);opacity:0.4}
+  .footer-ver{font-family:'Share Tech Mono',monospace;font-size:0.6rem;color:var(--copper);opacity:0.25;margin-top:0.2rem}
+  .footer-disc{font-size:0.55rem;color:var(--dim);opacity:0.12;margin-top:0.2rem}
+
+  @media(max-width:400px){
+    body{padding:1rem}
+    .devices{grid-template-columns:1fr}
+    .env{flex-wrap:wrap;gap:0.5rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <h1 class="h-title">芯居</h1>
+    <div class="h-en">CHIP HOME · 中控面板</div>
+    <div class="h-status"><span class="led led-on led-breathe"></span> 在线 · 已连接 6 台设备</div>
+  </header>
+
+  <div class="trace"></div>
+
+  <!-- ═══ DEVICES ═══ -->
+  <div class="devices">
+
+    <div class="device" id="dev-light" onclick="toggleDev('light')">
+      <div class="solder s-tl"></div><div class="solder s-tr"></div>
+      <div class="dev-header">
+        <span class="led led-on" id="led-light"></span>
+        <span class="dev-name">客厅灯光</span>
+      </div>
+      <div class="dev-status dev-status-on" id="status-light">ON · 亮度 80%</div>
+    </div>
+
+    <div class="device" id="dev-ac">
+      <div class="solder s-tl"></div><div class="solder s-tr"></div>
+      <div class="dev-header">
+        <span class="led led-blue"></span>
+        <span class="dev-name">空调</span>
+      </div>
+      <div class="dev-detail">当前 <span class="dev-val">24°C</span></div>
+      <div class="dev-status dev-status-on">制冷 · 设定 26°C</div>
+    </div>
+
+    <div class="device" id="dev-curtain" onclick="toggleDev('curtain')">
+      <div class="solder s-tl"></div><div class="solder s-tr"></div>
+      <div class="dev-header">
+        <span class="led led-on" id="led-curtain"></span>
+        <span class="dev-name">窗帘</span>
+      </div>
+      <div class="dev-status" id="status-curtain">已关闭 60%</div>
+      <div class="prog-bar"><div class="prog-fill" id="prog-curtain" style="width:40%"></div></div>
+    </div>
+
+    <div class="device">
+      <div class="solder s-tl"></div><div class="solder s-tr"></div>
+      <div class="dev-header">
+        <span class="led led-blink" style="background:var(--red);box-shadow:0 0 6px var(--red)"></span>
+        <span class="dev-name">摄像头</span>
+      </div>
+      <div class="dev-status dev-status-on">REC · 录制中</div>
+      <div class="dev-detail silk-text" style="font-size:0.75rem;color:var(--copper)">04:23:17</div>
+    </div>
+
+  </div>
+
+  <div class="trace"></div>
+
+  <!-- ═══ ENVIRONMENT ═══ -->
+  <div class="env">
+    <div class="env-item">
+      <div class="env-circle"><span class="env-val">24.5°</span></div>
+      <div class="env-label">室温</div>
+    </div>
+    <div class="env-item">
+      <div class="env-circle"><span class="env-val">62%</span></div>
+      <div class="env-label">湿度</div>
+    </div>
+    <div class="env-item">
+      <div class="env-circle"><span class="env-val" style="color:var(--green)">35</span></div>
+      <div class="env-label">PM2.5 · 优</div>
+    </div>
+  </div>
+
+  <div class="trace"></div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">芯居 · CHIP HOME · 让家更聪明</div>
+    <div class="footer-ver">FIRMWARE v3.2.1</div>
+    <div class="footer-disc">虚构品牌 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+var states={light:true,curtain:true};
+function toggleDev(id){
+  states[id]=!states[id];
+  var led=document.getElementById('led-'+id);
+  var st=document.getElementById('status-'+id);
+  if(id==='light'){
+    led.className='led '+(states[id]?'led-on led-breathe':'led-off');
+    st.className='dev-status '+(states[id]?'dev-status-on':'dev-status-off');
+    st.textContent=states[id]?'ON · 亮度 80%':'OFF';
+  }
+  if(id==='curtain'){
+    led.className='led '+(states[id]?'led-on':'led-off');
+    st.textContent=states[id]?'已关闭 60%':'已打开 100%';
+    document.getElementById('prog-curtain').style.width=states[id]?'40%':'100%';
+  }
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
