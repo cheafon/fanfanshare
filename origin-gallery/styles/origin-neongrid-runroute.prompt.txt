@@ -1,0 +1,31 @@
+Generate a running route share card for fictional app "步频 CADENCE", styled as Neon Grid / Tron-style retro-futuristic glowing grid aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: void black (#080810), neon magenta (#FF00FF), neon cyan (#00FFFF), neon green (#00FF66), grid purple (#6600CC), dim (#333). Typography: Orbitron (futuristic geometric display) English, Noto Sans SC 400/600 Chinese 17px+. Layout: NEON GRID — deep black with perspective grid floor, neon-outlined elements, retro-future cyberspace.
+
+Animation: Medium-High — Required:
+1. CSS PERSPECTIVE GRID: Background with CSS perspective grid floor — repeating-linear-gradient creating a grid that appears to recede into distance using perspective transform on a pseudo-element, neon purple lines on black
+2. CSS NEON GLOW: Key text and borders with neon glow effect — text-shadow/box-shadow with multiple layers of the same neon color at increasing blur radius
+3. JS ANIMATED STATS: Running stats count up on load — distance (0→8.5km), pace (0→5'32"), calories (0→520)
+4. CSS ROUTE PATH: Decorative SVG-style route visualization using CSS border-radius path (series of connected colored segments simulating a running route map)
+5. CSS GRID SCAN: Horizontal neon line scanning down the page slowly (thin bright line moving top to bottom, repeating)
+
+Page structure:
+1. Header: "步频" + "CADENCE" + neon glow + "跑步路线分享"
+2. Route visualization (CSS path with neon glow):
+   Decorative route shape showing a looping path
+3. Run stats (3 big numbers, animated count-up):
+   - 距离 8.5 km
+   - 配速 5'32" /km
+   - 消耗 520 kcal
+4. Run details:
+   - 时间: 2026.03.26 06:15–07:02
+   - 总时长: 46:58
+   - 路线: 世纪公园环线
+   - 平均心率: 156 bpm
+5. Splits (per km pace, neon bar chart):
+   1km 5'45" / 2km 5'38" / 3km 5'30" / 4km 5'25" / 5km 5'18" / 6km 5'22" / 7km 5'35" / 8km 5'48"
+6. Footer: "步频 · CADENCE · 用脚步丈量城市"
+
+Grid: pseudo-element with repeating-linear-gradient grid on black, transformed with perspective(500px) rotateX(60deg) to create receding floor. Neon glow: text-shadow: 0 0 5px color, 0 0 10px color, 0 0 20px color, 0 0 40px color. Scan line: thin 1px neon line with translateY animation from -100% to 100% over 8s.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-neongrid-runroute.html. Do NOT open.
