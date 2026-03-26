@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>30天俯卧撑挑战 — 铁军 IRONARMY</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--olive:#556B2F;--tan:#C4A960;--brown:#4A3728;--black:#1C1C1C;--sand:#E8DCC8;--white:#F5F5F0}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--black);color:var(--sand);font-family:'Noto Sans SC','Oswald',sans-serif;font-weight:500;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    /* Camo pattern — overlapping blobs */
+    background-image:
+      radial-gradient(ellipse 120px 90px at 15% 10%,rgba(85,107,47,0.35) 0%,transparent 70%),
+      radial-gradient(ellipse 100px 130px at 80% 15%,rgba(74,55,40,0.3) 0%,transparent 70%),
+      radial-gradient(ellipse 150px 80px at 45% 30%,rgba(85,107,47,0.25) 0%,transparent 70%),
+      radial-gradient(ellipse 90px 110px at 10% 50%,rgba(74,55,40,0.3) 0%,transparent 70%),
+      radial-gradient(ellipse 130px 100px at 75% 45%,rgba(85,107,47,0.2) 0%,transparent 70%),
+      radial-gradient(ellipse 110px 140px at 35% 65%,rgba(74,55,40,0.25) 0%,transparent 70%),
+      radial-gradient(ellipse 140px 90px at 85% 75%,rgba(85,107,47,0.3) 0%,transparent 70%),
+      radial-gradient(ellipse 100px 120px at 20% 85%,rgba(196,169,96,0.08) 0%,transparent 70%),
+      radial-gradient(ellipse 120px 80px at 60% 90%,rgba(74,55,40,0.2) 0%,transparent 70%)}
+
+  .page{max-width:460px;width:100%;position:relative;z-index:1}
+
+  /* ═══ DOG TAG ═══ */
+  .dog-tag{display:inline-block;background:linear-gradient(135deg,#A0956E,var(--sand),#A0956E);
+    color:var(--brown);font-family:'Oswald',sans-serif;font-weight:600;font-size:0.65rem;letter-spacing:0.1em;
+    padding:0.3em 1em;border-radius:3px;position:relative;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.3),0 2px 4px rgba(0,0,0,0.3);
+    clip-path:polygon(0 0,100% 0,100% 100%,0 100%,0 50%,3px 45%,3px 55%)}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.5rem;animation:slideIn .5s ease both}
+  @keyframes slideIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
+  .h-brand{font-family:'Oswald',sans-serif;font-weight:700;font-size:1.8rem;color:var(--sand);letter-spacing:0.1em}
+  .h-en{font-family:'Oswald',sans-serif;font-weight:400;font-size:0.7rem;color:var(--olive);letter-spacing:0.25em}
+  .h-challenge{font-size:0.92rem;color:var(--tan);margin-top:0.4rem}
+
+  /* ═══ INFO ═══ */
+  .info{display:flex;justify-content:center;gap:1rem;margin-bottom:1.2rem;flex-wrap:wrap;
+    animation:slideIn .5s ease both;animation-delay:.1s}
+  .info-item{text-align:center}
+  .info-num{font-family:'Oswald',sans-serif;font-weight:700;font-size:1.2rem;color:var(--tan)}
+  .info-label{font-size:0.7rem;color:rgba(232,220,200,0.3)}
+
+  /* ═══ LEADERBOARD ═══ */
+  .board{margin-bottom:1.2rem}
+  .board-label{font-family:'Oswald',sans-serif;font-weight:600;font-size:0.6rem;color:var(--olive);letter-spacing:0.15em;margin-bottom:0.5rem}
+
+  .rank{display:flex;align-items:center;gap:0.6rem;padding:0.5rem 0.6rem;margin-bottom:0.25rem;
+    border-radius:4px;transition:all .2s;cursor:default;
+    opacity:0;animation:rankSlide .35s ease forwards;
+    background:rgba(85,107,47,0.04)}
+  @keyframes rankSlide{from{opacity:0;transform:translateX(15px)}to{opacity:1;transform:translateX(0)}}
+  .rank:hover{background:rgba(85,107,47,0.08)}
+  .rank.you{background:rgba(196,169,96,0.06);border:1px solid rgba(196,169,96,0.12)}
+
+  /* Badges */
+  .badge{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-family:'Oswald',sans-serif;font-weight:700;font-size:0.75rem;flex-shrink:0;
+    border:2px solid;color:var(--black)}
+  .badge.gold{border-color:#D4A843;background:linear-gradient(135deg,#D4A843,#F5E6A0,#D4A843);
+    box-shadow:0 0 8px rgba(212,168,67,0.3)}
+  .badge.silver{border-color:#A8A8A8;background:linear-gradient(135deg,#A8A8A8,#E0E0E0,#A8A8A8);
+    box-shadow:0 0 6px rgba(168,168,168,0.2)}
+  .badge.bronze{border-color:#A0714A;background:linear-gradient(135deg,#A0714A,#C99B6D,#A0714A);
+    box-shadow:0 0 6px rgba(160,113,74,0.2)}
+  .badge.normal{border-color:rgba(232,220,200,0.1);background:transparent;color:var(--sand);font-size:0.7rem}
+
+  .r-info{flex:1;min-width:0}
+  .r-name{font-weight:700;font-size:0.92rem;color:var(--sand)}
+  .r-you{font-size:0.65rem;color:var(--tan);margin-left:0.3rem}
+  .r-stats{font-size:0.72rem;color:rgba(232,220,200,0.3);margin-top:0.1rem}
+  .r-bar{height:4px;background:rgba(232,220,200,0.06);border-radius:2px;margin-top:0.2rem;overflow:hidden}
+  .r-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--olive),var(--tan));width:0%;transition:width 1s ease}
+
+  .r-pct{font-family:'Oswald',sans-serif;font-weight:600;font-size:0.82rem;color:var(--tan);min-width:2.5em;text-align:right}
+
+  /* ═══ TODAY ═══ */
+  .today{border:1px solid rgba(196,169,96,0.1);border-radius:6px;padding:0.9rem 1rem;margin-bottom:1rem;
+    animation:slideIn .5s ease both;animation-delay:.8s;background:rgba(196,169,96,0.03)}
+  .today-label{font-family:'Oswald',sans-serif;font-weight:600;font-size:0.6rem;color:var(--tan);letter-spacing:0.12em;margin-bottom:0.3rem}
+  .today-task{font-size:0.92rem;color:var(--sand)}
+  .today-bar{height:6px;background:rgba(232,220,200,0.06);border-radius:3px;margin-top:0.4rem;overflow:hidden}
+  .today-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--olive),var(--tan));
+    width:0%;transition:width 1.2s ease}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;animation:slideIn .5s ease both;animation-delay:.9s}
+  .footer-motto{font-family:'Oswald',sans-serif;font-size:0.82rem;color:var(--olive);opacity:0.3;letter-spacing:0.04em}
+  .footer-disc{font-size:0.55rem;color:rgba(232,220,200,0.1);margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1rem}.rank{padding:0.4rem 0.5rem}.badge{width:24px;height:24px;font-size:0.65rem}}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <header class="header">
+    <div class="h-brand">铁军</div>
+    <div class="h-en">IRONARMY</div>
+    <div class="h-challenge">30 天俯卧撑挑战</div>
+    <div style="margin-top:0.5rem"><span class="dog-tag">CHALLENGE · 2026</span></div>
+  </header>
+
+  <div class="info">
+    <div class="info-item"><div class="info-num">18/30</div><div class="info-label">天</div></div>
+    <div class="info-item"><div class="info-num">12</div><div class="info-label">参赛</div></div>
+    <div class="info-item"><div class="info-num">3,000</div><div class="info-label">目标/人</div></div>
+  </div>
+
+  <div class="board">
+    <div class="board-label">LEADERBOARD</div>
+
+    <div class="rank" style="animation-delay:.2s">
+      <div class="badge gold">1</div>
+      <div class="r-info"><div class="r-name">铁柱</div><div class="r-stats">2,340 / 3,000 · 日均 130</div><div class="r-bar"><div class="r-fill" data-w="78"></div></div></div>
+      <div class="r-pct">78%</div>
+    </div>
+    <div class="rank" style="animation-delay:.26s">
+      <div class="badge silver">2</div>
+      <div class="r-info"><div class="r-name">大力</div><div class="r-stats">2,180 / 3,000 · 日均 121</div><div class="r-bar"><div class="r-fill" data-w="73"></div></div></div>
+      <div class="r-pct">73%</div>
+    </div>
+    <div class="rank" style="animation-delay:.32s">
+      <div class="badge bronze">3</div>
+      <div class="r-info"><div class="r-name">阿猛</div><div class="r-stats">2,050 / 3,000 · 日均 114</div><div class="r-bar"><div class="r-fill" data-w="68"></div></div></div>
+      <div class="r-pct">68%</div>
+    </div>
+    <div class="rank" style="animation-delay:.38s">
+      <div class="badge normal">4</div>
+      <div class="r-info"><div class="r-name">小钢</div><div class="r-stats">1,890 / 3,000</div><div class="r-bar"><div class="r-fill" data-w="63"></div></div></div>
+      <div class="r-pct">63%</div>
+    </div>
+    <div class="rank you" style="animation-delay:.44s">
+      <div class="badge normal">5</div>
+      <div class="r-info"><div class="r-name">老虎 <span class="r-you">← 你</span></div><div class="r-stats">1,760 / 3,000</div><div class="r-bar"><div class="r-fill" data-w="59"></div></div></div>
+      <div class="r-pct">59%</div>
+    </div>
+    <div class="rank" style="animation-delay:.5s">
+      <div class="badge normal">6</div>
+      <div class="r-info"><div class="r-name">石头</div><div class="r-stats">1,620 / 3,000</div><div class="r-bar"><div class="r-fill" data-w="54"></div></div></div>
+      <div class="r-pct">54%</div>
+    </div>
+    <div class="rank" style="animation-delay:.56s">
+      <div class="badge normal">7</div>
+      <div class="r-info"><div class="r-name">飞哥</div><div class="r-stats">1,480 / 3,000</div><div class="r-bar"><div class="r-fill" data-w="49"></div></div></div>
+      <div class="r-pct">49%</div>
+    </div>
+    <div class="rank" style="animation-delay:.62s">
+      <div class="badge normal">8</div>
+      <div class="r-info"><div class="r-name">豆芽</div><div class="r-stats">1,200 / 3,000</div><div class="r-bar"><div class="r-fill" data-w="40"></div></div></div>
+      <div class="r-pct">40%</div>
+    </div>
+  </div>
+
+  <div class="today">
+    <div class="today-label">TODAY'S MISSION</div>
+    <div class="today-task">今日任务：100 个俯卧撑 · 已完成 65 个</div>
+    <div class="today-bar"><div class="today-fill" id="todayFill"></div></div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-motto">铁军 · IRONARMY · 没有借口，只有行动</div>
+    <div class="footer-disc">虚构应用 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+// Animate progress bars on load
+setTimeout(function(){
+  document.querySelectorAll('.r-fill').forEach(function(el){
+    el.style.width=el.dataset.w+'%';
+  });
+  document.getElementById('todayFill').style.width='65%';
+},400);
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

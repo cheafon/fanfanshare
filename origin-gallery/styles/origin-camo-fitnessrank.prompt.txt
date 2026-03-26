@@ -1,0 +1,30 @@
+Generate a fitness challenge leaderboard page for fictional app "铁军 IRONARMY", styled as Camouflage / military tactical aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: camo olive (#556B2F), camo tan (#C4A960), camo brown (#4A3728), camo black (#1C1C1C), sand (#E8DCC8), off-white (#F5F5F0), dim rgba(28,28,28,0.3). Typography: Oswald (condensed military display) English, Noto Sans SC 500/700 Chinese 17px+. Layout: CAMOUFLAGE — dark background with multi-color camo blob pattern, tactical-styled leaderboard with rank badges.
+
+Animation: Medium — Required:
+1. CSS CAMO PATTERN: Background with overlapping radial-gradient blobs in olive/tan/brown/black at various sizes and positions, creating organic camouflage pattern (8-10 radial-gradient layers at different positions/sizes)
+2. CSS RANK BADGES: Top 3 ranks have special badge styling — #1 gold border+glow, #2 silver, #3 bronze. Badges are circular with thick borders and number inside, military medal feel
+3. JS PROGRESS BARS: Each participant has an animated progress bar (push-ups completed / goal), filling from left with camo gradient on load
+4. CSS DOG TAGS: Header styled like military dog tags — rounded rectangle with notch cutout (border-radius + clip-path), metallic gradient
+5. STAGGERED: Rank entries slide in from right with military precision timing (even intervals)
+
+Page structure:
+1. Header: "铁军" + "IRONARMY" + "30天俯卧撑挑战" + dog tag decoration
+2. Challenge info: Day 18/30 · 参赛 12人 · 目标 3000个/人
+3. Leaderboard (8 participants, ranked, staggered):
+   🥇 #1 铁柱 — 2,340/3,000 (78%) — 日均130
+   🥈 #2 大力 — 2,180/3,000 (73%) — 日均121
+   🥉 #3 阿猛 — 2,050/3,000 (68%) — 日均114
+   #4 小钢 — 1,890/3,000 (63%)
+   #5 老虎 — 1,760/3,000 (59%)
+   #6 石头 — 1,620/3,000 (54%)
+   #7 飞哥 — 1,480/3,000 (49%)
+   #8 豆芽 — 1,200/3,000 (40%)
+4. Your rank: "你的排名：#5 老虎" highlighted
+5. Today's task: "今日任务：100个俯卧撑 · 已完成 65个"
+6. Footer: "铁军 · IRONARMY · 没有借口，只有行动"
+
+Camo pattern: 8+ radial-gradient(ellipse at X% Y%, color 0%, transparent 50%) at various positions creating organic blob overlaps. Dog tag: border-radius:4px, background:linear-gradient(135deg, #C4A960, #E8DCC8, #C4A960) with small notch via clip-path.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-camo-fitnessrank.html. Do NOT open.
