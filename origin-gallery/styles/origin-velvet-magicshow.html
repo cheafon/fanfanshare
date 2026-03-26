@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>魔术之夜 — 幻境 ILLUSION</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Noto+Serif+SC:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--crimson:#4A0A1E;--purple:#2A1040;--gold:#D4A843;--cream:#FFF8E7;--stage:#FFE082;--spot:#FFFFF0;--dim:#8A6B78}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--crimson);color:var(--cream);font-family:'Noto Serif SC','Cinzel',serif;font-weight:300;font-size:17px;line-height:1.8;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    /* Velvet sheen + spotlight */
+    background-image:
+      linear-gradient(135deg,var(--crimson) 0%,#5C1428 30%,var(--crimson) 55%,#3A0816 100%),
+      radial-gradient(ellipse at 50% 10%,rgba(255,224,130,0.06) 0%,transparent 50%)}
+
+  /* Curtain panels */
+  .curtain-l,.curtain-r{position:fixed;top:0;bottom:0;width:50%;background:var(--purple);z-index:100;
+    transition:transform 1.2s cubic-bezier(0.8,0,0.2,1)}
+  .curtain-l{left:0;transform-origin:left;
+    background:linear-gradient(90deg,#1A0830,var(--purple) 40%,#3A1060)}
+  .curtain-r{right:0;transform-origin:right;
+    background:linear-gradient(-90deg,#1A0830,var(--purple) 40%,#3A1060)}
+  .curtain-l.open{transform:translateX(-100%)}
+  .curtain-r.open{transform:translateX(100%)}
+
+  /* Gold stars */
+  .star{position:fixed;pointer-events:none;z-index:0;
+    clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+    background:var(--gold);opacity:0.06}
+  .s1{width:12px;height:12px;top:8%;left:10%}.s2{width:8px;height:8px;top:15%;right:12%}
+  .s3{width:10px;height:10px;bottom:20%;left:8%}.s4{width:7px;height:7px;top:50%;right:6%}
+
+  .page{max-width:420px;width:100%;position:relative;z-index:1;
+    /* Gold double border */
+    border:1px solid rgba(212,168,67,0.2);
+    box-shadow:inset 0 0 0 3px var(--crimson),inset 0 0 0 4px rgba(212,168,67,0.12);
+    padding:1.5rem}
+  /* Gold corner flourishes */
+  .page::before,.page::after{content:'✦';position:absolute;color:var(--gold);font-size:0.7rem;opacity:0.3}
+  .page::before{top:6px;left:8px}
+  .page::after{bottom:6px;right:8px}
+  .corner-tr,.corner-bl{position:absolute;color:var(--gold);font-size:0.7rem;opacity:0.3}
+  .corner-tr{top:6px;right:8px}.corner-bl{bottom:6px;left:8px}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1rem;opacity:0;animation:fadeIn .8s ease both;animation-delay:1.3s}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+  .h-brand{font-family:'Cinzel',serif;font-weight:700;font-size:1.5rem;color:var(--gold);letter-spacing:0.12em;
+    text-shadow:0 0 12px rgba(212,168,67,0.15)}
+  .h-en{font-family:'Cinzel',serif;font-weight:400;font-size:0.7rem;color:var(--dim);letter-spacing:0.25em}
+  .h-show{font-size:1rem;color:var(--cream);margin-top:0.3rem;letter-spacing:0.1em}
+  .h-date{font-family:'Cinzel',serif;font-size:0.78rem;color:var(--gold);opacity:0.5;margin-top:0.15rem;letter-spacing:0.08em}
+
+  /* Gold ornament line */
+  .gold-orn{display:flex;align-items:center;justify-content:center;gap:6px;margin:0.6rem 0}
+  .go-line{width:30px;height:0.5px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+  .go-dot{width:4px;height:4px;border-radius:50%;background:var(--gold);opacity:0.4}
+
+  /* ═══ PROGRAM ═══ */
+  .acts{margin-bottom:0.5rem}
+  .act{padding:0.6rem 0.5rem;border-bottom:0.5px solid rgba(212,168,67,0.06);
+    opacity:0;animation:fadeIn .5s ease forwards;transition:all .2s}
+  .act:last-child{border:none}
+  .act:hover{background:rgba(212,168,67,0.02)}
+
+  .act-num{font-family:'Cinzel',serif;font-weight:600;font-size:0.65rem;color:var(--gold);letter-spacing:0.1em;opacity:0.5}
+  .act-name{font-weight:400;font-size:1rem;color:var(--cream);margin-top:0.05rem}
+  .act-meta{font-size:0.78rem;color:var(--dim);margin-top:0.05rem}
+
+  .intermission{text-align:center;padding:0.5rem;font-family:'Cinzel',serif;font-size:0.72rem;
+    color:var(--gold);opacity:0.3;letter-spacing:0.08em;
+    border-top:0.5px dashed rgba(212,168,67,0.08);border-bottom:0.5px dashed rgba(212,168,67,0.08);
+    opacity:0;animation:fadeIn .5s ease forwards}
+
+  /* ═══ PERFORMER ═══ */
+  .performer{text-align:center;padding:0.6rem 0;opacity:0;animation:fadeIn .5s ease both}
+  .perf-name{font-weight:600;font-size:1rem;color:var(--gold)}
+  .perf-meta{font-size:0.82rem;color:var(--dim);margin-top:0.1rem}
+
+  /* ═══ NOTICE ═══ */
+  .notice{text-align:center;font-size:0.78rem;color:var(--dim);opacity:0.35;
+    margin-bottom:0.5rem;opacity:0;animation:fadeIn .5s ease both}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;opacity:0;animation:fadeIn .5s ease both}
+  .footer-text{font-family:'Cinzel',serif;font-style:italic;font-size:0.82rem;color:var(--gold);opacity:0.25}
+  .footer-disc{font-size:0.55rem;color:var(--dim);opacity:0.1;margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1rem}.page{padding:1.2rem}}
+</style>
+</head>
+<body>
+
+<!-- Curtain panels -->
+<div class="curtain-l" id="curtainL"></div>
+<div class="curtain-r" id="curtainR"></div>
+
+<!-- Gold stars -->
+<div class="star s1"></div><div class="star s2"></div><div class="star s3"></div><div class="star s4"></div>
+
+<div class="page">
+  <span class="corner-tr">✦</span><span class="corner-bl">✦</span>
+
+  <header class="header">
+    <div class="h-brand">幻境</div>
+    <div class="h-en">ILLUSION</div>
+    <div class="h-show">魔术之夜</div>
+    <div class="h-date">2026.03.28 SAT · 19:30</div>
+  </header>
+
+  <div class="gold-orn"><div class="go-line"></div><div class="go-dot"></div><div class="go-line"></div></div>
+
+  <div class="acts">
+    <div class="act" style="animation-delay:1.5s">
+      <div class="act-num">ACT I · 开场</div>
+      <div class="act-name">白鸽幻影</div>
+      <div class="act-meta">大师 陈幻 · 19:30 · 10 min</div>
+    </div>
+    <div class="act" style="animation-delay:1.6s">
+      <div class="act-num">ACT II</div>
+      <div class="act-name">纸牌风暴</div>
+      <div class="act-meta">陈幻 + 助手小蝶 · 19:45 · 15 min</div>
+    </div>
+
+    <div class="intermission" style="animation-delay:1.7s">—— 中场休息 15 分钟 ——</div>
+
+    <div class="act" style="animation-delay:1.8s">
+      <div class="act-num">ACT III</div>
+      <div class="act-name">人体悬浮</div>
+      <div class="act-meta">陈幻 · 20:15 · 20 min</div>
+    </div>
+    <div class="act" style="animation-delay:1.9s">
+      <div class="act-num">ACT IV</div>
+      <div class="act-name">读心术</div>
+      <div class="act-meta">观众互动 · 20:40 · 15 min</div>
+    </div>
+    <div class="act" style="animation-delay:2s">
+      <div class="act-num">FINALE · 终幕</div>
+      <div class="act-name">大逃脱</div>
+      <div class="act-meta">全员 · 21:00 · 20 min</div>
+    </div>
+  </div>
+
+  <div class="gold-orn"><div class="go-line"></div><div class="go-dot"></div><div class="go-line"></div></div>
+
+  <div class="performer" style="animation-delay:2.1s">
+    <div class="perf-name">陈幻</div>
+    <div class="perf-meta">国际魔术联盟金奖得主 · 从业 20 年</div>
+  </div>
+
+  <div class="notice" style="animation-delay:2.2s">演出期间请勿拍照 · 手机请调至静音</div>
+
+  <div class="gold-orn"><div class="go-line"></div><div class="go-dot"></div><div class="go-line"></div></div>
+
+  <footer class="footer" style="animation-delay:2.3s">
+    <div class="footer-text">幻境 · ILLUSION · 眼见不一定为实</div>
+    <div class="footer-disc">虚构演出 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+// Curtain open on load
+setTimeout(function(){
+  document.getElementById('curtainL').classList.add('open');
+  document.getElementById('curtainR').classList.add('open');
+},300);
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

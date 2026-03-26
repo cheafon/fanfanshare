@@ -1,0 +1,27 @@
+Generate a magic show program page for fictional venue "幻境 ILLUSION", styled as Velvet / theater curtain fabric aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: deep crimson velvet (#4A0A1E), velvet purple (#2A1040), gold thread (#D4A843), cream (#FFF8E7), stage light (#FFE082), spotlight white (#FFFFF0), dim (#8A6B78). Typography: Playfair Display SC (theatrical serif) or Cinzel English, Noto Serif SC 300/400/600 Chinese 17px+. Layout: VELVET — deep crimson/purple background with soft fabric sheen, gold accents like theater program, luxurious and theatrical.
+
+Animation: Medium — Required:
+1. CSS VELVET SHEEN: Background with linear-gradient creating soft diagonal light reflection on velvet surface — lighter streak across dark crimson simulating fabric catching stage light
+2. CSS GOLD BORDERS: Ornate gold double-line borders and corner flourishes around program sections, theatrical elegance
+3. JS CURTAIN REVEAL: Page loads with a "curtain opening" effect — two side panels slide apart revealing content underneath (CSS transform translateX animation)
+4. CSS SPOTLIGHT: Subtle radial-gradient spotlight effect from top center, warm golden light fading to darkness
+5. CSS GOLD STARS: Small decorative gold star shapes (clip-path) scattered as ornamental elements
+
+Page structure:
+1. Header: "幻境" + "ILLUSION" + "魔术之夜" + gold ornament + "2026.03.28 SAT 19:30"
+2. Program (5 acts, gold-bordered cards):
+   第一幕 开场 · 白鸽幻影 · 大师 陈幻 · 19:30 (10min)
+   第二幕 · 纸牌风暴 · 陈幻 + 助手小蝶 · 19:45 (15min)
+   —— 中场休息 15分钟 ——
+   第三幕 · 人体悬浮 · 陈幻 · 20:15 (20min)
+   第四幕 · 读心术 · 观众互动 · 20:40 (15min)
+   终幕 · 大逃脱 · 全员 · 21:00 (20min)
+3. Performer: 陈幻 · 国际魔术联盟金奖得主 · 从业20年
+4. Notice: 演出期间请勿拍照 · 手机静音
+5. Footer: "幻境 · ILLUSION · 眼见不一定为实"
+
+Velvet sheen: linear-gradient(135deg, crimson 0%, lighter-crimson 35%, crimson 50%, darker 100%) creating soft diagonal light stripe. Gold border: border with gold color + box-shadow inset creating double-line effect. Curtain: two position:fixed side panels, CSS transition transform translateX sliding open on load.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-velvet-magicshow.html. Do NOT open.
