@@ -1,0 +1,25 @@
+Generate a digital coupon collection page for fictional app "省心 SAVVY", styled as Wicker / rattan weave basket aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: wicker natural (#D4B896), wicker dark (#6B4E2E), palm green (#4A7C3F), cream (#FFF8E7), warm white (#FAF5ED), rattan (#A68B5B), dim rgba(107,78,46,0.25). Typography: Zilla Slab (sturdy slab serif) English, Noto Sans SC 400/600 Chinese 17px+. Layout: WICKER — cream background with woven basket texture, coupons styled as tickets with perforated edges.
+
+Animation: Medium — Required:
+1. CSS WICKER WEAVE: Background with interlocking basket weave pattern using repeating-linear-gradient at 0deg and 90deg — alternating wicker/cream strips creating over-under woven effect at low opacity
+2. CSS PERFORATED EDGE: Coupon cards with one side having perforated tear-off edge (repeating radial-gradient small semicircles along right edge, simulating tear-off perforation)
+3. JS CLAIM COUPON: Click "领取" button to claim — button animates to "已领取" with checkmark, coupon slightly dims + moves down as if pulled from stack
+4. CSS RATTAN BORDER: Cards have warm rattan-colored double borders simulating basket rim binding
+5. STAGGERED: Coupons slide in staggered like being fanned out from a stack
+
+Page structure:
+1. Header: "省心" + "SAVVY" + "我的卡券" + "可用 5 张"
+2. Coupons (5 cards, staggered, perforated edge, each different):
+   - 满100减20 · 全场通用 · 有效期至 4月15日 · [领取]
+   - 咖啡买一送一 · 仅限堂食 · 有效期至 4月10日 · [已领取]
+   - 满200减50 · 生鲜专区 · 有效期至 3月31日 · [领取]
+   - 免配送费 · 外卖订单 · 有效期至 4月30日 · [领取]
+   - 新人专享8折 · 首单可用 · 有效期至 5月1日 · [领取]
+3. Expired section (1 dimmed): 满50减10 · 已过期
+4. Footer: "省心 · SAVVY · 精打细算，生活不将就"
+
+Wicker weave: repeating-linear-gradient(0deg, rgba(wicker,0.08) 0px 6px, transparent 6px 8px, rgba(wicker,0.05) 8px 14px, transparent 14px 16px) + same at 90deg, combined creates basket cross-weave. Perforated: background with repeating-radial-gradient(circle 3px at right edge, cream circles punching into card).
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-wicker-coupons.html. Do NOT open.

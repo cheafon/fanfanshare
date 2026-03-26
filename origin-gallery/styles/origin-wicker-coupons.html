@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>我的卡券 — 省心 SAVVY</title>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--wicker:#D4B896;--dark:#6B4E2E;--green:#4A7C3F;--cream:#FFF8E7;--warm:#FAF5ED;--rattan:#A68B5B;--dim:rgba(107,78,46,0.25)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--cream);color:var(--dark);font-family:'Noto Sans SC','Zilla Slab',serif;font-weight:400;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    /* Wicker basket weave */
+    background-image:
+      repeating-linear-gradient(0deg,rgba(212,184,150,0.08) 0px,rgba(212,184,150,0.08) 5px,transparent 5px,transparent 7px,rgba(212,184,150,0.05) 7px,rgba(212,184,150,0.05) 12px,transparent 12px,transparent 14px),
+      repeating-linear-gradient(90deg,rgba(212,184,150,0.06) 0px,rgba(212,184,150,0.06) 5px,transparent 5px,transparent 7px,rgba(212,184,150,0.04) 7px,rgba(212,184,150,0.04) 12px,transparent 12px,transparent 14px)}
+
+  .page{max-width:440px;width:100%;position:relative;z-index:1}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.2rem;animation:weaveIn .5s ease both}
+  @keyframes weaveIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .h-brand{font-family:'Zilla Slab',serif;font-weight:700;font-size:1.5rem;color:var(--dark);letter-spacing:0.06em}
+  .h-en{font-family:'Zilla Slab',serif;font-weight:400;font-size:0.7rem;color:var(--rattan);letter-spacing:0.2em}
+  .h-sub{font-size:0.92rem;color:var(--dim);margin-top:0.3rem}
+  .h-count{font-family:'Zilla Slab',serif;font-weight:600;font-size:0.82rem;color:var(--green);margin-top:0.15rem}
+
+  /* ═══ COUPON CARD ═══ */
+  .coupon{display:flex;margin-bottom:0.6rem;border-radius:6px;overflow:hidden;
+    /* Rattan double border */
+    border:2px solid var(--wicker);box-shadow:inset 0 0 0 1.5px var(--cream),inset 0 0 0 3px rgba(166,139,91,0.15);
+    transition:all .25s;opacity:0;animation:fanIn .4s ease forwards;position:relative}
+  @keyframes fanIn{from{opacity:0;transform:translateX(-12px) rotate(-1deg)}to{opacity:1;transform:translateX(0) rotate(0)}}
+  .coupon:hover{transform:translateY(-2px);box-shadow:inset 0 0 0 1.5px var(--cream),inset 0 0 0 3px rgba(166,139,91,0.15),0 4px 12px rgba(107,78,46,0.08)}
+  .coupon.claimed{opacity:0.5}
+  .coupon.expired{opacity:0.3;filter:grayscale(0.5)}
+
+  .c-left{flex:1;padding:0.8rem 0.9rem;background:var(--warm)}
+  .c-amount{font-family:'Zilla Slab',serif;font-weight:700;font-size:1.3rem;color:var(--dark)}
+  .c-amount .yen{font-size:0.85rem;font-weight:500}
+  .c-desc{font-size:0.82rem;color:var(--rattan);margin-top:0.1rem}
+  .c-expire{font-size:0.72rem;color:var(--dim);margin-top:0.2rem}
+
+  /* Perforated divider */
+  .c-perf{width:20px;position:relative;background:var(--warm);display:flex;align-items:center;flex-shrink:0}
+  .c-perf::before{content:'';position:absolute;top:-2px;bottom:-2px;left:9px;width:2px;
+    background:repeating-linear-gradient(180deg,var(--cream) 0px,var(--cream) 3px,transparent 3px,transparent 6px,var(--cream) 6px);
+    border-left:1px dashed rgba(166,139,91,0.2)}
+  /* Top/bottom semicircle cutouts */
+  .c-perf::after{content:'';position:absolute;top:-6px;left:5px;width:10px;height:10px;border-radius:50%;
+    background:var(--cream);box-shadow:0 calc(100% + 2px) 0 0 var(--cream)}
+
+  .c-right{width:70px;display:flex;align-items:center;justify-content:center;background:var(--warm);flex-shrink:0}
+  .claim-btn{font-family:'Zilla Slab',serif;font-weight:600;font-size:0.78rem;
+    color:var(--cream);background:var(--green);border:none;padding:0.4em 0.8em;
+    border-radius:4px;cursor:pointer;transition:all .2s}
+  .claim-btn:hover{background:var(--dark);transform:scale(1.05)}
+  .claim-btn.done{background:var(--rattan);cursor:default}
+  .claim-btn.done:hover{transform:none}
+  .claim-btn.exp{background:transparent;color:var(--dim);border:1px solid rgba(107,78,46,0.15);cursor:default;font-size:0.72rem}
+
+  /* ═══ SECTION LABEL ═══ */
+  .sec-label{font-family:'Zilla Slab',serif;font-weight:600;font-size:0.6rem;color:var(--rattan);letter-spacing:0.12em;
+    margin:1rem 0 0.4rem;opacity:0.5}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;margin-top:1rem;animation:weaveIn .5s ease both;animation-delay:.8s}
+  .footer-motto{font-family:'Zilla Slab',serif;font-size:0.82rem;color:var(--rattan);opacity:0.3}
+  .footer-disc{font-size:0.55rem;color:var(--dim);opacity:0.12;margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1rem}.c-left{padding:0.6rem 0.7rem}.c-amount{font-size:1.1rem}}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <header class="header">
+    <div class="h-brand">省心</div>
+    <div class="h-en">SAVVY</div>
+    <div class="h-sub">我的卡券</div>
+    <div class="h-count" id="availCount">可用 4 张</div>
+  </header>
+
+  <div id="coupons">
+    <div class="coupon" style="animation-delay:.15s">
+      <div class="c-left">
+        <div class="c-amount"><span class="yen">¥</span>20<span style="font-size:0.78rem;font-weight:400;color:var(--rattan)"> 满100可用</span></div>
+        <div class="c-desc">全场通用</div>
+        <div class="c-expire">有效期至 2026.04.15</div>
+      </div>
+      <div class="c-perf"></div>
+      <div class="c-right"><button class="claim-btn" onclick="claim(this)">领取</button></div>
+    </div>
+
+    <div class="coupon claimed" style="animation-delay:.22s">
+      <div class="c-left">
+        <div class="c-amount" style="font-size:1rem">买一送一</div>
+        <div class="c-desc">咖啡 · 仅限堂食</div>
+        <div class="c-expire">有效期至 2026.04.10</div>
+      </div>
+      <div class="c-perf"></div>
+      <div class="c-right"><button class="claim-btn done">已领取</button></div>
+    </div>
+
+    <div class="coupon" style="animation-delay:.29s">
+      <div class="c-left">
+        <div class="c-amount"><span class="yen">¥</span>50<span style="font-size:0.78rem;font-weight:400;color:var(--rattan)"> 满200可用</span></div>
+        <div class="c-desc">生鲜专区</div>
+        <div class="c-expire">有效期至 2026.03.31</div>
+      </div>
+      <div class="c-perf"></div>
+      <div class="c-right"><button class="claim-btn" onclick="claim(this)">领取</button></div>
+    </div>
+
+    <div class="coupon" style="animation-delay:.36s">
+      <div class="c-left">
+        <div class="c-amount" style="font-size:1rem">免配送费</div>
+        <div class="c-desc">外卖订单</div>
+        <div class="c-expire">有效期至 2026.04.30</div>
+      </div>
+      <div class="c-perf"></div>
+      <div class="c-right"><button class="claim-btn" onclick="claim(this)">领取</button></div>
+    </div>
+
+    <div class="coupon" style="animation-delay:.43s">
+      <div class="c-left">
+        <div class="c-amount" style="font-size:1rem">新人专享 8 折</div>
+        <div class="c-desc">首单可用</div>
+        <div class="c-expire">有效期至 2026.05.01</div>
+      </div>
+      <div class="c-perf"></div>
+      <div class="c-right"><button class="claim-btn" onclick="claim(this)">领取</button></div>
+    </div>
+  </div>
+
+  <div class="sec-label">EXPIRED</div>
+  <div class="coupon expired" style="animation-delay:.5s">
+    <div class="c-left">
+      <div class="c-amount"><span class="yen">¥</span>10<span style="font-size:0.78rem;font-weight:400;color:var(--rattan)"> 满50可用</span></div>
+      <div class="c-desc">全场通用</div>
+      <div class="c-expire">已过期 2026.03.20</div>
+    </div>
+    <div class="c-perf"></div>
+    <div class="c-right"><button class="claim-btn exp">已过期</button></div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-motto">省心 · SAVVY · 精打细算，生活不将就</div>
+    <div class="footer-disc">虚构应用 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+var claimed=1;// starts with 1 already claimed
+function claim(btn){
+  if(btn.classList.contains('done'))return;
+  btn.classList.add('done');
+  btn.textContent='已领取';
+  var coupon=btn.closest('.coupon');
+  coupon.classList.add('claimed');
+  coupon.style.transform='translateY(4px)';
+  claimed++;
+  var avail=5-claimed;
+  document.getElementById('availCount').textContent='可用 '+(avail>=0?avail:0)+' 张';
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
