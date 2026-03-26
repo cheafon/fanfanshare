@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>婚宴座位表 — 林小舟 & 陈安宁</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--marble:#FAFAF8;--vein:#B0B0B0;--vdark:#888;--gold:#C9A84C;--dgold:#8B6914;--dark:#2C2C2C;--blush:#F5E6E0}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--marble);color:var(--dark);font-family:'Noto Serif SC','Cinzel',serif;font-weight:400;font-size:17px;line-height:1.8;
+    display:flex;justify-content:center;padding:2rem 1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    /* Marble veining */
+    background-image:
+      linear-gradient(32deg,transparent 44%,rgba(176,176,176,0.06) 44.5%,rgba(176,176,176,0.1) 45%,rgba(176,176,176,0.04) 45.5%,transparent 46%),
+      linear-gradient(148deg,transparent 52%,rgba(136,136,136,0.05) 52.3%,rgba(136,136,136,0.08) 52.6%,rgba(136,136,136,0.03) 53%,transparent 53.3%),
+      linear-gradient(78deg,transparent 38%,rgba(176,176,176,0.04) 38.3%,rgba(176,176,176,0.07) 38.5%,rgba(176,176,176,0.03) 38.8%,transparent 39%),
+      radial-gradient(ellipse at 40% 50%,rgba(245,230,224,0.15),transparent 60%)}
+
+  .grain{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.015}
+
+  .page{max-width:440px;width:100%;position:relative;z-index:1}
+
+  /* Gold line ornament */
+  .gold-line{display:flex;align-items:center;justify-content:center;gap:6px;margin:0.6rem 0}
+  .gl-line{flex:1;height:0.5px;background:linear-gradient(90deg,transparent,var(--gold),transparent);max-width:60px}
+  .gl-diamond{width:5px;height:5px;background:var(--gold);transform:rotate(45deg)}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1rem;opacity:0;animation:marbleIn .8s ease both}
+  @keyframes marbleIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+  .h-couple{font-family:'Cinzel',serif;font-weight:600;font-size:1.3rem;letter-spacing:0.08em;
+    /* Gold shimmer */
+    background:linear-gradient(90deg,var(--dgold) 30%,var(--gold) 50%,var(--dgold) 70%);
+    background-size:200% 100%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    animation:goldShimmer 4s ease infinite}
+  @keyframes goldShimmer{0%,100%{background-position:200% 0}50%{background-position:-50% 0}}
+  .h-type{font-size:0.92rem;color:var(--vdark);letter-spacing:0.08em;margin-top:0.2rem}
+  .h-date{font-family:'Cinzel',serif;font-size:0.78rem;color:var(--gold);margin-top:0.15rem;letter-spacing:0.1em}
+
+  /* ═══ SEARCH ═══ */
+  .search{margin-bottom:1.2rem;opacity:0;animation:marbleIn .7s ease both;animation-delay:.2s}
+  .search-input{width:100%;padding:0.5em 1em;border:1px solid rgba(201,168,76,0.2);border-radius:4px;
+    background:transparent;font-family:'Noto Serif SC',serif;font-size:0.88rem;color:var(--dark);
+    outline:none;transition:border-color .2s;text-align:center}
+  .search-input::placeholder{color:rgba(44,44,44,0.2)}
+  .search-input:focus{border-color:var(--gold)}
+
+  /* ═══ TABLE CARDS ═══ */
+  .table-card{padding:1rem;margin-bottom:0.6rem;border:0.5px solid rgba(201,168,76,0.1);
+    background:rgba(250,250,248,0.6);transition:all .3s;
+    opacity:0;animation:marbleIn .5s ease forwards}
+  .table-card:hover{box-shadow:0 2px 10px rgba(201,168,76,0.06)}
+  .table-card.highlight{border-color:var(--gold);box-shadow:0 0 15px rgba(201,168,76,0.1);
+    animation:goldPulse 1.5s ease-in-out infinite}
+  @keyframes goldPulse{0%,100%{box-shadow:0 0 10px rgba(201,168,76,0.08)}50%{box-shadow:0 0 20px rgba(201,168,76,0.15)}}
+
+  .t-header{display:flex;align-items:baseline;gap:0.5rem;margin-bottom:0.3rem}
+  .t-num{font-family:'Cinzel',serif;font-weight:600;font-size:0.82rem;color:var(--gold);letter-spacing:0.06em}
+  .t-name{font-weight:600;font-size:0.95rem;color:var(--dark)}
+  .t-count{font-size:0.72rem;color:var(--vein);margin-left:auto}
+
+  .t-guests{display:flex;flex-wrap:wrap;gap:0.3rem}
+  .guest{font-size:0.82rem;color:rgba(44,44,44,0.5);padding:0.15em 0.5em;
+    border:0.5px solid rgba(44,44,44,0.06);border-radius:3px;transition:all .2s}
+  .guest.found{background:rgba(201,168,76,0.08);border-color:var(--gold);color:var(--dgold)}
+
+  /* ═══ TOTAL ═══ */
+  .total{text-align:center;font-family:'Cinzel',serif;font-size:0.78rem;color:var(--vein);
+    margin-bottom:1rem;letter-spacing:0.06em;
+    opacity:0;animation:marbleIn .5s ease both;animation-delay:.7s}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;opacity:0;animation:marbleIn .5s ease both;animation-delay:.8s}
+  .footer-text{font-size:0.88rem;color:var(--gold);opacity:0.4;font-style:italic}
+  .footer-disc{font-size:0.55rem;color:var(--vein);opacity:0.2;margin-top:0.3rem}
+
+  @media(max-width:400px){body{padding:1.5rem 1rem}.table-card{padding:0.8rem}}
+</style>
+</head>
+<body>
+
+<svg class="grain" width="100%" height="100%">
+  <filter id="gf"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/></filter>
+  <rect width="100%" height="100%" filter="url(#gf)"/>
+</svg>
+
+<div class="page">
+
+  <header class="header">
+    <div class="h-couple">林小舟 & 陈安宁</div>
+    <div class="h-type">婚宴座位表</div>
+    <div class="h-date">2026.10.10</div>
+  </header>
+
+  <div class="gold-line"><div class="gl-line"></div><div class="gl-diamond"></div><div class="gl-line"></div></div>
+
+  <div class="search">
+    <input class="search-input" type="text" placeholder="输入宾客姓名查找座位" id="searchInput" oninput="searchGuest(this.value)">
+  </div>
+
+  <div id="tables">
+    <div class="table-card" style="animation-delay:.25s" data-table="主桌">
+      <div class="t-header"><span class="t-num">主桌</span><span class="t-name">新人 & 双方父母</span><span class="t-count">6 人</span></div>
+      <div class="t-guests">
+        <span class="guest">林小舟</span><span class="guest">陈安宁</span>
+        <span class="guest">林父</span><span class="guest">林母</span>
+        <span class="guest">陈父</span><span class="guest">陈母</span>
+      </div>
+    </div>
+
+    <div class="table-card" style="animation-delay:.33s" data-table="第一桌">
+      <div class="t-header"><span class="t-num">I</span><span class="t-name">林家亲属</span><span class="t-count">10 人</span></div>
+      <div class="t-guests">
+        <span class="guest">大姑</span><span class="guest">姑父</span><span class="guest">二叔</span>
+        <span class="guest">二婶</span><span class="guest">三叔</span><span class="guest">三婶</span>
+        <span class="guest">堂弟小豪</span><span class="guest">堂妹小雨</span>
+        <span class="guest">表姐晓红</span><span class="guest">表姐夫</span>
+      </div>
+    </div>
+
+    <div class="table-card" style="animation-delay:.41s" data-table="第二桌">
+      <div class="t-header"><span class="t-num">II</span><span class="t-name">陈家亲属</span><span class="t-count">10 人</span></div>
+      <div class="t-guests">
+        <span class="guest">外公</span><span class="guest">外婆</span><span class="guest">大舅</span>
+        <span class="guest">舅妈</span><span class="guest">小舅</span><span class="guest">小舅妈</span>
+        <span class="guest">表哥陈磊</span><span class="guest">表嫂</span>
+        <span class="guest">姨妈</span><span class="guest">姨父</span>
+      </div>
+    </div>
+
+    <div class="table-card" style="animation-delay:.49s" data-table="第三桌">
+      <div class="t-header"><span class="t-num">III</span><span class="t-name">大学好友</span><span class="t-count">10 人</span></div>
+      <div class="t-guests">
+        <span class="guest">阿杰</span><span class="guest">晓晓</span><span class="guest">大伟</span>
+        <span class="guest">小鱼</span><span class="guest">阿瑞</span><span class="guest">豆豆</span>
+        <span class="guest">小美</span><span class="guest">老虎</span>
+        <span class="guest">飞哥</span><span class="guest">石头</span>
+      </div>
+    </div>
+
+    <div class="table-card" style="animation-delay:.57s" data-table="第四桌">
+      <div class="t-header"><span class="t-num">IV</span><span class="t-name">同事</span><span class="t-count">8 人</span></div>
+      <div class="t-guests">
+        <span class="guest">张总</span><span class="guest">李姐</span><span class="guest">王哥</span>
+        <span class="guest">刘工</span><span class="guest">赵姐</span><span class="guest">孙哥</span>
+        <span class="guest">周妹</span><span class="guest">吴总</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="total">共 5 桌 · 44 位宾客</div>
+
+  <div class="gold-line"><div class="gl-line"></div><div class="gl-diamond"></div><div class="gl-line"></div></div>
+
+  <footer class="footer">
+    <div class="footer-text">林小舟 & 陈安宁 · 感谢您的到来</div>
+    <div class="footer-disc">虚构婚礼 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+function searchGuest(query){
+  var q=query.trim().toLowerCase();
+  // Reset all
+  document.querySelectorAll('.table-card').forEach(function(t){t.classList.remove('highlight')});
+  document.querySelectorAll('.guest').forEach(function(g){g.classList.remove('found')});
+  if(!q)return;
+  document.querySelectorAll('.guest').forEach(function(g){
+    if(g.textContent.toLowerCase().includes(q)){
+      g.classList.add('found');
+      g.closest('.table-card').classList.add('highlight');
+    }
+  });
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

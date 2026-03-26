@@ -1,0 +1,26 @@
+Generate a wedding seating chart page for fictional couple, styled as Marble Veined / white marble with gold inlay luxury aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: marble white (#FAFAF8), vein gray (#B0B0B0), vein dark (#888), gold inlay (#C9A84C), deep gold (#8B6914), text dark (#2C2C2C), blush pink (#F5E6E0). Typography: Cinzel (classical display capitals) English, Noto Serif SC 400/600 Chinese 17px+. Layout: MARBLE — white marble background with visible veining texture, gold accents, luxury minimal wedding stationery.
+
+Animation: Low-Medium (elegant, refined) — Required:
+1. CSS MARBLE VEINS: Background with multiple linear-gradient veins at diagonal angles — thin gray/dark lines with soft edges (via blur or gradient stops) crossing the white marble surface creating natural stone veining
+2. CSS GOLD INLAY: Section dividers and accents as thin gold lines, numbers in gold, simulating gold leaf inlaid into marble
+3. JS TABLE FINDER: Enter guest name → highlights which table they're at with gold glow pulse
+4. CSS MARBLE TEXTURE: SVG noise at very low opacity for stone grain + subtle warm spots
+5. CSS GOLD FOIL: Header text with subtle gold gradient shimmer (background-clip:text with animated position)
+
+Page structure:
+1. Header: "林小舟 & 陈安宁" + "婚宴座位表" + gold line ornament + "2026.10.10"
+2. Guest search: Input "输入姓名查找座位" with gold border
+3. Tables (5 tables, marble cards with gold numbers):
+   - 主桌: 新人+双方父母 (6人)
+   - 第一桌: 林家亲属 (10人) — 大姑/二叔/三婶/堂弟/堂妹/...
+   - 第二桌: 陈家亲属 (10人) — 外公/外婆/大舅/舅妈/表哥/...
+   - 第三桌: 大学好友 (10人) — 阿杰/晓晓/大伟/小鱼/...
+   - 第四桌: 同事 (8人) — 张总/李姐/王哥/刘工/...
+4. Total: 共 5 桌 · 44 位宾客
+5. Footer: "林小舟 & 陈安宁 · 感谢您的到来"
+
+Marble veins: 3-4 linear-gradient at different angles (30deg, 145deg, 75deg) with color stops creating thin gray lines: transparent→transparent 45%→rgba(gray,0.08) 45.5%→rgba(gray,0.12) 46%→rgba(gray,0.06) 46.5%→transparent 47%. Gold shimmer: background with linear-gradient(90deg, gold, light-gold, gold) background-size:200% + position animation.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-marbleveined-seating.html. Do NOT open.
