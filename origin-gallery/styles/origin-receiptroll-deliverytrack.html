@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>订单追踪 — 飞饭 FLYMEAL</title>
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#FAFAF5;--thermal:#2C2C2C;--faded:#999;--dash:#CCC;--red:#E53935;--green:#43A047;--edge:#E8E4D8}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:#E8E4D8;color:var(--thermal);font-family:'Noto Sans SC','VT323',monospace;font-weight:400;font-size:17px;line-height:1.6;
+    display:flex;justify-content:center;padding:2rem 1rem;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+  .receipt{max-width:340px;width:100%;background:var(--paper);position:relative;padding:1.5rem 1.2rem;
+    box-shadow:0 2px 12px rgba(0,0,0,0.08);
+    /* Zigzag top */
+    clip-path:polygon(
+      0 8px,2% 0,4% 8px,6% 0,8% 8px,10% 0,12% 8px,14% 0,16% 8px,18% 0,
+      20% 8px,22% 0,24% 8px,26% 0,28% 8px,30% 0,32% 8px,34% 0,36% 8px,38% 0,
+      40% 8px,42% 0,44% 8px,46% 0,48% 8px,50% 0,52% 8px,54% 0,56% 8px,58% 0,
+      60% 8px,62% 0,64% 8px,66% 0,68% 8px,70% 0,72% 8px,74% 0,76% 8px,78% 0,
+      80% 8px,82% 0,84% 8px,86% 0,88% 8px,90% 0,92% 8px,94% 0,96% 8px,98% 0,100% 8px,
+      100% calc(100% - 8px),
+      98% 100%,96% calc(100% - 8px),94% 100%,92% calc(100% - 8px),90% 100%,
+      88% calc(100% - 8px),86% 100%,84% calc(100% - 8px),82% 100%,80% calc(100% - 8px),
+      78% 100%,76% calc(100% - 8px),74% 100%,72% calc(100% - 8px),70% 100%,
+      68% calc(100% - 8px),66% 100%,64% calc(100% - 8px),62% 100%,60% calc(100% - 8px),
+      58% 100%,56% calc(100% - 8px),54% 100%,52% calc(100% - 8px),50% 100%,
+      48% calc(100% - 8px),46% 100%,44% calc(100% - 8px),42% 100%,40% calc(100% - 8px),
+      38% 100%,36% calc(100% - 8px),34% 100%,32% calc(100% - 8px),30% 100%,
+      28% calc(100% - 8px),26% 100%,24% calc(100% - 8px),22% 100%,20% calc(100% - 8px),
+      18% 100%,16% calc(100% - 8px),14% 100%,12% calc(100% - 8px),10% 100%,
+      8% calc(100% - 8px),6% 100%,4% calc(100% - 8px),2% 100%,0 calc(100% - 8px))}
+
+  .grain{position:absolute;inset:0;pointer-events:none;opacity:0.015;z-index:0}
+
+  /* Receipt styles */
+  .r-center{text-align:center}
+  .r-stars{font-family:'VT323',monospace;font-size:0.85rem;color:var(--faded);letter-spacing:0.15em}
+  .r-brand{font-family:'VT323',monospace;font-size:1.8rem;color:var(--thermal);letter-spacing:0.08em;margin:0.1rem 0}
+  .r-order{font-family:'VT323',monospace;font-size:0.78rem;color:var(--faded);letter-spacing:0.06em}
+
+  .r-dash{border:none;border-top:1px dashed var(--dash);margin:0.7rem 0}
+
+  /* ═══ TIMELINE ═══ */
+  .timeline{padding:0.3rem 0}
+  .step{display:flex;align-items:flex-start;gap:0.6rem;padding:0.3rem 0;position:relative}
+  .step-icon{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:0.6rem;flex-shrink:0;margin-top:0.15rem}
+  .step-icon.done{background:var(--green);color:white}
+  .step-icon.current{background:var(--red);color:white;animation:pulse 1.5s ease-in-out infinite}
+  .step-icon.pending{background:transparent;border:1.5px solid var(--dash);color:var(--dash)}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(229,57,53,0.3)}50%{box-shadow:0 0 0 6px rgba(229,57,53,0)}}
+
+  .step-line{position:absolute;left:8px;top:22px;width:1.5px;height:calc(100% - 10px);background:var(--dash)}
+  .step:last-child .step-line{display:none}
+  .step.done .step-line{background:var(--green)}
+
+  .step-info{flex:1}
+  .step-name{font-size:0.88rem;color:var(--thermal)}
+  .step.pending .step-name{color:var(--dash)}
+  .step-time{font-family:'VT323',monospace;font-size:0.78rem;color:var(--faded)}
+  .step.current .step-name{color:var(--red);font-weight:600}
+
+  /* ═══ RIDER ═══ */
+  .rider{text-align:center;padding:0.3rem 0}
+  .rider-name{font-size:0.92rem;color:var(--thermal)}
+  .rider-meta{font-family:'VT323',monospace;font-size:0.82rem;color:var(--faded)}
+
+  .eta{text-align:center;padding:0.3rem 0}
+  .eta-num{font-family:'VT323',monospace;font-size:1.8rem;color:var(--red);line-height:1}
+  .eta-label{font-size:0.78rem;color:var(--faded)}
+
+  /* ═══ ORDER ITEMS ═══ */
+  .items{font-size:0.88rem}
+  .item-row{display:flex;justify-content:space-between;padding:0.15rem 0}
+  .item-name{color:var(--thermal)}
+  .item-price{font-family:'VT323',monospace;color:var(--thermal)}
+
+  .r-line{border:none;border-top:1px solid var(--dash);margin:0.3rem 0}
+  .r-double{border:none;border-top:2px double var(--thermal);margin:0.4rem 0}
+
+  .total-row{display:flex;justify-content:space-between;padding:0.15rem 0;font-size:0.85rem}
+  .total-row.final{font-weight:600;font-size:1rem}
+  .total-label{color:var(--faded)}
+  .total-val{font-family:'VT323',monospace}
+  .total-row.discount .total-val{color:var(--red)}
+  .total-row.final .total-val{color:var(--thermal);font-size:1.1rem}
+
+  /* ═══ ADDRESS ═══ */
+  .address{font-size:0.82rem;color:var(--faded);text-align:center}
+
+  /* ═══ FOOTER ═══ */
+  .r-thanks{font-family:'VT323',monospace;font-size:1rem;color:var(--faded);text-align:center;
+    letter-spacing:0.08em;margin-top:0.3rem}
+
+  @media(max-width:380px){.receipt{padding:1.2rem 1rem}.r-brand{font-size:1.5rem}}
+</style>
+</head>
+<body>
+
+<div class="receipt">
+  <svg class="grain" width="100%" height="100%">
+    <filter id="gf"><feTurbulence type="fractalNoise" baseFrequency="1.5" numOctaves="4" stitchTiles="stitch"/></filter>
+    <rect width="100%" height="100%" filter="url(#gf)"/>
+  </svg>
+
+  <!-- ═══ HEADER ═══ -->
+  <div class="r-center">
+    <div class="r-stars">* * * * * * * * * *</div>
+    <div class="r-brand">飞饭 FLYMEAL</div>
+    <div class="r-order">#FM20260326-0847</div>
+  </div>
+
+  <hr class="r-dash">
+
+  <!-- ═══ TIMELINE ═══ -->
+  <div class="timeline">
+    <div class="step done">
+      <div class="step-icon done">✓</div>
+      <div class="step-line"></div>
+      <div class="step-info"><div class="step-name">已下单</div><div class="step-time">14:22</div></div>
+    </div>
+    <div class="step done">
+      <div class="step-icon done">✓</div>
+      <div class="step-line"></div>
+      <div class="step-info"><div class="step-name">商家已接单</div><div class="step-time">14:25</div></div>
+    </div>
+    <div class="step done">
+      <div class="step-icon done">✓</div>
+      <div class="step-line"></div>
+      <div class="step-info"><div class="step-name">骑手已取餐</div><div class="step-time">14:38</div></div>
+    </div>
+    <div class="step current">
+      <div class="step-icon current">→</div>
+      <div class="step-line"></div>
+      <div class="step-info"><div class="step-name">配送中...</div><div class="step-time">进行中</div></div>
+    </div>
+    <div class="step pending">
+      <div class="step-icon pending">○</div>
+      <div class="step-info"><div class="step-name">已送达</div></div>
+    </div>
+  </div>
+
+  <hr class="r-dash">
+
+  <!-- ═══ RIDER + ETA ═══ -->
+  <div class="rider">
+    <div class="rider-name">骑手：小陈</div>
+    <div class="rider-meta">电动车 · 距您约 1.2 km</div>
+  </div>
+
+  <div class="eta">
+    <div class="eta-num" id="etaNum">8</div>
+    <div class="eta-label">分钟后送达</div>
+  </div>
+
+  <hr class="r-dash">
+
+  <!-- ═══ ITEMS ═══ -->
+  <div class="items">
+    <div class="item-row"><span class="item-name">麻婆豆腐饭 ×1</span><span class="item-price">¥22.00</span></div>
+    <div class="item-row"><span class="item-name">酸辣汤 ×1</span><span class="item-price">¥8.00</span></div>
+    <div class="item-row"><span class="item-name">可乐 ×1</span><span class="item-price">¥5.00</span></div>
+  </div>
+
+  <hr class="r-line">
+
+  <div class="total-row"><span class="total-label">小计</span><span class="total-val">¥35.00</span></div>
+  <div class="total-row"><span class="total-label">配送费</span><span class="total-val">¥4.00</span></div>
+  <div class="total-row discount"><span class="total-label">优惠</span><span class="total-val">-¥5.00</span></div>
+
+  <hr class="r-double">
+
+  <div class="total-row final"><span class="total-label">合计</span><span class="total-val">¥34.00</span></div>
+
+  <hr class="r-dash">
+
+  <!-- ═══ ADDRESS ═══ -->
+  <div class="address">配送至：静安区愚园路 388 号 3 楼</div>
+
+  <hr class="r-dash">
+
+  <!-- ═══ FOOTER ═══ -->
+  <div class="r-center">
+    <div class="r-thanks">** 感谢惠顾 THANK YOU **</div>
+    <div class="r-stars" style="margin-top:0.2rem">* * * * * * * * * *</div>
+  </div>
+
+</div>
+
+<script>
+// ETA countdown
+var eta=8;
+var etaEl=document.getElementById('etaNum');
+setInterval(function(){
+  if(eta>1){eta--;etaEl.textContent=eta}
+},30000);// Every 30 seconds
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

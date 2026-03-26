@@ -1,0 +1,38 @@
+Generate a food delivery order tracking page for fictional app "飞饭 FLYMEAL", styled as Receipt Roll / long thermal paper print aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: receipt white (#FAFAF5), thermal text (#2C2C2C), faded (#999), dotted line (#CCC), accent red (#E53935), accent green (#43A047), paper edge (#E8E4D8). Typography: VT323 (dot matrix display) English numbers/codes, Noto Sans SC 400/600 Chinese 17px+. Layout: RECEIPT ROLL — narrow white receipt paper feel, monospaced sections, dashed line dividers, thermal printer aesthetic.
+
+Animation: Medium — Required:
+1. CSS RECEIPT PAPER: White narrow card with subtle paper texture (SVG noise very low), faint thermal print fade effect on older sections
+2. CSS ZIGZAG EDGES: Top and bottom edges with CSS zigzag/sawtooth pattern (clip-path or repeating-linear-gradient) simulating torn receipt paper
+3. JS STATUS TIMELINE: Delivery status steps with animated progress — current step pulses, completed steps checked, upcoming steps dimmed
+4. CSS DASHED DIVIDERS: Sections separated by dashed lines (border-style:dashed) like thermal receipt sections
+5. JS ETA COUNTDOWN: "预计 XX 分钟送达" countdown updating every 30 seconds
+
+Page structure:
+1. Header (receipt style): *** 飞饭 FLYMEAL *** centered asterisks + order # FM20260326-0847
+2. Order status timeline (vertical, animated):
+   ✓ 已下单 14:22
+   ✓ 商家已接单 14:25
+   ✓ 骑手已取餐 14:38
+   → 配送中... (current, pulsing)
+   ○ 已送达
+3. Rider info: 骑手 小陈 · 电动车 · 距您约 1.2km
+4. ETA: 预计 8 分钟送达 (countdown)
+5. Dashed divider --------
+6. Order items (receipt line-item style):
+   麻婆豆腐饭 ×1    ¥22
+   酸辣汤      ×1    ¥8
+   可乐        ×1    ¥5
+   ─────────────────
+   小计              ¥35
+   配送费            ¥4
+   优惠              -¥5
+   ═════════════════
+   合计              ¥34
+7. Delivery address: 静安区愚园路388号 3楼
+8. Footer: ** 感谢惠顾 THANK YOU ** + zigzag tear edge
+
+Zigzag: clip-path:polygon(0 8px, 2% 0, 4% 8px, 6% 0, ...) or repeating-linear-gradient creating sawtooth. Dashed: border-bottom: 1px dashed #CCC.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-receiptroll-deliverytrack.html. Do NOT open.
