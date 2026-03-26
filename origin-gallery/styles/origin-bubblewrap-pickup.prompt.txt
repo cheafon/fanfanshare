@@ -1,0 +1,28 @@
+Generate a package pickup notification page for fictional station "驿站 DEPOT", styled as Bubble Wrap / packing material aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: bubble clear (rgba(200,220,240,0.15)), plastic white (#F0F4F8), pop highlight (#4FC3F7), cardboard (#A1887F), tape yellow (#FFD54F), text dark (#37474F), bg light (#E8EDF2). Typography: Varela Round (rounded friendly) English, Noto Sans SC 400/600 Chinese 17px+. Layout: BUBBLE WRAP — light background covered with CSS bubble pattern, package info cards, playful packing aesthetic.
+
+Animation: Medium-High — Required:
+1. CSS BUBBLE GRID: Background with repeating radial-gradient circles creating uniform bubble wrap pattern — small circles (12-14px) in a grid with subtle inner highlight (simulating air bubble refraction), light shadow
+2. JS POP BUBBLES: Click anywhere on the background bubble area to "pop" the nearest bubble — the clicked bubble shrinks with a satisfying scale(0) animation + slight opacity change, stays popped. Addictive tactile interaction.
+3. CSS TAPE STRIP: Decorative tape strips across cards — yellow semi-transparent band with diagonal striped pattern (repeating-linear-gradient) simulating packing tape
+4. CSS CARDBOARD: Package info card styled with cardboard texture (warm brown gradient + corrugated lines via repeating-linear-gradient)
+5. JS PICKUP CODE: Large pickup code with each digit revealed one by one with staggered animation
+
+Page structure:
+1. Header: "驿站" + "DEPOT" + "取件通知" + tape strip decoration
+2. Pickup code (large, staggered digit reveal):
+   取件码: 6-8-3-2 (大字, 每位数字依次出现)
+3. Package info (cardboard-styled card):
+   - 快递: 顺丰速运 SF1234567890
+   - 收件人: 林小舟
+   - 存放位置: A区 · 3层 · 27号柜
+   - 到站时间: 2026.03.26 14:22
+   - 状态: 待取件 (48小时内免费)
+4. Bubble wrap area: Interactive — "试试捏泡泡" hint, grid of poppable bubbles
+5. Note: 超48小时收取¥1/天 · 凭取件码取件
+6. Footer: "驿站 · DEPOT · 您的包裹已到站"
+
+Bubble grid: repeating-radial-gradient(circle 6px, rgba(255,255,255,0.3) 4px, rgba(200,220,240,0.1) 5px, transparent 6px) background-size:14px 14px. Pop: JS tracks which cells are popped via data attribute, clicked cell gets scale(0) transition. Cardboard: linear-gradient(#BCAAA4, #A1887F) + repeating-linear-gradient(0deg, transparent 2px, rgba(0,0,0,0.03) 2px 3px) for corrugation.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-bubblewrap-pickup.html. Do NOT open.
