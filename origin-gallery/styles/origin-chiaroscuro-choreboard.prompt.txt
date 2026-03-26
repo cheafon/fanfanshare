@@ -1,0 +1,30 @@
+Generate a household chore rotation board for fictional shared apartment "净界 CLEARZONE", styled as Chiaroscuro / Caravaggio dramatic light-dark contrast aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: deep black (#0A0A0A), warm highlight (#E8C87A), shadow brown (#1A1208), flesh warm (#D4A574), deep crimson (#6B1A1A), dim rgba(232,200,122,0.2). Typography: Cormorant Garamond (elegant thin Renaissance serif) English, Noto Serif SC 300/400/600 Chinese 17px+. Layout: CHIAROSCURO — near-black background with dramatic spotlight radial-gradient creating a pool of warm light in the center, content emerges from darkness.
+
+Animation: Medium — Required:
+1. CSS DRAMATIC SPOTLIGHT: Background with radial-gradient spotlight effect — warm golden light from center top fading to total black at edges, creating Caravaggio painting atmosphere. Multiple subtle radial-gradient layers at different positions for depth.
+2. CSS GOLDEN GLOW: Active/current day chore assignments have warm golden text-shadow glow, simulating candlelight illumination on important elements
+3. JS DAY HIGHLIGHT: Automatically detect current weekday and highlight today's column/row with golden border + enhanced glow, other days recede into shadow
+4. CSS EMERGENCE: Content sections fade in from darkness with long 1s+ transitions, staggered, as if candlelight slowly revealing them
+5. HOVER ILLUMINATE: Hover over any chore cell → warm golden inner glow brightens, like moving a candle closer
+
+Page structure:
+1. Header: "净界" + "CLEARZONE" + "本周家务排班" + week range "3.24–3.30" — emerging from darkness with golden glow
+2. Roommates: 4 people with warm-toned initials in circles:
+   小林(L) · 阿杰(J) · 晓晓(X) · 大伟(W)
+3. Chore rotation table (4 chores × 7 days grid, today highlighted):
+   Chores: 做饭 · 洗碗 · 拖地 · 倒垃圾
+   Mon: 小林/阿杰/晓晓/大伟
+   Tue: 大伟/小林/阿杰/晓晓
+   Wed: 晓晓/大伟/小林/阿杰 (today — highlighted)
+   Thu: 阿杰/晓晓/大伟/小林
+   Fri: 小林/阿杰/晓晓/大伟
+   Sat: 自由安排
+   Sun: 大扫除(全员)
+4. This week special: "周六聚餐：阿杰负责采购，晓晓负责甜点"
+5. Footer: "净界 · CLEARZONE · 干净的家，清净的心"
+
+Spotlight: radial-gradient(ellipse at 50% 20%, rgba(232,200,122,0.08) 0%, rgba(26,18,8,0.3) 40%, rgba(10,10,10,1) 80%) creates dramatic top-center illumination. Golden glow: text-shadow: 0 0 8px rgba(232,200,122,0.3). Today column: border with rgba(232,200,122,0.2) + background rgba(232,200,122,0.03).
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-chiaroscuro-choreboard.html. Do NOT open.
