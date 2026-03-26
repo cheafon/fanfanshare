@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>我的阳台花园 — 小绿洲 OASIS</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--green:#4CAF50;--white:#FAFFF5;--pink:#E91E63;--earth:#795548;--yellow:#FFC107;--gray:#9E9E9E;--dark:#333;--water:#2196F3}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--white);color:var(--dark);font-family:'Noto Sans SC','Nunito',sans-serif;font-weight:400;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    /* Gingham check */
+    background-image:
+      repeating-linear-gradient(0deg,transparent,transparent 18px,rgba(76,175,80,0.1) 18px,rgba(76,175,80,0.1) 36px),
+      repeating-linear-gradient(90deg,transparent,transparent 18px,rgba(76,175,80,0.1) 18px,rgba(76,175,80,0.1) 36px)}
+
+  .page{max-width:440px;width:100%;position:relative;z-index:1}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.2rem;animation:popUp .5s ease both}
+  @keyframes popUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .h-brand{font-family:'Nunito',sans-serif;font-weight:800;font-size:1.6rem;color:var(--green)}
+  .h-en{font-family:'Nunito',sans-serif;font-weight:400;font-size:0.7rem;color:var(--gray);letter-spacing:0.2em}
+  .h-sub{font-size:0.95rem;color:var(--earth);margin-top:0.3rem}
+  .season-tag{display:inline-block;font-family:'Nunito',sans-serif;font-weight:600;font-size:0.7rem;
+    color:var(--white);background:var(--green);padding:0.2em 0.8em;border-radius:12px;margin-top:0.4rem}
+
+  /* ═══ STATS ═══ */
+  .stats{display:flex;justify-content:center;gap:1rem;margin-bottom:1.2rem;flex-wrap:wrap;
+    animation:popUp .5s ease both;animation-delay:.1s}
+  .stat{background:white;border-radius:10px;padding:0.5rem 0.8rem;text-align:center;
+    box-shadow:0 2px 8px rgba(76,175,80,0.08)}
+  .stat-num{font-family:'Nunito',sans-serif;font-weight:700;font-size:1.2rem;color:var(--green)}
+  .stat-label{font-size:0.7rem;color:var(--gray)}
+
+  /* ═══ PLANT CARDS ═══ */
+  .plants{display:flex;flex-direction:column;gap:0.7rem;margin-bottom:1.2rem}
+  .plant{background:white;border-radius:10px;padding:0.9rem 1rem;display:flex;align-items:center;gap:0.8rem;
+    box-shadow:0 2px 8px rgba(76,175,80,0.06);transition:all .2s;
+    opacity:0;animation:cardBounce .4s cubic-bezier(0.34,1.3,0.64,1) forwards}
+  @keyframes cardBounce{from{opacity:0;transform:translateY(12px) scale(0.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+  .plant:hover{box-shadow:0 4px 14px rgba(76,175,80,0.12);transform:translateY(-2px)}
+
+  /* CSS Seedling */
+  .seedling{width:28px;height:36px;position:relative;flex-shrink:0}
+  .stem{position:absolute;bottom:0;left:13px;width:2px;background:var(--green);border-radius:1px;
+    height:0;animation:stemGrow .6s ease forwards}
+  @keyframes stemGrow{to{height:22px}}
+  .leaf{position:absolute;width:10px;height:6px;background:var(--green);border-radius:50%;
+    transform:scale(0);animation:leafPop .3s ease forwards}
+  .leaf-l{left:3px;top:10px;transform-origin:right center;border-radius:50% 0 50% 50%}
+  .leaf-r{right:3px;top:6px;transform-origin:left center;border-radius:0 50% 50% 50%}
+
+  .p-info{flex:1;min-width:0}
+  .p-name{font-weight:600;font-size:0.95rem;color:var(--dark)}
+  .p-detail{font-size:0.78rem;color:var(--gray);margin-top:0.1rem}
+  .p-sun{font-size:0.72rem;color:var(--yellow);margin-top:0.05rem}
+
+  .water-btn{font-family:'Nunito',sans-serif;font-weight:600;font-size:0.72rem;
+    padding:0.35em 0.8em;border-radius:14px;border:1.5px solid var(--water);
+    background:transparent;color:var(--water);cursor:pointer;transition:all .2s;flex-shrink:0;position:relative;overflow:hidden}
+  .water-btn:hover{background:var(--water);color:white}
+  .water-btn.watered{background:var(--green);border-color:var(--green);color:white;cursor:default}
+
+  /* Water droplet */
+  .droplet{position:absolute;width:4px;height:6px;background:var(--water);border-radius:50% 50% 50% 50%/60% 60% 40% 40%;
+    top:-8px;left:50%;transform:translateX(-50%);opacity:0;pointer-events:none}
+  @keyframes dropFall{0%{top:-8px;opacity:1}100%{top:110%;opacity:0}}
+
+  /* ═══ TIPS ═══ */
+  .tips{background:white;border-radius:10px;padding:0.9rem 1rem;margin-bottom:1rem;
+    border-left:3px solid var(--yellow);box-shadow:0 2px 8px rgba(76,175,80,0.06);
+    animation:popUp .5s ease both;animation-delay:.8s}
+  .tips-label{font-family:'Nunito',sans-serif;font-weight:700;font-size:0.65rem;color:var(--yellow);letter-spacing:0.08em;margin-bottom:0.3rem}
+  .tips-text{font-size:0.88rem;color:var(--earth);line-height:1.8}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;animation:popUp .5s ease both;animation-delay:.9s}
+  .footer-motto{font-family:'Nunito',sans-serif;font-weight:600;font-size:0.82rem;color:var(--green);opacity:0.35}
+  .footer-disc{font-size:0.55rem;color:var(--gray);opacity:0.2;margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1rem}.plant{padding:0.7rem 0.8rem}}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <header class="header">
+    <div class="h-brand">小绿洲</div>
+    <div class="h-en">OASIS</div>
+    <div class="h-sub">我的阳台花园</div>
+    <div class="season-tag">春季种植</div>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-num">6</div><div class="stat-label">种植物</div></div>
+    <div class="stat"><div class="stat-num" id="waterCount">3</div><div class="stat-label">待浇水</div></div>
+    <div class="stat"><div class="stat-num">2</div><div class="stat-label">本月收获</div></div>
+  </div>
+
+  <div class="plants" id="plants"></div>
+
+  <div class="tips">
+    <div class="tips-label">MARCH TIPS</div>
+    <div class="tips-text">3 月种植提示：适合播种番茄、辣椒育苗；草莓进入花期，注意授粉；薄荷可扦插繁殖。</div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-motto">小绿洲 · OASIS · 阳台虽小，四季有花</div>
+    <div class="footer-disc">虚构应用 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+var plants=[
+  {name:'小番茄',detail:'播种 3 月 · 收获 6 月',sun:'日照 6h · 浇水 每日',watered:false},
+  {name:'薄荷',detail:'全年可种 · 4 周可采',sun:'半阴 · 浇水 隔日',watered:false},
+  {name:'辣椒',detail:'播种 4 月 · 收获 8 月',sun:'日照 8h · 浇水 每日',watered:false},
+  {name:'生菜',detail:'播种 3 月 · 收获 5 月',sun:'半阴 OK · 浇水 每日',watered:true},
+  {name:'草莓',detail:'播种 2 月 · 收获 5 月',sun:'日照 6h · 浇水 每日',watered:true},
+  {name:'向日葵',detail:'播种 4 月 · 花期 7 月',sun:'日照 8h · 浇水 每 3 日',watered:false}
+];
+
+function updateWaterCount(){
+  var c=plants.filter(function(p){return !p.watered}).length;
+  document.getElementById('waterCount').textContent=c;
+}
+
+function render(){
+  var el=document.getElementById('plants');
+  el.innerHTML='';
+  plants.forEach(function(p,i){
+    var card=document.createElement('div');
+    card.className='plant';
+    card.style.animationDelay=(0.2+i*0.08)+'s';
+    var stemDelay=(0.3+i*0.1)+'s';
+    var leafDelay1=(0.7+i*0.1)+'s';
+    var leafDelay2=(0.8+i*0.1)+'s';
+    card.innerHTML=
+      '<div class="seedling">'+
+        '<div class="stem" style="animation-delay:'+stemDelay+'"></div>'+
+        '<div class="leaf leaf-l" style="animation-delay:'+leafDelay1+'"></div>'+
+        '<div class="leaf leaf-r" style="animation-delay:'+leafDelay2+'"></div>'+
+      '</div>'+
+      '<div class="p-info">'+
+        '<div class="p-name">'+p.name+'</div>'+
+        '<div class="p-detail">'+p.detail+'</div>'+
+        '<div class="p-sun">'+p.sun+'</div>'+
+      '</div>'+
+      '<button class="water-btn'+(p.watered?' watered':'')+'" data-idx="'+i+'">'+
+        (p.watered?'已浇水 ✓':'浇水')+
+      '</button>';
+    el.appendChild(card);
+  });
+
+  document.querySelectorAll('.water-btn:not(.watered)').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var idx=parseInt(this.dataset.idx);
+      plants[idx].watered=true;
+      this.classList.add('watered');
+      this.textContent='已浇水 ✓';
+      // Droplet animation
+      var drop=document.createElement('div');
+      drop.className='droplet';
+      this.appendChild(drop);
+      drop.style.animation='dropFall .5s ease forwards';
+      setTimeout(function(){drop.remove()},500);
+      updateWaterCount();
+    });
+  });
+}
+
+render();updateWaterCount();
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

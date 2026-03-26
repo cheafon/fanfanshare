@@ -1,0 +1,27 @@
+Generate a balcony garden planting planner page for fictional app "小绿洲 OASIS", styled as Gingham / classic picnic check pattern aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: gingham green (#4CAF50), gingham white (#FAFFF5), accent pink (#E91E63), earth brown (#795548), sunshine yellow (#FFC107), soft gray (#9E9E9E), dark (#333). Typography: Nunito (rounded friendly sans) English, Noto Sans SC 400/600 Chinese 17px+. Layout: GINGHAM — white/green check background, fresh pastoral feel, plant cards with earthy accents.
+
+Animation: Medium — Required:
+1. CSS GINGHAM PATTERN: Background with classic gingham check using overlapping repeating-linear-gradient at 0deg (green/white stripes) + 90deg (same) creating woven check pattern, fresh and pastoral
+2. CSS PLANT GROWTH: Each plant card has a small CSS seedling illustration (green stem line + 2 leaf ellipses) that "grows" on load — stem height animates from 0 to full, leaves scale in after stem completes
+3. JS WATERING TRACKER: Click "浇水" button on each plant to mark as watered today — button changes to checkmark + shows "已浇水" with water droplet animation (blue dot falling)
+4. CSS SEASON TAGS: Spring/Summer/Autumn tags in different colors with rounded pill shape
+5. STAGGERED: Plant cards bounce in cheerfully staggered
+
+Page structure:
+1. Header: "小绿洲" + "OASIS" + "我的阳台花园" + season tag "春季种植"
+2. Quick stats: 6种植物 · 今日待浇水 3盆 · 本月可收获 2种
+3. Plant cards (6 plants, staggered, each with CSS seedling + water button):
+   - 小番茄 · 播种3月 · 收获6月 · 需日照6h · [浇水] 每日
+   - 薄荷 · 全年可种 · 4周可采 · 半阴 · [浇水] 隔日
+   - 辣椒 · 播种4月 · 收获8月 · 需日照8h · [浇水] 每日
+   - 生菜 · 播种3月 · 收获5月 · 半阴OK · [已浇水] ✓
+   - 草莓 · 播种2月 · 收获5月 · 需日照6h · [已浇水] ✓
+   - 向日葵 · 播种4月 · 花期7月 · 需日照8h · [浇水] 每3日
+4. This month tips: "3月种植提示：适合播种番茄、辣椒育苗；草莓进入花期，注意授粉"
+5. Footer: "小绿洲 · OASIS · 阳台虽小，四季有花"
+
+Gingham: repeating-linear-gradient(0deg, transparent, transparent 20px, rgba(76,175,80,0.15) 20px, rgba(76,175,80,0.15) 40px) + same at 90deg, overlapping creates check. Seedling: div with height animation (border-left green line) + 2 pseudo-element leaves (ellipse border-radius, scale animation delayed).
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-gingham-gardenplan.html. Do NOT open.
