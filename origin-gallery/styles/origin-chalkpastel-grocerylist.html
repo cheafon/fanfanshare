@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>本周采购清单 — 菜篮子 BASKET</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#2D2B3A;--pink:#F4A0B0;--blue:#8EC8E8;--yellow:#F5E6A0;--green:#A8D8B0;--orange:#F0C090;--chalk:#EDE8DF;--dim:rgba(237,232,223,0.25)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--paper);color:var(--chalk);font-family:'ZCOOL XiaoWei','Caveat',cursive;font-weight:400;font-size:18px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    background-image:
+      radial-gradient(ellipse at 25% 15%,rgba(168,216,176,0.03) 0%,transparent 50%),
+      radial-gradient(ellipse at 75% 40%,rgba(244,160,176,0.03) 0%,transparent 50%),
+      radial-gradient(ellipse at 40% 80%,rgba(142,200,232,0.02) 0%,transparent 50%)}
+
+  .grain{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.035}
+
+  .page{max-width:440px;width:100%;position:relative;z-index:1}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.8rem;animation:chalkIn .7s ease both}
+  @keyframes chalkIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+  .h-brand{font-family:'Caveat',cursive;font-weight:700;font-size:2.2rem;color:var(--chalk);
+    text-shadow:0 0 6px rgba(237,232,223,0.15),1px 1px 3px rgba(237,232,223,0.08)}
+  .h-en{font-family:'Caveat',cursive;font-weight:400;font-size:0.85rem;color:var(--dim);letter-spacing:0.15em}
+  .h-sub{font-size:0.95rem;color:var(--dim);margin-top:0.4rem}
+  .h-date{font-family:'Caveat',cursive;font-size:0.82rem;color:rgba(237,232,223,0.18);margin-top:0.15rem}
+
+  /* ═══ CATEGORY ═══ */
+  .category{margin-bottom:1.4rem;animation:chalkIn .6s ease both}
+  .cat-header{font-size:1.1rem;font-weight:400;letter-spacing:0.06em;margin-bottom:0.3rem;padding-bottom:0.15rem;
+    position:relative;display:inline-block}
+  /* Chalk underline — rough hand-drawn feel */
+  .cat-header::after{content:'';position:absolute;bottom:0;left:-2px;right:-2px;height:2px;
+    background:repeating-linear-gradient(92deg,currentColor 0px,currentColor 4px,transparent 4px,transparent 6px,currentColor 6px,currentColor 11px,transparent 11px,transparent 12px);
+    opacity:0.35}
+  .cat-header.green{color:var(--green);text-shadow:0 0 5px rgba(168,216,176,0.25),1px 1px 3px rgba(168,216,176,0.1)}
+  .cat-header.pink{color:var(--pink);text-shadow:0 0 5px rgba(244,160,176,0.25),1px 1px 3px rgba(244,160,176,0.1)}
+  .cat-header.yellow{color:var(--yellow);text-shadow:0 0 5px rgba(245,230,160,0.25),1px 1px 3px rgba(245,230,160,0.1)}
+  .cat-header.blue{color:var(--blue);text-shadow:0 0 5px rgba(142,200,232,0.25),1px 1px 3px rgba(142,200,232,0.1)}
+
+  /* ═══ ITEMS ═══ */
+  .item{display:flex;align-items:center;gap:0.6rem;padding:0.35rem 0;cursor:pointer;
+    transition:opacity .3s;position:relative;user-select:none;
+    opacity:0;animation:chalkIn .4s ease forwards}
+  .item.checked{opacity:0.3}
+
+  /* Chalk checkbox */
+  .checkbox{width:18px;height:18px;border:1.5px solid rgba(237,232,223,0.2);border-radius:3px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;transition:all .2s}
+  .item.checked .checkbox{border-color:rgba(237,232,223,0.15)}
+  .checkmark{width:10px;height:6px;border-left:2px solid var(--chalk);border-bottom:2px solid var(--chalk);
+    transform:rotate(-45deg);opacity:0;transition:opacity .2s;margin-top:-2px}
+  .item.checked .checkmark{opacity:0.5}
+
+  /* Strikethrough line */
+  .item-text{position:relative;flex:1}
+  .item-text::after{content:'';position:absolute;left:0;top:50%;height:1.5px;
+    background:var(--chalk);opacity:0.3;width:0;transition:width .4s cubic-bezier(0.4,0,0.2,1)}
+  .item.checked .item-text::after{width:100%}
+
+  .item-name{font-size:0.95rem;color:var(--chalk)}
+  .item-qty{font-family:'Caveat',cursive;font-size:0.85rem;color:var(--dim);margin-left:0.3rem}
+
+  /* ═══ TOTAL ═══ */
+  .total{text-align:right;padding:0.6rem 0;margin-bottom:1rem;
+    border-top:1px dashed rgba(237,232,223,0.08);animation:chalkIn .6s ease both;animation-delay:1.2s}
+  .total-text{font-family:'Caveat',cursive;font-size:1.3rem;color:var(--orange);
+    text-shadow:0 0 5px rgba(240,192,144,0.25),1px 1px 3px rgba(240,192,144,0.1)}
+
+  /* ═══ NOTE ═══ */
+  .note{text-align:center;margin-bottom:1.5rem;animation:chalkIn .6s ease both;animation-delay:1.4s}
+  .note-text{display:inline-block;font-size:0.95rem;color:var(--chalk);
+    border:1.5px solid rgba(237,232,223,0.15);border-radius:50%;padding:0.5em 1em;
+    text-shadow:0 0 4px rgba(237,232,223,0.12);
+    /* Slightly irregular circle via border-radius */
+    border-radius:55% 45% 50% 50%/45% 55% 45% 55%}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;animation:chalkIn .5s ease both;animation-delay:1.5s}
+  .footer-text{font-family:'Caveat',cursive;font-size:0.88rem;color:var(--dim);opacity:0.3}
+  .footer-disc{font-size:0.55rem;color:var(--dim);opacity:0.1;margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1rem}.h-brand{font-size:1.8rem}}
+</style>
+</head>
+<body>
+
+<svg class="grain" width="100%" height="100%">
+  <filter id="gf"><feTurbulence type="fractalNoise" baseFrequency="1.5" numOctaves="4" stitchTiles="stitch"/></filter>
+  <rect width="100%" height="100%" filter="url(#gf)"/>
+</svg>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="h-brand">菜篮子</div>
+    <div class="h-en">BASKET</div>
+    <div class="h-sub">本周采购清单</div>
+    <div class="h-date">2026 年 3 月 · 第四周</div>
+  </header>
+
+  <!-- ═══ 蔬菜水果 ═══ -->
+  <div class="category" style="animation-delay:.2s">
+    <div class="cat-header green">蔬菜水果</div>
+    <div class="item" style="animation-delay:.3s" onclick="toggleItem(this)">
+      <div class="checkbox"><div class="checkmark"></div></div>
+      <div class="item-text"><span class="item-name">西红柿</span><span class="item-qty">× 6</span></div>
+    </div>
+    <div class="item" style="animation-delay:.35s" onclick="toggleItem(this)">
+      <div class="checkbox"><div class="checkmark"></div></div>
+      <div class="item-text"><span class="item-name">小白菜</span><span class="item-qty">一把</span></div>
+    </div>
+    <div class="item" style="animation-delay:.4s" onclick="toggleItem(this)">
+      <div class="checkbox"><div class="checkmark"></div></div>
+      <div class="item-text"><span class="item-name">香蕉</span><span class="item-qty">一串</span></div>
+    </div>
+    <div class="item" style="animation-delay:.45s" onclick="toggleItem(this)">
+      <div class="checkbox"><div class="checkmark"></div></div>
+      <div class="item-text"><span class="item-name">柠檬</span><span class="item-qty">× 3</span></div>
+    </div>
+  </div>
+
+  <!-- ═══ 肉蛋奶 ═══ -->
+  <div class="category" style="animation-delay:.35s">
+    <div class="cat-header pink">肉蛋奶</div>
+    <div class="item" style="animation-delay:.5s" onclick="toggleItem(this)">
+      <div class="checkbox"><div class="checkmark"></div></div>
+      <div class="item-text"><span class="item-name">鸡胸肉</span><span class="item-qty">500g</span></div>
+    </div>
+    <div class="item" style="animation-delay:.55s" onclick="toggleItem(this)">
+      <div class="checkbox"><div class="checkmark"></div></div>
+      <div class="item-text"><span class="item-name">鸡蛋</span><span class="item-qty">一盒（12 枚）</span></div>
+    </div>
+    <div class="item" style="animation-delay:.6s" onclick="toggleItem(this)">
+      <div class="checkbox"><div class="checkmark"></div></div>
+      <div class="item-text"><span class="item-name">纯牛奶</span><span class="item-qty">2 盒</span></div>
+    </div>
+  </div>
+
+  <!-- ═══ 主食调料 ═══ -->
+  <div class="category" style="animation-delay:.5s">
+    <div class="cat-header yellow">主食调料</div>
+    <div class="item" style="animation-delay:.65s" onclick="toggleItem(this)">
+      <div class="checkbox"><div class="checkmark"></div></div>
+      <div class="item-text"><span class="item-name">面条</span><span class="item-qty">两包</span></div>
+    </div>
+    <div class="item" style="animation-delay:.7s" onclick="toggleItem(this)">
+      <div class="checkbox"><div class="checkmark"></div></div>
+      <div class="item-text"><span class="item-name">生抽</span><span class="item-qty">一瓶</span></div>
+    </div>
+    <div class="item" style="animation-delay:.75s" onclick="toggleItem(this)">
+      <div class="checkbox"><div class="checkmark"></div></div>
+      <div class="item-text"><span class="item-name">老干妈</span><span class="item-qty">一瓶</span></div>
+    </div>
+    <div class="item" style="animation-delay:.8s" onclick="toggleItem(this)">
+      <div class="checkbox"><div class="checkmark"></div></div>
+      <div class="item-text"><span class="item-name">大米</span><span class="item-qty">5 kg</span></div>
+    </div>
+  </div>
+
+  <!-- ═══ 零食饮品 ═══ -->
+  <div class="category" style="animation-delay:.65s">
+    <div class="cat-header blue">零食饮品</div>
+    <div class="item" style="animation-delay:.85s" onclick="toggleItem(this)">
+      <div class="checkbox"><div class="checkmark"></div></div>
+      <div class="item-text"><span class="item-name">酸奶</span><span class="item-qty">× 4</span></div>
+    </div>
+    <div class="item" style="animation-delay:.9s" onclick="toggleItem(this)">
+      <div class="checkbox"><div class="checkmark"></div></div>
+      <div class="item-text"><span class="item-name">苏打水</span><span class="item-qty">一箱</span></div>
+    </div>
+    <div class="item" style="animation-delay:.95s" onclick="toggleItem(this)">
+      <div class="checkbox"><div class="checkmark"></div></div>
+      <div class="item-text"><span class="item-name">坚果混合装</span><span class="item-qty"></span></div>
+    </div>
+  </div>
+
+  <!-- ═══ TOTAL ═══ -->
+  <div class="total">
+    <span class="total-text">预估 ¥186</span>
+  </div>
+
+  <!-- ═══ NOTE ═══ -->
+  <div class="note">
+    <span class="note-text">记得带环保袋！</span>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-text">菜篮子 · BASKET · 好好吃饭</div>
+    <div class="footer-disc">虚构应用 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+function toggleItem(el){
+  el.classList.toggle('checked');
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

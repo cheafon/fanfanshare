@@ -1,0 +1,38 @@
+Generate a grocery shopping list page for fictional app "菜篮子 BASKET", styled as Chalk Pastel / colored chalk on dark paper aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: dark paper (#2D2B3A), chalk pink (#F4A0B0), chalk blue (#8EC8E8), chalk yellow (#F5E6A0), chalk green (#A8D8B0), chalk orange (#F0C090), chalk white (#EDE8DF), dim rgba(237,232,223,0.25). Typography: Caveat (handwritten casual script) English, ZCOOL XiaoWei (手写感中文) 400 Chinese 17px+. Layout: CHALK PASTEL — dark paper background with chalk dust texture, items grouped by category with colored chalk headers, checkbox interaction.
+
+Animation: Medium — Required:
+1. CSS CHALK TEXTURE: Background dark paper with SVG noise overlay (high baseFrequency for paper grain) + subtle radial-gradient warm spots simulating chalk dust smudges at low opacity
+2. JS CHECKBOX INTERACTION: Click grocery items to toggle checked state — checked items get CSS strikethrough animation (line draws across from left to right via width transition) + opacity reduction, simulating crossing off with chalk
+3. CSS CHALK HEADERS: Category headers in different pastel chalk colors, each with text-shadow simulating chalk dust (multiple offset shadows in same color at low opacity, creating chalky glow)
+4. CSS CHALK UNDERLINES: Wavy/rough underlines under headers using repeating-linear-gradient at slight angle, irregular width, simulating hand-drawn chalk lines
+5. STAGGERED WRITE: Items appear with staggered animation simulating being written one by one, slight left-to-right reveal
+
+Page structure:
+1. Header: "菜篮子" in chalk white + "BASKET" + "本周采购清单" + date
+2. Category: 蔬菜水果 (chalk green header)
+   - 西红柿 × 6
+   - 小白菜 一把
+   - 香蕉 一串
+   - 柠檬 × 3
+3. Category: 肉蛋奶 (chalk pink header)
+   - 鸡胸肉 500g
+   - 鸡蛋 一盒(12枚)
+   - 纯牛奶 2盒
+4. Category: 主食调料 (chalk yellow header)
+   - 面条 两包
+   - 生抽 一瓶
+   - 老干妈 一瓶
+   - 大米 5kg
+5. Category: 零食饮品 (chalk blue header)
+   - 酸奶 × 4
+   - 苏打水 一箱
+   - 坚果混合装
+6. Total estimate: "预估 ¥186" in chalk orange
+7. Note: "记得带环保袋！" in chalk white, circled
+8. Footer: "菜篮子 · BASKET · 好好吃饭" + disclaimer
+
+Chalk effect: text-shadow: 0 0 3px rgba(color,0.3), 1px 1px 2px rgba(color,0.15), -1px 0 2px rgba(color,0.1) creates chalk dust glow around text. Paper grain: SVG feTurbulence baseFrequency 1.5 for fine grain. Strikethrough: pseudo-element with width transition 0->100% on check, height 2px, chalk white color.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-chalkpastel-grocerylist.html. Do NOT open.
