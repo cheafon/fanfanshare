@@ -1,0 +1,43 @@
+Generate a camping gear checklist page for fictional app "野趣 WILDCAMP", styled as Sand Dune / desert landscape aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: sand (#E8D5A3), dune shadow (#C4A060), desert dark (#6B5030), sunset orange (#E65100), sky gradient (from #FFB74D via #FF8F00 to #4A2800 at bottom), oasis teal (#00897B), text cream (#FFF8E1). Typography: Josefin Slab (geometric slab serif) English, Noto Sans SC 400/600 Chinese 17px+. Layout: SAND DUNE — warm sand gradient background with CSS wave shapes simulating dune ridges, desert sunset atmosphere.
+
+Animation: Medium — Required:
+1. CSS DUNE WAVES: Bottom of page with CSS clip-path or border-radius creating smooth undulating dune shapes in layered sand colors, creating depth
+2. CSS SUNSET SKY: Background with linear-gradient from warm orange top to deep brown bottom simulating desert sunset
+3. JS GEAR CHECK: Click items to check off — checked items get sand-colored strikethrough + percentage updates in real-time
+4. CSS WIND LINES: Subtle horizontal streaks (thin linear-gradient lines) moving slowly across page simulating desert wind/sand drift
+5. STAGGERED: Gear categories appear with sand-settling animation
+
+Page structure:
+1. Header: "野趣" + "WILDCAMP" + "露营装备清单" + "秋季·山谷营地"
+2. Packing progress: 已打包 12/20 · 60% (visual bar)
+3. Gear categories (4, staggered):
+   帐篷睡袋(sunset orange):
+   - [x] 双人帐篷
+   - [x] 睡袋(-5°C)
+   - [x] 防潮垫
+   - [ ] 帐篷灯
+   住食(teal):
+   - [x] 便携炉具
+   - [x] 套锅
+   - [ ] 饮用水 3L
+   - [x] 食材保温袋
+   - [ ] 餐具套装
+   衣物(sand):
+   - [x] 冲锋衣
+   - [x] 抓绒衫
+   - [x] 换洗衣物
+   - [x] 登山鞋
+   工具急救(orange):
+   - [x] 头灯+电池
+   - [ ] 急救包
+   - [ ] 多功能刀
+   - [x] 充电宝
+   - [ ] 垃圾袋
+4. Tips: "轻量化原则 · 人均负重≤15kg · 记得带垃圾袋"
+5. Footer: "野趣 · WILDCAMP · 走进山野，回到自己"
+
+Dune waves: 2-3 absolute positioned divs at bottom with border-radius creating smooth wave shapes in different sand tones. Sunset: linear-gradient(180deg, #FFB74D 0%, #FF8F00 30%, #BF360C 60%, #4A2800 100%). Wind: thin 1px lines with opacity animation moving translateX.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-sanddune-campgear.html. Do NOT open.

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>露营装备清单 — 野趣 WILDCAMP</title>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Slab:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--sand:#E8D5A3;--shadow:#C4A060;--dark:#6B5030;--sunset:#E65100;--teal:#00897B;--cream:#FFF8E1}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{color:var(--cream);font-family:'Noto Sans SC','Josefin Slab',serif;font-weight:400;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem 1.5rem 4rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    min-height:100vh;position:relative;
+    /* Sunset sky */
+    background:linear-gradient(180deg,#FFB74D 0%,#FF8F00 25%,#BF360C 55%,#4A2800 85%,#2A1500 100%)}
+
+  /* Wind streaks */
+  .wind{position:fixed;pointer-events:none;z-index:0;height:1px;opacity:0.06;
+    background:linear-gradient(90deg,transparent,var(--sand),transparent);
+    animation:windDrift linear infinite}
+  @keyframes windDrift{0%{transform:translateX(-100%)}100%{transform:translateX(100vw)}}
+
+  /* Dune layers at bottom */
+  .dunes{position:fixed;bottom:0;left:0;right:0;height:120px;pointer-events:none;z-index:0}
+  .dune{position:absolute;bottom:0;left:-5%;right:-5%;border-radius:50% 50% 0 0/100% 100% 0 0}
+  .d1{height:80px;background:rgba(232,213,163,0.15);bottom:0}
+  .d2{height:60px;background:rgba(196,160,96,0.12);bottom:-5px;left:-10%;right:-3%}
+  .d3{height:45px;background:rgba(107,80,48,0.1);bottom:-8px;left:-3%;right:-8%}
+
+  .page{max-width:440px;width:100%;position:relative;z-index:1}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.2rem;animation:sandIn .6s ease both}
+  @keyframes sandIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .h-brand{font-family:'Josefin Slab',serif;font-weight:700;font-size:1.5rem;color:var(--cream);letter-spacing:0.08em}
+  .h-en{font-family:'Josefin Slab',serif;font-weight:400;font-size:0.68rem;color:var(--sand);letter-spacing:0.22em;opacity:0.5}
+  .h-type{font-size:0.92rem;color:var(--sand);margin-top:0.3rem;opacity:0.7}
+  .h-meta{font-size:0.78rem;color:rgba(255,248,225,0.3);margin-top:0.1rem}
+
+  /* ═══ PROGRESS ═══ */
+  .progress{margin-bottom:1rem;animation:sandIn .5s ease both;animation-delay:.1s}
+  .prog-label{font-size:0.82rem;color:var(--sand);opacity:0.5;text-align:center;margin-bottom:0.3rem}
+  .prog-bar{height:5px;background:rgba(255,248,225,0.08);border-radius:3px;overflow:hidden}
+  .prog-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--sunset),var(--sand));transition:width .5s ease}
+
+  /* ═══ CATEGORIES ═══ */
+  .category{margin-bottom:0.8rem;opacity:0;animation:sandIn .5s ease forwards;
+    background:rgba(255,248,225,0.04);border-radius:8px;padding:0.8rem 0.9rem;
+    border:1px solid rgba(255,248,225,0.04)}
+  .cat-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.3rem}
+  .cat-name{font-weight:600;font-size:0.92rem}
+  .cat-name.orange{color:var(--sunset)}
+  .cat-name.teal{color:var(--teal)}
+  .cat-name.sand{color:var(--sand)}
+  .cat-count{font-family:'Josefin Slab',serif;font-size:0.72rem;color:rgba(255,248,225,0.25)}
+
+  .gear-item{display:flex;align-items:center;gap:0.5rem;padding:0.25rem 0;cursor:pointer;
+    transition:all .2s;user-select:none}
+  .gear-item.checked{opacity:0.35}
+  .gear-item.checked .gi-name{text-decoration:line-through;text-decoration-color:var(--shadow)}
+
+  .gi-box{width:14px;height:14px;border-radius:3px;border:1.5px solid rgba(255,248,225,0.15);
+    display:flex;align-items:center;justify-content:center;font-size:0.55rem;color:var(--cream);
+    transition:all .15s;flex-shrink:0}
+  .gear-item.checked .gi-box{background:var(--teal);border-color:var(--teal)}
+
+  .gi-name{font-size:0.88rem;color:rgba(255,248,225,0.6);transition:all .2s}
+
+  /* ═══ TIPS ═══ */
+  .tips{display:flex;gap:0.4rem;justify-content:center;flex-wrap:wrap;margin-bottom:1rem;
+    animation:sandIn .4s ease both;animation-delay:.6s}
+  .tip{font-size:0.75rem;color:var(--sand);opacity:0.35;padding:0.2em 0.6em;
+    border:1px solid rgba(232,213,163,0.1);border-radius:12px}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;animation:sandIn .4s ease both;animation-delay:.7s}
+  .footer-motto{font-family:'Josefin Slab',serif;font-size:0.82rem;color:var(--sand);opacity:0.25;font-style:italic}
+  .footer-disc{font-size:0.55rem;color:rgba(255,248,225,0.08);margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1rem 1rem 4rem}}
+</style>
+</head>
+<body>
+
+<!-- Wind streaks -->
+<div class="wind" style="top:15%;width:120px;animation-duration:12s;animation-delay:-3s"></div>
+<div class="wind" style="top:30%;width:80px;animation-duration:10s;animation-delay:-6s;opacity:0.04"></div>
+<div class="wind" style="top:55%;width:100px;animation-duration:14s;animation-delay:-1s"></div>
+<div class="wind" style="top:70%;width:60px;animation-duration:9s;animation-delay:-8s;opacity:0.03"></div>
+
+<!-- Dune layers -->
+<div class="dunes"><div class="dune d1"></div><div class="dune d2"></div><div class="dune d3"></div></div>
+
+<div class="page">
+
+  <header class="header">
+    <div class="h-brand">野趣</div>
+    <div class="h-en">WILDCAMP</div>
+    <div class="h-type">露营装备清单</div>
+    <div class="h-meta">秋季 · 山谷营地</div>
+  </header>
+
+  <div class="progress">
+    <div class="prog-label">已打包 <span id="packed">12</span>/20 · <span id="pct">60</span>%</div>
+    <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:60%"></div></div>
+  </div>
+
+  <div id="gearList"></div>
+
+  <div class="tips">
+    <span class="tip">轻量化原则</span>
+    <span class="tip">人均 ≤ 15kg</span>
+    <span class="tip">记得带垃圾袋</span>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-motto">野趣 · WILDCAMP · 走进山野，回到自己</div>
+    <div class="footer-disc">虚构应用 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+var data=[
+  {name:'帐篷睡袋',cls:'orange',items:[
+    {t:'双人帐篷',done:true},{t:'睡袋（-5°C）',done:true},{t:'防潮垫',done:true},{t:'帐篷灯',done:false}]},
+  {name:'住食',cls:'teal',items:[
+    {t:'便携炉具',done:true},{t:'套锅',done:true},{t:'饮用水 3L',done:false},{t:'食材保温袋',done:true},{t:'餐具套装',done:false}]},
+  {name:'衣物',cls:'sand',items:[
+    {t:'冲锋衣',done:true},{t:'抓绒衫',done:true},{t:'换洗衣物',done:true},{t:'登山鞋',done:true}]},
+  {name:'工具急救',cls:'orange',items:[
+    {t:'头灯 + 电池',done:true},{t:'急救包',done:false},{t:'多功能刀',done:false},{t:'充电宝',done:true},{t:'垃圾袋',done:false}]}
+];
+
+function render(){
+  var el=document.getElementById('gearList');
+  el.innerHTML='';
+  var totalDone=0,totalAll=0;
+  data.forEach(function(cat,ci){
+    var done=cat.items.filter(function(x){return x.done}).length;
+    totalDone+=done;totalAll+=cat.items.length;
+    var div=document.createElement('div');
+    div.className='category';
+    div.style.animationDelay=(0.2+ci*0.1)+'s';
+    var html='<div class="cat-header"><span class="cat-name '+cat.cls+'">'+cat.name+'</span><span class="cat-count">'+done+'/'+cat.items.length+'</span></div>';
+    cat.items.forEach(function(item,ii){
+      html+='<div class="gear-item'+(item.done?' checked':'')+'" data-ci="'+ci+'" data-ii="'+ii+'">'+
+        '<div class="gi-box">'+(item.done?'✓':'')+'</div>'+
+        '<span class="gi-name">'+item.t+'</span></div>';
+    });
+    div.innerHTML=html;
+    el.appendChild(div);
+  });
+  document.getElementById('packed').textContent=totalDone;
+  var pct=Math.round(totalDone/totalAll*100);
+  document.getElementById('pct').textContent=pct;
+  document.getElementById('progFill').style.width=pct+'%';
+
+  document.querySelectorAll('.gear-item').forEach(function(gi){
+    gi.addEventListener('click',function(){
+      var ci=parseInt(this.dataset.ci),ii=parseInt(this.dataset.ii);
+      data[ci].items[ii].done=!data[ci].items[ii].done;
+      render();
+    });
+  });
+}
+render();
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
