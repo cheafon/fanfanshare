@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>闲置好物 — 转角 CORNER</title>
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--kraft:#B8956A;--dark:#6B4E2E;--light:#D4BA8C;--string:#A68B5B;--white:#FFFEF8;--red:#E74C3C;--green:#27AE60;--blue:#2C6FAC;--bg:#C4A97D}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--bg);color:var(--dark);font-family:'Noto Sans SC','Patrick Hand',sans-serif;font-weight:400;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    /* Kraft fiber */
+    background-image:
+      repeating-linear-gradient(8deg,transparent 0px,transparent 12px,rgba(107,78,46,0.04) 12px,rgba(107,78,46,0.04) 13px,transparent 13px,transparent 28px),
+      repeating-linear-gradient(172deg,transparent 0px,transparent 18px,rgba(107,78,46,0.03) 18px,rgba(107,78,46,0.03) 19px,transparent 19px,transparent 40px)}
+
+  .grain{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.03}
+
+  .page{max-width:440px;width:100%;position:relative;z-index:1}
+
+  /* Kraft tape */
+  .tape{height:18px;background:rgba(212,186,140,0.6);margin-bottom:1rem;transform:rotate(-1deg);
+    box-shadow:0 1px 3px rgba(0,0,0,0.1);
+    background-image:repeating-linear-gradient(90deg,transparent,transparent 3px,rgba(255,255,255,0.1) 3px,rgba(255,255,255,0.1) 6px)}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1rem;animation:dropIn .5s ease both}
+  @keyframes dropIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+  .h-brand{font-family:'Patrick Hand',cursive;font-size:1.8rem;color:var(--dark);letter-spacing:0.04em}
+  .h-en{font-family:'Patrick Hand',cursive;font-size:0.75rem;color:var(--string);letter-spacing:0.2em}
+  .h-sub{font-size:0.88rem;color:var(--dark);opacity:0.5;margin-top:0.2rem}
+
+  .stats{text-align:center;font-size:0.78rem;color:var(--string);margin-bottom:1rem;
+    animation:dropIn .5s ease both;animation-delay:.1s}
+
+  /* ═══ ITEM CARDS ═══ */
+  .item{background:var(--white);margin-bottom:0.8rem;padding:1rem 1rem 0.8rem;position:relative;
+    /* Torn top edge */
+    clip-path:polygon(0 6px,2% 2px,5% 7px,8% 1px,12% 5px,16% 0px,20% 6px,25% 2px,30% 7px,34% 1px,38% 4px,42% 0px,46% 5px,50% 2px,55% 6px,60% 1px,65% 5px,70% 0px,74% 4px,78% 1px,82% 6px,87% 2px,91% 5px,95% 1px,98% 4px,100% 0px,100% 100%,0 100%);
+    box-shadow:0 2px 6px rgba(107,78,46,0.1);transition:all .2s;
+    opacity:0;animation:tagDrop .4s ease forwards}
+  @keyframes tagDrop{from{opacity:0;transform:translateY(8px) rotate(-1deg)}to{opacity:1;transform:translateY(0) rotate(0)}}
+  .item:hover{transform:translateY(-2px);box-shadow:0 4px 10px rgba(107,78,46,0.15)}
+
+  /* String hole */
+  .item::before{content:'';position:absolute;top:10px;right:12px;width:8px;height:8px;border-radius:50%;
+    border:1.5px solid var(--string);background:var(--bg)}
+  .item::after{content:'';position:absolute;top:2px;right:15px;width:1px;height:10px;background:var(--string);opacity:0.4}
+
+  /* Category sticker */
+  .sticker{display:inline-block;font-size:0.65rem;font-weight:600;padding:0.2em 0.6em;border-radius:50%;
+    color:var(--white);position:absolute;top:12px;left:10px;min-width:2.2em;text-align:center;
+    box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+  .sticker.s-red{background:var(--red);transform:rotate(-8deg)}
+  .sticker.s-green{background:var(--green);transform:rotate(5deg)}
+  .sticker.s-blue{background:var(--blue);transform:rotate(-3deg)}
+
+  .i-name{font-weight:600;font-size:1rem;color:var(--dark);margin-top:0.3rem;padding-left:2.2rem}
+  .i-desc{font-size:0.82rem;color:var(--string);margin-top:0.1rem}
+  .i-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:0.4rem}
+  .i-price{font-family:'Patrick Hand',cursive;font-size:1.1rem;color:var(--red);font-weight:400}
+  .i-price.free{color:var(--green)}
+
+  .want-btn{font-family:'Patrick Hand',cursive;font-size:0.85rem;color:var(--dark);
+    background:transparent;border:1.5px solid var(--string);padding:0.3em 0.9em;
+    border-radius:4px;cursor:pointer;transition:all .2s}
+  .want-btn:hover{background:var(--light);border-color:var(--dark)}
+  .want-btn.marked{background:var(--green);border-color:var(--green);color:var(--white)}
+  @keyframes tagSwing{0%{transform:rotate(0)}25%{transform:rotate(5deg)}50%{transform:rotate(-4deg)}75%{transform:rotate(2deg)}100%{transform:rotate(0)}}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;margin-top:0.5rem;animation:dropIn .4s ease both;animation-delay:.7s}
+  .footer-motto{font-family:'Patrick Hand',cursive;font-size:0.85rem;color:var(--dark);opacity:0.3}
+  .footer-disc{font-size:0.55rem;color:var(--string);opacity:0.2;margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1rem}.item{padding:0.8rem}}
+</style>
+</head>
+<body>
+
+<svg class="grain" width="100%" height="100%">
+  <filter id="gf"><feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="4" stitchTiles="stitch"/></filter>
+  <rect width="100%" height="100%" filter="url(#gf)"/>
+</svg>
+
+<div class="page">
+
+  <div class="tape"></div>
+
+  <header class="header">
+    <div class="h-brand">转角</div>
+    <div class="h-en">CORNER</div>
+    <div class="h-sub">闲置好物</div>
+  </header>
+
+  <div class="stats">已转出 23 件 · 正在出 5 件</div>
+
+  <!-- ═══ ITEMS ═══ -->
+  <div class="item" style="animation-delay:.2s">
+    <span class="sticker s-red" style="transform:rotate(-6deg)">书</span>
+    <div class="i-name">《挪威的森林》九成新</div>
+    <div class="i-desc">赠送一张手绘书签 · 无折痕无笔记</div>
+    <div class="i-bottom">
+      <span class="i-price">¥15</span>
+      <button class="want-btn" onclick="markWant(this)">想要</button>
+    </div>
+  </div>
+
+  <div class="item" style="animation-delay:.28s">
+    <span class="sticker s-blue" style="transform:rotate(4deg)">居</span>
+    <div class="i-name">MUJI 橡木台灯</div>
+    <div class="i-desc">用了半年 · 成色很好 · 含灯泡</div>
+    <div class="i-bottom">
+      <span class="i-price">¥80</span>
+      <button class="want-btn" onclick="markWant(this)">想要</button>
+    </div>
+  </div>
+
+  <div class="item" style="animation-delay:.36s">
+    <span class="sticker s-green" style="transform:rotate(-3deg)">衣</span>
+    <div class="i-name">优衣库牛仔外套 M 码</div>
+    <div class="i-desc">只穿过两次 · 深蓝色 · 适合春秋</div>
+    <div class="i-bottom">
+      <span class="i-price">¥50</span>
+      <button class="want-btn" onclick="markWant(this)">想要</button>
+    </div>
+  </div>
+
+  <div class="item" style="animation-delay:.44s">
+    <span class="sticker s-blue" style="transform:rotate(6deg)">数</span>
+    <div class="i-name">Switch 健身环大冒险</div>
+    <div class="i-desc">含原装绑带和腿带 · 功能正常</div>
+    <div class="i-bottom">
+      <span class="i-price">¥120</span>
+      <button class="want-btn" onclick="markWant(this)">想要</button>
+    </div>
+  </div>
+
+  <div class="item" style="animation-delay:.52s">
+    <span class="sticker s-green" style="transform:rotate(-5deg)">厨</span>
+    <div class="i-name">手冲咖啡壶套装</div>
+    <div class="i-desc">搬家不带走了 · 含滤杯、壶、温度计</div>
+    <div class="i-bottom">
+      <span class="i-price free">免费赠</span>
+      <button class="want-btn" onclick="markWant(this)">想要</button>
+    </div>
+  </div>
+
+  <div class="tape" style="transform:rotate(1deg);margin-top:1rem"></div>
+
+  <footer class="footer">
+    <div class="footer-motto">转角 · CORNER · 让闲置流动起来</div>
+    <div class="footer-disc">虚构应用 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+function markWant(btn){
+  if(btn.classList.contains('marked')){
+    btn.classList.remove('marked');btn.textContent='想要';return;
+  }
+  btn.classList.add('marked');btn.textContent='已标记';
+  // Swing animation
+  var card=btn.closest('.item');
+  card.style.animation='tagSwing .4s ease';
+  setTimeout(function(){card.style.animation=''},400);
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

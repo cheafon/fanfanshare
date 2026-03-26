@@ -1,0 +1,26 @@
+Generate a secondhand item listing page for fictional app "转角 CORNER", styled as Kraft Paper / brown paper packaging aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: kraft brown (#B8956A), dark kraft (#6B4E2E), light kraft (#D4BA8C), string (#A68B5B), white label (#FFFEF8), red sticker (#E74C3C), green tag (#27AE60), stamp blue (#2C6FAC), bg (#C4A97D). Typography: Patrick Hand (handwritten casual) English, Noto Sans SC 400/600 Chinese 17px+. Layout: KRAFT — brown paper background with visible fiber texture, items styled as paper tags with string holes, handwritten labels.
+
+Animation: Medium — Required:
+1. CSS KRAFT TEXTURE: Background with warm brown base + SVG noise for paper grain + subtle darker fiber streaks via repeating-linear-gradient
+2. CSS TORN EDGES: Item cards with torn/ripped top edge using clip-path with irregular polygon points simulating hand-torn paper
+3. JS PRICE TAG: Click "想要" button → tag swings with rotation animation (like paper tag swinging on string) + "已标记" state
+4. CSS STRING HOLE: Each card has a small circle at top corner simulating punched hole for string + thin line above simulating attached string
+5. CSS STICKER LABELS: Category badges styled as colored circular stickers with slight rotation, simulating hand-stuck labels
+
+Page structure:
+1. Header: "转角" + "CORNER" + "闲置好物" + kraft tape decoration
+2. Items (5 cards, kraft tag style, torn edges):
+   - 《挪威的森林》九成新 · 书籍 · ¥15 · 赠送一张书签
+   - MUJI 台灯 · 家居 · ¥80 · 用了半年 成色很好
+   - 优衣库牛仔外套 M码 · 衣物 · ¥50 · 只穿过两次
+   - Switch 健身环 · 数码 · ¥120 · 含原装绑带
+   - 手冲咖啡壶套装 · 厨具 · 免费赠 · 搬家不带走了
+3. Each card has: item name, category sticker, price/free tag, description, "想要" button
+4. Stats: 已转出 23 件 · 正在出 5 件
+5. Footer: "转角 · CORNER · 让闲置流动起来"
+
+Kraft: SVG noise baseFrequency 0.6 for grain + repeating-linear-gradient(8deg, transparent 0, transparent 10px, rgba(dark,0.03) 10px 11px) for fiber streaks. Torn edge: clip-path:polygon(0 4px, 3% 0, 7% 5px, 12% 1px, 18% 6px, 24% 2px, ...) with irregular y values.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-kraft-secondhand.html. Do NOT open.
