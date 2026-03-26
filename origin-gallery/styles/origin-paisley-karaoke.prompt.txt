@@ -1,0 +1,33 @@
+Generate a karaoke song queue page for fictional KTV "星麦 STARMIC", styled as Paisley / Persian-Indian teardrop textile pattern aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: paisley purple (#2D1B4E), paisley teal (#1B8A7A), paisley magenta (#C2185B), paisley gold (#FFB300), paisley cream (#FFF3E0), dim rgba(255,243,224,0.3). Typography: Fraunces (quirky optical-size serif with soft terminals) English, Noto Sans SC 400/600 Chinese 17px+. Layout: PAISLEY — deep purple background with paisley teardrop patterns, song queue in warm cream cards, bohemian luxury feel.
+
+Animation: Medium-High — Required:
+1. CSS PAISLEY TEARDROPS: 6-8 decorative paisley teardrop shapes as fixed background elements, made with CSS border-radius (asymmetric teardrop: border-radius: 50% 50% 50% 0 rotated) in teal/magenta/gold at very low opacity (0.04-0.08), scattered at various sizes and rotations
+2. CSS TEXTILE PATTERN: Background with repeating-radial-gradient creating small diamond/ogee lattice pattern in gold lines at low opacity, simulating woven textile
+3. JS SONG QUEUE: Click "切歌" to move current song to "已唱" and advance queue. Click "置顶" to move a song to next position. Interactive queue management.
+4. CSS NOW PLAYING: Current song card with pulsing gold border glow animation (box-shadow breathing), larger than queue items
+5. STAGGERED: Queue items slide in staggered from right
+
+Page structure:
+1. Header: "星麦" + "STARMIC" + "包房 VIP-03" + paisley ornament
+2. Now playing (large card with gold glow):
+   - 正在演唱: "海阔天空" — Beyond · 已唱 1:42/4:35
+   - Singer: 小王
+   - "切歌" button
+3. Up next queue (6 songs, interactive):
+   - "倔强" — 五月天 · 点歌人: 阿杰 [置顶]
+   - "泡沫" — 邓紫棋 · 点歌人: 小美 [置顶]
+   - "光辉岁月" — Beyond · 点歌人: 大伟 [置顶]
+   - "说散就散" — JC · 点歌人: 晓晓 [置顶]
+   - "夜空中最亮的星" — 逃跑计划 · 点歌人: 阿瑞 [置顶]
+   - "小幸运" — 田馥甄 · 点歌人: 豆豆 [置顶]
+4. Already sung (3 songs, dimmed):
+   - "十年" — 陈奕迅 · 小王
+   - "匆匆那年" — 王菲 · 小美
+   - "平凡之路" — 朴树 · 大伟
+5. Footer: "星麦 · STARMIC · 今夜不醉不归"
+
+Paisley teardrops: border-radius: 50% 50% 50% 0 creates basic teardrop, rotate at various angles. Textile: repeating-radial-gradient(ellipse, transparent 8px, rgba(gold,0.02) 8px, rgba(gold,0.02) 9px, transparent 9px) at small size creates ogee pattern.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-paisley-karaoke.html. Do NOT open.

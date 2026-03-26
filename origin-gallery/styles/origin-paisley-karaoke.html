@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>包房 VIP-03 — 星麦 STARMIC</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--purple:#2D1B4E;--teal:#1B8A7A;--magenta:#C2185B;--gold:#FFB300;--cream:#FFF3E0;--dim:rgba(255,243,224,0.3)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--purple);color:var(--cream);font-family:'Noto Sans SC','Fraunces',serif;font-weight:400;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative;
+    /* Textile ogee lattice */
+    background-image:
+      repeating-radial-gradient(ellipse 12px 16px at 20px 20px,transparent 10px,rgba(255,179,0,0.015) 10px,rgba(255,179,0,0.015) 11px,transparent 11px),
+      repeating-radial-gradient(ellipse 12px 16px at 0px 0px,transparent 10px,rgba(255,179,0,0.015) 10px,rgba(255,179,0,0.015) 11px,transparent 11px);
+    background-size:40px 40px}
+
+  /* Paisley teardrops */
+  .paisley{position:fixed;pointer-events:none;z-index:0}
+  .tear{position:absolute;border-radius:50% 50% 50% 0}
+  .t1{width:80px;height:100px;top:5%;right:8%;background:var(--teal);opacity:0.05;transform:rotate(35deg)}
+  .t2{width:50px;height:65px;top:20%;left:5%;background:var(--magenta);opacity:0.04;transform:rotate(-20deg)}
+  .t3{width:100px;height:130px;bottom:15%;right:5%;background:var(--gold);opacity:0.04;transform:rotate(60deg)}
+  .t4{width:40px;height:55px;top:45%;left:8%;background:var(--teal);opacity:0.06;transform:rotate(-45deg)}
+  .t5{width:70px;height:90px;bottom:30%;left:15%;background:var(--magenta);opacity:0.03;transform:rotate(15deg)}
+  .t6{width:55px;height:72px;top:65%;right:12%;background:var(--gold);opacity:0.05;transform:rotate(-60deg)}
+
+  .page{max-width:460px;width:100%;position:relative;z-index:1}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.5rem;animation:fadeIn .6s ease both}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .h-brand{font-family:'Fraunces',serif;font-weight:700;font-size:1.5rem;color:var(--gold);letter-spacing:0.08em}
+  .h-en{font-family:'Fraunces',serif;font-weight:400;font-size:0.7rem;color:var(--dim);letter-spacing:0.2em;opacity:0.5}
+  .h-room{font-size:0.82rem;color:var(--teal);margin-top:0.3rem;letter-spacing:0.06em}
+
+  /* ═══ NOW PLAYING ═══ */
+  .now-card{background:rgba(255,243,224,0.06);border:1.5px solid rgba(255,179,0,0.2);border-radius:10px;
+    padding:1.2rem;margin-bottom:1.2rem;text-align:center;
+    animation:fadeIn .5s ease both,glowPulse 2.5s ease-in-out infinite;animation-delay:.15s}
+  @keyframes glowPulse{0%,100%{box-shadow:0 0 12px rgba(255,179,0,0.08)}50%{box-shadow:0 0 24px rgba(255,179,0,0.18)}}
+  .now-label{font-family:'Fraunces',serif;font-weight:600;font-size:0.6rem;color:var(--gold);letter-spacing:0.15em;margin-bottom:0.4rem}
+  .now-title{font-weight:600;font-size:1.2rem;color:var(--cream)}
+  .now-artist{font-family:'Fraunces',serif;font-size:0.88rem;color:var(--dim);margin-top:0.1rem}
+  .now-singer{font-size:0.82rem;color:var(--teal);margin-top:0.2rem}
+  .now-time{font-family:'Fraunces',serif;font-size:0.78rem;color:rgba(255,243,224,0.2);margin-top:0.3rem}
+  .skip-btn{font-family:'Fraunces',serif;font-weight:600;font-size:0.8rem;color:var(--purple);
+    background:var(--magenta);border:none;padding:0.5em 1.5em;border-radius:20px;
+    cursor:pointer;margin-top:0.6rem;transition:all .2s;letter-spacing:0.06em}
+  .skip-btn:hover{background:var(--gold);transform:scale(1.04)}
+
+  /* ═══ SECTION LABEL ═══ */
+  .sec-label{font-family:'Fraunces',serif;font-weight:600;font-size:0.63rem;color:var(--gold);letter-spacing:0.12em;
+    margin-bottom:0.5rem;opacity:0.6}
+
+  /* ═══ QUEUE ═══ */
+  .queue{margin-bottom:1.2rem}
+  .q-item{display:flex;align-items:center;gap:0.6rem;padding:0.55rem 0.7rem;margin-bottom:0.2rem;
+    border-radius:6px;background:rgba(255,243,224,0.03);border:1px solid rgba(255,179,0,0.04);
+    transition:all .25s;cursor:default;opacity:0;animation:slideR .4s ease forwards}
+  @keyframes slideR{from{opacity:0;transform:translateX(15px)}to{opacity:1;transform:translateX(0)}}
+  .q-item:hover{background:rgba(255,243,224,0.06);border-color:rgba(255,179,0,0.1)}
+  .q-num{font-family:'Fraunces',serif;font-weight:700;font-size:0.75rem;color:rgba(255,179,0,0.2);min-width:1.5em}
+  .q-info{flex:1;min-width:0}
+  .q-title{font-weight:500;font-size:0.92rem;color:var(--cream);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .q-meta{font-size:0.75rem;color:rgba(255,243,224,0.25)}
+  .top-btn{font-family:'Fraunces',serif;font-size:0.65rem;color:var(--teal);border:1px solid rgba(27,138,122,0.25);
+    background:transparent;padding:0.2em 0.6em;border-radius:12px;cursor:pointer;transition:all .2s;flex-shrink:0}
+  .top-btn:hover{background:var(--teal);color:var(--purple)}
+
+  /* ═══ ALREADY SUNG ═══ */
+  .sung{margin-bottom:1.2rem}
+  .sung-item{display:flex;align-items:center;gap:0.5rem;padding:0.35rem 0;opacity:0.25}
+  .sung-title{font-size:0.85rem;color:var(--cream);text-decoration:line-through;text-decoration-color:rgba(255,243,224,0.15)}
+  .sung-meta{font-size:0.72rem;color:rgba(255,243,224,0.15);margin-left:auto}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;animation:fadeIn .5s ease both;animation-delay:1.2s}
+  .footer-motto{font-family:'Fraunces',serif;font-style:italic;font-size:0.82rem;color:var(--gold);opacity:0.25}
+  .footer-disc{font-size:0.55rem;color:var(--dim);opacity:0.1;margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1rem}.now-card{padding:1rem}.q-item{padding:0.45rem 0.5rem}}
+</style>
+</head>
+<body>
+
+<!-- Paisley teardrops -->
+<div class="paisley">
+  <div class="tear t1"></div><div class="tear t2"></div><div class="tear t3"></div>
+  <div class="tear t4"></div><div class="tear t5"></div><div class="tear t6"></div>
+</div>
+
+<div class="page">
+
+  <header class="header">
+    <div class="h-brand">星麦</div>
+    <div class="h-en">STARMIC</div>
+    <div class="h-room">包房 VIP-03</div>
+  </header>
+
+  <!-- ═══ NOW PLAYING ═══ -->
+  <div class="now-card">
+    <div class="now-label">NOW PLAYING</div>
+    <div class="now-title" id="npTitle">海阔天空</div>
+    <div class="now-artist" id="npArtist">Beyond</div>
+    <div class="now-singer" id="npSinger">演唱：小王</div>
+    <div class="now-time">1:42 / 4:35</div>
+    <button class="skip-btn" onclick="skipSong()">切歌</button>
+  </div>
+
+  <!-- ═══ QUEUE ═══ -->
+  <div class="queue">
+    <div class="sec-label">UP NEXT</div>
+    <div id="queueList"></div>
+  </div>
+
+  <!-- ═══ ALREADY SUNG ═══ -->
+  <div class="sung">
+    <div class="sec-label">ALREADY SUNG</div>
+    <div id="sungList"></div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-motto">星麦 · STARMIC · 今夜不醉不归</div>
+    <div class="footer-disc">虚构 KTV · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+var queue=[
+  {title:'倔强',artist:'五月天',singer:'阿杰'},
+  {title:'泡沫',artist:'邓紫棋',singer:'小美'},
+  {title:'光辉岁月',artist:'Beyond',singer:'大伟'},
+  {title:'说散就散',artist:'JC',singer:'晓晓'},
+  {title:'夜空中最亮的星',artist:'逃跑计划',singer:'阿瑞'},
+  {title:'小幸运',artist:'田馥甄',singer:'豆豆'}
+];
+var sung=[
+  {title:'十年',artist:'陈奕迅',singer:'小王'},
+  {title:'匆匆那年',artist:'王菲',singer:'小美'},
+  {title:'平凡之路',artist:'朴树',singer:'大伟'}
+];
+var nowPlaying={title:'海阔天空',artist:'Beyond',singer:'小王'};
+
+function renderQueue(){
+  var el=document.getElementById('queueList');
+  el.innerHTML='';
+  queue.forEach(function(s,i){
+    var div=document.createElement('div');
+    div.className='q-item';
+    div.style.animationDelay=(0.3+i*0.08)+'s';
+    div.innerHTML='<span class="q-num">'+(i+1)+'</span>'+
+      '<div class="q-info"><div class="q-title">'+s.title+'</div><div class="q-meta">'+s.artist+' · '+s.singer+'</div></div>'+
+      '<button class="top-btn" onclick="topSong('+i+')">置顶</button>';
+    el.appendChild(div);
+  });
+}
+
+function renderSung(){
+  var el=document.getElementById('sungList');
+  el.innerHTML='';
+  sung.forEach(function(s){
+    var div=document.createElement('div');
+    div.className='sung-item';
+    div.innerHTML='<span class="sung-title">'+s.title+'</span><span class="sung-meta">'+s.artist+' · '+s.singer+'</span>';
+    el.appendChild(div);
+  });
+}
+
+function updateNP(){
+  document.getElementById('npTitle').textContent=nowPlaying.title;
+  document.getElementById('npArtist').textContent=nowPlaying.artist;
+  document.getElementById('npSinger').textContent='演唱：'+nowPlaying.singer;
+}
+
+function skipSong(){
+  sung.unshift(nowPlaying);
+  if(queue.length>0){
+    nowPlaying=queue.shift();
+    updateNP();
+  }
+  renderQueue();renderSung();
+}
+
+function topSong(idx){
+  if(idx===0)return;
+  var s=queue.splice(idx,1)[0];
+  queue.unshift(s);
+  renderQueue();
+}
+
+renderQueue();renderSung();
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
