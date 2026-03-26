@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>表盘设置 — 刻度 DIAL</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--carbon:#0D0D0D;--weave:#1A1A1A;--silver:#A0A0A0;--red:#FF1744;--blue:#2196F3;--light:#E0E0E0;--dim:#555;--accent:var(--red)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--carbon);color:var(--light);font-family:'Noto Sans SC','Rajdhani',sans-serif;font-weight:500;font-size:17px;line-height:1.6;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    /* Carbon fiber weave */
+    background-image:
+      repeating-linear-gradient(45deg,var(--carbon) 0px,var(--carbon) 2px,var(--weave) 2px,var(--weave) 4px),
+      repeating-linear-gradient(-45deg,var(--carbon) 0px,var(--carbon) 2px,rgba(26,26,26,0.5) 2px,rgba(26,26,26,0.5) 4px)}
+
+  .page{max-width:420px;width:100%;position:relative;z-index:1}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.2rem;animation:techIn .4s ease both}
+  @keyframes techIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+  .h-brand{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.5rem;color:var(--light);letter-spacing:0.1em}
+  .h-en{font-family:'Rajdhani',sans-serif;font-weight:400;font-size:0.68rem;color:var(--dim);letter-spacing:0.3em}
+  .h-type{font-size:0.88rem;color:var(--silver);opacity:0.5;margin-top:0.2rem}
+
+  /* ═══ WATCH FACE ═══ */
+  .watch-wrap{display:flex;justify-content:center;margin-bottom:1.2rem;animation:techIn .4s ease both;animation-delay:.1s}
+  .watch{width:200px;height:200px;border-radius:50%;position:relative;
+    background:radial-gradient(circle,#111 0%,#0A0A0A 80%);
+    /* Metallic bezel */
+    border:4px solid;
+    border-image:linear-gradient(135deg,#666,#B0B0B0 30%,#888 50%,#C0C0C0 70%,#666) 1;
+    border-radius:50%;border-style:solid;
+    box-shadow:0 0 0 1px rgba(160,160,160,0.1),0 4px 20px rgba(0,0,0,0.5),inset 0 0 20px rgba(0,0,0,0.3)}
+  /* Hour markers */
+  .marker{position:absolute;width:2px;height:8px;background:var(--silver);left:50%;top:8px;transform-origin:50% 92px;opacity:0.3}
+  .marker.major{height:12px;width:2.5px;opacity:0.6}
+
+  /* Clock hands */
+  .hand{position:absolute;left:50%;bottom:50%;transform-origin:50% 100%;border-radius:1px}
+  .hand-h{width:3px;height:50px;background:var(--light);margin-left:-1.5px}
+  .hand-m{width:2px;height:65px;background:var(--silver);margin-left:-1px}
+  .hand-s{width:1px;height:70px;background:var(--accent);margin-left:-0.5px}
+  .center-dot{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--accent);
+    top:50%;left:50%;transform:translate(-50%,-50%);z-index:5}
+
+  /* Watch info */
+  .w-date{position:absolute;right:18px;top:50%;transform:translateY(-50%);
+    font-family:'Rajdhani',sans-serif;font-size:0.55rem;color:var(--dim);
+    background:rgba(26,26,26,0.8);padding:0.1em 0.3em;border:0.5px solid rgba(160,160,160,0.1);border-radius:2px}
+  .w-comp{position:absolute;font-family:'Rajdhani',sans-serif;font-size:0.5rem;color:var(--accent);text-align:center}
+  .w-comp-tl{top:35px;left:50%;transform:translateX(-50%)}
+  .w-comp-br{bottom:35px;left:50%;transform:translateX(-50%)}
+  .w-comp .val{font-size:0.65rem;font-weight:700;color:var(--light)}
+
+  /* ═══ SETTINGS ═══ */
+  .section{margin-bottom:0.8rem;opacity:0;animation:techIn .4s ease forwards}
+  .sec-label{font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.6rem;color:var(--dim);
+    letter-spacing:0.15em;margin-bottom:0.4rem}
+
+  .comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.4rem}
+  .comp-slot{padding:0.5rem;background:rgba(26,26,26,0.5);border:1px solid rgba(160,160,160,0.06);
+    border-radius:6px;cursor:pointer;transition:all .2s;text-align:center}
+  .comp-slot:hover{border-color:rgba(160,160,160,0.12);background:rgba(26,26,26,0.8)}
+  .comp-slot.active{border-color:var(--accent)}
+  .cs-pos{font-family:'Rajdhani',sans-serif;font-size:0.6rem;color:var(--dim);margin-bottom:0.15rem}
+  .cs-val{font-size:0.85rem;color:var(--light)}
+  .cs-cycle{font-size:0.65rem;color:var(--dim);margin-top:0.1rem}
+
+  /* Style pills */
+  .pills{display:flex;gap:0.3rem}
+  .pill{flex:1;text-align:center;padding:0.4em;border-radius:6px;font-size:0.85rem;
+    border:1px solid rgba(160,160,160,0.08);background:transparent;color:var(--silver);
+    cursor:pointer;transition:all .2s;font-family:'Noto Sans SC',sans-serif}
+  .pill:hover{border-color:rgba(160,160,160,0.15)}
+  .pill.active{border-color:var(--accent);color:var(--light);
+    background:linear-gradient(135deg,rgba(255,23,68,0.06),transparent)}
+
+  /* Color dots */
+  .colors{display:flex;gap:0.6rem;justify-content:center;margin-top:0.2rem}
+  .cdot{width:24px;height:24px;border-radius:50%;cursor:pointer;transition:all .15s;
+    border:2px solid transparent;box-shadow:0 2px 4px rgba(0,0,0,0.3)}
+  .cdot:hover{transform:scale(1.1)}
+  .cdot.active{border-color:var(--light)}
+  .cdot.c-red{background:var(--red)}.cdot.c-blue{background:var(--blue)}
+  .cdot.c-green{background:#00C853}.cdot.c-orange{background:#FF6D00}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;animation:techIn .4s ease both;animation-delay:.6s}
+  .footer-motto{font-family:'Rajdhani',sans-serif;font-size:0.78rem;color:var(--dim);opacity:0.3}
+  .footer-disc{font-size:0.55rem;color:var(--dim);opacity:0.12;margin-top:0.2rem}
+
+  @media(max-width:380px){.watch{width:170px;height:170px}}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <header class="header">
+    <div class="h-brand">刻度</div>
+    <div class="h-en">DIAL</div>
+    <div class="h-type">表盘设置</div>
+  </header>
+
+  <!-- ═══ WATCH FACE ═══ -->
+  <div class="watch-wrap">
+    <div class="watch" id="watch">
+      <!-- Hour markers -->
+      <div class="marker major" style="transform:rotate(0deg)"></div>
+      <div class="marker" style="transform:rotate(30deg)"></div>
+      <div class="marker" style="transform:rotate(60deg)"></div>
+      <div class="marker major" style="transform:rotate(90deg)"></div>
+      <div class="marker" style="transform:rotate(120deg)"></div>
+      <div class="marker" style="transform:rotate(150deg)"></div>
+      <div class="marker major" style="transform:rotate(180deg)"></div>
+      <div class="marker" style="transform:rotate(210deg)"></div>
+      <div class="marker" style="transform:rotate(240deg)"></div>
+      <div class="marker major" style="transform:rotate(270deg)"></div>
+      <div class="marker" style="transform:rotate(300deg)"></div>
+      <div class="marker" style="transform:rotate(330deg)"></div>
+      <!-- Hands -->
+      <div class="hand hand-h" id="hHour"></div>
+      <div class="hand hand-m" id="hMin"></div>
+      <div class="hand hand-s" id="hSec"></div>
+      <div class="center-dot"></div>
+      <!-- Info -->
+      <div class="w-date" id="wDate">3/26</div>
+      <div class="w-comp w-comp-tl" id="compTL"><div class="val">8,432</div>步数</div>
+      <div class="w-comp w-comp-br" id="compBR"><div class="val">72</div>BPM</div>
+    </div>
+  </div>
+
+  <!-- ═══ COMPLICATIONS ═══ -->
+  <div class="section" style="animation-delay:.25s">
+    <div class="sec-label">COMPLICATIONS</div>
+    <div class="comp-grid">
+      <div class="comp-slot active" onclick="cycleComp(this,'tl')">
+        <div class="cs-pos">左上</div>
+        <div class="cs-val" id="csTL">步数</div>
+        <div class="cs-cycle">点击切换</div>
+      </div>
+      <div class="comp-slot" onclick="cycleComp(this,'br')">
+        <div class="cs-pos">右下</div>
+        <div class="cs-val" id="csBR">心率</div>
+        <div class="cs-cycle">点击切换</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ STYLES ═══ -->
+  <div class="section" style="animation-delay:.35s">
+    <div class="sec-label">STYLE</div>
+    <div class="pills">
+      <div class="pill active" onclick="selectPill(this)">经典</div>
+      <div class="pill" onclick="selectPill(this)">运动</div>
+      <div class="pill" onclick="selectPill(this)">极简</div>
+    </div>
+  </div>
+
+  <!-- ═══ COLORS ═══ -->
+  <div class="section" style="animation-delay:.45s">
+    <div class="sec-label">ACCENT COLOR</div>
+    <div class="colors">
+      <div class="cdot c-red active" onclick="setColor(this,'#FF1744')"></div>
+      <div class="cdot c-blue" onclick="setColor(this,'#2196F3')"></div>
+      <div class="cdot c-green" onclick="setColor(this,'#00C853')"></div>
+      <div class="cdot c-orange" onclick="setColor(this,'#FF6D00')"></div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-motto">刻度 · DIAL · 时间由你定义</div>
+    <div class="footer-disc">虚构应用 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+// Live clock
+function updateClock(){
+  var n=new Date();
+  var h=n.getHours()%12,m=n.getMinutes(),s=n.getSeconds();
+  document.getElementById('hHour').style.transform='rotate('+(h*30+m*0.5)+'deg)';
+  document.getElementById('hMin').style.transform='rotate('+(m*6)+'deg)';
+  document.getElementById('hSec').style.transform='rotate('+(s*6)+'deg)';
+  document.getElementById('wDate').textContent=(n.getMonth()+1)+'/'+n.getDate();
+}
+updateClock();setInterval(updateClock,1000);
+
+// Complication cycling
+var compsTL=['步数','心率','天气','电量'];
+var compsBR=['心率','日期','闹钟','指南针'];
+var valsTL=['8,432','72','22°C','85%'];
+var valsBR=['72','3/26','07:30','NE'];
+var idxTL=0,idxBR=0;
+
+function cycleComp(el,pos){
+  if(pos==='tl'){idxTL=(idxTL+1)%compsTL.length;
+    document.getElementById('csTL').textContent=compsTL[idxTL];
+    document.getElementById('compTL').innerHTML='<div class="val">'+valsTL[idxTL]+'</div>'+compsTL[idxTL]}
+  else{idxBR=(idxBR+1)%compsBR.length;
+    document.getElementById('csBR').textContent=compsBR[idxBR];
+    document.getElementById('compBR').innerHTML='<div class="val">'+valsBR[idxBR]+'</div>'+compsBR[idxBR]}
+  document.querySelectorAll('.comp-slot').forEach(function(s){s.classList.remove('active')});
+  el.classList.add('active');
+}
+
+function selectPill(el){
+  el.parentElement.querySelectorAll('.pill').forEach(function(p){p.classList.remove('active')});
+  el.classList.add('active');
+}
+
+function setColor(el,color){
+  document.querySelectorAll('.cdot').forEach(function(d){d.classList.remove('active')});
+  el.classList.add('active');
+  document.documentElement.style.setProperty('--accent',color);
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

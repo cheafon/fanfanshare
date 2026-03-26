@@ -1,0 +1,27 @@
+Generate a smartwatch face customization page for fictional app "刻度 DIAL", styled as Carbon Fiber / racing tech material aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: carbon black (#0D0D0D), carbon weave (#1A1A1A), metal silver (#A0A0A0), accent red (#FF1744), accent blue (#2196F3), highlight (#E0E0E0), dim (#555). Typography: Rajdhani (angular tech display) English, Noto Sans SC 500/600 Chinese 17px+. Layout: CARBON FIBER — deep black with carbon weave texture, metallic accents, performance tech feel.
+
+Animation: Medium — Required:
+1. CSS CARBON WEAVE: Background with repeating-linear-gradient creating diagonal cross-hatch carbon fiber pattern (45deg and -45deg alternating dark stripes at 2-3px intervals)
+2. CSS WATCH FACE: Circular watch display (border-radius:50%, 180px) with metallic bezel border (linear-gradient silver sheen), showing CSS clock hands
+3. JS LIVE CLOCK: Watch face hands rotate in real-time — hour/minute/second hands using CSS transform:rotate updated every second
+4. JS COMPLICATION TOGGLE: Click to cycle through watch complications (步数/心率/天气/电量) — content changes with slide transition
+5. CSS METALLIC: Buttons and labels with metallic gradient (linear-gradient silver highlight sweep)
+
+Page structure:
+1. Header: "刻度" + "DIAL" + "表盘设置"
+2. Watch face preview (large circle, live clock):
+   - CSS clock with hour/minute/second hands
+   - Date display: 3月26日 周三
+   - Complication slots: 步数 8,432 / 心率 72 BPM
+3. Complication selector (4 options, toggle):
+   左上: 步数 · 心率 · 天气 · 电量
+   右下: 日期 · 闹钟 · 秒表 · 指南针
+4. Style options: 经典 · 运动 · 极简 (3 theme pills)
+5. Color accent: 红 · 蓝 · 绿 · 橙 (4 color dots)
+6. Footer: "刻度 · DIAL · 时间由你定义"
+
+Carbon weave: repeating-linear-gradient(45deg, #0D0D0D 0, #0D0D0D 2px, #1A1A1A 2px, #1A1A1A 4px) + same at -45deg creating cross-weave. Watch: border-radius:50% with conic-gradient bezel, CSS hands as thin divs rotated from center.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-carbonfiber-watchface.html. Do NOT open.
