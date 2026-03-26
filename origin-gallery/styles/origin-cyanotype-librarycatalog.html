@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>馆藏检索 — 拾光图书馆 TIMELIGHT LIBRARY</title>
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;0,7..72,700;1,7..72,400&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--prussian:#003153;--mid:#1B6B93;--light:#4DA6C9;--cwhite:#F0F8FF;--cream:#FFF8F0;--dim:rgba(240,248,255,0.3)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--prussian);color:var(--cwhite);font-family:'Noto Serif SC','Literata',serif;font-weight:400;font-size:17px;line-height:1.8;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative;
+    /* Uneven sun exposure */
+    background-image:
+      radial-gradient(ellipse at 50% 40%,rgba(27,107,147,0.2) 0%,transparent 55%),
+      radial-gradient(ellipse at 20% 20%,rgba(77,166,201,0.06) 0%,transparent 40%),
+      radial-gradient(ellipse at 80% 70%,rgba(27,107,147,0.08) 0%,transparent 40%)}
+
+  /* Botanical silhouettes */
+  .flora{position:fixed;pointer-events:none;z-index:0}
+  .leaf{position:absolute;border-radius:50%;background:var(--light)}
+  .stem{position:absolute;background:var(--light)}
+  /* Leaf cluster 1 — top right */
+  .b1{top:5%;right:6%}.b1 .leaf:nth-child(1){width:8px;height:28px;opacity:0.05;transform:rotate(-25deg)}
+  .b1 .leaf:nth-child(2){width:7px;height:22px;opacity:0.04;top:10px;left:12px;transform:rotate(15deg)}
+  .b1 .stem{width:1px;height:35px;opacity:0.04;top:5px;left:4px;transform:rotate(-8deg)}
+  /* Leaf cluster 2 — left */
+  .b2{top:40%;left:4%}.b2 .leaf:nth-child(1){width:6px;height:20px;opacity:0.04;transform:rotate(30deg)}
+  .b2 .stem{width:1px;height:28px;opacity:0.03;top:0;left:3px}
+  /* Leaf cluster 3 — bottom */
+  .b3{bottom:15%;right:8%}.b3 .leaf:nth-child(1){width:10px;height:32px;opacity:0.05;transform:rotate(-40deg)}
+  .b3 .leaf:nth-child(2){width:8px;height:24px;opacity:0.04;top:8px;left:14px;transform:rotate(20deg)}
+  .b3 .stem{width:1px;height:40px;opacity:0.03;top:0;left:5px;transform:rotate(-5deg)}
+
+  .page{max-width:460px;width:100%;position:relative;z-index:1}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.5rem;opacity:0;animation:cyanoIn .8s ease both}
+  @keyframes cyanoIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+  .h-brand{font-weight:600;font-size:1.3rem;color:var(--cwhite);letter-spacing:0.12em}
+  .h-en{font-family:'Literata',serif;font-weight:400;font-style:italic;font-size:0.68rem;color:var(--light);letter-spacing:0.18em;opacity:0.4}
+
+  /* ═══ SEARCH ═══ */
+  .search{margin-bottom:1.2rem;opacity:0;animation:cyanoIn .8s ease both;animation-delay:.2s}
+  .search-box{display:flex;gap:0.4rem}
+  .search-input{flex:1;background:rgba(240,248,255,0.04);border:1px solid rgba(77,166,201,0.15);
+    border-radius:4px;padding:0.5em 0.8em;color:var(--cwhite);font-family:'Noto Serif SC',serif;
+    font-size:0.9rem;outline:none;transition:border-color .2s}
+  .search-input:focus{border-color:var(--light)}
+  .search-input::placeholder{color:rgba(240,248,255,0.15)}
+  .search-count{font-size:0.78rem;color:var(--dim);opacity:0.4;margin-top:0.4rem;opacity:0;transition:opacity .3s}
+  .search-count.show{opacity:1}
+
+  /* ═══ RESULTS ═══ */
+  .results{margin-bottom:1rem}
+  .book{border-left:2px solid rgba(77,166,201,0.15);padding:0.7rem 0.8rem;margin-bottom:0.3rem;
+    transition:all .3s;cursor:default;opacity:0;animation:cyanoIn .6s ease forwards;
+    background:rgba(240,248,255,0.01)}
+  .book:hover{background:rgba(77,166,201,0.04);border-left-color:var(--light)}
+  .b-title{font-weight:600;font-size:1rem;color:var(--cwhite)}
+  .b-author{font-family:'Literata',serif;font-size:0.82rem;color:var(--light);opacity:0.5;margin-top:0.05rem}
+  .b-meta{font-size:0.78rem;color:var(--dim);opacity:0.25;margin-top:0.15rem}
+  .b-status{font-family:'Literata',serif;font-size:0.72rem;padding:0.15em 0.5em;border-radius:3px;display:inline-block;margin-top:0.2rem}
+  .b-status.available{color:var(--light);border:1px solid rgba(77,166,201,0.2)}
+  .b-status.borrowed{color:rgba(240,248,255,0.2);border:1px solid rgba(240,248,255,0.06)}
+
+  /* ═══ PAGINATION ═══ */
+  .pagination{display:flex;justify-content:center;gap:0.5rem;margin-bottom:1.2rem;
+    opacity:0;animation:cyanoIn .6s ease both;animation-delay:1.2s}
+  .pg-btn{font-family:'Literata',serif;font-size:0.78rem;padding:0.3em 0.7em;
+    border:1px solid rgba(77,166,201,0.15);color:var(--cwhite);background:transparent;
+    border-radius:3px;cursor:pointer;transition:all .2s}
+  .pg-btn.active{background:rgba(77,166,201,0.12);border-color:var(--light)}
+  .pg-btn:hover{border-color:var(--light)}
+
+  /* ═══ HOURS ═══ */
+  .hours{text-align:center;padding:0.6rem 0;border-top:1px solid rgba(77,166,201,0.06);
+    margin-bottom:0.8rem;opacity:0;animation:cyanoIn .6s ease both;animation-delay:1.3s}
+  .hours-text{font-size:0.82rem;color:var(--dim);opacity:0.3}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;opacity:0;animation:cyanoIn .6s ease both;animation-delay:1.4s}
+  .footer-motto{font-family:'Literata',serif;font-style:italic;font-size:0.82rem;color:var(--light);opacity:0.2}
+  .footer-disc{font-size:0.55rem;color:var(--dim);opacity:0.08;margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1rem}.book{padding:0.6rem}}
+</style>
+</head>
+<body>
+
+<!-- Botanical silhouettes -->
+<div class="flora b1"><div class="stem"></div><div class="leaf"></div><div class="leaf"></div></div>
+<div class="flora b2"><div class="stem"></div><div class="leaf"></div></div>
+<div class="flora b3"><div class="stem"></div><div class="leaf"></div><div class="leaf"></div></div>
+
+<div class="page">
+
+  <header class="header">
+    <div class="h-brand">拾光图书馆</div>
+    <div class="h-en">TIMELIGHT LIBRARY</div>
+  </header>
+
+  <div class="search">
+    <div class="search-box">
+      <input class="search-input" id="searchInput" type="text" placeholder="输入关键词检索...">
+    </div>
+    <div class="search-count" id="searchCount">找到 6 条结果 · 关键词「文学」</div>
+  </div>
+
+  <div class="results" id="results">
+    <div class="book" style="animation-delay:.5s">
+      <div class="b-title">《百年孤独》</div>
+      <div class="b-author">加西亚·马尔克斯</div>
+      <div class="b-meta">外国文学 · I712.45/M12</div>
+      <div class="b-status available">在馆</div>
+    </div>
+    <div class="book" style="animation-delay:.6s">
+      <div class="b-title">《活着》</div>
+      <div class="b-author">余华</div>
+      <div class="b-meta">中国当代文学 · I247.5/Y85</div>
+      <div class="b-status available">在馆</div>
+    </div>
+    <div class="book" style="animation-delay:.7s">
+      <div class="b-title">《挪威的森林》</div>
+      <div class="b-author">村上春树</div>
+      <div class="b-meta">外国文学 · I313.45/C95</div>
+      <div class="b-status borrowed">已借出</div>
+    </div>
+    <div class="book" style="animation-delay:.8s">
+      <div class="b-title">《边城》</div>
+      <div class="b-author">沈从文</div>
+      <div class="b-meta">中国现代文学 · I246.5/S42</div>
+      <div class="b-status available">在馆</div>
+    </div>
+    <div class="book" style="animation-delay:.9s">
+      <div class="b-title">《小王子》</div>
+      <div class="b-author">圣埃克苏佩里</div>
+      <div class="b-meta">外国文学 · I565.88/S18</div>
+      <div class="b-status available">在馆</div>
+    </div>
+    <div class="book" style="animation-delay:1s">
+      <div class="b-title">《围城》</div>
+      <div class="b-author">钱钟书</div>
+      <div class="b-meta">中国现代文学 · I246.5/Q28</div>
+      <div class="b-status borrowed">已借出</div>
+    </div>
+  </div>
+
+  <div class="pagination">
+    <button class="pg-btn active">1</button>
+    <button class="pg-btn">2</button>
+  </div>
+
+  <div class="hours">
+    <div class="hours-text">周一至周日 9:00–21:00 · 周三闭馆</div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-motto">拾光图书馆 · TIMELIGHT · 在书页间拾起时光</div>
+    <div class="footer-disc">虚构图书馆 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+// Typing simulation
+var input=document.getElementById('searchInput');
+var term='文学';
+var idx=0;
+function typeChar(){
+  if(idx<term.length){
+    input.value+=term[idx];idx++;
+    setTimeout(typeChar,280);
+  }else{
+    document.getElementById('searchCount').classList.add('show');
+  }
+}
+setTimeout(typeChar,800);
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

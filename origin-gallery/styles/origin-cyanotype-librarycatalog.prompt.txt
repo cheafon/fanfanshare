@@ -1,0 +1,28 @@
+Generate a library catalog search results page for fictional "拾光图书馆 TIMELIGHT LIBRARY", styled as Cyanotype / blueprint sun-print photographic process aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: Prussian blue (#003153), cyanotype medium (#1B6B93), cyanotype light (#4DA6C9), cyan white (#F0F8FF), paper cream (#FFF8F0), dim rgba(240,248,255,0.3). Typography: Literata (book-optimized variable serif) English, Noto Serif SC 400/600 Chinese 17px+. Layout: CYANOTYPE — deep Prussian blue background with white/light cyan content, botanical silhouette decorations, photographic print feel.
+
+Animation: Medium — Required:
+1. CSS CYANOTYPE GRADIENT: Background with deep Prussian blue base + subtle radial-gradient lighter spots simulating uneven sun exposure during cyanotype printing process, edges slightly darker than center
+2. CSS BOTANICAL SILHOUETTES: 3-4 decorative plant/leaf outlines as fixed elements — simple CSS shapes (elongated ellipses for leaves, thin lines for stems) in lighter cyan, very low opacity (0.04-0.08), resembling pressed botanical specimens on cyanotype prints
+3. JS SEARCH INTERACTION: Search input with typing simulation — on page load, search term "文学" appears letter by letter, then results fade in
+4. CSS BOOK CARDS: Search result cards with white/light cyan text on dark blue, left accent line in lighter cyan, hover reveals a subtle cyanotype "exposure" brightening effect
+5. STAGGERED: Results appear sequentially like developing in sunlight
+
+Page structure:
+1. Header: "拾光图书馆" + "TIMELIGHT LIBRARY" + botanical leaf decoration
+2. Search bar: 搜索 "文学" + 找到 8 条结果
+3. Search results (6 book entries, staggered cyanotype develop):
+   - 《百年孤独》加西亚·马尔克斯 · 外国文学 · 馆藏号 I712.45/M12 · 在馆
+   - 《活着》余华 · 中国当代文学 · 馆藏号 I247.5/Y85 · 在馆
+   - 《挪威的森林》村上春树 · 外国文学 · 馆藏号 I313.45/C95 · 已借出
+   - 《边城》沈从文 · 中国现代文学 · 馆藏号 I246.5/S42 · 在馆
+   - 《小王子》圣埃克苏佩里 · 外国文学 · 馆藏号 I565.88/S18 · 在馆
+   - 《围城》钱钟书 · 中国现代文学 · 馆藏号 I246.5/Q28 · 已借出
+4. Pagination: 第1页 共2页
+5. Library hours: 周一至周日 9:00-21:00 · 周三闭馆
+6. Footer: "拾光图书馆 · TIMELIGHT · 在书页间拾起时光"
+
+Cyanotype: radial-gradient(ellipse at 50% 50%, #1B6B93 0%, #003153 70%) for uneven exposure. Botanicals: elongated ellipse divs (border-radius:50%) rotated at various angles in rgba(77,166,201,0.05). Search typing: JS setTimeout chain adding characters.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-cyanotype-librarycatalog.html. Do NOT open.
