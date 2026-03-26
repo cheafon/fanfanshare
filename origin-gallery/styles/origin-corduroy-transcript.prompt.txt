@@ -1,0 +1,28 @@
+Generate a podcast transcript page for fictional podcast "字幕组 SUBTITLE CREW", styled as Corduroy / textured ribbed fabric aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: corduroy camel (#C49A6C), corduroy rust (#8B4513), cream (#FFF5E6), dark (#2C1810), warm white (#FAF5ED), olive (#6B7B4A), dim rgba(44,24,16,0.25). Typography: Source Serif 4 (readable editorial serif) English, Noto Sans SC 400/600 Chinese 17px+. Layout: CORDUROY — warm cream background with vertical corduroy ridge texture, podcast transcript with timestamp navigation.
+
+Animation: Low-Medium (warm, readable) — Required:
+1. CSS CORDUROY RIDGES: Background with repeating-linear-gradient creating fine vertical ridges (alternating slightly darker/lighter cream lines every 3-4px) simulating corduroy fabric texture
+2. CSS WARM TEXTURE: SVG noise at very low opacity for fabric grain + radial-gradient warm spots simulating worn corduroy
+3. JS TIMESTAMP NAVIGATION: Click any timestamp marker to "jump" — scrolls that paragraph into view smoothly + highlights it briefly with warm glow background
+4. CSS SPEAKER TAGS: Different speakers have colored left borders (host=camel, guest=olive) + speaker name badges
+5. STAGGERED: Transcript paragraphs fade in gently staggered as if being typed/transcribed
+
+Page structure:
+1. Header: "字幕组" + "SUBTITLE CREW" + "逐字稿"
+2. Episode info: EP.42 "关于独处的十个真相" · 主播：小林 · 嘉宾：心理咨询师王明 · 时长 38:24 · 2026.03.22
+3. Transcript (8 paragraphs with timestamps, alternating speakers):
+   [00:00] 小林: 大家好，欢迎收听字幕组第42期。今天我们聊一个很多人都需要但很少人会主动选择的事情——独处。
+   [02:15] 王明: 独处其实是一种能力，不是所有人都能享受独处的。很多人把独处等同于孤独，但这是两回事。
+   [05:30] 小林: 对，我之前也分不清。能不能给我们解释一下？
+   [06:12] 王明: 孤独是一种被动的状态，你不想一个人但不得不一个人。独处是主动选择，你享受与自己相处的时光。
+   [10:45] 小林: 那怎么才能学会享受独处呢？
+   [11:20] 王明: 第一步是放下手机。很多人独处的时候其实是在用手机连接所有人，那不叫独处。
+   [18:30] 小林: 说到手机，我觉得这是现代人最大的独处障碍。
+   [19:05] 王明: 没错。真正的独处是允许自己无聊，允许大脑放空。这在今天的社会里几乎是一种反叛。
+4. Footer: "字幕组 · SUBTITLE CREW · 每句话都值得被看见"
+
+Corduroy ridges: repeating-linear-gradient(90deg, rgba(44,24,16,0.02) 0px, rgba(44,24,16,0.02) 1.5px, transparent 1.5px, transparent 3.5px) creates fine vertical lines. Timestamp: data-time attribute, JS smooth scroll + temporary highlight animation.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-corduroy-transcript.html. Do NOT open.
