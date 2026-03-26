@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>茶室预约 — 闲庭 IDLEYARD</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=LXGW+WenKai:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root{--xuan:#F7F3EB;--ink:#1A1612;--gray:#4A4540;--light:#8A8478;--bamboo:#6B7B4A;--seal:#C0392B;--dim:rgba(26,22,18,0.15)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--xuan);color:var(--ink);font-family:'LXGW WenKai','Cormorant Garamond',serif;font-weight:400;font-size:17px;line-height:2;
+    display:flex;justify-content:center;padding:2.5rem 1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    /* Xuan paper fiber */
+    background-image:
+      repeating-linear-gradient(0deg,transparent 0px,transparent 3px,rgba(26,22,18,0.006) 3px,rgba(26,22,18,0.006) 4px,transparent 4px,transparent 7px),
+      /* Ink wash bleed spots */
+      radial-gradient(circle 90px at 20% 25%,rgba(26,22,18,0.02) 0%,transparent 70%),
+      radial-gradient(circle 70px at 75% 60%,rgba(26,22,18,0.015) 0%,transparent 70%),
+      radial-gradient(circle 50px at 40% 85%,rgba(107,123,74,0.01) 0%,transparent 70%)}
+
+  .grain{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.02}
+
+  .page{max-width:440px;width:100%;position:relative;z-index:1}
+
+  /* Brush stroke divider */
+  .brush{height:2px;margin:1.2rem 0;background:linear-gradient(90deg,transparent,rgba(26,22,18,0.15) 20%,rgba(26,22,18,0.25) 50%,rgba(26,22,18,0.15) 80%,transparent);
+    border-radius:1px}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:0.5rem;opacity:0;animation:inkFade 1s ease both}
+  @keyframes inkFade{from{opacity:0}to{opacity:1}}
+  .h-brand{font-weight:700;font-size:2.2rem;color:var(--ink);letter-spacing:0.2em;line-height:1.3}
+  /* Seal stamp */
+  .seal{display:inline-block;width:28px;height:28px;border:1.5px solid var(--seal);border-radius:2px;
+    color:var(--seal);font-size:0.65rem;line-height:28px;text-align:center;font-weight:700;
+    transform:rotate(-5deg);margin-left:0.4rem;vertical-align:middle;opacity:0.7}
+  .h-en{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:0.72rem;
+    color:var(--light);letter-spacing:0.2em;margin-top:0.1rem}
+  .h-type{font-size:0.88rem;color:var(--light);margin-top:0.3rem;letter-spacing:0.1em}
+
+  .intro{text-align:center;font-size:1rem;color:var(--light);font-style:italic;letter-spacing:0.08em;
+    opacity:0;animation:inkFade 1s ease both;animation-delay:.3s}
+
+  /* ═══ ROOMS ═══ */
+  .rooms{margin-bottom:0.5rem}
+  .room{padding:1rem;margin-bottom:0.5rem;border:1px solid transparent;border-radius:4px;
+    cursor:pointer;transition:all .4s;opacity:0;animation:inkFade .8s ease forwards}
+  .room:hover{background:rgba(26,22,18,0.015)}
+  .room.selected{border-color:rgba(26,22,18,0.12);
+    box-shadow:0 0 0 1px rgba(26,22,18,0.04),0 0 8px rgba(26,22,18,0.03)}
+  .room.selected .r-name{color:var(--ink)}
+
+  .r-name{font-weight:700;font-size:1.1rem;color:var(--gray);letter-spacing:0.06em;transition:color .3s}
+  .r-desc{font-size:0.85rem;color:var(--light);margin-top:0.1rem}
+  .r-price{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:0.88rem;color:var(--bamboo);margin-top:0.15rem}
+
+  /* ═══ DATE/TIME ═══ */
+  .datetime{margin-bottom:0.5rem;opacity:0;animation:inkFade .8s ease both;animation-delay:.7s}
+  .dt-label{font-size:0.85rem;color:var(--light);margin-bottom:0.3rem}
+  .dt-input{width:100%;padding:0.45em 0.7em;border:1px solid rgba(26,22,18,0.08);border-radius:4px;
+    background:transparent;font-family:'LXGW WenKai',serif;font-size:0.88rem;color:var(--ink);
+    outline:none;transition:border-color .2s}
+  .dt-input:focus{border-color:rgba(26,22,18,0.2)}
+
+  .time-pills{display:flex;gap:0.4rem;margin-top:0.4rem}
+  .t-pill{padding:0.3em 0.8em;border:1px solid rgba(26,22,18,0.08);border-radius:4px;
+    font-size:0.85rem;color:var(--gray);cursor:pointer;transition:all .2s;background:transparent}
+  .t-pill:hover{border-color:rgba(26,22,18,0.2)}
+  .t-pill.active{border-color:var(--ink);color:var(--ink);background:rgba(26,22,18,0.03)}
+
+  /* ═══ TEA MENU ═══ */
+  .tea{opacity:0;animation:inkFade .8s ease both;animation-delay:.9s}
+  .tea-label{font-size:0.78rem;color:var(--light);letter-spacing:0.06em;margin-bottom:0.3rem}
+  .tea-items{display:flex;gap:0.6rem;flex-wrap:wrap}
+  .tea-item{font-size:0.88rem;color:var(--gray);transition:color .2s;cursor:default}
+  .tea-item:hover{color:var(--bamboo)}
+  .tea-sep{color:var(--dim)}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;opacity:0;animation:inkFade .8s ease both;animation-delay:1.1s}
+  .footer-motto{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.85rem;color:var(--light);opacity:0.35}
+  .footer-disc{font-size:0.55rem;color:var(--dim);opacity:0.2;margin-top:0.3rem}
+
+  @media(max-width:400px){body{padding:2rem 1rem}.h-brand{font-size:1.8rem}}
+</style>
+</head>
+<body>
+
+<svg class="grain" width="100%" height="100%">
+  <filter id="gf"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"/></filter>
+  <rect width="100%" height="100%" filter="url(#gf)"/>
+</svg>
+
+<div class="page">
+
+  <header class="header">
+    <div class="h-brand">闲庭<span class="seal">闲</span></div>
+    <div class="h-en">IDLEYARD</div>
+    <div class="h-type">茶室预约</div>
+  </header>
+
+  <div class="brush"></div>
+
+  <div class="intro">一壶茶，一段闲。</div>
+
+  <div class="brush"></div>
+
+  <!-- ═══ ROOMS ═══ -->
+  <div class="rooms">
+    <div class="room" style="animation-delay:.4s" onclick="selectRoom(this)">
+      <div class="r-name">竹影间</div>
+      <div class="r-desc">2–4 人 · 落地窗 + 竹景</div>
+      <div class="r-price">¥198 / 2 小时</div>
+    </div>
+    <div class="room selected" style="animation-delay:.5s" onclick="selectRoom(this)">
+      <div class="r-name">松风阁</div>
+      <div class="r-desc">4–6 人 · 榻榻米 + 枯山水</div>
+      <div class="r-price">¥298 / 2 小时</div>
+    </div>
+    <div class="room" style="animation-delay:.6s" onclick="selectRoom(this)">
+      <div class="r-name">云水堂</div>
+      <div class="r-desc">6–10 人 · 圆桌 + 山景</div>
+      <div class="r-price">¥498 / 2 小时</div>
+    </div>
+  </div>
+
+  <div class="brush"></div>
+
+  <!-- ═══ DATE/TIME ═══ -->
+  <div class="datetime">
+    <div class="dt-label">选择日期</div>
+    <input class="dt-input" type="date" value="2026-03-28">
+    <div class="dt-label" style="margin-top:0.6rem">选择时段</div>
+    <div class="time-pills">
+      <span class="t-pill" onclick="selectTime(this)">14:00</span>
+      <span class="t-pill active" onclick="selectTime(this)">16:00</span>
+      <span class="t-pill" onclick="selectTime(this)">19:00</span>
+    </div>
+  </div>
+
+  <div class="brush"></div>
+
+  <!-- ═══ TEA ═══ -->
+  <div class="tea">
+    <div class="tea-label">可选茶品</div>
+    <div class="tea-items">
+      <span class="tea-item">龙井</span><span class="tea-sep">·</span>
+      <span class="tea-item">铁观音</span><span class="tea-sep">·</span>
+      <span class="tea-item">白毫银针</span><span class="tea-sep">·</span>
+      <span class="tea-item">岩茶</span>
+    </div>
+  </div>
+
+  <div class="brush"></div>
+
+  <footer class="footer">
+    <div class="footer-motto">闲庭 · IDLEYARD · 偷得浮生半日闲</div>
+    <div class="footer-disc">虚构茶室 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+function selectRoom(el){
+  document.querySelectorAll('.room').forEach(function(r){
+    r.classList.remove('selected');
+    r.style.boxShadow='';
+  });
+  el.classList.add('selected');
+  // Ink bleed expand
+  el.style.transition='box-shadow .6s ease';
+  el.style.boxShadow='0 0 0 1px rgba(26,22,18,0.04),0 0 12px rgba(26,22,18,0.04)';
+}
+function selectTime(el){
+  document.querySelectorAll('.t-pill').forEach(function(p){p.classList.remove('active')});
+  el.classList.add('active');
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+Generate a tea room reservation page for fictional space "闲庭 IDLEYARD", styled as Rice Paper / Chinese Xuan paper ink aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: xuan white (#F7F3EB), ink black (#1A1612), ink gray (#4A4540), light ink (#8A8478), bamboo green (#6B7B4A), seal red (#C0392B), dim rgba(26,22,18,0.15). Typography: LXGW WenKai (文楷, elegant Chinese calligraphy feel) Chinese 17px+, Cormorant Garamond English. Layout: RICE PAPER — off-white xuan paper background with visible fiber texture, generous whitespace, ink wash accents, seal stamp decoration.
+
+Animation: Low-Medium (contemplative, unhurried) — Required:
+1. CSS XUAN PAPER: Background with SVG noise for paper fiber + very faint horizontal fiber lines via repeating-linear-gradient + subtle warm spots via radial-gradient simulating ink wash bleed
+2. CSS INK WASH: Decorative ink wash spots — 2-3 radial-gradient circles in very diluted ink gray, soft edges (large blur), as if ink dropped on absorbent rice paper
+3. JS ROOM SELECTOR: 3 tea rooms to choose, click to select — selected room gets ink border that "bleeds" outward (box-shadow expanding animation simulating ink on wet paper)
+4. CSS SEAL STAMP: Small red square seal stamp decoration (border + Chinese character inside) as brand mark, slightly rotated for authentic feel
+5. CSS BRUSH STROKE: Decorative horizontal brush stroke dividers using gradient (thick center fading to thin edges, ink color)
+
+Page structure:
+1. Header: "闲庭" in calligraphic large size + seal stamp + "茶室预约"
+2. Introduction: "一壶茶，一段闲。" brief poetic line
+3. Tea rooms (3 rooms, click to select):
+   - 竹影间 · 2-4人 · 落地窗+竹景 · ¥198/2h
+   - 松风阁 · 4-6人 · 榻榻米+枯山水 · ¥298/2h
+   - 云水堂 · 6-10人 · 圆桌+山景 · ¥498/2h
+4. Date/time selection (decorative): 日期 + 时段(14:00/16:00/19:00)
+5. Tea menu preview: 龙井·铁观音·白毫银针·岩茶
+6. Footer: "闲庭 · IDLEYARD · 偷得浮生半日闲"
+
+Xuan paper: SVG noise baseFrequency 0.8 for fiber + repeating-linear-gradient(0deg, transparent 2px, rgba(ink,0.008) 2px 3px, transparent 3px 6px) for horizontal fibers. Ink wash: radial-gradient(circle 80px at X% Y%, rgba(26,22,18,0.03), transparent 70%). Seal: 16px square, border:1.5px solid var(--seal), rotated -5deg, with character inside.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-ricepaper-tearoom.html. Do NOT open.
