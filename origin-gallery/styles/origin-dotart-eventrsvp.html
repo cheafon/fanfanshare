@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 春分篝火之夜 — 篝火聚会 BONFIRE</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--ochre:#CC7722;--terra:#C0392B;--earth:#2C1810;--sand:#E8D5B7;--bone:#F5EDE0;--euca:#4A7C59;--dim:rgba(44,24,16,0.3)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--earth);color:var(--bone);font-family:'Noto Sans SC','Outfit',sans-serif;font-weight:400;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative;
+    background-image:
+      radial-gradient(ellipse at 30% 20%,rgba(204,119,34,0.06) 0%,transparent 50%),
+      radial-gradient(ellipse at 70% 70%,rgba(192,57,43,0.04) 0%,transparent 50%)}
+
+  .grain{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.03}
+  .dots-layer{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .dot{position:absolute;border-radius:50%}
+
+  .page{max-width:440px;width:100%;position:relative;z-index:1}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.5rem;animation:warmIn .7s ease both}
+  @keyframes warmIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .h-brand{font-family:'Outfit',sans-serif;font-weight:700;font-size:1.5rem;color:var(--ochre);letter-spacing:0.1em}
+  .h-en{font-family:'Outfit',sans-serif;font-weight:300;font-size:0.7rem;color:var(--dim);letter-spacing:0.25em;color:var(--sand);opacity:0.4}
+  /* Dot circle ornament */
+  .ornament{width:60px;height:60px;margin:0.8rem auto 0;position:relative}
+
+  .h-title{font-weight:600;font-size:1.25rem;color:var(--bone);margin-top:0.8rem}
+  .h-sub{font-size:0.9rem;color:rgba(232,213,183,0.45);margin-top:0.15rem;font-style:italic}
+
+  /* ═══ DOT DIVIDER ═══ */
+  .dot-divider{display:flex;justify-content:center;gap:8px;margin:1rem 0}
+  .dd{width:4px;height:4px;border-radius:50%;background:var(--ochre);opacity:0.25}
+  .dd:nth-child(2n){background:var(--terra)}
+  .dd:nth-child(3n){background:var(--euca)}
+
+  /* ═══ CARDS ═══ */
+  .card{background:rgba(232,213,183,0.04);border:1px solid rgba(204,119,34,0.08);border-radius:8px;
+    padding:1.1rem;margin-bottom:1rem;transition:all .25s;
+    opacity:0;animation:warmIn .5s ease forwards}
+  .card:hover{border-color:rgba(204,119,34,0.15)}
+  .card-label{font-family:'Outfit',sans-serif;font-weight:600;font-size:0.63rem;color:var(--ochre);letter-spacing:0.12em;margin-bottom:0.4rem}
+
+  /* ═══ DETAILS ═══ */
+  .detail-card{animation-delay:.2s}
+  .detail-row{display:flex;justify-content:space-between;padding:0.3rem 0;border-bottom:1px dotted rgba(204,119,34,0.06)}
+  .detail-row:last-child{border:none}
+  .d-label{font-size:0.85rem;color:rgba(232,213,183,0.4)}
+  .d-val{font-size:0.85rem;color:var(--sand);text-align:right}
+  .d-highlight{color:var(--ochre);font-weight:600}
+
+  /* ═══ RSVP ═══ */
+  .rsvp-card{animation-delay:.35s;text-align:center}
+  .rsvp-btn{font-family:'Outfit',sans-serif;font-weight:600;font-size:0.9rem;letter-spacing:0.08em;
+    color:var(--earth);background:var(--ochre);border:none;padding:0.7em 2em;border-radius:30px;
+    cursor:pointer;transition:all .25s;position:relative;overflow:visible}
+  .rsvp-btn:hover{background:var(--terra);transform:scale(1.03)}
+  .rsvp-btn.confirmed{background:var(--euca)}
+  .ripple-dot{position:absolute;width:5px;height:5px;border-radius:50%;pointer-events:none;
+    animation:rippleOut .8s ease forwards}
+  @keyframes rippleOut{0%{transform:translate(-50%,-50%) scale(1);opacity:0.8}100%{transform:translate(-50%,-50%) scale(1);opacity:0}}
+  .rsvp-status{font-size:0.82rem;color:var(--euca);margin-top:0.5rem;opacity:0;transition:opacity .3s}
+  .rsvp-status.show{opacity:1}
+
+  /* ═══ BRING ═══ */
+  .bring-card{animation-delay:.5s}
+  .bring-items{display:flex;flex-wrap:wrap;gap:0.5rem}
+  .bring-tag{font-size:0.85rem;color:var(--sand);padding:0.3em 0.8em;border:1px solid rgba(204,119,34,0.12);
+    border-radius:20px;transition:all .2s}
+  .bring-tag:hover{border-color:var(--ochre);color:var(--ochre)}
+
+  /* ═══ ATTENDEES ═══ */
+  .attend-card{animation-delay:.65s}
+  .attendees{display:flex;flex-wrap:wrap;gap:0.8rem;justify-content:center}
+  .attendee{text-align:center;width:52px}
+  .avatar{width:40px;height:40px;border-radius:50%;margin:0 auto;position:relative}
+  .att-name{font-size:0.68rem;color:rgba(232,213,183,0.4);margin-top:0.25rem}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;animation:warmIn .5s ease both;animation-delay:.8s}
+  .footer-motto{font-family:'Outfit',sans-serif;font-size:0.8rem;color:var(--ochre);opacity:0.3;letter-spacing:0.04em}
+  .footer-disc{font-size:0.55rem;color:var(--dim);opacity:0.12;margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1rem}.card{padding:0.9rem}.attendees{gap:0.6rem}}
+</style>
+</head>
+<body>
+
+<svg class="grain" width="100%" height="100%">
+  <filter id="gf"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"/></filter>
+  <rect width="100%" height="100%" filter="url(#gf)"/>
+</svg>
+<div class="dots-layer" id="dotsLayer"></div>
+
+<div class="page">
+
+  <header class="header">
+    <div class="h-brand">篝火聚会</div>
+    <div class="h-en">BONFIRE</div>
+    <div class="ornament" id="ornament"></div>
+    <div class="h-title">2026 春分篝火之夜</div>
+    <div class="h-sub">一起围着火，聊点真心话</div>
+  </header>
+
+  <div class="dot-divider"><div class="dd"></div><div class="dd"></div><div class="dd"></div><div class="dd"></div><div class="dd"></div><div class="dd"></div><div class="dd"></div></div>
+
+  <div class="card detail-card" style="animation-delay:.2s">
+    <div class="card-label">EVENT DETAILS</div>
+    <div class="detail-row"><span class="d-label">日期</span><span class="d-val">2026 年 3 月 20 日 周五 · 19:00</span></div>
+    <div class="detail-row"><span class="d-label">地点</span><span class="d-val">城市边缘营地 · 松林区 C-3</span></div>
+    <div class="detail-row"><span class="d-label">人数</span><span class="d-val">限 30 人 · <span class="d-highlight">已报 22 人</span></span></div>
+    <div class="detail-row"><span class="d-label">费用</span><span class="d-val">¥88/人（含烤物 + 饮品）</span></div>
+  </div>
+
+  <div class="card rsvp-card" style="animation-delay:.35s">
+    <div class="card-label">RSVP</div>
+    <button class="rsvp-btn" id="rsvpBtn" onclick="confirmRSVP(this)">确认参加</button>
+    <div class="rsvp-status" id="rsvpStatus">已确认 · 期待与你围炉夜话</div>
+  </div>
+
+  <div class="dot-divider"><div class="dd"></div><div class="dd"></div><div class="dd"></div><div class="dd"></div><div class="dd"></div></div>
+
+  <div class="card bring-card" style="animation-delay:.5s">
+    <div class="card-label">WHAT TO BRING</div>
+    <div class="bring-items">
+      <span class="bring-tag">一件厚外套</span>
+      <span class="bring-tag">一首想分享的歌</span>
+      <span class="bring-tag">一个故事</span>
+    </div>
+  </div>
+
+  <div class="card attend-card" style="animation-delay:.65s">
+    <div class="card-label">ATTENDING · 22</div>
+    <div class="attendees" id="attendees">
+      <div class="attendee"><div class="avatar" id="av0"></div><div class="att-name">小林</div></div>
+      <div class="attendee"><div class="avatar" id="av1"></div><div class="att-name">阿杰</div></div>
+      <div class="attendee"><div class="avatar" id="av2"></div><div class="att-name">晓晓</div></div>
+      <div class="attendee"><div class="avatar" id="av3"></div><div class="att-name">大卫</div></div>
+      <div class="attendee"><div class="avatar" id="av4"></div><div class="att-name">小鱼</div></div>
+      <div class="attendee"><div class="avatar" id="av5"></div><div class="att-name">阿瑞</div></div>
+      <div class="attendee"><div class="avatar" id="av6"></div><div class="att-name">豆豆</div></div>
+      <div class="attendee"><div class="avatar" id="av7"></div><div class="att-name">+14</div></div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-motto">篝火聚会 · BONFIRE · 火焰不灭，故事不散</div>
+    <div class="footer-disc">虚构活动 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+var colors=['#CC7722','#C0392B','#4A7C59','#E8D5B7'];
+
+// Generate concentric dot circles
+function makeDotCircle(container,cx,cy,rings,baseR,dotsPerRing){
+  for(var r=0;r<rings;r++){
+    var radius=baseR+(r*18);
+    var count=dotsPerRing+(r*4);
+    var color=colors[r%colors.length];
+    for(var i=0;i<count;i++){
+      var angle=(Math.PI*2/count)*i;
+      var x=cx+Math.cos(angle)*radius;
+      var y=cy+Math.sin(angle)*radius;
+      var d=document.createElement('div');
+      d.className='dot';
+      var sz=3+Math.random()*2;
+      d.style.cssText='width:'+sz+'px;height:'+sz+'px;background:'+color+';left:'+x+'px;top:'+y+'px;opacity:'+(0.15+Math.random()*0.15).toFixed(2);
+      container.appendChild(d);
+    }
+  }
+}
+
+// Background dot formations
+var layer=document.getElementById('dotsLayer');
+var w=window.innerWidth,h=window.innerHeight;
+makeDotCircle(layer,w*0.15,h*0.2,4,15,6);
+makeDotCircle(layer,w*0.85,h*0.5,3,12,5);
+makeDotCircle(layer,w*0.5,h*0.85,3,10,5);
+
+// Header ornament
+var orn=document.getElementById('ornament');
+makeDotCircle(orn,30,30,3,8,6);
+
+// Avatar dot circles
+for(var i=0;i<8;i++){
+  var av=document.getElementById('av'+i);
+  if(av) makeDotCircle(av,20,20,2,6,5);
+}
+
+// RSVP ripple
+function confirmRSVP(btn){
+  btn.classList.add('confirmed');
+  btn.textContent='已确认';
+  document.getElementById('rsvpStatus').classList.add('show');
+  // Dot ripple
+  for(var i=0;i<12;i++){
+    var dot=document.createElement('div');
+    dot.className='ripple-dot';
+    var angle=(Math.PI*2/12)*i;
+    var dist=40+Math.random()*20;
+    var tx=Math.cos(angle)*dist;
+    var ty=Math.sin(angle)*dist;
+    dot.style.cssText='background:'+colors[i%colors.length]+';left:50%;top:50%;';
+    dot.style.animation='none';
+    btn.appendChild(dot);
+    // Animate outward
+    (function(d,x,y){
+      requestAnimationFrame(function(){
+        d.style.transition='all .6s ease';d.style.opacity='0';
+        d.style.left='calc(50% + '+x+'px)';d.style.top='calc(50% + '+y+'px)';
+        setTimeout(function(){d.remove()},700);
+      });
+    })(dot,tx,ty);
+  }
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

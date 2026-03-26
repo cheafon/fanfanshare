@@ -1,0 +1,27 @@
+Generate an event RSVP confirmation page for fictional gathering "篝火聚会 BONFIRE", styled as Aboriginal Dot Art / Australian indigenous dream-time art aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: earth ochre (#CC7722), terracotta red (#C0392B), deep earth (#2C1810), sand (#E8D5B7), bone white (#F5EDE0), eucalyptus (#4A7C59), dim rgba(44,24,16,0.3). Typography: Outfit (geometric rounded modern) English, Noto Sans SC 400/600 Chinese 17px+. Layout: ABORIGINAL DOT ART — deep earth background with concentric dot circle patterns, event info in sand/bone-colored sections.
+
+Animation: Medium — Required:
+1. CSS CONCENTRIC DOT CIRCLES: 2-3 decorative dot-circle patterns made with multiple radial-gradient rings of small dots — each "circle" is a series of concentric rings of evenly-spaced dots in ochre/terracotta/eucalyptus, using radial-gradient with repeating dot pattern at increasing radii
+2. JS DOT PATTERN GENERATOR: Generate 60+ small circular dots scattered in organic concentric ring formations around 2-3 center points, each dot 3-6px, in earth colors, creating authentic aboriginal dot art feel
+3. CSS EARTH TEXTURE: Background with SVG noise for rough earth/rock surface + warm radial-gradient glow spots
+4. RSVP CONFIRM ANIMATION: When "确认参加" button is clicked, a ripple of dots expands outward from the button in concentric circles (JS creates expanding ring of dots)
+5. STAGGERED REVEAL: Event details sections fade in with warm staggered timing
+
+Page structure:
+1. Header: "篝火聚会" + "BONFIRE" + decorative dot circle ornament
+2. Event title: "2026 春分篝火之夜" + "一起围着火，聊点真心话"
+3. Event details card:
+   - 日期: 2026年3月20日 周五 · 19:00
+   - 地点: 城市边缘营地 · 松林区C-3
+   - 人数: 限30人 · 已报名 22人
+   - 费用: ¥88/人 (含烤物+饮品)
+4. RSVP status: "已确认参加" or confirm button with dot ripple effect
+5. What to bring: 带一件外套 · 一首想分享的歌 · 一个故事
+6. Attendees preview: 8 dot-art style avatar circles with names
+7. Footer: "篝火聚会 · BONFIRE · 火焰不灭，故事不散"
+
+Dot circles: JS creates SVG or div dots arranged in concentric rings. For each center point, generate 3-4 rings of dots at radius 30/50/70/90px, with 8/12/16/20 dots per ring, positioned using sin/cos. Colors cycle through ochre/terracotta/eucalyptus.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-dotart-eventrsvp.html. Do NOT open.
