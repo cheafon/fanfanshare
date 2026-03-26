@@ -1,0 +1,27 @@
+Generate a pet vaccination record page for fictional app "萌守 PAWGUARD", styled as Plywood / layered wood panel workshop aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: plywood (#D2B48C), birch light (#E8D5B0), edge layer (#C4A060), dark layer (#8B7355), warm white (#FFF8ED), accent teal (#26A69A), alert orange (#FF8F00), text dark (#3E2723). Typography: Work Sans (clean geometric workshop) English, Noto Sans SC 400/600 Chinese 17px+. Layout: PLYWOOD — warm birch background with visible layered edge grain texture, cards styled as cut plywood panels with visible ply layers on edges.
+
+Animation: Low-Medium (functional, clean) — Required:
+1. CSS PLYWOOD GRAIN: Background with repeating-linear-gradient horizontal wood grain in birch tones + radial-gradient knot spots + visible edge layers via border styling (bottom/side borders showing alternating dark/light ply layers)
+2. CSS PLY EDGES: Cards have bottom border styled as visible plywood cross-section — repeating-linear-gradient alternating dark/light thin layers simulating laminated plywood edge
+3. JS NEXT VACCINE: Countdown to next vaccination date with animated highlight
+4. CSS HEALTH BADGE: Pet health status as a rounded badge with teal/orange coloring
+5. STAGGERED: Vaccine records appear like wood panels stacking
+
+Page structure:
+1. Header: "萌守" + "PAWGUARD" + "疫苗接种记录"
+2. Pet info: 团子 · 柯基 · 公 · 3岁 · 健康状态: 良好(teal badge)
+3. Next vaccine alert (orange highlight):
+   下次接种: 狂犬疫苗加强 · 2026年5月15日 · 距今 50天
+4. Vaccination history (5 records, plywood card stacking):
+   - 2026.03.01 · 犬瘟热疫苗(第3针) · 宠安动物医院 · 李医生 ✓
+   - 2025.09.15 · 狂犬疫苗 · 宠安动物医院 · 李医生 ✓
+   - 2025.03.01 · 犬瘟热疫苗(第2针) · 宠安动物医院 · 王医生 ✓
+   - 2024.12.10 · 犬瘟热疫苗(第1针) · 友宠诊所 · 张医生 ✓
+   - 2024.10.20 · 体内外驱虫 · 友宠诊所 · 张医生 ✓
+5. Footer: "萌守 · PAWGUARD · 守护每一次健康"
+
+Plywood grain: repeating-linear-gradient(180deg, birch 0 2px, light 2px 4px, birch 4px 7px) for horizontal grain. Ply edge: border-bottom with repeating-linear-gradient(90deg, dark 0 2px, light 2px 4px, dark 4px 6px, light 6px 8px) showing 4-5 ply layers.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-plywood-petvacc.html. Do NOT open.

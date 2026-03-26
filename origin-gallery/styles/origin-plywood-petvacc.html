@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>疫苗接种记录 — 萌守 PAWGUARD</title>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--ply:#D2B48C;--birch:#E8D5B0;--edge:#C4A060;--layer:#8B7355;--white:#FFF8ED;--teal:#26A69A;--orange:#FF8F00;--dark:#3E2723}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--birch);color:var(--dark);font-family:'Noto Sans SC','Work Sans',sans-serif;font-weight:400;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    /* Plywood grain */
+    background-image:
+      repeating-linear-gradient(180deg,
+        rgba(139,115,85,0.04) 0px,rgba(139,115,85,0.04) 2px,
+        transparent 2px,transparent 4px,
+        rgba(139,115,85,0.02) 4px,rgba(139,115,85,0.02) 5px,
+        transparent 5px,transparent 8px),
+      radial-gradient(ellipse 20px 15px at 30% 20%,rgba(139,115,85,0.06) 0%,transparent 70%),
+      radial-gradient(ellipse 15px 18px at 75% 60%,rgba(139,115,85,0.05) 0%,transparent 70%)}
+
+  .page{max-width:440px;width:100%;position:relative;z-index:1}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.2rem;animation:panelIn .5s ease both}
+  @keyframes panelIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+  .h-brand{font-family:'Work Sans',sans-serif;font-weight:700;font-size:1.4rem;color:var(--dark);letter-spacing:0.06em}
+  .h-en{font-family:'Work Sans',sans-serif;font-weight:400;font-size:0.68rem;color:var(--layer);letter-spacing:0.2em}
+  .h-type{font-size:0.88rem;color:var(--layer);margin-top:0.2rem}
+
+  /* ═══ PLY CARDS ═══ */
+  .ply-card{background:var(--white);padding:1rem;margin-bottom:0.7rem;border-radius:4px 4px 0 0;
+    box-shadow:0 2px 6px rgba(62,39,35,0.06);transition:all .2s;
+    /* Plywood edge — visible ply layers on bottom */
+    border-bottom:6px solid transparent;
+    border-image:repeating-linear-gradient(90deg,var(--layer) 0px,var(--layer) 1.5px,var(--birch) 1.5px,var(--birch) 3px,var(--edge) 3px,var(--edge) 4.5px,var(--ply) 4.5px,var(--ply) 6px) 6;
+    opacity:0;animation:panelIn .4s ease forwards}
+  .ply-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(62,39,35,0.08)}
+
+  .card-label{font-family:'Work Sans',sans-serif;font-weight:600;font-size:0.6rem;color:var(--edge);letter-spacing:0.12em;margin-bottom:0.3rem}
+
+  /* ═══ PET INFO ═══ */
+  .pet-card{animation-delay:.1s}
+  .pet-name{font-weight:600;font-size:1.1rem;color:var(--dark)}
+  .pet-meta{font-size:0.82rem;color:var(--layer);margin-top:0.1rem}
+  .health-badge{display:inline-block;font-family:'Work Sans',sans-serif;font-weight:600;font-size:0.7rem;
+    padding:0.2em 0.7em;border-radius:12px;margin-top:0.3rem}
+  .health-badge.good{background:rgba(38,166,154,0.1);color:var(--teal);border:1px solid rgba(38,166,154,0.2)}
+
+  /* ═══ ALERT ═══ */
+  .alert-card{animation-delay:.2s;border-left:3px solid var(--orange);
+    background:linear-gradient(90deg,rgba(255,143,0,0.03),var(--white) 30%)}
+  .alert-title{font-weight:600;font-size:0.95rem;color:var(--orange)}
+  .alert-date{font-size:0.85rem;color:var(--dark);margin-top:0.1rem}
+  .alert-countdown{font-family:'Work Sans',sans-serif;font-weight:700;font-size:1rem;color:var(--orange);margin-top:0.2rem}
+
+  /* ═══ VACCINE RECORDS ═══ */
+  .record{display:flex;gap:0.6rem;align-items:flex-start}
+  .rec-date{font-family:'Work Sans',sans-serif;font-weight:500;font-size:0.75rem;color:var(--edge);min-width:5.5em;padding-top:0.1rem}
+  .rec-info{flex:1}
+  .rec-name{font-weight:600;font-size:0.92rem;color:var(--dark)}
+  .rec-clinic{font-size:0.78rem;color:var(--layer)}
+  .rec-check{font-size:0.82rem;color:var(--teal);flex-shrink:0;padding-top:0.1rem}
+
+  .rec-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(196,160,96,0.15),transparent);margin:0.5rem 0}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;margin-top:0.5rem;animation:panelIn .4s ease both;animation-delay:.7s}
+  .footer-motto{font-family:'Work Sans',sans-serif;font-size:0.82rem;color:var(--edge);opacity:0.4}
+  .footer-disc{font-size:0.55rem;color:var(--layer);opacity:0.2;margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1rem}.ply-card{padding:0.8rem}}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <header class="header">
+    <div class="h-brand">萌守</div>
+    <div class="h-en">PAWGUARD</div>
+    <div class="h-type">疫苗接种记录</div>
+  </header>
+
+  <!-- ═══ PET ═══ -->
+  <div class="ply-card pet-card" style="animation-delay:.1s">
+    <div class="card-label">PET INFO</div>
+    <div class="pet-name">团子</div>
+    <div class="pet-meta">柯基犬 · 公 · 3 岁 · 12.5 kg</div>
+    <div class="health-badge good">健康状态：良好</div>
+  </div>
+
+  <!-- ═══ NEXT ALERT ═══ -->
+  <div class="ply-card alert-card" style="animation-delay:.2s">
+    <div class="card-label">NEXT VACCINATION</div>
+    <div class="alert-title">狂犬疫苗加强针</div>
+    <div class="alert-date">预计接种日期：2026 年 5 月 15 日</div>
+    <div class="alert-countdown" id="countdown">距今 -- 天</div>
+  </div>
+
+  <!-- ═══ HISTORY ═══ -->
+  <div class="ply-card" style="animation-delay:.35s">
+    <div class="card-label">VACCINATION HISTORY</div>
+
+    <div class="record">
+      <span class="rec-date">2026.03.01</span>
+      <div class="rec-info"><div class="rec-name">犬瘟热疫苗（第 3 针）</div><div class="rec-clinic">宠安动物医院 · 李医生</div></div>
+      <span class="rec-check">✓</span>
+    </div>
+    <div class="rec-divider"></div>
+
+    <div class="record">
+      <span class="rec-date">2025.09.15</span>
+      <div class="rec-info"><div class="rec-name">狂犬疫苗</div><div class="rec-clinic">宠安动物医院 · 李医生</div></div>
+      <span class="rec-check">✓</span>
+    </div>
+    <div class="rec-divider"></div>
+
+    <div class="record">
+      <span class="rec-date">2025.03.01</span>
+      <div class="rec-info"><div class="rec-name">犬瘟热疫苗（第 2 针）</div><div class="rec-clinic">宠安动物医院 · 王医生</div></div>
+      <span class="rec-check">✓</span>
+    </div>
+    <div class="rec-divider"></div>
+
+    <div class="record">
+      <span class="rec-date">2024.12.10</span>
+      <div class="rec-info"><div class="rec-name">犬瘟热疫苗（第 1 针）</div><div class="rec-clinic">友宠诊所 · 张医生</div></div>
+      <span class="rec-check">✓</span>
+    </div>
+    <div class="rec-divider"></div>
+
+    <div class="record">
+      <span class="rec-date">2024.10.20</span>
+      <div class="rec-info"><div class="rec-name">体内外驱虫</div><div class="rec-clinic">友宠诊所 · 张医生</div></div>
+      <span class="rec-check">✓</span>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-motto">萌守 · PAWGUARD · 守护每一次健康</div>
+    <div class="footer-disc">虚构应用 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+// Countdown
+var target=new Date(2026,4,15);
+var now=new Date();
+var days=Math.ceil((target-now)/(1000*60*60*24));
+document.getElementById('countdown').textContent='距今 '+days+' 天';
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
