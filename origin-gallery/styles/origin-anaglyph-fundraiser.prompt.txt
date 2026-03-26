@@ -1,0 +1,28 @@
+Generate a fundraising thermometer/goal tracker page for fictional campaign "暖光计划 WARMLIGHT PROJECT", styled as Anaglyph 3D / red-blue stereoscopic glasses aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: deep dark (#0A0A14), anaglyph red (#FF0040), anaglyph cyan (#00D4FF), off-white (#E8ECF0), mid gray (#555), subtle purple from overlap (#8844AA). Typography: Archivo (strong geometric sans) English, Noto Sans SC 400/600 Chinese 17px+. Layout: ANAGLYPH 3D — dark background with red-cyan offset stereoscopic text, 3D depth illusion, fundraising thermometer visualization.
+
+Animation: Medium-High — Required:
+1. CSS ANAGLYPH TEXT: Key headings with red-cyan 3D offset — text rendered twice via pseudo-elements (::before in red shifted -3px, ::after in cyan shifted +3px), both with mix-blend-mode:screen, creating classic anaglyph stereoscopic depth
+2. CSS THERMOMETER: Tall vertical thermometer visualization — bulb at bottom (circle) + tube (rounded rectangle) with fill level animated from 0 to 72%, gradient from red at bottom to cyan at top through purple middle
+3. JS DONATION COUNTER: Animated count-up of total raised ¥0 → ¥360,000 with easing, displayed in large anaglyph text
+4. CSS DEPTH LAYERS: Cards at different "depths" — some shifted slightly red-left, others cyan-right, creating parallax 3D layer illusion on scroll/hover
+5. JS MILESTONE MARKERS: Thermometer has milestone markers (25%/50%/75%/100%) that pulse briefly when the fill animation passes them
+
+Page structure:
+1. Header: "暖光计划" + "WARMLIGHT" in anaglyph 3D text + "为山区孩子点亮一盏灯"
+2. Thermometer (centered, tall): Goal ¥500,000 · Raised ¥360,000 · 72% · animated fill with milestones
+3. Donation counter: Large anaglyph animated number
+4. Donor stats: 2,847位爱心人士 · 平均每人¥126
+5. Recent donors (5 entries, depth layers):
+   - 匿名 ¥500 · 3分钟前
+   - 小星星 ¥100 · 12分钟前
+   - 温暖的风 ¥200 · 28分钟前
+   - 向日葵 ¥50 · 1小时前
+   - 一点光 ¥1000 · 2小时前
+6. Campaign info: 用于为云南山区3所小学安装太阳能路灯
+7. Footer: "暖光计划 · WARMLIGHT · 再小的光也能照亮一段路"
+
+Anaglyph: element{position:relative;color:var(--white)}element::before{content:attr(data-text);position:absolute;color:var(--red);left:-3px;top:0;mix-blend-mode:screen;opacity:0.7}element::after{content:attr(data-text);position:absolute;color:var(--cyan);left:3px;top:0;mix-blend-mode:screen;opacity:0.7}. Thermometer: vertical div with border-radius, inner fill div with height transition + gradient.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-anaglyph-fundraiser.html. Do NOT open.
