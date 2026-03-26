@@ -1,0 +1,25 @@
+Generate a music class schedule page for fictional studio "音阶 SCALE STUDIO", styled as Gradient Mesh / liquid color blend aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: mesh violet (#8B5CF6), mesh pink (#EC4899), mesh blue (#3B82F6), mesh teal (#14B8A6), mesh orange (#F59E0B), white (#FFFFFF), dark (#1E1B4B). Typography: Manrope (modern geometric rounded) English, Noto Sans SC 400/600 Chinese 17px+. Layout: GRADIENT MESH — dark indigo background with multiple overlapping gradient blobs creating mesh-like color blend, modern design tool aesthetic.
+
+Animation: Medium-High — Required:
+1. CSS GRADIENT MESH: Background with 4-5 large radial-gradient color blobs (violet/pink/blue/teal) at different positions, overlapping to create liquid color mesh effect on dark base, slowly drifting with animation
+2. CSS GLASS CARDS: Course cards with frosted glass effect (backdrop-filter:blur + semi-transparent bg), floating on the gradient mesh
+3. JS DAY TABS: Click weekday tabs to filter courses — smooth cross-fade transition between day schedules
+4. CSS COLOR CODED: Each instrument type has its own mesh color accent (钢琴=violet, 吉他=teal, 声乐=pink, 小提琴=orange)
+5. STAGGERED: Cards slide in with smooth stagger
+
+Page structure:
+1. Header: "音阶" + "SCALE STUDIO" + "本周课表" on gradient mesh
+2. Day tabs: 周一 至 周日 (clickable, active=glass highlight)
+3. Today's courses (4 classes, glass cards, color-coded):
+   - 10:00 钢琴基础 · 张老师 · 教室A · 4/6人 (violet)
+   - 14:00 吉他入门 · 李老师 · 教室B · 6/8人 (teal)
+   - 16:00 少儿声乐 · 王老师 · 教室A · 5/5人满 (pink)
+   - 19:00 小提琴进阶 · 陈老师 · 教室C · 3/4人 (orange)
+4. Teacher highlight: 本周推荐 张老师 · 钢琴 · 10年教龄
+5. Footer: "音阶 · SCALE STUDIO · 让音乐成为生活的一部分"
+
+Gradient mesh: radial-gradient(circle 200px at 20% 30%, rgba(violet,0.3), transparent) + radial-gradient(circle 180px at 80% 20%, rgba(pink,0.25), transparent) + radial-gradient(circle 220px at 50% 70%, rgba(blue,0.2), transparent) + radial-gradient(circle 160px at 70% 90%, rgba(teal,0.25), transparent), all on dark indigo base, each animated with slow drift.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-gradmesh2-musicclass.html. Do NOT open.

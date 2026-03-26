@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>本周课表 — 音阶 SCALE STUDIO</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--violet:#8B5CF6;--pink:#EC4899;--blue:#3B82F6;--teal:#14B8A6;--orange:#F59E0B;--white:#FFFFFF;--dark:#1E1B4B}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--dark);color:var(--white);font-family:'Noto Sans SC','Manrope',sans-serif;font-weight:400;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative;min-height:100vh}
+
+  /* Gradient mesh blobs */
+  .mesh{position:fixed;inset:0;z-index:0;overflow:hidden}
+  .blob{position:absolute;border-radius:50%;filter:blur(60px)}
+  .b1{width:300px;height:300px;top:-5%;left:-10%;background:rgba(139,92,246,0.25);animation:drift1 20s ease-in-out infinite alternate}
+  .b2{width:250px;height:280px;top:10%;right:-5%;background:rgba(236,72,153,0.2);animation:drift2 18s ease-in-out infinite alternate}
+  .b3{width:280px;height:250px;bottom:15%;left:10%;background:rgba(59,130,246,0.18);animation:drift3 22s ease-in-out infinite alternate}
+  .b4{width:220px;height:220px;bottom:-5%;right:15%;background:rgba(20,184,166,0.2);animation:drift4 16s ease-in-out infinite alternate}
+  .b5{width:180px;height:180px;top:45%;left:40%;background:rgba(245,158,11,0.1);animation:drift1 25s ease-in-out infinite alternate-reverse}
+  @keyframes drift1{0%{transform:translate(0,0)}100%{transform:translate(40px,30px)}}
+  @keyframes drift2{0%{transform:translate(0,0)}100%{transform:translate(-30px,40px)}}
+  @keyframes drift3{0%{transform:translate(0,0)}100%{transform:translate(35px,-25px)}}
+  @keyframes drift4{0%{transform:translate(0,0)}100%{transform:translate(-25px,-35px)}}
+
+  .page{max-width:460px;width:100%;position:relative;z-index:1}
+
+  /* Glass effect */
+  .glass{background:rgba(255,255,255,0.06);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    border:1px solid rgba(255,255,255,0.08);border-radius:14px}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.2rem;animation:meshIn .5s ease both}
+  @keyframes meshIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .h-brand{font-family:'Manrope',sans-serif;font-weight:800;font-size:1.6rem;letter-spacing:0.06em}
+  .h-en{font-family:'Manrope',sans-serif;font-weight:400;font-size:0.68rem;color:rgba(255,255,255,0.3);letter-spacing:0.25em}
+  .h-type{font-size:0.88rem;color:rgba(255,255,255,0.4);margin-top:0.3rem}
+
+  /* ═══ DAY TABS ═══ */
+  .tabs{display:flex;gap:0.3rem;margin-bottom:1rem;overflow-x:auto;padding-bottom:0.2rem;
+    animation:meshIn .5s ease both;animation-delay:.1s}
+  .tab{font-family:'Manrope',sans-serif;font-weight:500;font-size:0.82rem;
+    padding:0.4em 0.8em;border-radius:10px;border:none;cursor:pointer;transition:all .2s;
+    background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.35);flex-shrink:0}
+  .tab:hover{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.6)}
+  .tab.active{background:rgba(255,255,255,0.1);color:var(--white);
+    box-shadow:0 0 12px rgba(139,92,246,0.15)}
+
+  /* ═══ COURSE CARDS ═══ */
+  .courses{display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1rem}
+
+  .course{padding:0.9rem 1rem;display:flex;align-items:center;gap:0.7rem;
+    transition:all .25s;cursor:default;opacity:0;animation:meshIn .4s ease forwards}
+  .course:hover{background:rgba(255,255,255,0.08);transform:translateX(3px)}
+
+  .c-time{font-family:'Manrope',sans-serif;font-weight:700;font-size:0.82rem;color:rgba(255,255,255,0.4);
+    min-width:3em;flex-shrink:0}
+  .c-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;box-shadow:0 0 6px}
+  .c-dot.violet{background:var(--violet);box-shadow:0 0 8px rgba(139,92,246,0.4)}
+  .c-dot.teal{background:var(--teal);box-shadow:0 0 8px rgba(20,184,166,0.4)}
+  .c-dot.pink{background:var(--pink);box-shadow:0 0 8px rgba(236,72,153,0.4)}
+  .c-dot.orange{background:var(--orange);box-shadow:0 0 8px rgba(245,158,11,0.4)}
+
+  .c-info{flex:1;min-width:0}
+  .c-name{font-weight:600;font-size:0.95rem;color:var(--white)}
+  .c-meta{font-size:0.78rem;color:rgba(255,255,255,0.3);margin-top:0.05rem}
+
+  .c-seats{font-family:'Manrope',sans-serif;font-weight:600;font-size:0.75rem;
+    padding:0.2em 0.6em;border-radius:8px;flex-shrink:0}
+  .c-seats.open{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.4)}
+  .c-seats.full{background:rgba(236,72,153,0.12);color:var(--pink)}
+
+  /* ═══ TEACHER ═══ */
+  .teacher{padding:0.8rem 1rem;margin-bottom:1rem;
+    animation:meshIn .5s ease both;animation-delay:.5s}
+  .t-label{font-family:'Manrope',sans-serif;font-weight:600;font-size:0.6rem;color:rgba(255,255,255,0.2);
+    letter-spacing:0.15em;margin-bottom:0.3rem}
+  .t-name{font-weight:600;font-size:1rem;color:var(--white)}
+  .t-detail{font-size:0.82rem;color:rgba(255,255,255,0.35);margin-top:0.1rem}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;animation:meshIn .5s ease both;animation-delay:.6s}
+  .footer-motto{font-family:'Manrope',sans-serif;font-size:0.78rem;color:rgba(255,255,255,0.15)}
+  .footer-disc{font-size:0.55rem;color:rgba(255,255,255,0.06);margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1rem}.course{padding:0.7rem 0.8rem}}
+</style>
+</head>
+<body>
+
+<div class="mesh">
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  <div class="blob b4"></div><div class="blob b5"></div>
+</div>
+
+<div class="page">
+
+  <header class="header">
+    <div class="h-brand">音阶</div>
+    <div class="h-en">SCALE STUDIO</div>
+    <div class="h-type">本周课表</div>
+  </header>
+
+  <div class="tabs" id="tabs">
+    <button class="tab" onclick="switchDay(this,0)">周一</button>
+    <button class="tab" onclick="switchDay(this,1)">周二</button>
+    <button class="tab active" onclick="switchDay(this,2)">周三</button>
+    <button class="tab" onclick="switchDay(this,3)">周四</button>
+    <button class="tab" onclick="switchDay(this,4)">周五</button>
+    <button class="tab" onclick="switchDay(this,5)">周六</button>
+    <button class="tab" onclick="switchDay(this,6)">周日</button>
+  </div>
+
+  <div class="courses" id="courseList">
+    <div class="course glass" style="animation-delay:.2s">
+      <span class="c-time">10:00</span>
+      <div class="c-dot violet"></div>
+      <div class="c-info"><div class="c-name">钢琴基础</div><div class="c-meta">张老师 · 教室 A</div></div>
+      <span class="c-seats open">4/6</span>
+    </div>
+    <div class="course glass" style="animation-delay:.28s">
+      <span class="c-time">14:00</span>
+      <div class="c-dot teal"></div>
+      <div class="c-info"><div class="c-name">吉他入门</div><div class="c-meta">李老师 · 教室 B</div></div>
+      <span class="c-seats open">6/8</span>
+    </div>
+    <div class="course glass" style="animation-delay:.36s">
+      <span class="c-time">16:00</span>
+      <div class="c-dot pink"></div>
+      <div class="c-info"><div class="c-name">少儿声乐</div><div class="c-meta">王老师 · 教室 A</div></div>
+      <span class="c-seats full">已满</span>
+    </div>
+    <div class="course glass" style="animation-delay:.44s">
+      <span class="c-time">19:00</span>
+      <div class="c-dot orange"></div>
+      <div class="c-info"><div class="c-name">小提琴进阶</div><div class="c-meta">陈老师 · 教室 C</div></div>
+      <span class="c-seats open">3/4</span>
+    </div>
+  </div>
+
+  <div class="teacher glass">
+    <div class="t-label">FEATURED TEACHER</div>
+    <div class="t-name">张老师</div>
+    <div class="t-detail">钢琴 · 10 年教龄 · 中央音乐学院硕士</div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-motto">音阶 · SCALE STUDIO · 让音乐成为生活的一部分</div>
+    <div class="footer-disc">虚构机构 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+function switchDay(tab,idx){
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});
+  tab.classList.add('active');
+  // Smooth cross-fade
+  var list=document.getElementById('courseList');
+  list.style.opacity='0';list.style.transform='translateY(6px)';
+  setTimeout(function(){
+    list.style.transition='all .3s ease';
+    list.style.opacity='1';list.style.transform='translateY(0)';
+  },150);
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
