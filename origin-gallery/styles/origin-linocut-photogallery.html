@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 春日影集 — 留影 KEEPSAKE</title>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--black:#1A1A1A;--paper:#F5F2ED;--ink:#2C2C2C;--gray:#8A8A8A;--cream:#FFF8F0;--ochre:#C4873A}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--paper);color:var(--black);font-family:'Noto Serif SC','Vollkorn',serif;font-weight:400;font-size:17px;line-height:1.8;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    /* Linocut carving texture */
+    background-image:
+      repeating-linear-gradient(8deg,transparent,transparent 3px,rgba(26,26,26,0.012) 3px,rgba(26,26,26,0.012) 4px,transparent 4px,transparent 8px),
+      repeating-linear-gradient(98deg,transparent,transparent 5px,rgba(26,26,26,0.008) 5px,rgba(26,26,26,0.008) 6px,transparent 6px,transparent 12px)}
+
+  .grain{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.03}
+
+  .page{max-width:440px;width:100%;position:relative;z-index:1}
+
+  /* ═══ CARVED ORNAMENT ═══ */
+  .ornament{display:flex;align-items:center;justify-content:center;gap:4px;margin:0.6rem 0}
+  .orn-tri{width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:8px solid var(--black);opacity:0.15}
+  .orn-tri.down{border-bottom:none;border-top:8px solid var(--black)}
+  .orn-rect{width:20px;height:3px;background:var(--black);opacity:0.12}
+  .orn-sq{width:5px;height:5px;background:var(--black);opacity:0.1}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1rem;animation:pressIn .6s ease both}
+  @keyframes pressIn{from{opacity:0;transform:scale(0.96)}to{opacity:1;transform:scale(1)}}
+  .h-brand{font-weight:700;font-size:1.5rem;color:var(--black);letter-spacing:0.12em}
+  .h-en{font-family:'Vollkorn',serif;font-weight:400;font-style:italic;font-size:0.7rem;color:var(--gray);letter-spacing:0.2em}
+  .h-album{font-size:0.92rem;color:var(--ochre);margin-top:0.3rem}
+
+  .desc{text-align:center;font-style:italic;font-size:0.95rem;color:var(--gray);margin-bottom:1.2rem;
+    animation:pressIn .6s ease both;animation-delay:.1s}
+
+  /* ═══ PHOTO GRID ═══ */
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:1rem}
+  .photo{cursor:pointer;opacity:0;animation:inkPress .4s ease forwards;transition:transform .2s}
+  @keyframes inkPress{from{opacity:0;transform:scale(0.94)}to{opacity:1;transform:scale(1)}}
+  .photo:hover{transform:translateY(-3px)}
+
+  .photo-img{width:100%;aspect-ratio:4/3;border:4px solid var(--black);
+    box-shadow:2px 2px 0 rgba(0,0,0,0.12),-1px -1px 0 rgba(0,0,0,0.04)}
+  .photo-cap{font-size:0.78rem;color:var(--ink);margin-top:0.3rem;text-align:center;font-weight:500}
+
+  /* Gradient placeholders for photos */
+  .ph-1{background:linear-gradient(135deg,#4A7C59,#5B8FA8)}
+  .ph-2{background:linear-gradient(135deg,#D4A843,#C4873A)}
+  .ph-3{background:linear-gradient(135deg,#5B8FA8,#6EC6C8)}
+  .ph-4{background:linear-gradient(135deg,#8B6914,#C4873A)}
+  .ph-5{background:linear-gradient(135deg,#D4783A,#8B4580)}
+  .ph-6{background:linear-gradient(135deg,#3A5A8B,#6A6A78)}
+
+  .count{text-align:center;font-family:'Vollkorn',serif;font-size:0.78rem;color:var(--gray);margin-bottom:0.8rem;
+    animation:pressIn .5s ease both;animation-delay:.8s}
+
+  /* ═══ LIGHTBOX ═══ */
+  .lightbox{position:fixed;inset:0;background:rgba(26,26,26,0.92);z-index:100;display:none;
+    align-items:center;justify-content:center;flex-direction:column;cursor:pointer}
+  .lightbox.open{display:flex}
+  .lb-img{width:85vw;max-width:400px;aspect-ratio:4/3;border:5px solid var(--paper);
+    transform:scale(0.8);opacity:0;transition:all .35s cubic-bezier(0.4,0,0.2,1)}
+  .lightbox.open .lb-img{transform:scale(1);opacity:1}
+  .lb-cap{font-size:0.92rem;color:var(--paper);margin-top:0.6rem;opacity:0;transition:opacity .3s .15s}
+  .lightbox.open .lb-cap{opacity:0.7}
+  .lb-close{position:absolute;top:1rem;right:1rem;font-family:'Vollkorn',serif;font-size:1.2rem;
+    color:var(--paper);opacity:0.4;cursor:pointer;transition:opacity .2s}
+  .lb-close:hover{opacity:0.8}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;animation:pressIn .5s ease both;animation-delay:.9s}
+  .footer-motto{font-family:'Vollkorn',serif;font-style:italic;font-size:0.82rem;color:var(--gray);opacity:0.35}
+  .footer-disc{font-size:0.55rem;color:var(--gray);opacity:0.15;margin-top:0.2rem}
+
+  @media(max-width:360px){.grid{gap:0.5rem}.photo-img{border-width:3px}}
+</style>
+</head>
+<body>
+
+<svg class="grain" width="100%" height="100%">
+  <filter id="gf"><feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="4" stitchTiles="stitch"/></filter>
+  <rect width="100%" height="100%" filter="url(#gf)"/>
+</svg>
+
+<div class="page">
+
+  <header class="header">
+    <div class="h-brand">留影</div>
+    <div class="h-en">KEEPSAKE</div>
+    <div class="h-album">2026 春日影集</div>
+  </header>
+
+  <div class="ornament">
+    <div class="orn-tri"></div><div class="orn-rect"></div><div class="orn-sq"></div>
+    <div class="orn-rect"></div><div class="orn-tri down"></div>
+  </div>
+
+  <div class="desc">三月的周末，我们去了趟山里。</div>
+
+  <div class="grid">
+    <div class="photo" style="animation-delay:.2s" onclick="openLB(0)">
+      <div class="photo-img ph-1"></div>
+      <div class="photo-cap">山间小路</div>
+    </div>
+    <div class="photo" style="animation-delay:.28s" onclick="openLB(1)">
+      <div class="photo-img ph-2"></div>
+      <div class="photo-cap">野花</div>
+    </div>
+    <div class="photo" style="animation-delay:.36s" onclick="openLB(2)">
+      <div class="photo-img ph-3"></div>
+      <div class="photo-cap">溪流</div>
+    </div>
+    <div class="photo" style="animation-delay:.44s" onclick="openLB(3)">
+      <div class="photo-img ph-4"></div>
+      <div class="photo-cap">午餐</div>
+    </div>
+    <div class="photo" style="animation-delay:.52s" onclick="openLB(4)">
+      <div class="photo-img ph-5"></div>
+      <div class="photo-cap">落日</div>
+    </div>
+    <div class="photo" style="animation-delay:.6s" onclick="openLB(5)">
+      <div class="photo-img ph-6"></div>
+      <div class="photo-cap">归途</div>
+    </div>
+  </div>
+
+  <div class="count">6 张 · 2026.03.22</div>
+
+  <div class="ornament">
+    <div class="orn-tri down"></div><div class="orn-rect"></div><div class="orn-sq"></div>
+    <div class="orn-rect"></div><div class="orn-tri"></div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-motto">留影 · KEEPSAKE · 每一帧都值得被记住</div>
+    <div class="footer-disc">虚构应用 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLB(event)">
+  <div class="lb-close" onclick="closeLB(event)">✕</div>
+  <div class="lb-img" id="lbImg"></div>
+  <div class="lb-cap" id="lbCap"></div>
+</div>
+
+<script>
+var photos=[
+  {cls:'ph-1',cap:'山间小路',bg:'linear-gradient(135deg,#4A7C59,#5B8FA8)'},
+  {cls:'ph-2',cap:'野花',bg:'linear-gradient(135deg,#D4A843,#C4873A)'},
+  {cls:'ph-3',cap:'溪流',bg:'linear-gradient(135deg,#5B8FA8,#6EC6C8)'},
+  {cls:'ph-4',cap:'午餐',bg:'linear-gradient(135deg,#8B6914,#C4873A)'},
+  {cls:'ph-5',cap:'落日',bg:'linear-gradient(135deg,#D4783A,#8B4580)'},
+  {cls:'ph-6',cap:'归途',bg:'linear-gradient(135deg,#3A5A8B,#6A6A78)'}
+];
+
+var lb=document.getElementById('lightbox');
+var lbImg=document.getElementById('lbImg');
+var lbCap=document.getElementById('lbCap');
+
+function openLB(idx){
+  var p=photos[idx];
+  lbImg.style.background=p.bg;
+  lbCap.textContent=p.cap;
+  lb.classList.add('open');
+}
+function closeLB(e){
+  if(e.target===lb||e.target.classList.contains('lb-close')){
+    lbImg.style.opacity='0';lbImg.style.transform='scale(0.8)';
+    setTimeout(function(){lb.classList.remove('open');lbImg.style.opacity='';lbImg.style.transform=''},300);
+  }
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

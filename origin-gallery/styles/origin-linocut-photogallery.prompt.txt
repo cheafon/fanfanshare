@@ -1,0 +1,28 @@
+Generate a photo gallery/album viewer page for fictional app "留影 KEEPSAKE", styled as Linocut / block print expressionist aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: print black (#1A1A1A), paper white (#F5F2ED), deep ink (#2C2C2C), warm gray (#8A8A8A), highlight cream (#FFF8F0), accent ochre (#C4873A). Typography: Vollkorn (sturdy editorial serif) English, Noto Serif SC 400/600 Chinese 17px+. Layout: LINOCUT — off-white paper background with carved texture, photos in bold black frames, expressionist graphic feel.
+
+Animation: Medium — Required:
+1. CSS LINOCUT TEXTURE: Background with SVG noise for rough paper grain + repeating-linear-gradient creating subtle directional carving marks (parallel lines at slight angle, very low opacity, simulating carved surface)
+2. CSS BOLD FRAMES: Photo placeholder cards with thick 4-5px black borders, slightly rough/uneven using box-shadow offsets (1px variations creating hand-printed misregistration)
+3. JS LIGHTBOX: Click any photo card to open a simple lightbox overlay — card scales up to center with dark overlay behind, click overlay/X to close. Smooth scale transition.
+4. CSS CARVED DECORATIONS: Decorative dividers using CSS shapes — bold triangles and rectangles arranged in patterns like linocut ornamental borders
+5. STAGGERED: Gallery cards appear with staggered ink-press animation (slight scale 0.95→1 + opacity)
+
+Page structure:
+1. Header: "留影" + "KEEPSAKE" + "2026 春日影集" + carved line ornament
+2. Album description: "三月的周末，我们去了趟山里。" brief poetic text
+3. Photo grid (6 photos in 2-column grid, bold frames, staggered):
+   Each card is a CSS gradient placeholder simulating a photo + caption below:
+   - "山间小路" — landscape gradient (green/blue)
+   - "野花" — warm gradient (yellow/orange)
+   - "溪流" — cool gradient (blue/cyan)
+   - "午餐" — warm gradient (brown/orange)
+   - "落日" — sunset gradient (orange/purple)
+   - "归途" — dark gradient (blue/gray)
+4. Photo count: "6 张 · 2026.03.22"
+5. Footer: "留影 · KEEPSAKE · 每一帧都值得被记住"
+
+Linocut texture: repeating-linear-gradient(8deg, transparent, transparent 3px, rgba(26,26,26,0.015) 3px, rgba(26,26,26,0.015) 4px) for directional carve marks. Bold frames: border:4px solid var(--black); box-shadow: 2px 2px 0 rgba(0,0,0,0.15), -1px -1px 0 rgba(0,0,0,0.05) for print misregistration. Lightbox: fixed overlay with transform:scale transition.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-linocut-photogallery.html. Do NOT open.
