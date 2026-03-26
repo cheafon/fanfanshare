@@ -1,0 +1,25 @@
+Generate a parking garage floor navigation page for fictional mall "方盒子 CUBEMALL", styled as Concrete Brutalist / raw exposed concrete aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: concrete gray (#8A8A8A), dark concrete (#4A4A4A), light concrete (#C0C0C0), formwork line (#666), safety yellow (#FFD600), signal red (#D32F2F), signal green (#43A047), text white (#F5F5F5), dark (#1A1A1A). Typography: Azeret Mono (geometric monospace) English, Noto Sans SC 600/700 Chinese 17px+. Layout: CONCRETE BRUTALIST — raw gray concrete background with formwork grid lines and exposed aggregate texture, parking signage-style layout with bold wayfinding.
+
+Animation: Medium — Required:
+1. CSS CONCRETE TEXTURE: Background with SVG noise for rough concrete surface + repeating-linear-gradient creating faint formwork board seam lines (horizontal every 40-50px) + occasional darker aggregate spots via radial-gradient
+2. CSS FLOOR INDICATORS: Large floor number badges styled as concrete pillars — thick border, heavy box-shadow, industrial stencil feel
+3. JS CAR FINDER: Click "找我的车" → highlights the floor/zone where car is "parked" with pulsing yellow border animation
+4. CSS SAFETY STRIPES: Yellow-black diagonal warning stripes (repeating-linear-gradient 45deg) on key elements like exits and warnings
+5. CSS WAYFINDING ARROWS: CSS-only directional arrows (border trick triangles) pointing to exits/elevators
+
+Page structure:
+1. Header: "方盒子" + "CUBEMALL" + "地下停车场导航" + safety stripe decoration
+2. Your car info: 车牌 沪A·12345 · 停放位置 B2层 C区 089号 · 已停 2小时15分
+3. Floor map (3 floors, concrete pill indicators):
+   - B1: 剩余车位 45/120 · 电梯 ↑ · 出口 →
+   - B2: 剩余车位 12/150 · 你的车在这里 (highlighted)
+   - B3: 剩余车位 98/100 · VIP专区
+4. Find car button: "找我的车" with pulsing effect
+5. Exit directions: CSS arrows showing 出口A(东) → 出口B(南) →
+6. Footer: "方盒子 · CUBEMALL · 注意限高2.1米"
+
+Concrete: SVG noise for surface + repeating-linear-gradient(0deg, transparent 0, transparent 42px, rgba(102,102,102,0.1) 42px, rgba(102,102,102,0.1) 43px) for formwork seams. Safety stripes: repeating-linear-gradient(45deg, #FFD600 0 8px, #1A1A1A 8px 16px).
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-concrete-parkingnav.html. Do NOT open.
