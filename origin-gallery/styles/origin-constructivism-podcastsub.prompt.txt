@@ -1,0 +1,28 @@
+Generate a podcast subscription recommendation page for fictional app "声浪 SOUNDWAVE", styled as Russian Constructivism / avant-garde propaganda poster aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: constructivist red (#CC0000), constructivist black (#1A1A1A), constructivist white (#F5F2ED), warm cream (#FFF8E7), dark gray (#333), accent gold (#C4873A). Typography: Bebas Neue (tall condensed) or Anton (black condensed) English headings, Noto Sans SC 600/700 Chinese 17px+. Layout: CONSTRUCTIVISM — strong diagonal compositions, geometric shapes (triangles, circles, rectangles) as design elements, bold red-black-white palette, revolutionary poster energy.
+
+Animation: Medium-High — Required:
+1. CSS DIAGONAL COMPOSITIONS: Bold diagonal stripe/band cutting across sections using transform:skewY(-5deg) on decorative elements, creating dynamic angular energy typical of constructivist posters
+2. CSS GEOMETRIC SHAPES: Large decorative geometric elements — a red triangle, a black circle, a red rectangle — positioned as background design elements at moderate opacity, creating constructivist composition
+3. JS SUBSCRIBE TOGGLE: Click "订阅" button on each podcast to toggle subscribe state — button fills red with bold animation (scale pulse + color fill), text changes to "已订阅"
+4. CSS BOLD TYPOGRAPHY: Extreme font size contrast — section headers very large (2-3rem), body text normal, creating poster-like typographic hierarchy
+5. STAGGERED: Podcast cards slam in from alternating directions (left/right) with strong easing
+
+Page structure:
+1. Header: "声浪" in massive bold type + "SOUNDWAVE" + diagonal red stripe decoration + "为你推荐"
+2. Featured podcast (large, bold):
+   "深夜电台" — 每晚11点，聊聊那些不好意思白天说的话
+   主播：陈默 · 已更新 186 期 · 4.8万订阅
+3. Recommended list (5 podcasts, alternating slide-in):
+   - "代码之外" — 程序员的非技术生活 · 科技 · 98期
+   - "厨房哲学" — 做饭是一种思考方式 · 生活 · 64期
+   - "城市漫步" — 用脚步丈量每一条街 · 文化 · 142期
+   - "睡前故事" — 大人也需要被哄睡 · 助眠 · 220期
+   - "设计日记" — 聊聊好设计背后的故事 · 设计 · 76期
+4. Category tags: 科技 · 生活 · 文化 · 助眠 · 设计 · 音乐
+5. Footer: "声浪 · SOUNDWAVE · 总有一个声音属于你"
+
+Diagonal: div with background:var(--red), transform:skewY(-5deg), position:absolute across sections. Geometric: large CSS shapes (triangle via border, circle via border-radius) at fixed positions, low opacity.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-constructivism-podcastsub.html. Do NOT open.

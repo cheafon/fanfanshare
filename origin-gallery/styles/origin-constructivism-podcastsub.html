@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>为你推荐 — 声浪 SOUNDWAVE</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Noto+Sans+SC:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--red:#CC0000;--black:#1A1A1A;--white:#F5F2ED;--cream:#FFF8E7;--gray:#333}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--cream);color:var(--black);font-family:'Noto Sans SC','Anton',sans-serif;font-weight:600;font-size:17px;line-height:1.6;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative}
+
+  /* Geometric background elements */
+  .geo{position:fixed;pointer-events:none;z-index:0}
+  .geo-tri{width:0;height:0;border-left:80px solid transparent;border-right:80px solid transparent;
+    border-bottom:140px solid var(--red);opacity:0.04;position:absolute;top:5%;right:-20px;transform:rotate(15deg)}
+  .geo-circle{width:120px;height:120px;border-radius:50%;border:3px solid var(--black);opacity:0.03;
+    position:absolute;bottom:15%;left:-30px}
+  .geo-rect{width:60px;height:200px;background:var(--red);opacity:0.03;position:absolute;top:40%;right:5%;transform:rotate(-8deg)}
+
+  .page{max-width:460px;width:100%;position:relative;z-index:1}
+
+  /* ═══ HEADER ═══ */
+  .header{position:relative;margin-bottom:1.5rem;animation:slamL .4s ease both}
+  @keyframes slamL{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
+  @keyframes slamR{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+
+  .h-brand{font-family:'Anton',sans-serif;font-size:3.5rem;color:var(--black);letter-spacing:0.02em;line-height:0.9}
+  .h-en{font-family:'Anton',sans-serif;font-size:0.85rem;color:var(--red);letter-spacing:0.3em}
+  /* Diagonal red stripe */
+  .h-stripe{height:6px;background:var(--red);margin:0.6rem 0;transform:skewY(-3deg)}
+  .h-sub{font-size:1.1rem;color:var(--gray);font-weight:700;letter-spacing:0.06em}
+
+  /* ═══ FEATURED ═══ */
+  .featured{background:var(--black);color:var(--white);padding:1.2rem;margin-bottom:1rem;position:relative;overflow:hidden;
+    animation:slamR .4s ease both;animation-delay:.1s}
+  .featured::before{content:'';position:absolute;top:0;right:0;width:80px;height:100%;
+    background:var(--red);transform:skewX(-8deg) translateX(20px)}
+  .f-label{font-family:'Anton',sans-serif;font-size:0.6rem;color:var(--red);letter-spacing:0.2em;position:relative;z-index:1}
+  .f-title{font-size:1.3rem;font-weight:700;color:var(--white);margin-top:0.2rem;position:relative;z-index:1}
+  .f-desc{font-size:0.85rem;color:rgba(245,242,237,0.5);font-weight:400;margin-top:0.15rem;position:relative;z-index:1}
+  .f-meta{font-size:0.78rem;color:rgba(245,242,237,0.3);margin-top:0.3rem;position:relative;z-index:1}
+  .f-btn{font-family:'Anton',sans-serif;font-size:0.82rem;letter-spacing:0.08em;
+    background:var(--red);color:var(--white);border:none;padding:0.5em 1.5em;
+    cursor:pointer;margin-top:0.6rem;transition:all .2s;position:relative;z-index:1}
+  .f-btn:hover{background:#FF1A1A;transform:scale(1.04)}
+  .f-btn.subbed{background:var(--gray)}
+
+  /* ═══ PODCAST LIST ═══ */
+  .podcasts{margin-bottom:1rem}
+  .pc-label{font-family:'Anton',sans-serif;font-size:0.6rem;color:var(--red);letter-spacing:0.18em;margin-bottom:0.5rem}
+
+  .pod{display:flex;align-items:center;gap:0.7rem;padding:0.6rem;margin-bottom:0.3rem;
+    border-left:3px solid transparent;transition:all .2s;cursor:default;
+    opacity:0;animation-fill-mode:forwards;animation-duration:.35s;animation-timing-function:cubic-bezier(0.2,0.8,0.3,1)}
+  .pod:nth-child(odd){animation-name:slamL}
+  .pod:nth-child(even){animation-name:slamR}
+  .pod:hover{background:rgba(204,0,0,0.03);border-left-color:var(--red)}
+
+  .pod-icon{width:40px;height:40px;border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+    font-family:'Anton',sans-serif;font-size:0.9rem;color:var(--white)}
+  .pod-icon.c1{background:var(--red)}.pod-icon.c2{background:var(--black)}.pod-icon.c3{background:var(--gray)}
+  .pod-icon.c4{background:#6B4984}.pod-icon.c5{background:#C4873A}
+
+  .pod-info{flex:1;min-width:0}
+  .pod-title{font-weight:700;font-size:0.95rem;color:var(--black)}
+  .pod-desc{font-size:0.75rem;color:var(--gray);font-weight:400;opacity:0.6}
+  .pod-meta{font-size:0.68rem;color:rgba(51,51,51,0.3);margin-top:0.05rem}
+
+  .sub-btn{font-family:'Anton',sans-serif;font-size:0.68rem;letter-spacing:0.06em;
+    padding:0.35em 0.8em;border:2px solid var(--red);background:transparent;color:var(--red);
+    cursor:pointer;transition:all .2s;flex-shrink:0}
+  .sub-btn:hover{background:var(--red);color:var(--white)}
+  .sub-btn.subbed{background:var(--red);color:var(--white);border-color:var(--red)}
+  @keyframes subPulse{0%{transform:scale(1)}50%{transform:scale(1.12)}100%{transform:scale(1)}}
+
+  /* ═══ TAGS ═══ */
+  .tags{display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:1.2rem;
+    animation:slamL .4s ease both;animation-delay:.6s}
+  .tag{font-size:0.78rem;font-weight:700;color:var(--black);padding:0.2em 0.7em;
+    border:2px solid var(--black);transition:all .15s;cursor:default}
+  .tag:hover{background:var(--black);color:var(--cream)}
+
+  /* Red diagonal footer bar */
+  .end-stripe{height:6px;background:var(--red);transform:skewY(3deg);margin-bottom:0.8rem}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;animation:slamL .4s ease both;animation-delay:.7s}
+  .footer-motto{font-family:'Anton',sans-serif;font-size:0.85rem;color:var(--red);opacity:0.3;letter-spacing:0.04em}
+  .footer-disc{font-size:0.55rem;color:var(--gray);opacity:0.12;margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1rem}.h-brand{font-size:2.8rem}.featured{padding:1rem}}
+</style>
+</head>
+<body>
+
+<div class="geo">
+  <div class="geo-tri"></div>
+  <div class="geo-circle"></div>
+  <div class="geo-rect"></div>
+</div>
+
+<div class="page">
+
+  <header class="header">
+    <div class="h-brand">声浪</div>
+    <div class="h-en">SOUNDWAVE</div>
+    <div class="h-stripe"></div>
+    <div class="h-sub">为你推荐</div>
+  </header>
+
+  <!-- ═══ FEATURED ═══ -->
+  <div class="featured">
+    <div class="f-label">FEATURED</div>
+    <div class="f-title">深夜电台</div>
+    <div class="f-desc">每晚 11 点，聊聊那些不好意思白天说的话</div>
+    <div class="f-meta">主播：陈默 · 186 期 · 4.8 万订阅</div>
+    <button class="f-btn" onclick="subFeat(this)">订阅</button>
+  </div>
+
+  <!-- ═══ PODCASTS ═══ -->
+  <div class="podcasts">
+    <div class="pc-label">RECOMMENDED</div>
+
+    <div class="pod" style="animation-delay:.2s">
+      <div class="pod-icon c1">码</div>
+      <div class="pod-info"><div class="pod-title">代码之外</div><div class="pod-desc">程序员的非技术生活</div><div class="pod-meta">科技 · 98 期</div></div>
+      <button class="sub-btn" onclick="subPod(this)">订阅</button>
+    </div>
+    <div class="pod" style="animation-delay:.28s">
+      <div class="pod-icon c2">厨</div>
+      <div class="pod-info"><div class="pod-title">厨房哲学</div><div class="pod-desc">做饭是一种思考方式</div><div class="pod-meta">生活 · 64 期</div></div>
+      <button class="sub-btn" onclick="subPod(this)">订阅</button>
+    </div>
+    <div class="pod" style="animation-delay:.36s">
+      <div class="pod-icon c3">城</div>
+      <div class="pod-info"><div class="pod-title">城市漫步</div><div class="pod-desc">用脚步丈量每一条街</div><div class="pod-meta">文化 · 142 期</div></div>
+      <button class="sub-btn" onclick="subPod(this)">订阅</button>
+    </div>
+    <div class="pod" style="animation-delay:.44s">
+      <div class="pod-icon c4">眠</div>
+      <div class="pod-info"><div class="pod-title">睡前故事</div><div class="pod-desc">大人也需要被哄睡</div><div class="pod-meta">助眠 · 220 期</div></div>
+      <button class="sub-btn" onclick="subPod(this)">订阅</button>
+    </div>
+    <div class="pod" style="animation-delay:.52s">
+      <div class="pod-icon c5">设</div>
+      <div class="pod-info"><div class="pod-title">设计日记</div><div class="pod-desc">聊聊好设计背后的故事</div><div class="pod-meta">设计 · 76 期</div></div>
+      <button class="sub-btn" onclick="subPod(this)">订阅</button>
+    </div>
+  </div>
+
+  <div class="tags">
+    <span class="tag">科技</span><span class="tag">生活</span><span class="tag">文化</span>
+    <span class="tag">助眠</span><span class="tag">设计</span><span class="tag">音乐</span>
+  </div>
+
+  <div class="end-stripe"></div>
+
+  <footer class="footer">
+    <div class="footer-motto">声浪 · SOUNDWAVE · 总有一个声音属于你</div>
+    <div class="footer-disc">虚构应用 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+function subPod(btn){
+  if(btn.classList.contains('subbed')){
+    btn.classList.remove('subbed');btn.textContent='订阅';
+  }else{
+    btn.classList.add('subbed');btn.textContent='已订阅';
+    btn.style.animation='subPulse .25s ease';
+    setTimeout(function(){btn.style.animation=''},250);
+  }
+}
+function subFeat(btn){
+  if(btn.classList.contains('subbed')){
+    btn.classList.remove('subbed');btn.textContent='订阅';
+  }else{
+    btn.classList.add('subbed');btn.textContent='已订阅';
+  }
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
