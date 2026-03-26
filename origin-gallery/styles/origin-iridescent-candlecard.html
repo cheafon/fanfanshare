@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>白月光 — 觉香 SENSEWICK</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Infant:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Noto+Serif+SC:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--pearl:#F8F6F4;--pink:rgba(255,182,193,0.12);--blue:rgba(173,216,230,0.12);--green:rgba(152,251,152,0.08);--gray:#9E9E9E;--dark:#2C2C2C;--rose:#C9A0A0}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--pearl);color:var(--dark);font-family:'Noto Serif SC','Cormorant Infant',serif;font-weight:300;font-size:17px;line-height:1.9;
+    display:flex;justify-content:center;padding:2rem 1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    /* Iridescent sheen */
+    background-image:linear-gradient(135deg,
+      rgba(255,182,193,0.08),rgba(248,246,244,1) 20%,
+      rgba(173,216,230,0.06) 40%,rgba(248,246,244,1) 55%,
+      rgba(152,251,152,0.05) 70%,rgba(248,246,244,1) 85%,
+      rgba(255,182,193,0.06));
+    background-size:300% 300%;animation:iriShift 8s ease infinite}
+  @keyframes iriShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+  /* Breathing iridescent spots */
+  .spots{position:fixed;inset:0;pointer-events:none;z-index:0}
+  .spot{position:absolute;border-radius:50%;filter:blur(40px);animation:breathe 6s ease-in-out infinite alternate}
+  .sp1{width:200px;height:200px;top:10%;left:10%;background:rgba(255,182,193,0.06);animation-delay:0s}
+  .sp2{width:180px;height:180px;bottom:20%;right:10%;background:rgba(173,216,230,0.05);animation-delay:2s}
+  .sp3{width:150px;height:150px;top:50%;left:50%;background:rgba(152,251,152,0.04);animation-delay:4s}
+  @keyframes breathe{0%{opacity:0.3;transform:scale(0.95)}100%{opacity:0.7;transform:scale(1.05)}}
+
+  .page{max-width:420px;width:100%;position:relative;z-index:1}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.5rem;opacity:0;animation:pearlIn .8s ease both}
+  @keyframes pearlIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+  .h-brand{font-weight:600;font-size:1.3rem;color:var(--dark);letter-spacing:0.15em}
+  .h-en{font-family:'Cormorant Infant',serif;font-weight:300;font-style:italic;font-size:0.72rem;color:var(--gray);letter-spacing:0.2em}
+  .h-line{width:40px;height:0.5px;background:var(--rose);margin:0.5rem auto 0;opacity:0.4}
+
+  /* ═══ PRODUCT CARD ═══ */
+  .product{background:rgba(255,255,255,0.6);border-radius:12px;padding:1.5rem;margin-bottom:1rem;
+    border:1px solid rgba(201,160,160,0.1);
+    box-shadow:0 0 20px rgba(255,182,193,0.06),0 0 20px rgba(173,216,230,0.04);
+    animation:pearlIn .8s ease both,pearlGlow 6s ease-in-out infinite;animation-delay:.2s}
+  @keyframes pearlGlow{
+    0%{box-shadow:0 0 20px rgba(255,182,193,0.08),0 0 10px rgba(173,216,230,0.04)}
+    33%{box-shadow:0 0 20px rgba(173,216,230,0.08),0 0 10px rgba(152,251,152,0.04)}
+    66%{box-shadow:0 0 20px rgba(152,251,152,0.06),0 0 10px rgba(255,182,193,0.04)}
+    100%{box-shadow:0 0 20px rgba(255,182,193,0.08),0 0 10px rgba(173,216,230,0.04)}}
+
+  .p-name{font-weight:600;font-size:1.4rem;color:var(--dark);letter-spacing:0.08em;
+    /* Shimmer sweep */
+    background:linear-gradient(90deg,var(--dark) 40%,var(--rose) 50%,var(--dark) 60%);
+    background-size:200% 100%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    animation:shimmer 3s ease-in-out infinite;animation-delay:1s}
+  @keyframes shimmer{0%,100%{background-position:200% 0}50%{background-position:-50% 0}}
+  .p-sub{font-family:'Cormorant Infant',serif;font-size:0.85rem;color:var(--gray);margin-top:0.1rem;font-style:italic}
+  .p-specs{display:flex;gap:1rem;margin-top:0.6rem;justify-content:center}
+  .p-spec{text-align:center}
+  .p-spec-val{font-family:'Cormorant Infant',serif;font-weight:500;font-size:1rem;color:var(--dark)}
+  .p-spec-label{font-size:0.68rem;color:var(--gray)}
+  .p-price{font-family:'Cormorant Infant',serif;font-weight:500;font-size:1.5rem;color:var(--rose);text-align:center;margin-top:0.6rem}
+
+  /* ═══ DESCRIPTION ═══ */
+  .desc{text-align:center;font-size:0.92rem;color:rgba(44,44,44,0.5);font-style:italic;
+    margin-bottom:1rem;padding:0 0.5rem;line-height:2;
+    opacity:0;animation:pearlIn .8s ease both;animation-delay:.4s}
+
+  /* ═══ SCENT PYRAMID ═══ */
+  .pyramid{margin-bottom:1rem;opacity:0;animation:pearlIn .8s ease both;animation-delay:.5s}
+  .pyramid-toggle{display:block;width:100%;text-align:center;font-family:'Cormorant Infant',serif;
+    font-size:0.85rem;color:var(--rose);background:transparent;border:1px solid rgba(201,160,160,0.2);
+    padding:0.5em;border-radius:8px;cursor:pointer;transition:all .2s;letter-spacing:0.06em}
+  .pyramid-toggle:hover{background:rgba(201,160,160,0.05);border-color:var(--rose)}
+  .pyramid-content{max-height:0;overflow:hidden;transition:max-height .5s ease,opacity .3s ease;opacity:0}
+  .pyramid-content.open{max-height:300px;opacity:1}
+
+  .scent-layer{padding:0.5rem 0;border-bottom:0.5px solid rgba(201,160,160,0.08);text-align:center;
+    opacity:0;transform:translateY(5px);transition:all .3s ease}
+  .scent-layer.show{opacity:1;transform:translateY(0)}
+  .scent-layer:last-child{border:none}
+  .sl-name{font-family:'Cormorant Infant',serif;font-weight:500;font-size:0.72rem;color:var(--rose);letter-spacing:0.1em}
+  .sl-notes{font-size:0.88rem;color:rgba(44,44,44,0.5);margin-top:0.1rem}
+
+  /* ═══ DETAILS ═══ */
+  .details{display:flex;flex-wrap:wrap;gap:0.4rem;justify-content:center;margin-bottom:1rem;
+    opacity:0;animation:pearlIn .8s ease both;animation-delay:.6s}
+  .detail-tag{font-size:0.75rem;color:var(--gray);padding:0.2em 0.7em;
+    border:0.5px solid rgba(158,158,158,0.15);border-radius:20px}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;opacity:0;animation:pearlIn .8s ease both;animation-delay:.7s}
+  .footer-motto{font-family:'Cormorant Infant',serif;font-style:italic;font-size:0.82rem;color:var(--rose);opacity:0.3}
+  .footer-disc{font-size:0.55rem;color:var(--gray);opacity:0.12;margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1.5rem 1rem}.product{padding:1.2rem}}
+</style>
+</head>
+<body>
+
+<div class="spots">
+  <div class="spot sp1"></div><div class="spot sp2"></div><div class="spot sp3"></div>
+</div>
+
+<div class="page">
+
+  <header class="header">
+    <div class="h-brand">觉香</div>
+    <div class="h-en">SENSEWICK</div>
+    <div class="h-line"></div>
+  </header>
+
+  <div class="product" style="text-align:center">
+    <div class="p-name">白月光</div>
+    <div class="p-sub">Moonlight White · 大豆蜡香薰蜡烛</div>
+    <div class="p-specs">
+      <div class="p-spec"><div class="p-spec-val">200g</div><div class="p-spec-label">净含量</div></div>
+      <div class="p-spec"><div class="p-spec-val">40h</div><div class="p-spec-label">燃烧时长</div></div>
+    </div>
+    <div class="p-price">¥168</div>
+  </div>
+
+  <div class="desc">初闻是清晨花园的露水，渐渐浮现白茶和雪松的温暖，最后是淡淡的麝香和琥珀。</div>
+
+  <div class="pyramid">
+    <button class="pyramid-toggle" id="pyramidBtn" onclick="togglePyramid()">展开香调</button>
+    <div class="pyramid-content" id="pyramidContent">
+      <div class="scent-layer" id="sl1"><div class="sl-name">TOP NOTE · 前调</div><div class="sl-notes">香柠檬 · 白茶 · 梨</div></div>
+      <div class="scent-layer" id="sl2"><div class="sl-name">HEART NOTE · 中调</div><div class="sl-notes">茉莉 · 铃兰 · 白玫瑰</div></div>
+      <div class="scent-layer" id="sl3"><div class="sl-name">BASE NOTE · 后调</div><div class="sl-notes">雪松 · 麝香 · 琥珀</div></div>
+    </div>
+  </div>
+
+  <div class="details">
+    <span class="detail-tag">天然大豆蜡</span>
+    <span class="detail-tag">棉芯</span>
+    <span class="detail-tag">手工浇注</span>
+    <span class="detail-tag">上海制造</span>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-motto">觉香 · SENSEWICK · 用香气记住此刻</div>
+    <div class="footer-disc">虚构品牌 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+var open=false;
+function togglePyramid(){
+  var content=document.getElementById('pyramidContent');
+  var btn=document.getElementById('pyramidBtn');
+  open=!open;
+  if(open){
+    content.classList.add('open');
+    btn.textContent='收起香调';
+    // Staggered reveal
+    setTimeout(function(){document.getElementById('sl1').classList.add('show')},150);
+    setTimeout(function(){document.getElementById('sl2').classList.add('show')},300);
+    setTimeout(function(){document.getElementById('sl3').classList.add('show')},450);
+  }else{
+    content.classList.remove('open');
+    btn.textContent='展开香调';
+    document.querySelectorAll('.scent-layer').forEach(function(l){l.classList.remove('show')});
+  }
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

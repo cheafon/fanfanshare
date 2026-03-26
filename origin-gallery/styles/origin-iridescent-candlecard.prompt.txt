@@ -1,0 +1,29 @@
+Generate a scented candle product card for fictional brand "觉香 SENSEWICK", styled as Iridescent Pearl / mother-of-pearl sheen. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: pearl white (#F8F6F4), iridescent pink (rgba(255,182,193,0.15)), iridescent blue (rgba(173,216,230,0.15)), iridescent green (rgba(152,251,152,0.1)), soft gray (#9E9E9E), text dark (#2C2C2C), accent rose gold (#C9A0A0). Typography: Cormorant Infant (delicate thin serif) English, Noto Serif SC 300/400/600 Chinese 17px+. Layout: IRIDESCENT — light pearl background with subtle color-shifting sheen, elegant minimalist product card.
+
+Animation: Medium — Required:
+1. CSS IRIDESCENT SHEEN: Background with animated gradient that shifts between pearl pink/blue/green tints — conic-gradient or linear-gradient with slow background-position animation creating color-play like real pearl surface
+2. CSS PEARL GLOW: Product card with soft iridescent border that subtly shifts colors via animation (border-image or box-shadow cycling through pink→blue→green)
+3. JS SCENT NOTES: Click "展开香调" to reveal scent pyramid (前调/中调/后调) with smooth height transition + staggered note reveals
+4. CSS SHIMMER: Subtle shimmer sweep across product title using linear-gradient moving background-position (like light catching pearl)
+5. CSS SOFT FOCUS: Background subtle radial-gradient spots in iridescent colors, slowly breathing opacity
+
+Page structure:
+1. Header: "觉香" + "SENSEWICK" + delicate line ornament
+2. Product card (pearl-glowing):
+   - Product: 白月光 · 大豆蜡香薰蜡烛
+   - Volume: 200g · 燃烧约 40 小时
+   - Price: ¥168
+3. Scent description:
+   "初闻是清晨花园的露水，渐渐浮现白茶和雪松的温暖，最后是淡淡的麝香和琥珀。"
+4. Scent pyramid (expandable):
+   前调: 香柠檬 · 白茶 · 梨
+   中调: 茉莉 · 铃兰 · 白玫瑰
+   后调: 雪松 · 麝香 · 琥珀
+5. Details: 天然大豆蜡 · 棉芯 · 手工浇注 · 上海制造
+6. Footer: "觉香 · SENSEWICK · 用香气记住此刻"
+
+Iridescent: background with linear-gradient(135deg, pearl-pink, pearl-white, pearl-blue, pearl-white, pearl-green, pearl-white) background-size:300% 300% animated over 8s. Pearl glow: box-shadow cycling 0 0 20px rgba(pink/blue/green shifting).
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-iridescent-candlecard.html. Do NOT open.
