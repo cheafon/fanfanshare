@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>唐诗学习卡 — 墨卷 INKROLL</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--sand:#E8D5A3;--lapis:#1E3A5F;--gold:#C9A84C;--terra:#B85C38;--ink:#2C1810;--bone:#F5ECD7;--dim:rgba(44,24,16,0.3)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--sand);color:var(--ink);font-family:'Noto Serif SC','EB Garamond',serif;font-weight:400;font-size:17px;line-height:1.8;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    /* Papyrus fiber texture */
+    background-image:
+      repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(44,24,16,0.015) 3px,rgba(44,24,16,0.015) 4px,transparent 4px,transparent 8px),
+      repeating-linear-gradient(90deg,transparent,transparent 5px,rgba(44,24,16,0.01) 5px,rgba(44,24,16,0.01) 6px,transparent 6px,transparent 12px),
+      radial-gradient(ellipse at 40% 30%,rgba(201,168,76,0.06) 0%,transparent 50%),
+      radial-gradient(ellipse at 70% 70%,rgba(184,92,56,0.04) 0%,transparent 50%)}
+
+  .grain{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.025}
+
+  /* Hieroglyph decorations */
+  .hiero{position:fixed;pointer-events:none;z-index:0;opacity:0.04}
+  .h-tri{width:0;height:0;border-left:15px solid transparent;border-right:15px solid transparent;border-bottom:25px solid var(--terra)}
+  .h-sun{width:20px;height:20px;border-radius:50%;border:2px solid var(--gold)}
+  .h-rect{width:12px;height:24px;border:2px solid var(--lapis);border-radius:6px 6px 0 0}
+  .h1{top:8%;left:6%}.h2{top:15%;right:8%}.h3{bottom:20%;left:5%}.h4{bottom:12%;right:7%}
+
+  .page{max-width:440px;width:100%;position:relative;z-index:1}
+
+  /* ═══ EGYPTIAN BORDER ═══ */
+  .egypt-border{height:12px;background:
+    repeating-linear-gradient(90deg,
+      var(--lapis) 0px,var(--lapis) 6px,var(--gold) 6px,var(--gold) 12px,
+      var(--lapis) 12px,var(--lapis) 18px,var(--sand) 18px,var(--sand) 20px);
+    margin-bottom:1rem;opacity:0.4}
+  .egypt-border.bottom{margin-bottom:0;margin-top:1rem}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.2rem;animation:fadeIn .6s ease both}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .h-brand{font-weight:600;font-size:1.4rem;color:var(--ink);letter-spacing:0.12em}
+  .h-en{font-family:'EB Garamond',serif;font-weight:400;font-style:italic;font-size:0.72rem;color:var(--dim);letter-spacing:0.18em}
+  .h-sub{font-size:0.88rem;color:var(--terra);margin-top:0.3rem}
+
+  /* ═══ PROGRESS ═══ */
+  .progress{margin-bottom:1.2rem;animation:fadeIn .5s ease both;animation-delay:.1s}
+  .prog-label{font-size:0.85rem;color:var(--dim);text-align:center;margin-bottom:0.4rem}
+  .prog-bar{height:6px;background:rgba(44,24,16,0.06);border-radius:3px;overflow:hidden}
+  .prog-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--gold),var(--terra));
+    transition:width .5s ease}
+  .prog-dots{display:flex;justify-content:center;gap:0.5rem;margin-top:0.5rem}
+  .prog-dot{width:10px;height:10px;border-radius:50%;border:2px solid var(--gold);cursor:pointer;transition:all .2s}
+  .prog-dot.mastered{background:var(--gold);border-color:var(--gold)}
+  .prog-dot.current{border-color:var(--terra);box-shadow:0 0 6px rgba(184,92,56,0.3)}
+  .prog-dot.pending{border-color:rgba(44,24,16,0.12)}
+
+  /* ═══ FLASHCARD ═══ */
+  .card-area{margin-bottom:1rem;animation:fadeIn .5s ease both;animation-delay:.2s}
+  .flip-scene{perspective:900px;width:100%;height:220px}
+  .flip-card{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .6s cubic-bezier(0.4,0,0.2,1);cursor:pointer}
+  .flip-card.flipped{transform:rotateY(180deg)}
+  .card-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:6px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;
+    background:var(--bone);border:2px solid rgba(201,168,76,0.2);
+    /* Inner papyrus texture */
+    background-image:repeating-linear-gradient(0deg,transparent,transparent 4px,rgba(44,24,16,0.008) 4px,rgba(44,24,16,0.008) 5px,transparent 5px,transparent 10px);
+    box-shadow:0 3px 12px rgba(44,24,16,0.08)}
+  .card-back{transform:rotateY(180deg)}
+  /* Gold corner ornaments */
+  .card-face::before,.card-face::after{content:'';position:absolute;width:14px;height:14px;border:2px solid var(--gold);opacity:0.3}
+  .card-face::before{top:8px;left:8px;border-right:none;border-bottom:none}
+  .card-face::after{bottom:8px;right:8px;border-left:none;border-top:none}
+
+  .card-num{font-family:'EB Garamond',serif;font-size:0.65rem;color:var(--gold);letter-spacing:0.1em;margin-bottom:0.5rem}
+  .card-title{font-weight:600;font-size:1.3rem;color:var(--ink)}
+  .card-author{font-family:'EB Garamond',serif;font-style:italic;font-size:0.88rem;color:var(--terra);margin-top:0.2rem}
+  .card-hint{font-size:0.72rem;color:rgba(44,24,16,0.2);margin-top:0.6rem}
+
+  .card-poem{font-weight:400;font-size:1.1rem;color:var(--ink);text-align:center;line-height:2.2;letter-spacing:0.08em}
+  .card-poem-author{font-family:'EB Garamond',serif;font-size:0.82rem;color:var(--terra);margin-top:0.5rem}
+
+  /* ═══ CONTROLS ═══ */
+  .controls{display:flex;justify-content:center;gap:0.6rem;margin-bottom:1.2rem;
+    animation:fadeIn .5s ease both;animation-delay:.3s}
+  .ctrl-btn{font-family:'EB Garamond',serif;font-weight:500;font-size:0.82rem;
+    padding:0.5em 1.2em;border-radius:4px;border:1.5px solid;cursor:pointer;transition:all .2s;background:transparent}
+  .ctrl-btn.nav{border-color:rgba(44,24,16,0.12);color:var(--ink)}
+  .ctrl-btn.nav:hover{border-color:var(--terra);color:var(--terra)}
+  .ctrl-btn.master{border-color:var(--gold);color:var(--gold)}
+  .ctrl-btn.master:hover{background:var(--gold);color:var(--bone)}
+  .ctrl-btn.master.done{background:var(--gold);color:var(--bone)}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;animation:fadeIn .5s ease both;animation-delay:.5s}
+  .footer-motto{font-family:'EB Garamond',serif;font-style:italic;font-size:0.82rem;color:var(--dim);opacity:0.35}
+  .footer-disc{font-size:0.55rem;color:var(--dim);opacity:0.12;margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1rem}.flip-scene{height:200px}.card-poem{font-size:1rem}}
+</style>
+</head>
+<body>
+
+<svg class="grain" width="100%" height="100%">
+  <filter id="gf"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/></filter>
+  <rect width="100%" height="100%" filter="url(#gf)"/>
+</svg>
+
+<!-- Hieroglyph decorations -->
+<div class="hiero h1"><div class="h-tri"></div></div>
+<div class="hiero h2"><div class="h-sun"></div></div>
+<div class="hiero h3"><div class="h-rect"></div></div>
+<div class="hiero h4"><div class="h-tri"></div></div>
+
+<div class="page">
+
+  <div class="egypt-border"></div>
+
+  <header class="header">
+    <div class="h-brand">墨卷</div>
+    <div class="h-en">INKROLL</div>
+    <div class="h-sub">唐诗学习卡</div>
+  </header>
+
+  <!-- ═══ PROGRESS ═══ -->
+  <div class="progress">
+    <div class="prog-label">已掌握 <span id="masteredCount">0</span> / 5</div>
+    <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+    <div class="prog-dots" id="progDots"></div>
+  </div>
+
+  <!-- ═══ FLASHCARD ═══ -->
+  <div class="card-area">
+    <div class="flip-scene">
+      <div class="flip-card" id="flipCard" onclick="flipCurrent()">
+        <div class="card-face card-front">
+          <div class="card-num" id="cardNum">1 / 5</div>
+          <div class="card-title" id="cardTitle">静夜思</div>
+          <div class="card-author" id="cardAuthor">李白</div>
+          <div class="card-hint">点击翻转查看全文</div>
+        </div>
+        <div class="card-face card-back">
+          <div class="card-poem" id="cardPoem">床前明月光，<br>疑是地上霜。<br>举头望明月，<br>低头思故乡。</div>
+          <div class="card-poem-author" id="cardPoemAuthor">— 李白《静夜思》</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ CONTROLS ═══ -->
+  <div class="controls">
+    <button class="ctrl-btn nav" onclick="prevCard()">上一张</button>
+    <button class="ctrl-btn master" id="masterBtn" onclick="toggleMaster()">标记掌握</button>
+    <button class="ctrl-btn nav" onclick="nextCard()">下一张</button>
+  </div>
+
+  <div class="egypt-border bottom"></div>
+
+  <footer class="footer">
+    <div class="footer-motto">墨卷 · INKROLL · 日拱一卒</div>
+    <div class="footer-disc">虚构应用 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+var cards=[
+  {title:'静夜思',author:'李白',poem:'床前明月光，<br>疑是地上霜。<br>举头望明月，<br>低头思故乡。',cite:'李白《静夜思》'},
+  {title:'春晓',author:'孟浩然',poem:'春眠不觉晓，<br>处处闻啼鸟。<br>夜来风雨声，<br>花落知多少。',cite:'孟浩然《春晓》'},
+  {title:'登鹳雀楼',author:'王之涣',poem:'白日依山尽，<br>黄河入海流。<br>欲穷千里目，<br>更上一层楼。',cite:'王之涣《登鹳雀楼》'},
+  {title:'相思',author:'王维',poem:'红豆生南国，<br>春来发几枝。<br>愿君多采撷，<br>此物最相思。',cite:'王维《相思》'},
+  {title:'江雪',author:'柳宗元',poem:'千山鸟飞绝，<br>万径人踪灭。<br>孤舟蓑笠翁，<br>独钓寒江雪。',cite:'柳宗元《江雪》'}
+];
+var current=0;
+var mastered=[false,false,false,false,false];
+
+var flipCard=document.getElementById('flipCard');
+var cardNum=document.getElementById('cardNum');
+var cardTitle=document.getElementById('cardTitle');
+var cardAuthor=document.getElementById('cardAuthor');
+var cardPoem=document.getElementById('cardPoem');
+var cardPoemAuthor=document.getElementById('cardPoemAuthor');
+var masterBtn=document.getElementById('masterBtn');
+var progFill=document.getElementById('progFill');
+var masteredCount=document.getElementById('masteredCount');
+var progDots=document.getElementById('progDots');
+
+function renderDots(){
+  progDots.innerHTML='';
+  cards.forEach(function(_,i){
+    var d=document.createElement('div');
+    d.className='prog-dot'+(mastered[i]?' mastered':'')+(i===current?' current':' pending');
+    d.onclick=function(){goTo(i)};
+    progDots.appendChild(d);
+  });
+}
+
+function updateCard(){
+  flipCard.classList.remove('flipped');
+  var c=cards[current];
+  cardNum.textContent=(current+1)+' / 5';
+  cardTitle.textContent=c.title;
+  cardAuthor.textContent=c.author;
+  cardPoem.innerHTML=c.poem;
+  cardPoemAuthor.textContent='— '+c.cite;
+  masterBtn.textContent=mastered[current]?'已掌握':'标记掌握';
+  masterBtn.classList.toggle('done',mastered[current]);
+  renderDots();updateProgress();
+}
+
+function updateProgress(){
+  var count=mastered.filter(Boolean).length;
+  masteredCount.textContent=count;
+  progFill.style.width=(count/5*100)+'%';
+}
+
+function flipCurrent(){flipCard.classList.toggle('flipped')}
+function prevCard(){current=(current-1+5)%5;updateCard()}
+function nextCard(){current=(current+1)%5;updateCard()}
+function goTo(i){current=i;updateCard()}
+function toggleMaster(){mastered[current]=!mastered[current];updateCard()}
+
+renderDots();updateProgress();
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

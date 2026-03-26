@@ -1,0 +1,29 @@
+Generate a study flashcard page for fictional app "墨卷 INKROLL", styled as Papyrus / Ancient Egyptian aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: papyrus sand (#E8D5A3), lapis blue (#1E3A5F), gold leaf (#C9A84C), terracotta (#B85C38), dark ink (#2C1810), bone (#F5ECD7), dim rgba(44,24,16,0.3). Typography: EB Garamond (classic humanist serif) English, Noto Serif SC 400/600 Chinese 17px+. Layout: PAPYRUS — warm sand background with papyrus fiber texture, flashcards styled as papyrus scrolls, Egyptian-inspired decorative borders.
+
+Animation: Medium-High — Required:
+1. CSS PAPYRUS TEXTURE: Background with multi-layer texture — horizontal fiber lines using repeating-linear-gradient (very thin lines at 0deg with subtle color variation) + vertical cross-fibers at 90deg + SVG noise for aged surface grain
+2. CSS EGYPTIAN BORDER: Decorative borders using repeating-linear-gradient creating zigzag/step pattern (like Egyptian lotus frieze), in lapis blue and gold
+3. JS FLASHCARD FLIP: 5 cards, click to flip (perspective + rotateY 180deg). Front shows question, back shows answer. Track progress (known/unknown).
+4. CSS HIEROGLYPH DECORATION: 3-4 simple CSS geometric shapes resembling simplified hieroglyphs (triangles for pyramids, circles for sun, rectangles for cartouche) as decorative elements at low opacity
+5. JS PROGRESS: Track how many cards mastered vs remaining, visual progress bar styled as papyrus scroll unfurling
+
+Page structure:
+1. Header: "墨卷" + "INKROLL" + "唐诗学习卡" + Egyptian lotus divider
+2. Progress: 已掌握 2/5 · papyrus scroll progress bar
+3. Current flashcard (large, center, 3D flip):
+   Front: 诗题 "静夜思" — 李白
+   Back: 全文 "床前明月光，疑是地上霜。举头望明月，低头思故乡。"
+4. Card navigation: [上一张] [标记掌握] [下一张]
+5. All cards list (5 cards, small thumbnails):
+   1. 静夜思 · 李白 ✓
+   2. 春晓 · 孟浩然 ✓
+   3. 登鹳雀楼 · 王之涣 (当前)
+   4. 相思 · 王维
+   5. 江雪 · 柳宗元
+6. Footer: "墨卷 · INKROLL · 日拱一卒"
+
+Papyrus fiber: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(44,24,16,0.02) 2px, rgba(44,24,16,0.02) 3px) for horizontal + similar at 90deg for vertical cross-weave. Egyptian border: repeating-linear-gradient creating step/zigzag pattern.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-papyrus-flashcards.html. Do NOT open.
