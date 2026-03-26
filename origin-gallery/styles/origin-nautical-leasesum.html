@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>租赁合同摘要 — 安居 SETTLE</title>
+<link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--sea:#0B1929;--chart:#1B4F72;--gold:#D4A843;--parch:#F5E6C8;--white:#E8ECF0;--red:#C0392B;--dim:rgba(27,79,114,0.2)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--parch);color:var(--sea);font-family:'Noto Serif SC','Bitter',serif;font-weight:400;font-size:17px;line-height:1.8;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    /* Nautical contour lines — depth isobaths */
+    background-image:
+      repeating-radial-gradient(circle at 25% 30%,transparent 30px,rgba(27,79,114,0.025) 30px,rgba(27,79,114,0.025) 31px,transparent 31px,transparent 60px,rgba(27,79,114,0.02) 60px,rgba(27,79,114,0.02) 61px,transparent 61px,transparent 90px,rgba(27,79,114,0.015) 90px,rgba(27,79,114,0.015) 91px,transparent 91px),
+      repeating-radial-gradient(circle at 75% 65%,transparent 25px,rgba(27,79,114,0.02) 25px,rgba(27,79,114,0.02) 26px,transparent 26px,transparent 55px,rgba(27,79,114,0.018) 55px,rgba(27,79,114,0.018) 56px,transparent 56px,transparent 85px,rgba(27,79,114,0.012) 85px,rgba(27,79,114,0.012) 86px,transparent 86px),
+      radial-gradient(ellipse at 50% 40%,rgba(212,168,67,0.04) 0%,transparent 50%)}
+
+  .page{max-width:440px;width:100%;position:relative;z-index:1;
+    /* Chart border with tick marks */
+    border:1.5px solid var(--chart);padding:1.5rem;
+    background-image:repeating-linear-gradient(0deg,transparent,transparent 19px,rgba(27,79,114,0.06) 19px,rgba(27,79,114,0.06) 20px),
+      repeating-linear-gradient(90deg,transparent,transparent 19px,rgba(27,79,114,0.06) 19px,rgba(27,79,114,0.06) 20px);
+    background-size:20px 20px;background-position:-0.5px -0.5px}
+  /* Outer tick marks via box-shadow */
+  .page::before{content:'';position:absolute;inset:-6px;border:0.5px solid rgba(27,79,114,0.08);pointer-events:none}
+
+  /* ═══ COMPASS ROSE ═══ */
+  .compass{width:50px;height:50px;margin:0 auto 0.5rem;position:relative}
+  .compass-sq{position:absolute;inset:5px;border:1.5px solid var(--gold);opacity:0.4}
+  .compass-sq:nth-child(2){transform:rotate(45deg)}
+  .compass-center{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--gold);
+    top:50%;left:50%;transform:translate(-50%,-50%);opacity:0.5}
+  .compass-n{position:absolute;top:0;left:50%;transform:translateX(-50%);font-family:'Bitter',serif;
+    font-size:0.5rem;color:var(--chart);opacity:0.3}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.2rem;animation:chartIn .7s ease both}
+  @keyframes chartIn{from{opacity:0}to{opacity:1}}
+  .h-brand{font-weight:600;font-size:1.3rem;color:var(--chart);letter-spacing:0.1em}
+  .h-en{font-family:'Bitter',serif;font-weight:400;font-style:italic;font-size:0.68rem;color:var(--dim);letter-spacing:0.18em}
+  .h-type{font-size:0.88rem;color:var(--gold);margin-top:0.2rem}
+
+  /* ═══ CONTRACT ID ═══ */
+  .contract-id{text-align:center;margin-bottom:1rem;animation:chartIn .6s ease both;animation-delay:.1s}
+  .cid{font-family:'Bitter',serif;font-size:0.72rem;color:var(--chart);opacity:0.4;letter-spacing:0.08em}
+
+  /* ═══ CARDS ═══ */
+  .card{border:1px solid rgba(27,79,114,0.1);padding:1rem;margin-bottom:0.8rem;
+    background:rgba(245,230,200,0.5);transition:all .25s;
+    opacity:0;animation:chartIn .5s ease forwards}
+  .card:hover{background:rgba(245,230,200,0.7)}
+  .card-label{font-family:'Bitter',serif;font-weight:600;font-size:0.6rem;color:var(--chart);letter-spacing:0.12em;margin-bottom:0.4rem;opacity:0.5}
+
+  .detail-row{display:flex;justify-content:space-between;padding:0.3rem 0;border-bottom:0.5px dotted rgba(27,79,114,0.08)}
+  .detail-row:last-child{border:none}
+  .d-label{font-size:0.85rem;color:var(--chart);opacity:0.6}
+  .d-val{font-size:0.85rem;color:var(--sea);text-align:right;font-weight:600}
+  /* Gold for amounts (depth readings) */
+  .d-gold{color:var(--gold);font-family:'Bitter',serif}
+  /* Red underline for important (reef warnings) */
+  .d-warn{border-bottom:1.5px solid var(--red);padding-bottom:1px}
+
+  /* ═══ COUNTDOWN ═══ */
+  .countdown{text-align:center;padding:0.8rem;border:1px dashed rgba(212,168,67,0.2);margin-bottom:0.8rem;
+    opacity:0;animation:chartIn .5s ease forwards;animation-delay:.5s}
+  .cd-text{font-family:'Bitter',serif;font-size:0.85rem;color:var(--gold)}
+  .cd-num{font-weight:700;font-size:1.2rem}
+
+  /* ═══ WARNINGS ═══ */
+  .warnings{opacity:0;animation:chartIn .5s ease forwards;animation-delay:.6s;margin-bottom:1rem}
+  .warn-item{font-size:0.85rem;color:var(--red);padding:0.2rem 0;display:flex;align-items:baseline;gap:0.4rem}
+  .warn-icon{width:6px;height:6px;background:var(--red);clip-path:polygon(50% 0%,100% 100%,0% 100%);flex-shrink:0;margin-top:0.35rem}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;animation:chartIn .5s ease both;animation-delay:.7s}
+  .footer-motto{font-family:'Bitter',serif;font-style:italic;font-size:0.82rem;color:var(--chart);opacity:0.25}
+  .footer-disc{font-size:0.55rem;color:var(--dim);opacity:0.15;margin-top:0.2rem}
+
+  @media(max-width:400px){.page{padding:1rem}}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <header class="header">
+    <div class="compass">
+      <div class="compass-sq"></div>
+      <div class="compass-sq"></div>
+      <div class="compass-center"></div>
+      <div class="compass-n">N</div>
+    </div>
+    <div class="h-brand">安居</div>
+    <div class="h-en">SETTLE</div>
+    <div class="h-type">租赁合同摘要</div>
+  </header>
+
+  <div class="contract-id">
+    <div class="cid">HT-2026-SH-0042 · 签约日 2026.03.15</div>
+  </div>
+
+  <!-- ═══ PROPERTY ═══ -->
+  <div class="card" style="animation-delay:.2s">
+    <div class="card-label">PROPERTY</div>
+    <div class="detail-row"><span class="d-label">地址</span><span class="d-val">静安区愚园路 388 号</span></div>
+    <div class="detail-row"><span class="d-label">户型</span><span class="d-val">3 室 1 厅 · 89 ㎡</span></div>
+    <div class="detail-row"><span class="d-label">楼层</span><span class="d-val">12 / 18 层 · 朝南</span></div>
+  </div>
+
+  <!-- ═══ TERMS ═══ -->
+  <div class="card" style="animation-delay:.35s">
+    <div class="card-label">KEY TERMS</div>
+    <div class="detail-row"><span class="d-label">租期</span><span class="d-val d-warn">2026.04.01 — 2027.03.31（12 个月）</span></div>
+    <div class="detail-row"><span class="d-label">月租</span><span class="d-val d-gold">¥8,500<span style="font-weight:400;font-size:0.75rem;color:var(--chart);opacity:0.4"> /月1日前</span></span></div>
+    <div class="detail-row"><span class="d-label">押金</span><span class="d-val d-gold">¥17,000<span style="font-weight:400;font-size:0.75rem;color:var(--chart);opacity:0.4"> 两个月</span></span></div>
+    <div class="detail-row"><span class="d-label">物业</span><span class="d-val">¥350/月（含在月租内）</span></div>
+    <div class="detail-row"><span class="d-label">维修</span><span class="d-val">¥500 以下租户 · 以上房东</span></div>
+  </div>
+
+  <!-- ═══ COUNTDOWN ═══ -->
+  <div class="countdown">
+    <div class="cd-text">距租期开始还有 <span class="cd-num" id="cdDays">--</span> 天</div>
+  </div>
+
+  <!-- ═══ WARNINGS ═══ -->
+  <div class="warnings">
+    <div class="card-label" style="color:var(--red);opacity:0.6;margin-bottom:0.3rem">IMPORTANT NOTES</div>
+    <div class="warn-item"><div class="warn-icon"></div>不可转租</div>
+    <div class="warn-item"><div class="warn-icon"></div>养宠需书面同意</div>
+    <div class="warn-item"><div class="warn-icon"></div>提前退租需提前 60 天书面通知</div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-motto">安居 · SETTLE · 安心居住，从此开始</div>
+    <div class="footer-disc">虚构合同 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+// Countdown to April 1
+var target=new Date(2026,3,1);
+var now=new Date();
+var diff=Math.ceil((target-now)/(1000*60*60*24));
+document.getElementById('cdDays').textContent=diff>0?diff:'0';
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+Generate a lease agreement summary page for fictional app "安居 SETTLE", styled as Nautical Chart / maritime navigation map aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: deep sea (#0B1929), chart blue (#1B4F72), compass gold (#D4A843), parchment (#F5E6C8), chart white (#E8ECF0), reef red (#C0392B), dim rgba(212,168,67,0.2). Typography: Bitter (sturdy slab serif for readability) English, Noto Serif SC 400/600 Chinese 17px+. Layout: NAUTICAL — parchment background with chart-style contour lines, compass rose decoration, maritime annotation feel.
+
+Animation: Low-Medium (professional, clear) — Required:
+1. CSS CONTOUR LINES: Background with multiple repeating-radial-gradient concentric circles at different centers (like depth contours/isobaths on nautical charts) in faint blue lines on parchment
+2. CSS COMPASS ROSE: Decorative compass rose made with CSS — 4-pointed star (rotated squares overlapping) in gold/dark, positioned as header decoration
+3. JS CONTRACT TIMER: "距租期开始还有 X 天" or "租期进行中 第 X 天" countdown/counter
+4. CSS CHART ANNOTATIONS: Key terms styled like chart annotations — important clauses have red underline (like reef warnings), amounts in gold (like depth readings)
+5. CSS NAUTICAL BORDER: Thin border with small tick marks at regular intervals like chart grid edge
+
+Page structure:
+1. Header: "安居" + "SETTLE" + CSS compass rose + "租赁合同摘要"
+2. Contract ID: HT-2026-SH-0042 + 签约日 2026.03.15
+3. Property info (chart annotation style):
+   - 房屋: 上海市静安区愚园路388号 · 3室1厅 · 89㎡
+   - 楼层: 12/18层 · 朝向 南
+4. Key terms (5 clauses, important items red-underlined):
+   - 租期: 2026.04.01 — 2027.03.31 (12个月)
+   - 月租: ¥8,500 (每月1日前支付)
+   - 押金: ¥17,000 (两个月)
+   - 物业: ¥350/月 (含在月租内)
+   - 维修: 500元以下租户承担，以上房东承担
+5. Countdown: 距租期开始还有 X 天
+6. Important notes (reef warning style, red accent):
+   - 不可转租
+   - 养宠需书面同意
+   - 提前退租需提前60天通知
+7. Footer: "安居 · SETTLE · 安心居住，从此开始"
+
+Contour lines: 3-4 repeating-radial-gradient(circle at X% Y%, transparent Rpx, rgba(27,79,114,0.04) Rpx, rgba(27,79,114,0.04) R+1px, transparent R+1px) at different centers creating overlapping depth contours. Compass rose: two overlapping squares (45deg rotation) with border, centered circle.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-nautical-leasesum.html. Do NOT open.
