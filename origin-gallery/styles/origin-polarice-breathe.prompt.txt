@@ -1,0 +1,27 @@
+Generate a breathing meditation exercise page for fictional app "静息 STILLNESS", styled as Polar Ice / arctic crystal aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: deep ice (#0A1628), glacier blue (#1E88E5), ice crystal (#B3E5FC), frost white (#E8F4FD), aurora green (rgba(0,230,118,0.1)), aurora purple (rgba(156,39,176,0.08)), breath glow (#4FC3F7). Typography: Exo 2 (clean futuristic) English, Noto Sans SC 300/400 Chinese 17px+. Layout: POLAR ICE — deep dark blue background with frost crystal texture, ice-blue breathing circle, arctic atmosphere.
+
+Animation: Medium-High — Required:
+1. CSS FROST TEXTURE: Background with SVG noise for frost crystal grain + faint repeating-radial-gradient creating ice crystal star patterns at very low opacity
+2. CSS BREATHING CIRCLE: Central large circle (120px) that smoothly expands/contracts (scale 1→1.3→1) on a 8-second breathing cycle (4s inhale expand, 4s exhale contract), with soft ice-blue glow
+3. JS BREATHING GUIDE: Text instructions sync with circle animation — "吸气..." (4s) → "呼气..." (4s), cycling. Session timer counting up.
+4. CSS AURORA: Subtle aurora borealis effect — 2 soft gradient bands (green/purple at very low opacity) slowly drifting across top of page
+5. CSS ICE CRACKS: Faint crack lines radiating from center using linear-gradient thin white lines at various angles
+
+Page structure:
+1. Header: "静息" + "STILLNESS" + minimal, barely there
+2. Breathing circle (center, large, animated):
+   - Expanding/contracting circle with ice glow
+   - "吸气" / "呼气" text synced inside
+3. Session info: 已练习 X:XX · 呼吸 X 次
+4. Breathing patterns (3 options):
+   - 4-4 均匀呼吸 (default, active)
+   - 4-7-8 放松呼吸
+   - 方形呼吸 4-4-4-4
+5. Start/Pause button (ice styled)
+6. Footer: "静息 · STILLNESS · 呼吸之间，找到宁静"
+
+Breathing circle: width/height with animation: breathe 8s ease-in-out infinite; @keyframes breathe{0%,100%{transform:scale(1);box-shadow:0 0 20px ice}50%{transform:scale(1.3);box-shadow:0 0 40px ice}}. Aurora: 2 divs with gradient, slowly translateX drifting.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-polarice-breathe.html. Do NOT open.

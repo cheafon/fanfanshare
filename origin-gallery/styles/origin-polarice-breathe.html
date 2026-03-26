@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>呼吸练习 — 静息 STILLNESS</title>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--deep:#0A1628;--glacier:#1E88E5;--crystal:#B3E5FC;--frost:#E8F4FD;--glow:#4FC3F7;--aurora-g:rgba(0,230,118,0.06);--aurora-p:rgba(156,39,176,0.05)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--deep);color:var(--frost);font-family:'Noto Sans SC','Exo 2',sans-serif;font-weight:300;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:2rem 1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh;
+    /* Frost + ice crack radiating lines */
+    background-image:
+      linear-gradient(15deg,transparent 48%,rgba(255,255,255,0.008) 48.5%,transparent 49%),
+      linear-gradient(165deg,transparent 52%,rgba(255,255,255,0.006) 52.3%,transparent 52.6%),
+      linear-gradient(75deg,transparent 46%,rgba(255,255,255,0.005) 46.3%,transparent 46.6%),
+      radial-gradient(circle at 50% 40%,rgba(30,136,229,0.04),transparent 50%)}
+
+  .grain{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.025}
+
+  /* Aurora bands */
+  .aurora{position:fixed;top:0;left:0;right:0;height:40%;pointer-events:none;z-index:0;overflow:hidden}
+  .aurora-band{position:absolute;width:150%;height:60px;filter:blur(40px);border-radius:50%}
+  .ab1{background:var(--aurora-g);top:15%;left:-25%;animation:auroraDrift1 20s ease-in-out infinite alternate}
+  .ab2{background:var(--aurora-p);top:25%;left:-10%;animation:auroraDrift2 25s ease-in-out infinite alternate}
+  @keyframes auroraDrift1{0%{transform:translateX(0) scaleX(1)}100%{transform:translateX(10%) scaleX(1.1)}}
+  @keyframes auroraDrift2{0%{transform:translateX(0) scaleX(1.1)}100%{transform:translateX(-8%) scaleX(0.9)}}
+
+  .page{max-width:400px;width:100%;position:relative;z-index:1;text-align:center}
+
+  /* ═══ HEADER ═══ */
+  .header{margin-bottom:2rem;opacity:0;animation:iceIn 1s ease both}
+  @keyframes iceIn{from{opacity:0}to{opacity:1}}
+  .h-brand{font-family:'Exo 2',sans-serif;font-weight:300;font-size:1.2rem;color:var(--crystal);letter-spacing:0.2em;opacity:0.5}
+  .h-en{font-family:'Exo 2',sans-serif;font-weight:300;font-size:0.6rem;color:rgba(179,229,252,0.2);letter-spacing:0.35em}
+
+  /* ═══ BREATHING CIRCLE ═══ */
+  .breathe-wrap{display:flex;justify-content:center;margin-bottom:1.5rem}
+  .breathe-circle{width:160px;height:160px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-direction:column;
+    background:radial-gradient(circle,rgba(30,136,229,0.08),rgba(10,22,40,0.5));
+    border:1.5px solid rgba(79,195,247,0.15);
+    box-shadow:0 0 30px rgba(79,195,247,0.08),inset 0 0 20px rgba(79,195,247,0.04);
+    animation:breathe 8s ease-in-out infinite;
+    transition:animation-duration .3s}
+  @keyframes breathe{
+    0%,100%{transform:scale(1);box-shadow:0 0 20px rgba(79,195,247,0.06),inset 0 0 15px rgba(79,195,247,0.03)}
+    50%{transform:scale(1.25);box-shadow:0 0 40px rgba(79,195,247,0.12),inset 0 0 25px rgba(79,195,247,0.06)}}
+  .breathe-circle.paused{animation-play-state:paused}
+
+  .breathe-text{font-weight:400;font-size:1rem;color:var(--crystal);letter-spacing:0.1em;transition:opacity .3s}
+  .breathe-sub{font-family:'Exo 2',sans-serif;font-size:0.65rem;color:rgba(179,229,252,0.25);margin-top:0.2rem}
+
+  /* ═══ SESSION ═══ */
+  .session{margin-bottom:1.5rem;opacity:0;animation:iceIn 1s ease both;animation-delay:.3s}
+  .session-time{font-family:'Exo 2',sans-serif;font-weight:500;font-size:1.4rem;color:var(--glow);letter-spacing:0.08em}
+  .session-count{font-size:0.78rem;color:rgba(179,229,252,0.25);margin-top:0.1rem}
+
+  /* ═══ PATTERNS ═══ */
+  .patterns{display:flex;gap:0.3rem;justify-content:center;margin-bottom:1.2rem;flex-wrap:wrap;
+    opacity:0;animation:iceIn 1s ease both;animation-delay:.5s}
+  .pat{font-family:'Exo 2',sans-serif;font-size:0.78rem;padding:0.35em 0.8em;border-radius:20px;
+    border:1px solid rgba(79,195,247,0.1);background:transparent;color:rgba(179,229,252,0.3);
+    cursor:pointer;transition:all .2s}
+  .pat:hover{border-color:rgba(79,195,247,0.2);color:var(--crystal)}
+  .pat.active{border-color:var(--glow);color:var(--glow);background:rgba(79,195,247,0.06)}
+
+  /* ═══ CONTROL ═══ */
+  .control{margin-bottom:1.5rem;opacity:0;animation:iceIn 1s ease both;animation-delay:.6s}
+  .ctrl-btn{font-family:'Exo 2',sans-serif;font-weight:500;font-size:0.88rem;letter-spacing:0.1em;
+    padding:0.6em 2em;border-radius:25px;border:1px solid rgba(79,195,247,0.2);
+    background:rgba(79,195,247,0.06);color:var(--glow);cursor:pointer;transition:all .2s}
+  .ctrl-btn:hover{background:rgba(79,195,247,0.1);border-color:var(--glow);
+    box-shadow:0 0 15px rgba(79,195,247,0.1)}
+
+  /* ═══ FOOTER ═══ */
+  .footer{opacity:0;animation:iceIn 1s ease both;animation-delay:.8s}
+  .footer-motto{font-family:'Exo 2',sans-serif;font-size:0.78rem;color:rgba(179,229,252,0.12)}
+  .footer-disc{font-size:0.55rem;color:rgba(179,229,252,0.05);margin-top:0.3rem}
+
+  @media(max-width:380px){.breathe-circle{width:140px;height:140px}}
+</style>
+</head>
+<body>
+
+<svg class="grain" width="100%" height="100%">
+  <filter id="gf"><feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="4" stitchTiles="stitch"/></filter>
+  <rect width="100%" height="100%" filter="url(#gf)"/>
+</svg>
+
+<div class="aurora"><div class="aurora-band ab1"></div><div class="aurora-band ab2"></div></div>
+
+<div class="page">
+
+  <header class="header">
+    <div class="h-brand">静息</div>
+    <div class="h-en">STILLNESS</div>
+  </header>
+
+  <div class="breathe-wrap">
+    <div class="breathe-circle" id="circle">
+      <div class="breathe-text" id="bText">吸气</div>
+      <div class="breathe-sub" id="bSub">4 秒</div>
+    </div>
+  </div>
+
+  <div class="session">
+    <div class="session-time" id="timer">0:00</div>
+    <div class="session-count">呼吸 <span id="breathCount">0</span> 次</div>
+  </div>
+
+  <div class="patterns">
+    <button class="pat active" onclick="setPat(this,4,4)">4-4 均匀</button>
+    <button class="pat" onclick="setPat(this,4,8)">4-7-8 放松</button>
+    <button class="pat" onclick="setPat(this,4,4)">方形 4-4-4-4</button>
+  </div>
+
+  <div class="control">
+    <button class="ctrl-btn" id="ctrlBtn" onclick="toggleSession()">开始</button>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-motto">静息 · STILLNESS · 呼吸之间，找到宁静</div>
+    <div class="footer-disc">虚构应用 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+var running=false;
+var seconds=0;var breaths=0;
+var inhale=4,exhale=4;
+var timerEl=document.getElementById('timer');
+var countEl=document.getElementById('breathCount');
+var bText=document.getElementById('bText');
+var bSub=document.getElementById('bSub');
+var circle=document.getElementById('circle');
+var ctrlBtn=document.getElementById('ctrlBtn');
+var timerInterval,breathInterval;
+
+function updateTimer(){
+  seconds++;
+  var m=Math.floor(seconds/60);
+  var s=seconds%60;
+  timerEl.textContent=m+':'+(s<10?'0':'')+s;
+}
+
+function breathCycle(){
+  // Inhale
+  bText.textContent='吸气';bSub.textContent=inhale+' 秒';
+  setTimeout(function(){
+    bText.textContent='呼气';bSub.textContent=exhale+' 秒';
+    breaths++;countEl.textContent=breaths;
+  },inhale*1000);
+}
+
+function toggleSession(){
+  if(running){
+    running=false;ctrlBtn.textContent='继续';
+    circle.classList.add('paused');
+    clearInterval(timerInterval);clearInterval(breathInterval);
+  }else{
+    running=true;ctrlBtn.textContent='暂停';
+    circle.classList.remove('paused');
+    timerInterval=setInterval(updateTimer,1000);
+    breathCycle();
+    breathInterval=setInterval(breathCycle,(inhale+exhale)*1000);
+  }
+}
+
+function setPat(el,inh,exh){
+  document.querySelectorAll('.pat').forEach(function(p){p.classList.remove('active')});
+  el.classList.add('active');
+  inhale=inh;exhale=exh;
+  var total=(inh+exh);
+  circle.style.animationDuration=total+'s';
+  if(running){clearInterval(breathInterval);breathCycle();breathInterval=setInterval(breathCycle,total*1000)}
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
