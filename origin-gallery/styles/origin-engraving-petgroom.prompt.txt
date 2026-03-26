@@ -1,0 +1,31 @@
+Generate a pet grooming appointment confirmation page for fictional salon "毛茸茸 FLUFFPAW", styled as Copper Engraving / fine-line etching illustration aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: engraving cream (#F8F4E8), ink black (#1A1A1A), sepia (#8B7355), copper line (#9E7B5A), faded blue (#5B7B8A), aged (#F0EBE0), dim rgba(26,26,26,0.2). Typography: Libre Baskerville (classic engraving serif) English, Noto Serif SC 400/600 Chinese 17px+. Layout: ENGRAVING — cream paper background with crosshatch texture, fine-line ornamental borders, classical etching feel.
+
+Animation: Low-Medium (refined, classical) — Required:
+1. CSS CROSSHATCH: Background with crosshatch pattern using repeating-linear-gradient at 45deg and -45deg with very thin sepia lines, creating etching shading texture at low opacity
+2. CSS ENGRAVING BORDER: Ornate double-line borders with corner ornaments (small squares or circles at intersections) around main content area, styled like copper plate print margins
+3. JS APPOINTMENT TIMER: Countdown to appointment time showing "距预约还有 X小时X分", updating every minute
+4. CSS FINE LINES: All card borders use thin 1px sepia lines, headers with fine decorative rules (thin-thick-thin line combinations like engraving prints)
+5. CSS PET SILHOUETTE: Simple CSS dog silhouette using clip-path as decorative header element
+
+Page structure:
+1. Header: "毛茸茸" + "FLUFFPAW" + "预约确认" + engraving ornament line
+2. Appointment status: "预约已确认" + confirmation number "FP-20260326-047"
+3. Pet info card:
+   - 宠物: 团子 · 柯基 · 公 · 3岁
+   - 体重: 12.5 kg
+   - 特殊注意: 左耳敏感，请温柔处理
+4. Service details:
+   - 服务: 精致洗护套餐 (洗澡+吹干+修毛+剪指甲+清耳)
+   - 日期: 2026年3月28日 周六
+   - 时间: 14:00 (预计2小时)
+   - 美容师: 林小萌 (5年经验)
+   - 费用: ¥268
+5. Countdown: "距预约还有 X小时X分"
+6. Notes: 请提前15分钟到店 · 携带疫苗本 · 如需取消请提前24小时
+7. Footer: "毛茸茸 · FLUFFPAW · 让每一只毛孩子都闪闪发光"
+
+Crosshatch: repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(139,115,85,0.03) 4px, rgba(139,115,85,0.03) 5px) + same at -45deg. Engraving border: double border (outline + border with gap using box-shadow) with pseudo-element corner dots.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-engraving-petgroom.html. Do NOT open.

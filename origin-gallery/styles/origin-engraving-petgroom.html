@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>预约确认 FP-20260326-047 — 毛茸茸 FLUFFPAW</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--cream:#F8F4E8;--ink:#1A1A1A;--sepia:#8B7355;--copper:#9E7B5A;--blue:#5B7B8A;--aged:#F0EBE0;--dim:rgba(26,26,26,0.2)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--cream);color:var(--ink);font-family:'Noto Serif SC','Libre Baskerville',serif;font-weight:400;font-size:17px;line-height:1.8;
+    display:flex;justify-content:center;padding:2rem 1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    /* Crosshatch etching texture */
+    background-image:
+      repeating-linear-gradient(45deg,transparent,transparent 4px,rgba(139,115,85,0.025) 4px,rgba(139,115,85,0.025) 5px),
+      repeating-linear-gradient(-45deg,transparent,transparent 4px,rgba(139,115,85,0.02) 4px,rgba(139,115,85,0.02) 5px),
+      radial-gradient(ellipse at 50% 30%,rgba(158,123,90,0.03) 0%,transparent 60%)}
+
+  .page{max-width:420px;width:100%;position:relative;z-index:1;
+    /* Engraving plate border — double line with gap */
+    border:1px solid var(--sepia);padding:1.8rem 1.5rem;
+    box-shadow:inset 0 0 0 4px var(--cream),inset 0 0 0 5px rgba(139,115,85,0.3)}
+  /* Corner ornaments */
+  .page::before,.page::after{content:'';position:absolute;width:8px;height:8px;border:1px solid var(--sepia);
+    border-radius:50%;background:var(--cream)}
+  .page::before{top:-4px;left:-4px}
+  .page::after{top:-4px;right:-4px}
+  .corner-bl,.corner-br{position:absolute;width:8px;height:8px;border:1px solid var(--sepia);
+    border-radius:50%;background:var(--cream)}
+  .corner-bl{bottom:-4px;left:-4px}
+  .corner-br{bottom:-4px;right:-4px}
+
+  /* ═══ FINE RULES ═══ */
+  .rule{display:flex;align-items:center;gap:6px;margin:0.8rem 0}
+  .rule-thin{flex:1;height:0.5px;background:var(--sepia);opacity:0.3}
+  .rule-thick{flex:1;height:1.5px;background:var(--sepia);opacity:0.2}
+  .rule-dot{width:4px;height:4px;border-radius:50%;border:0.5px solid var(--sepia);opacity:0.3}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;animation:etchIn .8s ease both}
+  @keyframes etchIn{from{opacity:0}to{opacity:1}}
+
+  /* Pet silhouette */
+  .silhouette{width:40px;height:30px;margin:0 auto 0.5rem;position:relative}
+  .sil-body{width:28px;height:16px;background:var(--sepia);opacity:0.12;border-radius:8px 12px 4px 4px;position:absolute;bottom:0;left:6px}
+  .sil-head{width:14px;height:12px;background:var(--sepia);opacity:0.12;border-radius:6px 6px 2px 4px;position:absolute;bottom:10px;left:0}
+  .sil-ear1{width:5px;height:7px;background:var(--sepia);opacity:0.12;border-radius:3px 3px 0 0;position:absolute;bottom:18px;left:0;transform:rotate(-10deg)}
+  .sil-ear2{width:5px;height:7px;background:var(--sepia);opacity:0.12;border-radius:3px 3px 0 0;position:absolute;bottom:19px;left:8px;transform:rotate(10deg)}
+  .sil-tail{width:12px;height:5px;background:var(--sepia);opacity:0.12;border-radius:0 6px 6px 0;position:absolute;bottom:10px;right:0;transform:rotate(-15deg)}
+
+  .h-brand{font-weight:600;font-size:1.3rem;color:var(--ink);letter-spacing:0.12em}
+  .h-en{font-family:'Libre Baskerville',serif;font-weight:400;font-style:italic;font-size:0.68rem;color:var(--sepia);letter-spacing:0.18em}
+  .h-type{font-family:'Libre Baskerville',serif;font-size:0.78rem;color:var(--copper);margin-top:0.3rem;letter-spacing:0.06em}
+
+  /* ═══ STATUS ═══ */
+  .status{text-align:center;animation:etchIn .8s ease both;animation-delay:.2s}
+  .status-text{font-weight:600;font-size:0.95rem;color:var(--ink)}
+  .status-code{font-family:'Libre Baskerville',serif;font-size:0.72rem;color:var(--sepia);opacity:0.5;margin-top:0.1rem;letter-spacing:0.06em}
+
+  /* ═══ CARDS ═══ */
+  .card{border:0.5px solid rgba(139,115,85,0.15);padding:1rem;margin-bottom:0.8rem;
+    background:rgba(240,235,224,0.3);transition:all .25s;
+    opacity:0;animation:etchIn .6s ease forwards}
+  .card:hover{background:rgba(240,235,224,0.5)}
+  .card-label{font-family:'Libre Baskerville',serif;font-weight:400;font-style:italic;font-size:0.6rem;
+    color:var(--copper);letter-spacing:0.1em;margin-bottom:0.4rem}
+
+  .detail-row{display:flex;justify-content:space-between;padding:0.25rem 0;
+    border-bottom:0.5px dotted rgba(139,115,85,0.1)}
+  .detail-row:last-child{border:none}
+  .d-label{font-size:0.85rem;color:var(--sepia)}
+  .d-val{font-size:0.85rem;color:var(--ink);text-align:right}
+  .d-note{font-size:0.82rem;color:var(--blue);font-style:italic}
+
+  /* ═══ COUNTDOWN ═══ */
+  .countdown{text-align:center;padding:0.8rem;border:0.5px solid rgba(139,115,85,0.1);
+    margin-bottom:0.8rem;opacity:0;animation:etchIn .6s ease forwards;animation-delay:.6s}
+  .cd-label{font-family:'Libre Baskerville',serif;font-size:0.65rem;color:var(--sepia);opacity:0.5;letter-spacing:0.08em}
+  .cd-time{font-family:'Libre Baskerville',serif;font-weight:700;font-size:1.2rem;color:var(--ink);margin-top:0.2rem;letter-spacing:0.04em}
+
+  /* ═══ NOTES ═══ */
+  .notes{opacity:0;animation:etchIn .6s ease forwards;animation-delay:.7s}
+  .note-item{font-size:0.85rem;color:var(--sepia);padding:0.2rem 0;display:flex;align-items:baseline;gap:0.4rem}
+  .note-bullet{width:3px;height:3px;border-radius:50%;background:var(--copper);flex-shrink:0;margin-top:0.5rem}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;margin-top:0.5rem;opacity:0;animation:etchIn .6s ease forwards;animation-delay:.8s}
+  .footer-motto{font-family:'Libre Baskerville',serif;font-style:italic;font-size:0.78rem;color:var(--sepia);opacity:0.3}
+  .footer-disc{font-size:0.55rem;color:var(--dim);opacity:0.15;margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1.5rem 1rem}.page{padding:1.5rem 1rem}}
+</style>
+</head>
+<body>
+
+<div class="page">
+  <span class="corner-bl"></span><span class="corner-br"></span>
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="silhouette">
+      <div class="sil-ear1"></div><div class="sil-ear2"></div>
+      <div class="sil-head"></div><div class="sil-body"></div><div class="sil-tail"></div>
+    </div>
+    <div class="h-brand">毛茸茸</div>
+    <div class="h-en">FLUFFPAW</div>
+    <div class="h-type">预约确认</div>
+  </header>
+
+  <div class="rule"><div class="rule-thin"></div><div class="rule-dot"></div><div class="rule-thick"></div><div class="rule-dot"></div><div class="rule-thin"></div></div>
+
+  <!-- ═══ STATUS ═══ -->
+  <div class="status">
+    <div class="status-text">预约已确认</div>
+    <div class="status-code">FP-20260326-047</div>
+  </div>
+
+  <div class="rule"><div class="rule-thin"></div><div class="rule-dot"></div><div class="rule-thin"></div></div>
+
+  <!-- ═══ PET INFO ═══ -->
+  <div class="card" style="animation-delay:.3s">
+    <div class="card-label">Pet Information</div>
+    <div class="detail-row"><span class="d-label">宠物</span><span class="d-val">团子 · 柯基犬</span></div>
+    <div class="detail-row"><span class="d-label">性别 / 年龄</span><span class="d-val">公 · 3 岁</span></div>
+    <div class="detail-row"><span class="d-label">体重</span><span class="d-val">12.5 kg</span></div>
+    <div class="detail-row"><span class="d-note">特殊注意：左耳敏感，请温柔处理</span></div>
+  </div>
+
+  <!-- ═══ SERVICE ═══ -->
+  <div class="card" style="animation-delay:.45s">
+    <div class="card-label">Service Details</div>
+    <div class="detail-row"><span class="d-label">服务</span><span class="d-val">精致洗护套餐</span></div>
+    <div class="detail-row"><span class="d-label">包含</span><span class="d-val">洗澡 · 吹干 · 修毛 · 剪指甲 · 清耳</span></div>
+    <div class="detail-row"><span class="d-label">日期</span><span class="d-val">2026 年 3 月 28 日 周六</span></div>
+    <div class="detail-row"><span class="d-label">时间</span><span class="d-val">14:00（约 2 小时）</span></div>
+    <div class="detail-row"><span class="d-label">美容师</span><span class="d-val">林小萌（5 年经验）</span></div>
+    <div class="detail-row"><span class="d-label">费用</span><span class="d-val">¥268</span></div>
+  </div>
+
+  <!-- ═══ COUNTDOWN ═══ -->
+  <div class="countdown">
+    <div class="cd-label">APPOINTMENT IN</div>
+    <div class="cd-time" id="cdTime">--</div>
+  </div>
+
+  <!-- ═══ NOTES ═══ -->
+  <div class="notes">
+    <div class="card-label" style="margin-bottom:0.3rem">Reminders</div>
+    <div class="note-item"><div class="note-bullet"></div>请提前 15 分钟到店</div>
+    <div class="note-item"><div class="note-bullet"></div>携带宠物疫苗本</div>
+    <div class="note-item"><div class="note-bullet"></div>如需取消请提前 24 小时联系</div>
+  </div>
+
+  <div class="rule"><div class="rule-thin"></div><div class="rule-dot"></div><div class="rule-thick"></div><div class="rule-dot"></div><div class="rule-thin"></div></div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">毛茸茸 · FLUFFPAW · 让每一只毛孩子都闪闪发光</div>
+    <div class="footer-disc">虚构服务 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+// Countdown to March 28 14:00
+function updateCD(){
+  var target=new Date(2026,2,28,14,0,0);
+  var now=new Date();
+  var diff=target-now;
+  if(diff<=0){document.getElementById('cdTime').textContent='预约时间已到';return}
+  var d=Math.floor(diff/86400000);
+  var h=Math.floor((diff%86400000)/3600000);
+  var m=Math.floor((diff%3600000)/60000);
+  var parts=[];
+  if(d>0)parts.push(d+'天');
+  parts.push(h+'小时');
+  parts.push(m+'分钟');
+  document.getElementById('cdTime').textContent='距预约还有 '+parts.join(' ');
+}
+updateCD();setInterval(updateCD,60000);
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
