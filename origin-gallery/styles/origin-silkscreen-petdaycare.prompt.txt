@@ -1,0 +1,28 @@
+Generate a pet daycare daily report page for fictional center "萌宠日托 PAWDAY", styled as Silk Screen Print / Warhol pop screenprint aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: screen hot pink (#FF1493), screen electric blue (#00BFFF), screen lime (#32CD32), screen orange (#FF8C00), screen black (#1A1A1A), paper white (#FAFAFA). Typography: Rubik (geometric rounded modern) English, Noto Sans SC 500/700 Chinese 17px+. Layout: SILK SCREEN — white background with bold flat color blocks, screenprint registration offset effects, Warhol-style repetition.
+
+Animation: Medium-High — Required:
+1. CSS SCREENPRINT OFFSET: Key elements (pet name, status badges) have slight color offset shadows simulating silk screen misregistration — text-shadow in complementary color shifted 2px, creating pop art overprint
+2. CSS HALFTONE OVERLAY: Subtle halftone dot overlay on colored sections using radial-gradient dots (like riso/screenprint texture)
+3. JS MOOD SELECTOR: Pet's mood today displayed as clickable emoji-style indicators (energetic/sleepy/playful/hungry) — click one to "select" with scale bounce + color ring
+4. CSS COLOR BLOCKS: Bold flat color blocks as section backgrounds cycling through pink/blue/lime/orange, each section a different vivid color
+5. STAGGERED: Report sections pop in with punchy timing
+
+Page structure:
+1. Header: "萌宠日托" + "PAWDAY" + "每日报告" with screenprint offset effect
+2. Pet profile: 布丁 · 金毛 · 2岁 · 今天是第 15 次来
+3. Today's mood (4 mood buttons, one selected):
+   活力满满 / 有点犯困 / 超级爱玩 / 一直在吃
+4. Activity timeline (4 activities, different color blocks):
+   09:00 到店签到 — 精神很好，进门就摇尾巴
+   11:00 户外活动 — 和柯基妹妹追了半小时球
+   13:00 午休时间 — 趴在最喜欢的蓝色垫子上秒睡
+   16:00 零食时间 — 吃了鸡肉条和酸奶，舔了三次碗
+5. Today's stats: 运动 45min · 饮水 3次 · 便便 2次(正常)
+6. Staff note: "布丁今天特别乖，和新来的泰迪也能友好相处了！——小李"
+7. Footer: "萌宠日托 · PAWDAY · 你上班，我带娃"
+
+Screenprint offset: text-shadow: 2px 1px var(--pink), -1px -1px var(--blue) on dark text creates overprint. Halftone: radial-gradient(circle, rgba(0,0,0,0.06) 1px, transparent 1px) background-size:4px 4px on colored blocks. Color blocks: alternating vivid backgrounds (pink/blue/lime/orange) for each section.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-silkscreen-petdaycare.html. Do NOT open.

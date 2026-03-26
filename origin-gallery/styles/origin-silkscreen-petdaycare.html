@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>布丁每日报告 — 萌宠日托 PAWDAY</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--pink:#FF1493;--blue:#00BFFF;--lime:#32CD32;--orange:#FF8C00;--black:#1A1A1A;--white:#FAFAFA}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--white);color:var(--black);font-family:'Noto Sans SC','Rubik',sans-serif;font-weight:500;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+  .page{max-width:460px;width:100%;position:relative;z-index:1}
+
+  /* Screenprint offset */
+  .screen-text{position:relative;text-shadow:2px 1px var(--pink),-1px -1px var(--blue)}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.2rem;animation:popSnap .4s cubic-bezier(0.3,1.4,0.6,1) both}
+  @keyframes popSnap{from{opacity:0;transform:scale(0.85)}to{opacity:1;transform:scale(1)}}
+  .h-brand{font-family:'Rubik',sans-serif;font-weight:800;font-size:1.8rem;color:var(--black);letter-spacing:0.04em;
+    text-shadow:3px 2px var(--pink),-2px -1px var(--blue)}
+  .h-en{font-family:'Rubik',sans-serif;font-weight:400;font-size:0.72rem;color:var(--pink);letter-spacing:0.25em}
+  .h-report{font-size:0.88rem;color:var(--black);opacity:0.5;margin-top:0.3rem}
+
+  /* ═══ PET PROFILE ═══ */
+  .pet{display:flex;align-items:center;gap:0.8rem;padding:0.8rem 1rem;margin-bottom:1rem;
+    background:var(--pink);color:var(--white);border-radius:8px;
+    /* Halftone overlay */
+    background-image:radial-gradient(circle,rgba(0,0,0,0.06) 1px,transparent 1px);
+    background-size:4px 4px;animation:popSnap .4s cubic-bezier(0.3,1.4,0.6,1) both;animation-delay:.1s}
+  .pet-avatar{width:48px;height:48px;border-radius:50%;background:var(--white);display:flex;align-items:center;justify-content:center;
+    font-size:1.5rem;flex-shrink:0;border:3px solid rgba(255,255,255,0.5)}
+  .pet-avatar-inner{width:20px;height:14px;background:var(--orange);border-radius:50% 50% 40% 40%;position:relative}
+  .pet-avatar-inner::before,.pet-avatar-inner::after{content:'';position:absolute;width:6px;height:8px;background:var(--orange);
+    border-radius:50% 50% 0 0;top:-6px}
+  .pet-avatar-inner::before{left:1px;transform:rotate(-10deg)}
+  .pet-avatar-inner::after{right:1px;transform:rotate(10deg)}
+  .pet-info{}
+  .pet-name{font-weight:700;font-size:1.1rem;color:var(--white)}
+  .pet-meta{font-size:0.78rem;color:rgba(255,255,255,0.7)}
+
+  /* ═══ MOOD ═══ */
+  .mood-section{margin-bottom:1rem;animation:popSnap .4s cubic-bezier(0.3,1.4,0.6,1) both;animation-delay:.2s}
+  .sec-label{font-family:'Rubik',sans-serif;font-weight:700;font-size:0.65rem;color:var(--black);letter-spacing:0.12em;margin-bottom:0.4rem;opacity:0.4}
+  .moods{display:flex;gap:0.4rem;flex-wrap:wrap}
+  .mood-btn{font-size:0.82rem;font-weight:600;padding:0.4em 0.8em;border-radius:20px;border:2.5px solid;
+    background:transparent;cursor:pointer;transition:all .2s}
+  .mood-btn:nth-child(1){border-color:var(--orange);color:var(--orange)}
+  .mood-btn:nth-child(2){border-color:var(--blue);color:var(--blue)}
+  .mood-btn:nth-child(3){border-color:var(--lime);color:var(--lime)}
+  .mood-btn:nth-child(4){border-color:var(--pink);color:var(--pink)}
+  .mood-btn.selected{color:var(--white) !important}
+  .mood-btn:nth-child(1).selected{background:var(--orange)}
+  .mood-btn:nth-child(2).selected{background:var(--blue)}
+  .mood-btn:nth-child(3).selected{background:var(--lime)}
+  .mood-btn:nth-child(4).selected{background:var(--pink)}
+  @keyframes moodPop{0%{transform:scale(1)}50%{transform:scale(1.12)}100%{transform:scale(1)}}
+
+  /* ═══ TIMELINE ═══ */
+  .timeline{margin-bottom:1rem}
+  .activity{padding:0.7rem 0.9rem;margin-bottom:0.3rem;border-radius:6px;color:var(--white);font-weight:500;
+    /* Halftone on all blocks */
+    background-image:radial-gradient(circle,rgba(0,0,0,0.05) 1px,transparent 1px);background-size:4px 4px;
+    opacity:0;animation:popSnap .35s cubic-bezier(0.3,1.4,0.6,1) forwards}
+  .activity.c-blue{background-color:var(--blue)}.activity.c-lime{background-color:var(--lime);color:var(--black)}
+  .activity.c-orange{background-color:var(--orange)}.activity.c-pink{background-color:var(--pink)}
+  .act-time{font-family:'Rubik',sans-serif;font-weight:700;font-size:0.75rem;opacity:0.6;letter-spacing:0.04em}
+  .act-title{font-weight:700;font-size:0.95rem;margin-top:0.05rem}
+  .act-desc{font-size:0.82rem;font-weight:400;opacity:0.75;margin-top:0.05rem}
+
+  /* ═══ STATS ═══ */
+  .stats{display:flex;gap:0.5rem;margin-bottom:1rem;flex-wrap:wrap;
+    animation:popSnap .4s cubic-bezier(0.3,1.4,0.6,1) both;animation-delay:.7s}
+  .stat{flex:1;min-width:80px;text-align:center;padding:0.6rem 0.4rem;border-radius:6px;border:2.5px solid var(--black)}
+  .stat-num{font-family:'Rubik',sans-serif;font-weight:800;font-size:1.1rem;color:var(--black);
+    text-shadow:1px 1px var(--pink),-1px -1px var(--blue)}
+  .stat-label{font-size:0.68rem;color:var(--black);opacity:0.4}
+
+  /* ═══ STAFF NOTE ═══ */
+  .note{background:var(--black);color:var(--white);border-radius:6px;padding:0.8rem 1rem;margin-bottom:1rem;
+    background-image:radial-gradient(circle,rgba(255,255,255,0.04) 1px,transparent 1px);background-size:4px 4px;
+    animation:popSnap .4s cubic-bezier(0.3,1.4,0.6,1) both;animation-delay:.8s}
+  .note-label{font-family:'Rubik',sans-serif;font-weight:700;font-size:0.6rem;color:var(--lime);letter-spacing:0.12em;margin-bottom:0.3rem}
+  .note-text{font-size:0.9rem;color:rgba(255,255,255,0.7);font-weight:400;line-height:1.8}
+  .note-author{font-size:0.78rem;color:var(--pink);margin-top:0.3rem}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;animation:popSnap .4s ease both;animation-delay:.9s}
+  .footer-motto{font-family:'Rubik',sans-serif;font-weight:600;font-size:0.82rem;color:var(--pink);opacity:0.35}
+  .footer-disc{font-size:0.55rem;color:var(--black);opacity:0.1;margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1rem}.activity{padding:0.6rem 0.7rem}.stats{gap:0.3rem}}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <header class="header">
+    <div class="h-brand">萌宠日托</div>
+    <div class="h-en">PAWDAY</div>
+    <div class="h-report">每日报告 · 2026.03.26</div>
+  </header>
+
+  <div class="pet">
+    <div class="pet-avatar"><div class="pet-avatar-inner"></div></div>
+    <div class="pet-info">
+      <div class="pet-name">布丁</div>
+      <div class="pet-meta">金毛 · 2 岁 · 今天是第 15 次来</div>
+    </div>
+  </div>
+
+  <div class="mood-section">
+    <div class="sec-label">TODAY'S MOOD</div>
+    <div class="moods">
+      <button class="mood-btn selected" onclick="selectMood(this)">活力满满</button>
+      <button class="mood-btn" onclick="selectMood(this)">有点犯困</button>
+      <button class="mood-btn" onclick="selectMood(this)">超级爱玩</button>
+      <button class="mood-btn" onclick="selectMood(this)">一直在吃</button>
+    </div>
+  </div>
+
+  <div class="timeline">
+    <div class="sec-label">ACTIVITY LOG</div>
+
+    <div class="activity c-blue" style="animation-delay:.35s">
+      <div class="act-time">09:00</div>
+      <div class="act-title">到店签到</div>
+      <div class="act-desc">精神很好，进门就摇尾巴</div>
+    </div>
+    <div class="activity c-lime" style="animation-delay:.42s">
+      <div class="act-time">11:00</div>
+      <div class="act-title">户外活动</div>
+      <div class="act-desc">和柯基妹妹追了半小时球</div>
+    </div>
+    <div class="activity c-orange" style="animation-delay:.49s">
+      <div class="act-time">13:00</div>
+      <div class="act-title">午休时间</div>
+      <div class="act-desc">趴在最喜欢的蓝色垫子上秒睡</div>
+    </div>
+    <div class="activity c-pink" style="animation-delay:.56s">
+      <div class="act-time">16:00</div>
+      <div class="act-title">零食时间</div>
+      <div class="act-desc">吃了鸡肉条和酸奶，舔了三次碗</div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-num">45</div><div class="stat-label">运动 (min)</div></div>
+    <div class="stat"><div class="stat-num">3</div><div class="stat-label">饮水 (次)</div></div>
+    <div class="stat"><div class="stat-num">2</div><div class="stat-label">便便 (正常)</div></div>
+  </div>
+
+  <div class="note">
+    <div class="note-label">STAFF NOTE</div>
+    <div class="note-text">布丁今天特别乖，和新来的泰迪也能友好相处了！午休的时候还把自己的玩具分给小柯基。</div>
+    <div class="note-author">—— 小李</div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-motto">萌宠日托 · PAWDAY · 你上班，我带娃</div>
+    <div class="footer-disc">虚构服务 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+function selectMood(btn){
+  document.querySelectorAll('.mood-btn').forEach(function(b){b.classList.remove('selected')});
+  btn.classList.add('selected');
+  btn.style.animation='moodPop .25s ease';
+  setTimeout(function(){btn.style.animation=''},250);
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
