@@ -1,0 +1,30 @@
+Generate a pet adoption application form page for fictional shelter "毛线团 FUZZBALL", styled as Candy Stripe / sweet confectionery aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: candy pink (#FF9EAA), candy mint (#98E4C8), candy lavender (#C5A3E8), candy yellow (#FFE066), candy white (#FFFBF5), text dark (#3A2A2A). Typography: Fredoka One (rounded bubbly display) English, Noto Sans SC 400/600 Chinese 17px+. Layout: CANDY STRIPE — white background with diagonal candy stripe pattern, bubbly rounded cards, sweet playful feel.
+
+Animation: Medium — Required:
+1. CSS CANDY STRIPES: Background with repeating-linear-gradient at 45deg creating diagonal stripes in alternating candy colors (pink/white/mint/white/lavender/white/yellow/white) at low opacity
+2. CSS BUBBLY CARDS: Form sections in rounded cards (border-radius:16px) with pastel colored top borders, soft shadow, bouncy hover
+3. JS FORM INTERACTION: Form inputs with playful focus states — border changes to candy color + subtle scale(1.01) + label floats up. Submit button has candy gradient + bounce on hover
+4. CSS PET CARD: Featured pet info card with scalloped edge (repeating-radial-gradient creating wavy cookie-cutter edge)
+5. STAGGERED: Form sections pop in with bubbly bounce timing
+
+Page structure:
+1. Header: "毛线团" + "FUZZBALL" + "领养申请" + candy stripe divider
+2. Pet being adopted (scalloped card):
+   - 汤圆 · 英短蓝猫 · 母 · 1岁 · 已绝育已免疫
+   - "性格温柔，喜欢趴在人腿上"
+3. Applicant form (bubbly cards, pastel borders):
+   - 您的姓名 (input)
+   - 联系电话 (input)
+   - 居住情况: 独居/合租/家庭 (radio buttons styled as candy pills)
+   - 养宠经验: 有/无 (toggle)
+   - 每天能陪伴几小时: 1-2h / 3-5h / 5h+ (select pills)
+   - 一句话告诉我们为什么想领养 (textarea)
+4. Submit: "提交申请" candy gradient button
+5. Note: 我们会在3个工作日内回复 · 领养代替购买
+6. Footer: "毛线团 · FUZZBALL · 给每一只毛孩子一个家"
+
+Candy stripes: repeating-linear-gradient(45deg, rgba(pink,0.06) 0 10px, transparent 10px 20px, rgba(mint,0.06) 20px 30px, transparent 30px 40px, rgba(lavender,0.06) 40px 50px, transparent 50px 60px). Scalloped: radial-gradient(circle 8px at 8px 0, transparent 7px, white 8px) repeated along edge.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-candystripe-adoptform.html. Do NOT open.

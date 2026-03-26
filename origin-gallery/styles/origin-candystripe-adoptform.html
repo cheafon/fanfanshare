@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>领养申请 — 毛线团 FUZZBALL</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--pink:#FF9EAA;--mint:#98E4C8;--lav:#C5A3E8;--yellow:#FFE066;--white:#FFFBF5;--dark:#3A2A2A}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--white);color:var(--dark);font-family:'Noto Sans SC','Fredoka One',sans-serif;font-weight:400;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    /* Candy diagonal stripes */
+    background-image:repeating-linear-gradient(45deg,
+      rgba(255,158,170,0.05) 0px,rgba(255,158,170,0.05) 10px,transparent 10px,transparent 20px,
+      rgba(152,228,200,0.05) 20px,rgba(152,228,200,0.05) 30px,transparent 30px,transparent 40px,
+      rgba(197,163,232,0.05) 40px,rgba(197,163,232,0.05) 50px,transparent 50px,transparent 60px,
+      rgba(255,224,102,0.05) 60px,rgba(255,224,102,0.05) 70px,transparent 70px,transparent 80px)}
+
+  .page{max-width:440px;width:100%;position:relative;z-index:1}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.2rem;animation:candyPop .5s cubic-bezier(0.3,1.5,0.6,1) both}
+  @keyframes candyPop{from{opacity:0;transform:scale(0.85)}to{opacity:1;transform:scale(1)}}
+  .h-brand{font-family:'Fredoka One',cursive;font-size:1.8rem;color:var(--pink);letter-spacing:0.04em}
+  .h-en{font-family:'Fredoka One',cursive;font-size:0.72rem;color:var(--lav);letter-spacing:0.2em}
+  .h-type{font-size:0.92rem;color:var(--dark);opacity:0.5;margin-top:0.3rem}
+
+  /* ═══ PET CARD (scalloped) ═══ */
+  .pet-card{background:var(--white);padding:1.2rem;margin-bottom:1.2rem;border-radius:16px;
+    border-top:4px solid var(--mint);box-shadow:0 4px 16px rgba(255,158,170,0.1);
+    position:relative;animation:candyPop .5s cubic-bezier(0.3,1.5,0.6,1) both;animation-delay:.1s}
+  /* Scalloped bottom edge */
+  .pet-card::after{content:'';position:absolute;bottom:-8px;left:0;right:0;height:8px;
+    background:repeating-radial-gradient(circle 4px at 4px 0px,var(--white) 3.5px,transparent 4px);
+    background-size:8px 8px}
+  .pet-name{font-family:'Fredoka One',cursive;font-size:1.2rem;color:var(--pink)}
+  .pet-meta{font-size:0.82rem;color:var(--dark);opacity:0.5;margin-top:0.1rem}
+  .pet-tags{display:flex;gap:0.3rem;margin-top:0.3rem;flex-wrap:wrap}
+  .pet-tag{font-size:0.7rem;padding:0.15em 0.5em;border-radius:10px;background:rgba(152,228,200,0.15);color:var(--dark)}
+  .pet-quote{font-size:0.88rem;color:var(--lav);font-style:italic;margin-top:0.4rem}
+
+  /* ═══ FORM CARDS ═══ */
+  .form-card{background:var(--white);border-radius:16px;padding:1rem 1.1rem;margin-bottom:0.7rem;
+    box-shadow:0 2px 10px rgba(0,0,0,0.04);transition:all .2s;
+    opacity:0;animation:candyPop .4s cubic-bezier(0.3,1.5,0.6,1) forwards}
+  .form-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,0.06)}
+
+  .f-label{font-weight:600;font-size:0.85rem;color:var(--dark);margin-bottom:0.3rem}
+  .f-input{width:100%;padding:0.55em 0.8em;border:2px solid rgba(58,42,42,0.08);border-radius:12px;
+    font-family:'Noto Sans SC',sans-serif;font-size:0.9rem;color:var(--dark);background:var(--white);
+    outline:none;transition:all .2s}
+  .f-input:focus{border-color:var(--pink);transform:scale(1.01);box-shadow:0 0 0 3px rgba(255,158,170,0.1)}
+  .f-textarea{resize:vertical;min-height:80px}
+
+  /* Candy pills */
+  .pills{display:flex;gap:0.4rem;flex-wrap:wrap}
+  .pill{font-size:0.82rem;padding:0.35em 0.9em;border-radius:20px;border:2px solid rgba(58,42,42,0.08);
+    background:var(--white);cursor:pointer;transition:all .2s;user-select:none}
+  .pill:hover{border-color:var(--pink)}
+  .pill.active{border-color:transparent}
+  .pill.p-pink.active{background:var(--pink);color:var(--white)}
+  .pill.p-mint.active{background:var(--mint);color:var(--dark)}
+  .pill.p-lav.active{background:var(--lav);color:var(--white)}
+  .pill.p-yellow.active{background:var(--yellow);color:var(--dark)}
+
+  /* Toggle */
+  .toggle-wrap{display:flex;gap:0.4rem}
+  .toggle-btn{flex:1;padding:0.45em;text-align:center;border-radius:12px;border:2px solid rgba(58,42,42,0.08);
+    cursor:pointer;transition:all .2s;font-size:0.88rem}
+  .toggle-btn.active{border-color:transparent;background:var(--mint);color:var(--dark);font-weight:600}
+
+  /* ═══ SUBMIT ═══ */
+  .submit-btn{width:100%;padding:0.7em;border:none;border-radius:14px;font-family:'Fredoka One',cursive;
+    font-size:1rem;color:var(--white);cursor:pointer;transition:all .2s;letter-spacing:0.04em;
+    background:linear-gradient(135deg,var(--pink),var(--lav),var(--mint));background-size:200% 200%;
+    animation:gradMove 4s ease infinite;box-shadow:0 4px 16px rgba(255,158,170,0.2)}
+  @keyframes gradMove{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+  .submit-btn:hover{transform:scale(1.03);box-shadow:0 6px 20px rgba(255,158,170,0.3)}
+  .submit-btn:active{transform:scale(0.98)}
+
+  .note{text-align:center;font-size:0.78rem;color:var(--dark);opacity:0.3;margin:0.8rem 0;
+    animation:candyPop .4s ease both;animation-delay:.8s}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;animation:candyPop .4s ease both;animation-delay:.9s}
+  .footer-motto{font-family:'Fredoka One',cursive;font-size:0.82rem;color:var(--lav);opacity:0.3}
+  .footer-disc{font-size:0.55rem;color:var(--dark);opacity:0.1;margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1rem}.form-card{padding:0.8rem}}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <header class="header">
+    <div class="h-brand">毛线团</div>
+    <div class="h-en">FUZZBALL</div>
+    <div class="h-type">领养申请</div>
+  </header>
+
+  <!-- ═══ PET CARD ═══ -->
+  <div class="pet-card">
+    <div class="pet-name">汤圆</div>
+    <div class="pet-meta">英短蓝猫 · 母 · 1 岁</div>
+    <div class="pet-tags">
+      <span class="pet-tag">已绝育</span>
+      <span class="pet-tag">已免疫</span>
+      <span class="pet-tag">已驱虫</span>
+    </div>
+    <div class="pet-quote">"性格温柔，喜欢趴在人腿上打呼噜"</div>
+  </div>
+
+  <!-- ═══ FORM ═══ -->
+  <div class="form-card" style="animation-delay:.2s;border-top:3px solid var(--pink)">
+    <div class="f-label">您的姓名</div>
+    <input class="f-input" type="text" placeholder="请输入姓名">
+  </div>
+
+  <div class="form-card" style="animation-delay:.26s;border-top:3px solid var(--mint)">
+    <div class="f-label">联系电话</div>
+    <input class="f-input" type="tel" placeholder="请输入手机号">
+  </div>
+
+  <div class="form-card" style="animation-delay:.32s;border-top:3px solid var(--lav)">
+    <div class="f-label">居住情况</div>
+    <div class="pills" id="livingPills">
+      <span class="pill p-pink active" onclick="selectPill(this,'livingPills')">独居</span>
+      <span class="pill p-mint" onclick="selectPill(this,'livingPills')">合租</span>
+      <span class="pill p-lav" onclick="selectPill(this,'livingPills')">家庭</span>
+    </div>
+  </div>
+
+  <div class="form-card" style="animation-delay:.38s;border-top:3px solid var(--yellow)">
+    <div class="f-label">养宠经验</div>
+    <div class="toggle-wrap" id="expToggle">
+      <div class="toggle-btn active" onclick="selectToggle(this,'expToggle')">有经验</div>
+      <div class="toggle-btn" onclick="selectToggle(this,'expToggle')">无经验</div>
+    </div>
+  </div>
+
+  <div class="form-card" style="animation-delay:.44s;border-top:3px solid var(--pink)">
+    <div class="f-label">每天能陪伴几小时</div>
+    <div class="pills" id="timePills">
+      <span class="pill p-yellow" onclick="selectPill(this,'timePills')">1–2h</span>
+      <span class="pill p-mint active" onclick="selectPill(this,'timePills')">3–5h</span>
+      <span class="pill p-lav" onclick="selectPill(this,'timePills')">5h+</span>
+    </div>
+  </div>
+
+  <div class="form-card" style="animation-delay:.5s;border-top:3px solid var(--mint)">
+    <div class="f-label">一句话告诉我们为什么想领养</div>
+    <textarea class="f-input f-textarea" placeholder="我想给汤圆一个温暖的家..."></textarea>
+  </div>
+
+  <div style="animation:candyPop .4s cubic-bezier(0.3,1.5,0.6,1) both;animation-delay:.6s">
+    <button class="submit-btn">提交申请</button>
+  </div>
+
+  <div class="note">我们会在 3 个工作日内回复 · 领养代替购买</div>
+
+  <footer class="footer">
+    <div class="footer-motto">毛线团 · FUZZBALL · 给每一只毛孩子一个家</div>
+    <div class="footer-disc">虚构机构 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+function selectPill(el,groupId){
+  document.querySelectorAll('#'+groupId+' .pill').forEach(function(p){p.classList.remove('active')});
+  el.classList.add('active');
+}
+function selectToggle(el,groupId){
+  document.querySelectorAll('#'+groupId+' .toggle-btn').forEach(function(t){t.classList.remove('active')});
+  el.classList.add('active');
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
