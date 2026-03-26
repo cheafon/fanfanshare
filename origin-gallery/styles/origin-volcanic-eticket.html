@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>电子门票 — 熔点 MELTPOINT 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--obsidian:#0C0A08;--magma:#FF6B00;--lava:#D4380D;--ember:#FFB833;--rock:#1A1612;--ash:#4A4440}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--obsidian);color:#E8E0D8;font-family:'Noto Sans SC','Bebas Neue',sans-serif;font-weight:500;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative;
+    /* Magma cracks */
+    background-image:
+      repeating-linear-gradient(15deg,transparent 0px,transparent 42px,rgba(255,107,0,0.02) 42px,rgba(255,107,0,0.12) 43px,rgba(255,107,0,0.02) 44px,transparent 44px,transparent 90px),
+      repeating-linear-gradient(75deg,transparent 0px,transparent 55px,rgba(212,56,13,0.015) 55px,rgba(212,56,13,0.08) 56px,rgba(212,56,13,0.015) 57px,transparent 57px,transparent 110px),
+      repeating-linear-gradient(130deg,transparent 0px,transparent 35px,rgba(255,184,51,0.01) 35px,rgba(255,184,51,0.06) 36px,rgba(255,184,51,0.01) 37px,transparent 37px,transparent 75px)}
+
+  .embers{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .ember{position:absolute;border-radius:50%;animation:rise linear infinite}
+  @keyframes rise{
+    0%{transform:translateY(0) translateX(0);opacity:0}
+    10%{opacity:var(--o)}
+    50%{opacity:var(--o2)}
+    90%{opacity:var(--o)}
+    100%{transform:translateY(-100vh) translateX(var(--dx));opacity:0}}
+
+  .page{max-width:420px;width:100%;position:relative;z-index:1}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.5rem;animation:fadeIn .6s ease both}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .h-brand{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;color:var(--magma);letter-spacing:0.08em;
+    text-shadow:0 0 20px rgba(255,107,0,0.3),0 0 40px rgba(212,56,13,0.15)}
+  .h-en{font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:var(--ash);letter-spacing:0.3em}
+  .h-sub{font-size:0.88rem;color:rgba(232,224,216,0.3);margin-top:0.2rem}
+
+  /* ═══ TICKET SLAB ═══ */
+  .ticket{background:var(--rock);border-radius:8px;padding:1.5rem;margin-bottom:1rem;position:relative;
+    /* Molten edge glow */
+    box-shadow:0 0 1px rgba(255,107,0,0.4),0 0 8px rgba(255,107,0,0.1),0 0 20px rgba(212,56,13,0.06),
+      inset 0 1px 0 rgba(255,184,51,0.05);
+    animation:fadeIn .6s ease both,moltenPulse 3s ease-in-out infinite;animation-delay:.2s;
+    /* Heat shimmer */
+    }
+  @keyframes moltenPulse{0%,100%{box-shadow:0 0 1px rgba(255,107,0,0.4),0 0 8px rgba(255,107,0,0.1),0 0 20px rgba(212,56,13,0.06)}
+    50%{box-shadow:0 0 2px rgba(255,107,0,0.6),0 0 14px rgba(255,107,0,0.15),0 0 30px rgba(212,56,13,0.1)}}
+
+  /* Dashed tear line */
+  .tear{border-top:1px dashed var(--ash);margin:1rem -1.5rem;position:relative;opacity:0.3}
+  .tear::before,.tear::after{content:'';position:absolute;top:-8px;width:16px;height:16px;border-radius:50%;background:var(--obsidian)}
+  .tear::before{left:-8px}
+  .tear::after{right:-8px}
+
+  .t-label{font-family:'Bebas Neue',sans-serif;font-size:0.6rem;color:var(--ash);letter-spacing:0.15em;margin-bottom:0.3rem}
+  .t-event{font-weight:700;font-size:1.15rem;color:var(--magma);
+    text-shadow:0 0 8px rgba(255,107,0,0.15)}
+  .t-row{display:flex;justify-content:space-between;padding:0.25rem 0;border-bottom:1px solid rgba(74,68,64,0.2)}
+  .t-row:last-child{border:none}
+  .t-key{font-size:0.82rem;color:var(--ash)}
+  .t-val{font-size:0.82rem;color:#E8E0D8;text-align:right}
+
+  .lineup{margin-top:0.6rem}
+  .lineup-label{font-family:'Bebas Neue',sans-serif;font-size:0.6rem;color:var(--ember);letter-spacing:0.12em;opacity:0.6;margin-bottom:0.3rem}
+  .lineup-names{display:flex;flex-wrap:wrap;gap:0.4rem}
+  .band{font-size:0.82rem;color:var(--ember);padding:0.2em 0.6em;border:1px solid rgba(255,184,51,0.15);
+    border-radius:3px;transition:all .2s}
+  .band:hover{border-color:var(--magma);color:var(--magma);text-shadow:0 0 6px rgba(255,107,0,0.2)}
+
+  .t-ticket-info{display:flex;justify-content:space-between;align-items:baseline;margin-top:0.6rem;padding-top:0.5rem;
+    border-top:1px solid rgba(74,68,64,0.15)}
+  .t-type{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--magma);letter-spacing:0.06em}
+  .t-price{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:#E8E0D8}
+  .t-id{font-family:'Bebas Neue',sans-serif;font-size:0.68rem;color:var(--ash);letter-spacing:0.06em;margin-top:0.3rem;text-align:center}
+
+  /* ═══ QR AREA ═══ */
+  .qr-section{text-align:center;margin-top:0.8rem}
+  .qr-label{font-size:0.65rem;color:var(--ash);letter-spacing:0.08em;margin-bottom:0.4rem}
+  .qr{width:100px;height:100px;margin:0 auto;border-radius:4px;
+    background:
+      repeating-linear-gradient(0deg,var(--rock) 0px,var(--rock) 4px,rgba(232,224,216,0.12) 4px,rgba(232,224,216,0.12) 8px),
+      repeating-linear-gradient(90deg,var(--rock) 0px,var(--rock) 4px,rgba(232,224,216,0.1) 4px,rgba(232,224,216,0.1) 8px);
+    background-blend-mode:multiply;border:1px solid rgba(74,68,64,0.3);
+    /* Simulate QR complexity */
+    background-size:8px 8px;position:relative}
+  .qr::after{content:'';position:absolute;inset:4px;
+    background:repeating-linear-gradient(45deg,transparent 0,transparent 3px,rgba(232,224,216,0.06) 3px,rgba(232,224,216,0.06) 6px);
+    background-size:6px 6px}
+
+  /* ═══ NOTES ═══ */
+  .notes{margin-top:1rem;animation:fadeIn .5s ease both;animation-delay:.6s}
+  .note{font-size:0.78rem;color:var(--ash);padding:0.15rem 0;display:flex;gap:0.3rem;align-items:baseline}
+  .note-dot{width:3px;height:3px;border-radius:50%;background:var(--magma);flex-shrink:0;margin-top:0.4rem;opacity:0.5}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;margin-top:1rem;animation:fadeIn .5s ease both;animation-delay:.8s}
+  .footer-motto{font-family:'Bebas Neue',sans-serif;font-size:0.85rem;color:var(--magma);opacity:0.2;letter-spacing:0.06em}
+  .footer-disc{font-size:0.55rem;color:var(--ash);opacity:0.12;margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1rem}.ticket{padding:1.2rem}.h-brand{font-size:2rem}}
+</style>
+</head>
+<body>
+
+<div class="embers" id="embers"></div>
+
+<div class="page">
+
+  <header class="header">
+    <div class="h-brand">熔点</div>
+    <div class="h-en">MELTPOINT</div>
+    <div class="h-sub">2026 夏季音乐节</div>
+  </header>
+
+  <div class="ticket">
+    <div class="t-label">E-TICKET</div>
+    <div class="t-event">熔点音乐节 2026</div>
+
+    <div style="margin-top:0.6rem">
+      <div class="t-row"><span class="t-key">日期</span><span class="t-val">2026 年 7 月 18–19 日</span></div>
+      <div class="t-row"><span class="t-key">场地</span><span class="t-val">重庆南山 · 熔岩谷露天剧场</span></div>
+      <div class="t-row"><span class="t-key">开场</span><span class="t-val">14:00</span></div>
+    </div>
+
+    <div class="lineup">
+      <div class="lineup-label">LINEUP</div>
+      <div class="lineup-names">
+        <span class="band">落日飞车</span>
+        <span class="band">万能青年旅店</span>
+        <span class="band">新裤子</span>
+        <span class="band">海龟先生</span>
+      </div>
+    </div>
+
+    <div class="t-ticket-info">
+      <span class="t-type">VIP 两日通票</span>
+      <span class="t-price">¥880</span>
+    </div>
+
+    <div class="tear"></div>
+
+    <div class="qr-section">
+      <div class="qr-label">扫码入场</div>
+      <div class="qr"></div>
+    </div>
+    <div class="t-id">MP-2026-VIP-004729</div>
+  </div>
+
+  <div class="notes">
+    <div class="note"><div class="note-dot"></div>请出示此电子票，凭二维码入场</div>
+    <div class="note"><div class="note-dot"></div>禁止携带玻璃容器及危险物品</div>
+    <div class="note"><div class="note-dot"></div>雨天照常举办，请自备雨具</div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-motto">MELTPOINT · 在音乐中燃烧</div>
+    <div class="footer-disc">虚构音乐节 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+// Ember particles
+(function(){
+  var container=document.getElementById('embers');
+  var colors=['#FF6B00','#FFB833','#D4380D','#FF8C33'];
+  for(var i=0;i<22;i++){
+    var e=document.createElement('div');
+    e.className='ember';
+    var sz=2+Math.random()*4;
+    var dur=6+Math.random()*10;
+    var delay=Math.random()*dur;
+    var o1=(0.2+Math.random()*0.4).toFixed(2);
+    var o2=(0.1+Math.random()*0.2).toFixed(2);
+    var dx=(-15+Math.random()*30)+'px';
+    var color=colors[Math.floor(Math.random()*colors.length)];
+    e.style.cssText='width:'+sz+'px;height:'+sz+'px;background:'+color+
+      ';left:'+Math.random()*100+'%;bottom:-5px;'+
+      '--o:'+o1+';--o2:'+o2+';--dx:'+dx+
+      ';animation-duration:'+dur+'s;animation-delay:-'+delay+'s;'+
+      'box-shadow:0 0 '+(sz*2)+'px '+color;
+    container.appendChild(e);
+  }
+})();
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

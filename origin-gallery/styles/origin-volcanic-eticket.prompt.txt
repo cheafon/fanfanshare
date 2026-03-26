@@ -1,0 +1,29 @@
+Generate a digital e-ticket display page for fictional music festival "熔点 MELTPOINT", styled as Volcanic / magma crack lava aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: obsidian (#0C0A08), magma orange (#FF6B00), lava red (#D4380D), ember yellow (#FFB833), dark rock (#1A1612), ash gray (#4A4440), dim rgba(255,107,0,0.2). Typography: Bebas Neue (tall condensed impact) English, Noto Sans SC 500/700 Chinese 17px+. Layout: VOLCANIC — obsidian dark background with glowing magma crack patterns, ticket styled as a dark stone slab with molten edges.
+
+Animation: Medium-High — Required:
+1. CSS MAGMA CRACKS: Background with multiple thin glowing lines using repeating-linear-gradient at various angles (15deg, 75deg, 130deg) — lines are bright orange/red with glow (box-shadow-like effect via color stops: transparent→orange→bright→orange→transparent), creating molten crack pattern on obsidian surface
+2. CSS MOLTEN EDGE: Ticket card has a glowing border that pulses between orange and red (border-image or box-shadow animation), simulating molten lava edge
+3. JS EMBER PARTICLES: 20+ small orange/yellow circular particles floating upward from bottom, flickering opacity, simulating rising embers/sparks from volcanic heat
+4. CSS QR PLACEHOLDER: Decorative QR code area using repeating-linear-gradient creating a grid pattern in dark/light squares, simulating QR code appearance
+5. CSS HEAT SHIMMER: Subtle CSS animation on ticket content — very slight translateY oscillation (1-2px) simulating heat distortion/shimmer above hot surface
+
+Page structure:
+1. Header: "熔点" + "MELTPOINT" + "2026 夏季音乐节" in molten glow text
+2. Ticket stub (main card, stone slab with molten edges):
+   - Event: 熔点音乐节 2026
+   - Date: 2026年7月18日-19日 (两日通票)
+   - Venue: 重庆南山·熔岩谷露天剧场
+   - Gates: 14:00 开场
+   - Lineup highlights: 落日飞车 · 万能青年旅店 · 新裤子 · 海龟先生
+   - Ticket type: VIP 两日通票
+   - Price: ¥880
+   - Ticket #: MP-2026-VIP-004729
+3. QR code area (CSS decorative grid)
+4. Notes: 请出示此电子票 + 二维码入场 · 禁止携带玻璃容器 · 雨天照常
+5. Footer: "熔点 · MELTPOINT · 在音乐中燃烧"
+
+Magma cracks: repeating-linear-gradient(15deg, transparent 0, transparent 40px, rgba(255,107,0,0.03) 40px, rgba(255,107,0,0.15) 41px, rgba(255,107,0,0.03) 42px, transparent 42px, transparent 80px) layered at 3 angles. Embers: JS creates 20 divs, small circles (2-5px), orange/yellow, rising with translateY + opacity flicker.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-volcanic-eticket.html. Do NOT open.
