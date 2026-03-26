@@ -1,0 +1,26 @@
+Generate a tabletop game quick rules card for fictional game "夺旗 FLAGWAR", styled as Matchbox Label / vintage match box printing aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: match red (#C62828), sulfur yellow (#FBC02D), box brown (#5D4037), label cream (#FFF8E1), strike dark (#212121), wood (#8D6E63). Typography: Pirata One (decorative vintage) or Ultra (bold display) English, Noto Sans SC 500/600 Chinese 17px+. Layout: MATCHBOX — cream label background with ornate red/brown border frame, small centered composition like a matchbox label, vintage commercial print feel.
+
+Animation: Low-Medium (vintage, static feel with subtle touches) — Required:
+1. CSS MATCHBOX BORDER: Ornate multi-layer border — outer thick red, inner thin brown, with repeating pattern along edges (small diamond or dot motif via repeating-linear-gradient)
+2. CSS AGED PAPER: Label background with warm cream + SVG noise for aged paper grain + subtle yellowed edges via radial-gradient
+3. CSS STRIKE STRIP: Bottom of page has a brown/dark stripe simulating the matchbox striking surface (repeating-linear-gradient creating rough texture)
+4. JS RULE ACCORDION: Click rule headings to expand/collapse details with smooth height transition
+5. CSS VINTAGE TYPE: Bold red headers with slight text-shadow creating old letterpress impression
+
+Page structure:
+1. Header (matchbox label center): "夺旗" large red + "FLAGWAR" + ornate border frame + "2-4人 · 30分钟 · 8岁+"
+2. Game overview: "一场关于策略与勇气的夺旗对决"
+3. Quick rules (4 rules, accordion expandable):
+   1. 准备: 每人选一色旗帜，放置在自己阵地
+   2. 行动: 每回合移动一个棋子1-3格，可横竖不可斜
+   3. 夺旗: 进入对方阵地，消耗2行动点夺取旗帜
+   4. 胜利: 首先将对方旗帜带回自己阵地者获胜
+4. Special cards: 烟雾弹(跳过一回合) · 加速(移动+2) · 护盾(防御一次)
+5. Strike strip at bottom
+6. Footer: "夺旗 · FLAGWAR · 胜利属于勇敢者"
+
+Matchbox border: border:4px solid var(--red); box-shadow: inset 0 0 0 2px cream, inset 0 0 0 4px var(--brown) creating nested frame. Strike strip: background:var(--dark) with repeating-linear-gradient(90deg, dark 0 2px, slightly-lighter 2px 4px) creating rough surface.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-matchbox-gamerules.html. Do NOT open.

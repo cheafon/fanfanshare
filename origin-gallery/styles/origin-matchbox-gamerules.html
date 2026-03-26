@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>快速规则 — 夺旗 FLAGWAR</title>
+<link href="https://fonts.googleapis.com/css2?family=Ultra&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--red:#C62828;--yellow:#FBC02D;--brown:#5D4037;--cream:#FFF8E1;--dark:#212121;--wood:#8D6E63}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--wood);color:var(--dark);font-family:'Noto Sans SC','Ultra',sans-serif;font-weight:500;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+  /* Matchbox label */
+  .label{max-width:400px;width:100%;background:var(--cream);position:relative;padding:0;
+    /* Ornate multi-layer border */
+    border:5px solid var(--red);
+    box-shadow:inset 0 0 0 2px var(--cream),inset 0 0 0 4px var(--brown),inset 0 0 0 6px var(--cream),
+      inset 0 0 0 7px rgba(93,64,55,0.15),
+      0 3px 10px rgba(0,0,0,0.2);
+    /* Aged yellowed edges */
+    background-image:radial-gradient(ellipse at 50% 50%,var(--cream) 60%,rgba(251,192,45,0.06) 100%)}
+
+  .grain{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:0.02}
+
+  .inner{padding:1.5rem 1.2rem;position:relative;z-index:1;
+    /* Diamond dot pattern border inside */
+    border:none;
+    background-image:repeating-linear-gradient(0deg,transparent 0,transparent 14px,rgba(93,64,55,0.04) 14px,rgba(93,64,55,0.04) 15px),
+      repeating-linear-gradient(90deg,transparent 0,transparent 14px,rgba(93,64,55,0.04) 14px,rgba(93,64,55,0.04) 15px);
+    background-size:15px 15px}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:0.8rem}
+  .h-title{font-family:'Ultra',serif;font-size:2.2rem;color:var(--red);letter-spacing:0.06em;line-height:1.1;
+    text-shadow:1px 1px 0 rgba(198,40,40,0.15),-1px -1px 0 rgba(255,248,225,0.5)}
+  .h-en{font-family:'Ultra',serif;font-size:0.7rem;color:var(--brown);letter-spacing:0.25em;margin-top:0.1rem}
+  .h-meta{display:flex;justify-content:center;gap:0.4rem;margin-top:0.4rem}
+  .h-badge{font-size:0.72rem;font-weight:600;color:var(--cream);background:var(--red);
+    padding:0.15em 0.5em;border-radius:2px}
+
+  /* Ornament line */
+  .orn{display:flex;align-items:center;justify-content:center;gap:4px;margin:0.5rem 0}
+  .orn-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--brown),transparent);max-width:50px;opacity:0.3}
+  .orn-dia{width:6px;height:6px;background:var(--red);transform:rotate(45deg);opacity:0.5}
+
+  .overview{text-align:center;font-size:0.92rem;color:var(--brown);margin-bottom:0.5rem;font-style:italic;opacity:0.6}
+
+  /* ═══ RULES ═══ */
+  .rules{margin-bottom:0.5rem}
+  .rule{border-bottom:1px solid rgba(93,64,55,0.08);margin-bottom:0.2rem}
+  .rule:last-child{border:none}
+  .rule-header{display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0;cursor:pointer;transition:all .15s;user-select:none}
+  .rule-header:hover{opacity:0.8}
+  .rule-num{font-family:'Ultra',serif;font-size:0.82rem;color:var(--red);min-width:1.6em;
+    text-shadow:0.5px 0.5px 0 rgba(198,40,40,0.1)}
+  .rule-title{font-weight:600;font-size:0.95rem;color:var(--dark)}
+  .rule-arrow{margin-left:auto;font-size:0.7rem;color:var(--brown);opacity:0.3;transition:transform .2s}
+  .rule.open .rule-arrow{transform:rotate(90deg)}
+
+  .rule-content{max-height:0;overflow:hidden;transition:max-height .3s ease;padding:0 0 0 2.1rem}
+  .rule.open .rule-content{max-height:100px}
+  .rule-text{font-size:0.85rem;color:var(--brown);opacity:0.6;padding-bottom:0.4rem;line-height:1.8}
+
+  /* ═══ SPECIAL CARDS ═══ */
+  .specials{display:flex;gap:0.3rem;margin-bottom:0.5rem;flex-wrap:wrap;justify-content:center}
+  .spec{font-size:0.78rem;font-weight:600;padding:0.25em 0.6em;border:1.5px solid;border-radius:3px;transition:all .15s}
+  .spec.s-red{border-color:var(--red);color:var(--red)}
+  .spec.s-yellow{border-color:var(--yellow);color:var(--brown);background:rgba(251,192,45,0.08)}
+  .spec.s-brown{border-color:var(--brown);color:var(--brown)}
+  .spec:hover{transform:scale(1.05)}
+
+  /* ═══ STRIKE STRIP ═══ */
+  .strike{height:14px;background:var(--dark);margin:0 -1.2rem -1.5rem;position:relative;
+    background-image:repeating-linear-gradient(90deg,var(--dark) 0px,var(--dark) 2px,#2A2A2A 2px,#2A2A2A 4px,var(--dark) 4px,var(--dark) 5px,#333 5px,#333 7px);
+    border-top:1px solid rgba(141,110,99,0.3)}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;margin-bottom:0.6rem}
+  .footer-text{font-family:'Ultra',serif;font-size:0.72rem;color:var(--brown);opacity:0.25;letter-spacing:0.04em}
+
+  @media(max-width:380px){.inner{padding:1.2rem 1rem}.h-title{font-size:1.8rem}}
+</style>
+</head>
+<body>
+
+<div class="label">
+  <svg class="grain" width="100%" height="100%">
+    <filter id="gf"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"/></filter>
+    <rect width="100%" height="100%" filter="url(#gf)"/>
+  </svg>
+
+  <div class="inner">
+
+    <header class="header">
+      <div class="h-title">夺旗</div>
+      <div class="h-en">FLAGWAR</div>
+      <div class="h-meta">
+        <span class="h-badge">2–4 人</span>
+        <span class="h-badge">30 分钟</span>
+        <span class="h-badge">8 岁+</span>
+      </div>
+    </header>
+
+    <div class="orn"><div class="orn-line"></div><div class="orn-dia"></div><div class="orn-line"></div></div>
+
+    <div class="overview">一场关于策略与勇气的夺旗对决</div>
+
+    <div class="orn"><div class="orn-line"></div><div class="orn-dia"></div><div class="orn-line"></div></div>
+
+    <!-- ═══ RULES ═══ -->
+    <div class="rules">
+      <div class="rule open" onclick="toggleRule(this)">
+        <div class="rule-header">
+          <span class="rule-num">1</span>
+          <span class="rule-title">准备</span>
+          <span class="rule-arrow">▸</span>
+        </div>
+        <div class="rule-content"><div class="rule-text">每位玩家选择一种颜色的旗帜和4枚棋子，将旗帜放置在自己的阵地中央，棋子放在阵地四角。</div></div>
+      </div>
+      <div class="rule" onclick="toggleRule(this)">
+        <div class="rule-header">
+          <span class="rule-num">2</span>
+          <span class="rule-title">行动</span>
+          <span class="rule-arrow">▸</span>
+        </div>
+        <div class="rule-content"><div class="rule-text">每回合可移动一个棋子 1–3 格，仅可横竖移动，不可斜走。每回合有 3 个行动点。</div></div>
+      </div>
+      <div class="rule" onclick="toggleRule(this)">
+        <div class="rule-header">
+          <span class="rule-num">3</span>
+          <span class="rule-title">夺旗</span>
+          <span class="rule-arrow">▸</span>
+        </div>
+        <div class="rule-content"><div class="rule-text">棋子进入对方阵地后，消耗 2 个行动点可夺取旗帜。夺旗后该棋子速度减半。</div></div>
+      </div>
+      <div class="rule" onclick="toggleRule(this)">
+        <div class="rule-header">
+          <span class="rule-num">4</span>
+          <span class="rule-title">胜利</span>
+          <span class="rule-arrow">▸</span>
+        </div>
+        <div class="rule-content"><div class="rule-text">首先将对方旗帜带回自己阵地的玩家获胜。如果携旗棋子被拦截，旗帜掉落原地。</div></div>
+      </div>
+    </div>
+
+    <div class="orn"><div class="orn-line"></div><div class="orn-dia"></div><div class="orn-line"></div></div>
+
+    <div class="specials">
+      <span class="spec s-red">烟雾弹 · 跳过一回合</span>
+      <span class="spec s-yellow">加速 · 移动 +2</span>
+      <span class="spec s-brown">护盾 · 防御一次</span>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-text">夺旗 · FLAGWAR · 胜利属于勇敢者</div>
+    </footer>
+
+    <div class="strike"></div>
+
+  </div>
+</div>
+
+<script>
+function toggleRule(el){
+  el.classList.toggle('open');
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
