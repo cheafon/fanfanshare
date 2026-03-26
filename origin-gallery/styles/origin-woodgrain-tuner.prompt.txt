@@ -1,0 +1,29 @@
+Generate a musical instrument tuner page for fictional app "调弦 TUNEWOOD", styled as Woodgrain / natural timber texture aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: dark wood (#3E2723), medium wood (#6D4C41), light wood (#A1887F), grain highlight (#D7CCC8), warm cream (#FFF8E1), accent amber (#FF8F00), string silver (#B0BEC5). Typography: Aleo (friendly slab serif) English, Noto Sans SC 400/600 Chinese 17px+. Layout: WOODGRAIN — warm wood background with visible grain texture, tuner interface with wood-framed elements.
+
+Animation: Medium — Required:
+1. CSS WOODGRAIN: Background with repeating-linear-gradient creating horizontal wood grain lines (alternating slightly different wood tones with occasional knot spots via radial-gradient) + SVG noise for wood fiber texture
+2. CSS TUNING PEGS: 6 circular tuning peg buttons styled as wood knobs (radial-gradient creating rounded wood surface with highlight), each representing a guitar string
+3. JS STRING VIBRATION: Click a tuning peg → corresponding string label pulses with a vibration animation (rapid horizontal translateX oscillation decaying over 1s, simulating plucked string)
+4. CSS WOOD FRAME: Main tuner area framed with wood-textured border (linear-gradient simulating wood molding with beveled edges via box-shadow)
+5. CSS STRING LINES: 6 vertical thin lines representing guitar strings (varying thickness, silver gradient)
+
+Page structure:
+1. Header: "调弦" + "TUNEWOOD" + "吉他调音器"
+2. Tuning mode: 标准调弦 (Standard E)
+3. Tuner display (wood-framed):
+   6 strings displayed vertically with tuning pegs:
+   - E2 (6弦) · 82.41 Hz
+   - A2 (5弦) · 110.00 Hz
+   - D3 (4弦) · 146.83 Hz
+   - G3 (3弦) · 196.00 Hz
+   - B3 (2弦) · 246.94 Hz
+   - E4 (1弦) · 329.63 Hz
+4. Current note display: Large note name + frequency + "偏高/偏低/准确" indicator
+5. Tips: "轻拨琴弦，观察指示" · "绿色表示音准"
+6. Footer: "调弦 · TUNEWOOD · 好声音从调音开始"
+
+Woodgrain: repeating-linear-gradient(180deg, wood-dark 0px 2px, wood-medium 2px 5px, wood-light 5px 6px, wood-medium 6px 10px) for horizontal grain + radial-gradient knot spots. Wood knobs: radial-gradient(circle at 40% 35%, grain-highlight, medium-wood, dark-wood) for rounded 3D wood surface.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-woodgrain-tuner.html. Do NOT open.

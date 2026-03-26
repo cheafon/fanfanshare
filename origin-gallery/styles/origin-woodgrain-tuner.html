@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>吉他调音器 — 调弦 TUNEWOOD</title>
+<link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,400;0,500;0,700;1,400&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--dwood:#3E2723;--mwood:#6D4C41;--lwood:#A1887F;--grain:#D7CCC8;--cream:#FFF8E1;--amber:#FF8F00;--silver:#B0BEC5;--green:#66BB6A}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--mwood);color:var(--cream);font-family:'Noto Sans SC','Aleo',serif;font-weight:400;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    /* Woodgrain texture */
+    background-image:
+      repeating-linear-gradient(180deg,
+        rgba(62,39,35,0.15) 0px,rgba(62,39,35,0.15) 2px,
+        transparent 2px,transparent 4px,
+        rgba(62,39,35,0.08) 4px,rgba(62,39,35,0.08) 5px,
+        transparent 5px,transparent 9px,
+        rgba(62,39,35,0.12) 9px,rgba(62,39,35,0.12) 10px,
+        transparent 10px,transparent 15px),
+      radial-gradient(ellipse 30px 20px at 30% 25%,rgba(62,39,35,0.12) 0%,transparent 70%),
+      radial-gradient(ellipse 25px 15px at 70% 60%,rgba(62,39,35,0.1) 0%,transparent 70%)}
+
+  .grain-overlay{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.025}
+
+  .page{max-width:420px;width:100%;position:relative;z-index:1}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.2rem;animation:fadeIn .6s ease both}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+  .h-brand{font-family:'Aleo',serif;font-weight:700;font-size:1.5rem;color:var(--cream);letter-spacing:0.08em}
+  .h-en{font-family:'Aleo',serif;font-weight:400;font-style:italic;font-size:0.68rem;color:var(--lwood);letter-spacing:0.2em}
+  .h-type{font-size:0.88rem;color:var(--grain);opacity:0.5;margin-top:0.3rem}
+  .h-mode{font-family:'Aleo',serif;font-size:0.72rem;color:var(--amber);margin-top:0.2rem;letter-spacing:0.06em}
+
+  /* ═══ TUNER FRAME ═══ */
+  .tuner-frame{padding:1.5rem 1rem;margin-bottom:1rem;position:relative;
+    /* Wood frame molding */
+    background:rgba(62,39,35,0.3);
+    border:3px solid var(--dwood);
+    box-shadow:inset 2px 2px 0 rgba(215,204,200,0.08),inset -2px -2px 0 rgba(0,0,0,0.15),
+      0 0 0 1px rgba(215,204,200,0.05),0 4px 12px rgba(0,0,0,0.2);
+    border-radius:4px;
+    animation:fadeIn .6s ease both;animation-delay:.15s}
+
+  /* ═══ STRINGS AREA ═══ */
+  .strings{display:flex;justify-content:space-between;align-items:stretch;height:180px;padding:0 1rem;position:relative;margin-bottom:1rem}
+
+  .string-col{display:flex;flex-direction:column;align-items:center;gap:0.3rem;position:relative;flex:1}
+
+  /* Tuning peg (wood knob) */
+  .peg{width:32px;height:32px;border-radius:50%;cursor:pointer;transition:all .15s;
+    background:radial-gradient(circle at 38% 32%,var(--grain),var(--lwood) 40%,var(--mwood) 70%,var(--dwood));
+    box-shadow:0 2px 4px rgba(0,0,0,0.3),inset 0 1px 2px rgba(215,204,200,0.2);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Aleo',serif;font-weight:700;font-size:0.6rem;color:var(--cream);letter-spacing:0.02em}
+  .peg:hover{transform:scale(1.08);box-shadow:0 3px 8px rgba(0,0,0,0.35),inset 0 1px 2px rgba(215,204,200,0.2)}
+  .peg:active{transform:scale(0.95)}
+
+  /* String line */
+  .string-line{flex:1;display:flex;align-items:center;justify-content:center;position:relative}
+  .string-wire{height:100%;border-radius:1px;
+    background:linear-gradient(180deg,rgba(176,190,197,0.6),rgba(176,190,197,0.3),rgba(176,190,197,0.6))}
+  .s6 .string-wire{width:3px}.s5 .string-wire{width:2.5px}.s4 .string-wire{width:2px}
+  .s3 .string-wire{width:1.5px}.s2 .string-wire{width:1.2px}.s1 .string-wire{width:1px}
+
+  /* String info below */
+  .string-info{text-align:center}
+  .s-note{font-family:'Aleo',serif;font-weight:700;font-size:0.75rem;color:var(--cream)}
+  .s-label{font-size:0.58rem;color:var(--lwood)}
+
+  /* Vibrating animation */
+  @keyframes vibrate{
+    0%{transform:translateX(0)}10%{transform:translateX(3px)}20%{transform:translateX(-3px)}
+    30%{transform:translateX(2px)}40%{transform:translateX(-2px)}50%{transform:translateX(1.5px)}
+    60%{transform:translateX(-1px)}70%{transform:translateX(0.5px)}80%{transform:translateX(-0.3px)}
+    90%{transform:translateX(0.1px)}100%{transform:translateX(0)}}
+  .vibrating{animation:vibrate .8s ease-out}
+
+  /* ═══ ACTIVE NOTE ═══ */
+  .active-note{text-align:center;margin-bottom:0.8rem;min-height:3.5rem}
+  .an-note{font-family:'Aleo',serif;font-weight:700;font-size:2rem;color:var(--amber);line-height:1;
+    text-shadow:0 0 12px rgba(255,143,0,0.2)}
+  .an-freq{font-family:'Aleo',serif;font-size:0.82rem;color:var(--grain);opacity:0.5;margin-top:0.1rem}
+  .an-status{font-size:0.82rem;margin-top:0.2rem;font-weight:600}
+  .an-status.accurate{color:var(--green)}
+  .an-status.high{color:var(--amber)}
+  .an-status.low{color:var(--silver)}
+
+  /* ═══ TIPS ═══ */
+  .tips{text-align:center;font-size:0.78rem;color:var(--lwood);opacity:0.4;margin-bottom:1rem;
+    animation:fadeIn .5s ease both;animation-delay:.5s}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;animation:fadeIn .5s ease both;animation-delay:.6s}
+  .footer-motto{font-family:'Aleo',serif;font-style:italic;font-size:0.82rem;color:var(--lwood);opacity:0.3}
+  .footer-disc{font-size:0.55rem;color:var(--lwood);opacity:0.12;margin-top:0.2rem}
+
+  @media(max-width:380px){.peg{width:28px;height:28px;font-size:0.55rem}.strings{height:150px;padding:0 0.5rem}}
+</style>
+</head>
+<body>
+
+<svg class="grain-overlay" width="100%" height="100%">
+  <filter id="gf"><feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="4" stitchTiles="stitch"/></filter>
+  <rect width="100%" height="100%" filter="url(#gf)"/>
+</svg>
+
+<div class="page">
+
+  <header class="header">
+    <div class="h-brand">调弦</div>
+    <div class="h-en">TUNEWOOD</div>
+    <div class="h-type">吉他调音器</div>
+    <div class="h-mode">标准调弦 · Standard E</div>
+  </header>
+
+  <div class="tuner-frame">
+
+    <div class="strings">
+      <div class="string-col s6">
+        <div class="peg" onclick="pluck(this,0)">E2</div>
+        <div class="string-line"><div class="string-wire"></div></div>
+        <div class="string-info"><div class="s-note">E2</div><div class="s-label">6 弦</div></div>
+      </div>
+      <div class="string-col s5">
+        <div class="peg" onclick="pluck(this,1)">A2</div>
+        <div class="string-line"><div class="string-wire"></div></div>
+        <div class="string-info"><div class="s-note">A2</div><div class="s-label">5 弦</div></div>
+      </div>
+      <div class="string-col s4">
+        <div class="peg" onclick="pluck(this,2)">D3</div>
+        <div class="string-line"><div class="string-wire"></div></div>
+        <div class="string-info"><div class="s-note">D3</div><div class="s-label">4 弦</div></div>
+      </div>
+      <div class="string-col s3">
+        <div class="peg" onclick="pluck(this,3)">G3</div>
+        <div class="string-line"><div class="string-wire"></div></div>
+        <div class="string-info"><div class="s-note">G3</div><div class="s-label">3 弦</div></div>
+      </div>
+      <div class="string-col s2">
+        <div class="peg" onclick="pluck(this,4)">B3</div>
+        <div class="string-line"><div class="string-wire"></div></div>
+        <div class="string-info"><div class="s-note">B3</div><div class="s-label">2 弦</div></div>
+      </div>
+      <div class="string-col s1">
+        <div class="peg" onclick="pluck(this,5)">E4</div>
+        <div class="string-line"><div class="string-wire"></div></div>
+        <div class="string-info"><div class="s-note">E4</div><div class="s-label">1 弦</div></div>
+      </div>
+    </div>
+
+    <div class="active-note" id="activeNote">
+      <div class="an-note" id="anNote">—</div>
+      <div class="an-freq" id="anFreq">轻点旋钮拨弦</div>
+      <div class="an-status" id="anStatus"></div>
+    </div>
+
+  </div>
+
+  <div class="tips">轻拨琴弦，观察指示 · 绿色表示音准</div>
+
+  <footer class="footer">
+    <div class="footer-motto">调弦 · TUNEWOOD · 好声音从调音开始</div>
+    <div class="footer-disc">虚构应用 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+var strings=[
+  {note:'E2',freq:'82.41 Hz',num:'6弦'},
+  {note:'A2',freq:'110.00 Hz',num:'5弦'},
+  {note:'D3',freq:'146.83 Hz',num:'4弦'},
+  {note:'G3',freq:'196.00 Hz',num:'3弦'},
+  {note:'B3',freq:'246.94 Hz',num:'2弦'},
+  {note:'E4',freq:'329.63 Hz',num:'1弦'}
+];
+var statuses=['准确','偏高 +5','偏低 -3','准确','偏高 +2','准确'];
+var statusCls=['accurate','high','low','accurate','high','accurate'];
+
+function pluck(peg,idx){
+  // Vibrate the string wire
+  var col=peg.closest('.string-col');
+  var wire=col.querySelector('.string-wire');
+  wire.classList.remove('vibrating');
+  void wire.offsetWidth;
+  wire.classList.add('vibrating');
+
+  // Update active note
+  var s=strings[idx];
+  document.getElementById('anNote').textContent=s.note;
+  document.getElementById('anFreq').textContent=s.freq+' · '+s.num;
+  var st=document.getElementById('anStatus');
+  st.textContent=statuses[idx];
+  st.className='an-status '+statusCls[idx];
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
