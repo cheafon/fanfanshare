@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>品酒笔记 · 醉月珍藏赤霞珠 2021 — 醉月酒庄</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--brown:#3E2723;--indigo:#1A237E;--gold:#F9A825;--cream:#FFF8E1;--rust:#BF360C;--tan:#D7CCC8;--dim:rgba(62,39,35,0.35)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--cream);color:var(--brown);font-family:'Noto Serif SC','Lora',serif;font-weight:400;font-size:17px;line-height:1.8;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    /* Batik wax-crack texture */
+    background-image:
+      repeating-linear-gradient(17deg,transparent 0px,transparent 18px,rgba(62,39,35,0.025) 18px,rgba(62,39,35,0.025) 19px,transparent 19px,transparent 40px),
+      repeating-linear-gradient(73deg,transparent 0px,transparent 22px,rgba(62,39,35,0.02) 22px,rgba(62,39,35,0.02) 23px,transparent 23px,transparent 50px),
+      repeating-linear-gradient(127deg,transparent 0px,transparent 16px,rgba(62,39,35,0.02) 16px,rgba(62,39,35,0.02) 17px,transparent 17px,transparent 38px),
+      repeating-linear-gradient(161deg,transparent 0px,transparent 25px,rgba(62,39,35,0.015) 25px,rgba(62,39,35,0.015) 26px,transparent 26px,transparent 55px),
+      /* Wax-resist dye pools */
+      radial-gradient(ellipse at 20% 15%,rgba(26,35,126,0.03) 0%,transparent 45%),
+      radial-gradient(ellipse at 75% 30%,rgba(191,54,12,0.025) 0%,transparent 40%),
+      radial-gradient(ellipse at 40% 70%,rgba(249,168,37,0.02) 0%,transparent 45%),
+      radial-gradient(ellipse at 85% 80%,rgba(26,35,126,0.02) 0%,transparent 40%)}
+
+  .page{max-width:460px;width:100%;position:relative;z-index:1}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.8rem;padding-bottom:1rem;
+    border-bottom:1px solid rgba(62,39,35,0.08);animation:fadeIn .7s ease both}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .h-brand{font-weight:600;font-size:1.4rem;color:var(--rust);letter-spacing:0.12em}
+  .h-en{font-family:'Lora',serif;font-weight:400;font-style:italic;font-size:0.72rem;color:var(--dim);letter-spacing:0.18em;margin-top:0.05rem}
+  .h-type{font-size:0.88rem;color:var(--dim);margin-top:0.4rem}
+
+  /* ═══ CARDS ═══ */
+  .card{background:rgba(255,248,225,0.5);border-left:3px solid transparent;padding:1.2rem;margin-bottom:1rem;
+    transition:all .25s;opacity:0;animation:fadeIn .5s ease forwards;
+    /* Faint batik inside card */
+    background-image:repeating-linear-gradient(35deg,transparent 0px,transparent 20px,rgba(62,39,35,0.008) 20px,rgba(62,39,35,0.008) 21px,transparent 21px,transparent 45px)}
+  .card:hover{box-shadow:0 2px 12px rgba(62,39,35,0.05)}
+  .card.rust{border-left-color:var(--rust)}
+  .card.indigo{border-left-color:var(--indigo)}
+  .card.gold{border-left-color:var(--gold)}
+  .card.brown{border-left-color:var(--brown)}
+
+  .card-label{font-family:'Lora',serif;font-weight:600;font-size:0.65rem;color:var(--rust);letter-spacing:0.12em;margin-bottom:0.5rem;text-transform:uppercase}
+
+  /* ═══ WINE INFO ═══ */
+  .wine-card{animation-delay:.15s}
+  .wine-name{font-weight:600;font-size:1.15rem;color:var(--brown)}
+  .wine-meta{font-size:0.85rem;color:var(--dim);margin-top:0.2rem;line-height:2}
+
+  /* ═══ TASTING NOTES ═══ */
+  .tasting-card{animation-delay:.3s}
+  .note-item{padding:0.4rem 0;border-bottom:1px dotted rgba(62,39,35,0.06)}
+  .note-item:last-child{border:none}
+  .note-label{font-weight:600;font-size:0.85rem;color:var(--rust);display:inline}
+  .note-text{font-size:0.9rem;color:rgba(62,39,35,0.6);display:inline}
+
+  /* ═══ AROMA WHEEL ═══ */
+  .aroma-card{animation-delay:.45s;display:flex;flex-direction:column;align-items:center}
+  .wheel-wrap{position:relative;width:180px;height:180px;margin:0.5rem 0}
+  .wheel{width:100%;height:100%;border-radius:50%;cursor:pointer;position:relative;
+    background:conic-gradient(
+      var(--rust) 0deg 60deg,
+      #C62828 60deg 120deg,
+      var(--brown) 120deg 180deg,
+      var(--gold) 180deg 240deg,
+      #33691E 240deg 300deg,
+      var(--indigo) 300deg 360deg);
+    transition:box-shadow .3s}
+  .wheel-center{position:absolute;inset:28%;border-radius:50%;background:var(--cream);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 0 0 2px rgba(62,39,35,0.06)}
+  .wheel-center-text{font-size:0.7rem;color:var(--dim);text-align:center;line-height:1.4}
+  .wheel-labels{position:absolute;inset:0;pointer-events:none}
+  .wl{position:absolute;font-size:0.6rem;color:var(--cream);font-weight:600;letter-spacing:0.04em;
+    text-shadow:0 1px 2px rgba(0,0,0,0.3)}
+  .wl-1{top:14%;left:50%;transform:translateX(-50%)}
+  .wl-2{top:30%;right:5%}
+  .wl-3{bottom:28%;right:8%}
+  .wl-4{bottom:12%;left:50%;transform:translateX(-50%)}
+  .wl-5{bottom:28%;left:5%}
+  .wl-6{top:30%;left:5%}
+
+  .aroma-hint{font-size:0.75rem;color:var(--dim);opacity:0.5;margin-top:0.3rem}
+  .aroma-active{font-size:0.88rem;color:var(--rust);min-height:1.4em;margin-top:0.2rem;text-align:center;transition:all .2s}
+
+  /* ═══ SCORE ═══ */
+  .score-card{animation-delay:.6s;display:flex;align-items:center;gap:1rem}
+  .score-num{font-family:'Lora',serif;font-weight:700;font-size:2rem;color:var(--rust);line-height:1}
+  .score-max{font-family:'Lora',serif;font-size:0.85rem;color:var(--dim)}
+  .score-bar-wrap{flex:1}
+  .score-bar{height:6px;background:rgba(62,39,35,0.06);border-radius:3px;overflow:hidden}
+  .score-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--rust),var(--gold));
+    width:0%;animation:barFill 1.2s ease forwards;animation-delay:.9s}
+  @keyframes barFill{to{width:92%}}
+  .score-label{font-size:0.78rem;color:var(--dim);margin-top:0.25rem}
+
+  /* ═══ PAIRING ═══ */
+  .pairing-card{animation-delay:.75s}
+  .pairing-items{display:flex;gap:0.6rem;flex-wrap:wrap}
+  .pairing-tag{font-size:0.85rem;color:var(--brown);padding:0.3em 0.8em;
+    border:1px solid rgba(62,39,35,0.1);border-radius:20px;transition:all .2s}
+  .pairing-tag:hover{border-color:var(--rust);color:var(--rust)}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;padding:0.5rem 0;animation:fadeIn .5s ease both;animation-delay:.9s}
+  .footer-motto{font-family:'Lora',serif;font-style:italic;font-size:0.82rem;color:var(--dim);opacity:0.35}
+  .footer-disc{font-size:0.58rem;color:var(--dim);opacity:0.12;margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1rem}.card{padding:1rem}.score-num{font-size:1.6rem}
+    .wheel-wrap{width:150px;height:150px}}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="h-brand">醉月酒庄</div>
+    <div class="h-en">MOONWINE</div>
+    <div class="h-type">品酒笔记</div>
+  </header>
+
+  <!-- ═══ WINE INFO ═══ -->
+  <div class="card rust wine-card" style="animation-delay:.15s">
+    <div class="card-label">WINE INFO</div>
+    <div class="wine-name">醉月 · 珍藏赤霞珠 2021</div>
+    <div class="wine-meta">
+      产区：宁夏贺兰山东麓<br>
+      品种：赤霞珠 85% / 梅洛 15%<br>
+      酒精度：14.5% · 陈酿：法国橡木桶 18 个月
+    </div>
+  </div>
+
+  <!-- ═══ TASTING NOTES ═══ -->
+  <div class="card indigo tasting-card" style="animation-delay:.3s">
+    <div class="card-label">TASTING NOTES</div>
+    <div class="note-item">
+      <span class="note-label">观色 · </span><span class="note-text">深宝石红，带紫罗兰色边缘，挂杯浓郁绵密</span>
+    </div>
+    <div class="note-item">
+      <span class="note-label">闻香 · </span><span class="note-text">黑加仑、黑樱桃、紫罗兰，伴有雪松、烟草和香草气息</span>
+    </div>
+    <div class="note-item">
+      <span class="note-label">口感 · </span><span class="note-text">酒体饱满，单宁成熟丝滑，酸度明亮，余味悠长带有可可尾韵</span>
+    </div>
+  </div>
+
+  <!-- ═══ AROMA WHEEL ═══ -->
+  <div class="card gold aroma-card" style="animation-delay:.45s">
+    <div class="card-label">AROMA PROFILE</div>
+    <div class="wheel-wrap">
+      <div class="wheel" id="wheel">
+        <div class="wheel-center"><span class="wheel-center-text">点击<br>探索</span></div>
+        <div class="wheel-labels">
+          <span class="wl wl-1">果香</span>
+          <span class="wl wl-2">花香</span>
+          <span class="wl wl-3">木质</span>
+          <span class="wl wl-4">香料</span>
+          <span class="wl wl-5">泥土</span>
+          <span class="wl wl-6">矿物</span>
+        </div>
+      </div>
+    </div>
+    <div class="aroma-hint">点击色轮探索香气</div>
+    <div class="aroma-active" id="aromaText"></div>
+  </div>
+
+  <!-- ═══ SCORE ═══ -->
+  <div class="card brown score-card" style="animation-delay:.6s">
+    <div>
+      <div class="score-num">92</div>
+      <div class="score-max">/ 100</div>
+    </div>
+    <div class="score-bar-wrap">
+      <div class="score-bar"><div class="score-fill"></div></div>
+      <div class="score-label">品鉴评分 — 优秀</div>
+    </div>
+  </div>
+
+  <!-- ═══ PAIRING ═══ -->
+  <div class="card rust pairing-card" style="animation-delay:.75s">
+    <div class="card-label">FOOD PAIRING</div>
+    <div class="pairing-items">
+      <span class="pairing-tag">烤羊排</span>
+      <span class="pairing-tag">陈年奶酪</span>
+      <span class="pairing-tag">黑巧克力</span>
+    </div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">醉月酒庄 · MOONWINE · 月下独酌</div>
+    <div class="footer-disc">虚构酒庄 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+// Aroma wheel interaction
+var aromas=[
+  {name:'果香',desc:'黑加仑 · 黑樱桃 · 蓝莓',angle:30},
+  {name:'花香',desc:'紫罗兰 · 玫瑰干花',angle:90},
+  {name:'木质',desc:'雪松 · 法国橡木 · 烟草',angle:150},
+  {name:'香料',desc:'黑胡椒 · 丁香 · 肉桂',angle:210},
+  {name:'泥土',desc:'松露 · 湿土 · 蘑菇',angle:270},
+  {name:'矿物',desc:'石墨 · 燧石 · 铁质',angle:330}
+];
+var wheel=document.getElementById('wheel');
+var aromaText=document.getElementById('aromaText');
+
+wheel.addEventListener('click',function(e){
+  var rect=wheel.getBoundingClientRect();
+  var cx=rect.width/2;var cy=rect.height/2;
+  var x=e.clientX-rect.left-cx;var y=e.clientY-rect.top-cy;
+  var dist=Math.sqrt(x*x+y*y);
+  // Ignore center clicks
+  if(dist<rect.width*0.28)return;
+  var angle=(Math.atan2(y,x)*180/Math.PI+90+360)%360;
+  var idx=Math.floor(angle/60);
+  if(idx>=0&&idx<6){
+    var a=aromas[idx];
+    aromaText.textContent=a.name+' — '+a.desc;
+    // Glow effect
+    var colors=['rgba(191,54,12,0.2)','rgba(198,40,40,0.2)','rgba(62,39,35,0.2)','rgba(249,168,37,0.2)','rgba(51,105,30,0.2)','rgba(26,35,126,0.2)'];
+    wheel.style.boxShadow='0 0 20px '+colors[idx]+',0 0 40px '+colors[idx];
+    setTimeout(function(){wheel.style.boxShadow='none'},800);
+  }
+});
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

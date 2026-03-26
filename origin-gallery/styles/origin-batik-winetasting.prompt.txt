@@ -1,0 +1,31 @@
+Generate a wine tasting notes page for fictional winery "醉月酒庄 MOONWINE", styled as Batik / Indonesian wax-resist dyeing aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: batik brown (#3E2723), batik indigo (#1A237E), batik gold (#F9A825), batik cream (#FFF8E1), batik rust (#BF360C), warm tan (#D7CCC8), dim rgba(62,39,35,0.35). Typography: Lora (elegant warm serif) English, Noto Serif SC 400/600 Chinese 17px+. Layout: BATIK — warm cream background with batik wax-crack texture pattern, wine tasting cards with rust/indigo accents.
+
+Animation: Medium — Required:
+1. CSS BATIK CRACKS: Background with multiple overlapping repeating-linear-gradient at irregular angles (17deg, 73deg, 127deg, 161deg) with very thin dark lines creating organic wax-crack pattern, on cream base
+2. CSS WAX RESIST SPOTS: 4-5 radial-gradient spots of batik indigo/rust/gold at very low opacity (0.03-0.06) scattered across background simulating wax-resist dye pools
+3. JS AROMA WHEEL: Interactive CSS conic-gradient wheel showing wine aroma profile (6 segments: 果香/花香/木质/香料/泥土/矿物), each segment a different batik color, click to highlight segment with glow
+4. CSS TASTING CARDS: Wine info cards with left border cycling batik colors, subtle batik-crack pattern inside at very low opacity
+5. STAGGERED REVEAL: All sections fade in gently with staggered delays
+
+Page structure:
+1. Header: "醉月酒庄" + "MOONWINE" + "品酒笔记" + tasting date
+2. Wine info card:
+   - 酒名: 醉月·珍藏赤霞珠 2021
+   - 产区: 宁夏贺兰山东麓
+   - 葡萄: 赤霞珠 85% / 梅洛 15%
+   - 酒精度: 14.5%
+   - 陈酿: 法国橡木桶 18个月
+3. Tasting notes:
+   - 观色: 深宝石红，带紫罗兰色边缘，挂杯浓郁
+   - 闻香: 黑加仑、黑樱桃、紫罗兰，伴有雪松、烟草和香草气息
+   - 口感: 酒体饱满，单宁成熟丝滑，酸度明亮，余味悠长
+4. Aroma wheel (interactive conic-gradient, 6 segments)
+5. Score: 92/100 with visual bar
+6. Pairing suggestions: 烤羊排 · 陈年奶酪 · 黑巧克力
+7. Footer: "醉月酒庄 · MOONWINE · 月下独酌" + disclaimer
+
+Batik cracks: repeating-linear-gradient(17deg, transparent 0px, transparent 15px, rgba(62,39,35,0.03) 15px, rgba(62,39,35,0.03) 16px) layered at 4 angles creates organic crack web. Aroma wheel: conic-gradient with 6 equal segments in batik colors, border-radius:50%, JS click handler highlights clicked segment.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-batik-winetasting.html. Do NOT open.
