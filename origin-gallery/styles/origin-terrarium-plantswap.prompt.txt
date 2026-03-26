@@ -1,0 +1,27 @@
+Generate a plant swap/exchange page for fictional community "绿瓶子 GREENJAR", styled as Terrarium / glass ecosystem aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: moss green (#2E7D32), fern (#4CAF50), glass (#E8F5E9), condensation (#B2DFDB), soil brown (#5D4037), bark (#795548), dew (#E0F7FA), bg light (#F1F8E9). Typography: Nunito (rounded friendly) English, Noto Sans SC 400/600 Chinese 17px+. Layout: TERRARIUM — soft green glass-tinted background with condensation texture, plant cards as miniature ecosystems.
+
+Animation: Medium — Required:
+1. CSS GLASS CONDENSATION: Background with multiple small radial-gradient circles at high transparency simulating water droplets condensed on glass surface, scattered randomly
+2. CSS GLASS TINT: Overall green-tinted feel using a semi-transparent green overlay or green-shifted radial-gradient layers
+3. JS SWAP MATCH: Click "想交换" on a plant → it pulses green + shows "已发送请求" with a growing-leaf animation (small green shape scaling up)
+4. CSS SOIL TEXTURE: Bottom edge of plant cards with dark brown gradient + fine dot pattern simulating terrarium soil layer
+5. STAGGERED: Plant cards appear with a "growing" animation (scale from bottom up)
+
+Page structure:
+1. Header: "绿瓶子" + "GREENJAR" + "植物交换" + "用一棵植物换另一棵"
+2. My plant for swap:
+   我要交换: 龟背竹 · 3年 · 高45cm · 状态极佳
+3. Available swaps (5 plants from others, staggered):
+   - 琴叶榕 · @阳台花匠 · 2年 · 高60cm · 换一盆多肉
+   - 虎皮兰 · @植物杀手 · 1年 · 3株连盆 · 换什么都行
+   - 空气凤梨 · @懒人养花 · 6个月 · 5个组合 · 换一盆绿萝
+   - 仙人掌组合 · @沙漠之心 · 1年+ · 含盆 · 换蕨类植物
+   - 吊兰 · @办公室园丁 · 4年 · 可分株 · 换观叶植物
+4. Swap rules: 同城面交 · 自带花盆 · 附带养护说明
+5. Footer: "绿瓶子 · GREENJAR · 让每棵植物找到新家"
+
+Glass condensation: 20+ small radial-gradient(circle 2-4px, rgba(224,247,250,0.3), transparent) at random positions. Glass tint: radial-gradient(ellipse at 50% 50%, rgba(46,125,50,0.03), transparent 60%).
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-terrarium-plantswap.html. Do NOT open.

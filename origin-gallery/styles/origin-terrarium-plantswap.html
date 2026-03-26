@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>植物交换 — 绿瓶子 GREENJAR</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--moss:#2E7D32;--fern:#4CAF50;--glass:#E8F5E9;--cond:#B2DFDB;--soil:#5D4037;--bark:#795548;--dew:#E0F7FA;--bg:#F1F8E9}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--bg);color:#2C3E2C;font-family:'Noto Sans SC','Nunito',sans-serif;font-weight:400;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    /* Glass tint + condensation drops */
+    background-image:
+      radial-gradient(ellipse at 50% 40%,rgba(46,125,50,0.03),transparent 60%),
+      radial-gradient(ellipse at 30% 70%,rgba(76,175,80,0.02),transparent 50%),
+      /* Dew drops scattered */
+      radial-gradient(circle 2px at 12% 8%,rgba(224,247,250,0.4),transparent),
+      radial-gradient(circle 3px at 85% 15%,rgba(178,223,219,0.35),transparent),
+      radial-gradient(circle 2px at 45% 22%,rgba(224,247,250,0.3),transparent),
+      radial-gradient(circle 1.5px at 78% 38%,rgba(178,223,219,0.4),transparent),
+      radial-gradient(circle 2.5px at 20% 55%,rgba(224,247,250,0.35),transparent),
+      radial-gradient(circle 2px at 92% 62%,rgba(178,223,219,0.3),transparent),
+      radial-gradient(circle 3px at 55% 78%,rgba(224,247,250,0.35),transparent),
+      radial-gradient(circle 2px at 8% 88%,rgba(178,223,219,0.4),transparent),
+      radial-gradient(circle 1.5px at 68% 92%,rgba(224,247,250,0.3),transparent)}
+
+  .page{max-width:440px;width:100%;position:relative;z-index:1}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.2rem;animation:growUp .5s ease both}
+  @keyframes growUp{from{opacity:0;transform:scaleY(0.8) translateY(10px);transform-origin:bottom}to{opacity:1;transform:scaleY(1) translateY(0)}}
+  .h-brand{font-family:'Nunito',sans-serif;font-weight:700;font-size:1.5rem;color:var(--moss)}
+  .h-en{font-family:'Nunito',sans-serif;font-weight:400;font-size:0.68rem;color:var(--fern);letter-spacing:0.2em;opacity:0.5}
+  .h-type{font-size:0.92rem;color:var(--bark);margin-top:0.2rem}
+  .h-sub{font-size:0.82rem;color:var(--fern);opacity:0.5;margin-top:0.1rem}
+
+  /* ═══ CARDS ═══ */
+  .plant-card{background:rgba(255,255,255,0.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+    border-radius:12px;padding:1rem;margin-bottom:0.6rem;
+    border:1px solid rgba(46,125,50,0.08);position:relative;overflow:hidden;
+    transition:all .2s;opacity:0;animation:growUp .4s ease forwards;
+    /* Soil layer at bottom */
+    }
+  .plant-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;
+    background:linear-gradient(180deg,transparent,rgba(93,64,55,0.08));
+    background-image:radial-gradient(circle 1px,rgba(93,64,55,0.1) 0.5px,transparent 0.5px);
+    background-size:4px 4px}
+  .plant-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(46,125,50,0.08);
+    border-color:rgba(46,125,50,0.15)}
+
+  .card-label{font-family:'Nunito',sans-serif;font-weight:600;font-size:0.6rem;color:var(--fern);letter-spacing:0.12em;
+    margin-bottom:0.3rem;opacity:0.5}
+
+  /* My plant */
+  .my-card{border-left:3px solid var(--moss)}
+  .p-name{font-weight:600;font-size:1.05rem;color:var(--moss)}
+  .p-meta{font-size:0.82rem;color:var(--bark);opacity:0.6;margin-top:0.1rem}
+
+  /* Swap items */
+  .swap-header{display:flex;justify-content:space-between;align-items:center}
+  .swap-user{font-size:0.72rem;color:var(--fern);opacity:0.5}
+  .swap-want{font-size:0.78rem;color:var(--bark);opacity:0.4;margin-top:0.15rem;font-style:italic}
+
+  .swap-btn{font-family:'Nunito',sans-serif;font-weight:600;font-size:0.78rem;
+    color:var(--moss);background:transparent;border:1.5px solid rgba(46,125,50,0.2);
+    padding:0.3em 0.9em;border-radius:16px;cursor:pointer;transition:all .2s;margin-top:0.4rem}
+  .swap-btn:hover{background:rgba(46,125,50,0.06);border-color:var(--fern)}
+  .swap-btn.sent{background:var(--fern);color:white;border-color:var(--fern)}
+
+  /* Leaf grow animation */
+  @keyframes leafGrow{0%{transform:scale(0) rotate(-30deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
+  .leaf-icon{display:inline-block;margin-left:0.3rem;opacity:0}
+  .leaf-icon.show{animation:leafGrow .3s ease forwards}
+
+  /* ═══ RULES ═══ */
+  .rules{display:flex;gap:0.4rem;flex-wrap:wrap;justify-content:center;margin-bottom:1rem;
+    animation:growUp .4s ease both;animation-delay:.6s}
+  .rule{font-size:0.75rem;color:var(--moss);padding:0.2em 0.6em;
+    border:1px solid rgba(46,125,50,0.12);border-radius:12px;background:rgba(46,125,50,0.03)}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;animation:growUp .4s ease both;animation-delay:.7s}
+  .footer-motto{font-family:'Nunito',sans-serif;font-size:0.82rem;color:var(--fern);opacity:0.3}
+  .footer-disc{font-size:0.55rem;color:var(--bark);opacity:0.15;margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1rem}}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <header class="header">
+    <div class="h-brand">绿瓶子</div>
+    <div class="h-en">GREENJAR</div>
+    <div class="h-type">植物交换</div>
+    <div class="h-sub">用一棵植物换另一棵</div>
+  </header>
+
+  <!-- ═══ MY PLANT ═══ -->
+  <div class="plant-card my-card" style="animation-delay:.1s">
+    <div class="card-label">MY PLANT FOR SWAP</div>
+    <div class="p-name">龟背竹</div>
+    <div class="p-meta">3 年 · 高 45cm · 状态极佳 · 含原盆</div>
+  </div>
+
+  <!-- ═══ AVAILABLE ═══ -->
+  <div class="card-label" style="margin:0.8rem 0 0.4rem;opacity:0.4;font-family:'Nunito',sans-serif;font-weight:600;font-size:0.6rem;color:var(--fern);letter-spacing:0.12em">AVAILABLE SWAPS</div>
+
+  <div class="plant-card" style="animation-delay:.2s">
+    <div class="swap-header"><div class="p-name">琴叶榕</div><div class="swap-user">@阳台花匠</div></div>
+    <div class="p-meta">2 年 · 高 60cm</div>
+    <div class="swap-want">想换：一盆多肉</div>
+    <button class="swap-btn" onclick="sendSwap(this)">想交换<span class="leaf-icon">🌱</span></button>
+  </div>
+
+  <div class="plant-card" style="animation-delay:.28s">
+    <div class="swap-header"><div class="p-name">虎皮兰</div><div class="swap-user">@植物杀手</div></div>
+    <div class="p-meta">1 年 · 3 株连盆</div>
+    <div class="swap-want">想换：什么都行</div>
+    <button class="swap-btn" onclick="sendSwap(this)">想交换<span class="leaf-icon">🌱</span></button>
+  </div>
+
+  <div class="plant-card" style="animation-delay:.36s">
+    <div class="swap-header"><div class="p-name">空气凤梨</div><div class="swap-user">@懒人养花</div></div>
+    <div class="p-meta">6 个月 · 5 个组合</div>
+    <div class="swap-want">想换：一盆绿萝</div>
+    <button class="swap-btn" onclick="sendSwap(this)">想交换<span class="leaf-icon">🌱</span></button>
+  </div>
+
+  <div class="plant-card" style="animation-delay:.44s">
+    <div class="swap-header"><div class="p-name">仙人掌组合</div><div class="swap-user">@沙漠之心</div></div>
+    <div class="p-meta">1 年+ · 含陶瓷盆</div>
+    <div class="swap-want">想换：蕨类植物</div>
+    <button class="swap-btn" onclick="sendSwap(this)">想交换<span class="leaf-icon">🌱</span></button>
+  </div>
+
+  <div class="plant-card" style="animation-delay:.52s">
+    <div class="swap-header"><div class="p-name">吊兰</div><div class="swap-user">@办公室园丁</div></div>
+    <div class="p-meta">4 年 · 可分株赠送</div>
+    <div class="swap-want">想换：观叶植物</div>
+    <button class="swap-btn" onclick="sendSwap(this)">想交换<span class="leaf-icon">🌱</span></button>
+  </div>
+
+  <div class="rules">
+    <span class="rule">同城面交</span>
+    <span class="rule">自带花盆</span>
+    <span class="rule">附带养护说明</span>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-motto">绿瓶子 · GREENJAR · 让每棵植物找到新家</div>
+    <div class="footer-disc">虚构社区 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+function sendSwap(btn){
+  if(btn.classList.contains('sent'))return;
+  btn.classList.add('sent');
+  var leaf=btn.querySelector('.leaf-icon');
+  leaf.classList.add('show');
+  btn.childNodes[0].textContent='已发送请求 ';
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
