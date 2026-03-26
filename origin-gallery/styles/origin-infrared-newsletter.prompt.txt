@@ -1,0 +1,30 @@
+Generate a newsletter archive page for fictional publication "灵感信 MUSE LETTER", styled as Infrared Photography / surreal infrared film aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: infrared pink-white (#FFE0E8), infrared magenta (#D63384), dark sky (#1A0A1E), deep void (#0D0015), soft lavender (#E8D0F0), infrared glow (#FF69B4), dim rgba(255,224,232,0.25). Typography: DM Serif Display (modern elegant serif) English, Noto Sans SC 400/600 Chinese 17px+. Layout: INFRARED — dark sky background with surreal infrared gradient (magenta-to-pink atmospheric glow), newsletter cards in dreamy pink-white tones.
+
+Animation: Medium — Required:
+1. CSS INFRARED ATMOSPHERE: Background with multi-layer gradient creating infrared photography sky — bottom dark void, middle magenta atmospheric glow, top edge lighter pink, overall dreamlike surreal feel. Subtle slow color-shift animation (hue-rotate 5deg oscillation over 20s)
+2. CSS IR GLOW: Newsletter issue cards have soft magenta/pink glow on borders and hover, simulating infrared light bloom
+3. JS ISSUE COUNTER: Total issues count-up animation on load (0 → 47)
+4. CSS DREAMY BLUR: Background decorative blurred circles (large radial-gradients in magenta/pink) simulating infrared light flares, slowly drifting
+5. STAGGERED: Issue cards fade in with ethereal timing (slower, dreamier)
+
+Page structure:
+1. Header: "灵感信" + "MUSE LETTER" + "创意人的周末通讯" + "Est. 2025"
+2. Stats: 47 期 · 4,200+ 订阅者 · 每周六发送
+3. Latest issue (featured, larger card with IR glow):
+   - Vol.47 · "消失的书店与重生的阅读"
+   - 2026.03.22 · 本期亮点：独立书店探访、设计师书单、阅读空间设计
+4. Archive list (6 past issues, staggered dreamy fade):
+   - Vol.46 · "城市里的秘密花园" · 03.15
+   - Vol.45 · "咖啡与创造力的关系" · 03.08
+   - Vol.44 · "一个人的旅行指南" · 03.01
+   - Vol.43 · "声音设计的艺术" · 02.22
+   - Vol.42 · "手写信的复兴" · 02.15
+   - Vol.41 · "慢下来的勇气" · 02.08
+5. Subscribe: email input area (decorative, styled with IR glow)
+6. Footer: "灵感信 · MUSE LETTER · 每周六，一封关于美好的信"
+
+Infrared atmosphere: linear-gradient(180deg, rgba(214,51,132,0.08) 0%, rgba(26,10,30,0.9) 30%, #0D0015 100%) + radial-gradient magenta flares. Dreamy drift: 2-3 large blurred radial-gradient circles with slow translateX/Y animation.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-infrared-newsletter.html. Do NOT open.
