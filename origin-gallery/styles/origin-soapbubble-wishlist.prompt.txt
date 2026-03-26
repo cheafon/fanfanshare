@@ -1,0 +1,27 @@
+Generate a birthday wish list page for fictional app "许个愿 MAKEWISH", styled as Soap Bubble / iridescent floating bubble aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: sky gradient (from #E8F4FD via #F0F7FF to #FFF5F5), bubble iridescent (shifting pink/blue/green/gold at low opacity), highlight (#FF69B4), soft blue (#87CEEB), text dark (#3A3A4A), dim (#999). Typography: Quicksand (rounded soft) English, Noto Sans SC 400/500 Chinese 17px+. Layout: SOAP BUBBLE — light pastel sky background, wishes displayed inside or alongside floating bubble shapes.
+
+Animation: Medium-High — Required:
+1. JS FLOATING BUBBLES: 12+ transparent circular divs floating slowly upward with gentle horizontal drift, each with iridescent border (conic-gradient border shifting colors) + inner highlight spot, various sizes
+2. CSS IRIDESCENT CIRCLES: Wish items inside circular/rounded containers with conic-gradient border creating rainbow soap film edge effect
+3. JS POP WISH: Click a wish to "grant" it — bubble pops with a burst animation (scale up briefly then scale to 0 with opacity fade + small particle scatter), wish text changes to "已实现"
+4. CSS RAINBOW FILM: Subtle iridescent shimmer on card surfaces using conic-gradient at low opacity with slow rotation animation
+5. CSS SKY: Background with soft pastel gradient + subtle radial light spots
+
+Page structure:
+1. Header: "许个愿" + "MAKEWISH" + "小林的生日愿望" + "26岁快乐"
+2. Wishes (6, in bubble-styled containers, floating feel):
+   - 去一次冰岛看极光 (未实现)
+   - 学会冲浪 (未实现)
+   - 读完今年书单上的12本书 (进行中 8/12)
+   - 和爸妈吃一顿火锅 (已实现 ✓)
+   - 养一只橘猫 (未实现)
+   - 攒够旅行基金 (进行中 ¥15,000/¥20,000)
+3. Stats: 6个愿望 · 已实现1个 · 进行中2个
+4. Add wish: "+ 许一个新愿望" button
+5. Footer: "许个愿 · MAKEWISH · 愿望是会发光的泡泡"
+
+Floating bubbles: JS creates divs with border: 2px solid + conic-gradient as border-image (shifting rainbow), border-radius:50%, various sizes (20-60px), floating upward with sin-wave horizontal drift. Pop: scale(1.2) then scale(0) over 0.3s + 6 tiny particle divs scatter outward.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-soapbubble-wishlist.html. Do NOT open.

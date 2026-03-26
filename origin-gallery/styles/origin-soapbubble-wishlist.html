@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小林的生日愿望 — 许个愿 MAKEWISH</title>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--pink:#FF69B4;--blue:#87CEEB;--dark:#3A3A4A;--dim:#999;--sky1:#E8F4FD;--sky2:#F0F7FF;--sky3:#FFF5F5}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:linear-gradient(180deg,var(--sky1) 0%,var(--sky2) 50%,var(--sky3) 100%);
+    color:var(--dark);font-family:'Noto Sans SC','Quicksand',sans-serif;font-weight:400;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    min-height:100vh;position:relative;
+    /* Soft light spots */
+    background-image:radial-gradient(circle 120px at 20% 30%,rgba(135,206,235,0.08),transparent),
+      radial-gradient(circle 100px at 80% 20%,rgba(255,105,180,0.06),transparent),
+      radial-gradient(circle 80px at 50% 80%,rgba(135,206,235,0.05),transparent)}
+
+  .bubbles-layer{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .float-bubble{position:absolute;border-radius:50%;
+    background:radial-gradient(circle at 30% 25%,rgba(255,255,255,0.5),transparent 50%);
+    border:1.5px solid;border-image:conic-gradient(from 0deg,rgba(255,105,180,0.2),rgba(135,206,235,0.2),rgba(144,238,144,0.15),rgba(255,215,0,0.15),rgba(255,105,180,0.2)) 1;
+    animation:floatUp linear infinite}
+  @keyframes floatUp{
+    0%{transform:translateY(0) translateX(0);opacity:0}
+    5%{opacity:var(--o)}
+    85%{opacity:var(--o)}
+    100%{transform:translateY(-110vh) translateX(var(--dx));opacity:0}}
+
+  .page{max-width:440px;width:100%;position:relative;z-index:1}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.5rem;animation:fadeUp .6s ease both}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .h-brand{font-family:'Quicksand',sans-serif;font-weight:700;font-size:1.5rem;color:var(--pink)}
+  .h-en{font-family:'Quicksand',sans-serif;font-weight:400;font-size:0.68rem;color:var(--dim);letter-spacing:0.2em}
+  .h-name{font-size:0.95rem;color:var(--dark);margin-top:0.3rem}
+  .h-age{font-family:'Quicksand',sans-serif;font-weight:600;font-size:0.82rem;color:var(--blue);margin-top:0.1rem}
+
+  /* ═══ WISH CARDS ═══ */
+  .wishes{display:flex;flex-direction:column;gap:0.6rem;margin-bottom:1rem}
+
+  .wish{padding:0.9rem 1rem;border-radius:20px;position:relative;cursor:pointer;
+    background:rgba(255,255,255,0.5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    /* Iridescent border via box-shadow layers */
+    box-shadow:inset 0 0 0 1.5px rgba(255,105,180,0.1),inset 0 0 0 1.5px rgba(135,206,235,0.1),
+      0 2px 8px rgba(0,0,0,0.03);
+    transition:all .25s;opacity:0;animation:fadeUp .4s ease forwards;
+    overflow:hidden}
+  .wish::before{content:'';position:absolute;inset:-1px;border-radius:20px;padding:1.5px;
+    background:conic-gradient(from var(--angle,0deg),rgba(255,105,180,0.2),rgba(135,206,235,0.2),rgba(144,238,144,0.15),rgba(255,215,0,0.15),rgba(255,105,180,0.2));
+    -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;
+    animation:borderSpin 6s linear infinite;pointer-events:none}
+  @keyframes borderSpin{to{--angle:360deg}}
+  @property --angle{syntax:'<angle>';initial-value:0deg;inherits:false}
+
+  .wish:hover{transform:translateY(-2px);box-shadow:inset 0 0 0 1.5px rgba(255,105,180,0.15),
+    0 4px 16px rgba(255,105,180,0.06)}
+  .wish.done{opacity:0.4}
+  .wish.popping{animation:popBurst .35s ease forwards !important}
+  @keyframes popBurst{0%{transform:scale(1);opacity:1}40%{transform:scale(1.08);opacity:0.8}100%{transform:scale(0);opacity:0}}
+
+  .w-text{font-weight:500;font-size:0.95rem;color:var(--dark)}
+  .w-status{font-family:'Quicksand',sans-serif;font-size:0.72rem;margin-top:0.15rem}
+  .w-status.pending{color:var(--dim)}
+  .w-status.progress{color:var(--blue)}
+  .w-status.achieved{color:var(--pink)}
+
+  .w-bar{height:4px;background:rgba(0,0,0,0.04);border-radius:2px;margin-top:0.3rem;overflow:hidden}
+  .w-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--blue),var(--pink));transition:width .6s ease}
+
+  /* Pop particles */
+  .particle{position:fixed;width:4px;height:4px;border-radius:50%;pointer-events:none;z-index:100;
+    animation:particleFly .5s ease forwards}
+  @keyframes particleFly{0%{transform:translate(0,0) scale(1);opacity:1}100%{opacity:0}}
+
+  /* ═══ STATS ═══ */
+  .stats{text-align:center;font-size:0.78rem;color:var(--dim);margin-bottom:1rem;
+    animation:fadeUp .5s ease both;animation-delay:.6s}
+
+  /* ═══ ADD BUTTON ═══ */
+  .add-btn{display:block;width:100%;text-align:center;padding:0.6em;
+    border:1.5px dashed rgba(255,105,180,0.2);border-radius:20px;
+    font-family:'Quicksand',sans-serif;font-size:0.88rem;color:var(--pink);
+    background:transparent;cursor:pointer;transition:all .2s;margin-bottom:1rem;
+    animation:fadeUp .4s ease both;animation-delay:.7s}
+  .add-btn:hover{background:rgba(255,105,180,0.04);border-color:var(--pink)}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;animation:fadeUp .4s ease both;animation-delay:.8s}
+  .footer-motto{font-family:'Quicksand',sans-serif;font-size:0.82rem;color:var(--blue);opacity:0.35}
+  .footer-disc{font-size:0.55rem;color:var(--dim);opacity:0.2;margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1rem}}
+</style>
+</head>
+<body>
+
+<div class="bubbles-layer" id="bubblesLayer"></div>
+
+<div class="page">
+
+  <header class="header">
+    <div class="h-brand">许个愿</div>
+    <div class="h-en">MAKEWISH</div>
+    <div class="h-name">小林的生日愿望</div>
+    <div class="h-age">26 岁快乐</div>
+  </header>
+
+  <div class="wishes" id="wishes">
+    <div class="wish" style="animation-delay:.15s" onclick="popWish(this)">
+      <div class="w-text">去一次冰岛看极光</div>
+      <div class="w-status pending">未实现</div>
+    </div>
+    <div class="wish" style="animation-delay:.22s" onclick="popWish(this)">
+      <div class="w-text">学会冲浪</div>
+      <div class="w-status pending">未实现</div>
+    </div>
+    <div class="wish" style="animation-delay:.29s" onclick="popWish(this)">
+      <div class="w-text">读完今年书单上的 12 本书</div>
+      <div class="w-status progress">进行中 8/12</div>
+      <div class="w-bar"><div class="w-fill" style="width:67%"></div></div>
+    </div>
+    <div class="wish done" style="animation-delay:.36s">
+      <div class="w-text" style="text-decoration:line-through;text-decoration-color:rgba(255,105,180,0.3)">和爸妈吃一顿火锅</div>
+      <div class="w-status achieved">已实现 ✓</div>
+    </div>
+    <div class="wish" style="animation-delay:.43s" onclick="popWish(this)">
+      <div class="w-text">养一只橘猫</div>
+      <div class="w-status pending">未实现</div>
+    </div>
+    <div class="wish" style="animation-delay:.5s" onclick="popWish(this)">
+      <div class="w-text">攒够旅行基金</div>
+      <div class="w-status progress">进行中 ¥15,000 / ¥20,000</div>
+      <div class="w-bar"><div class="w-fill" style="width:75%"></div></div>
+    </div>
+  </div>
+
+  <div class="stats">6 个愿望 · 已实现 1 个 · 进行中 2 个</div>
+
+  <button class="add-btn">+ 许一个新愿望</button>
+
+  <footer class="footer">
+    <div class="footer-motto">许个愿 · MAKEWISH · 愿望是会发光的泡泡</div>
+    <div class="footer-disc">虚构应用 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+// Floating bubbles
+(function(){
+  var layer=document.getElementById('bubblesLayer');
+  var colors=['rgba(255,105,180,0.12)','rgba(135,206,235,0.12)','rgba(144,238,144,0.1)','rgba(255,215,0,0.1)'];
+  for(var i=0;i<14;i++){
+    var b=document.createElement('div');
+    b.className='float-bubble';
+    var sz=16+Math.random()*40;
+    var dur=10+Math.random()*15;
+    var delay=Math.random()*dur;
+    var dx=(-20+Math.random()*40)+'px';
+    b.style.cssText='width:'+sz+'px;height:'+sz+'px;left:'+Math.random()*100+'%;bottom:-'+sz+'px;'+
+      '--o:'+(0.15+Math.random()*0.25).toFixed(2)+';--dx:'+dx+
+      ';animation-duration:'+dur+'s;animation-delay:-'+delay+'s;'+
+      'border-color:'+colors[Math.floor(Math.random()*colors.length)];
+    layer.appendChild(b);
+  }
+})();
+
+// Pop wish
+function popWish(el){
+  if(el.classList.contains('done')||el.classList.contains('popping'))return;
+  var rect=el.getBoundingClientRect();
+  var cx=rect.left+rect.width/2;
+  var cy=rect.top+rect.height/2;
+  // Particles
+  var pColors=['#FF69B4','#87CEEB','#90EE90','#FFD700','#DDA0DD'];
+  for(var i=0;i<8;i++){
+    var p=document.createElement('div');
+    p.className='particle';
+    var angle=(Math.PI*2/8)*i;
+    var dist=30+Math.random()*30;
+    var tx=Math.cos(angle)*dist;var ty=Math.sin(angle)*dist;
+    p.style.cssText='left:'+cx+'px;top:'+cy+'px;background:'+pColors[i%pColors.length]+
+      ';animation:particleFly .5s ease forwards';
+    p.style.setProperty('--tx',tx+'px');p.style.setProperty('--ty',ty+'px');
+    // Override animation with direct transform
+    p.animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:'translate('+tx+'px,'+ty+'px) scale(0)',opacity:0}],{duration:500,easing:'ease-out'});
+    document.body.appendChild(p);
+    setTimeout(function(pp){pp.remove()}.bind(null,p),500);
+  }
+  el.classList.add('popping');
+  setTimeout(function(){
+    el.classList.remove('popping');el.classList.add('done');el.style.opacity='0.4';el.style.transform='scale(1)';
+    el.querySelector('.w-text').style.textDecoration='line-through';
+    el.querySelector('.w-text').style.textDecorationColor='rgba(255,105,180,0.3)';
+    var st=el.querySelector('.w-status');st.textContent='已实现 ✓';st.className='w-status achieved';
+    var bar=el.querySelector('.w-bar');if(bar)bar.remove();
+  },350);
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
