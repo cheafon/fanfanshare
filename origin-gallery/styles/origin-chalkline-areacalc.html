@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>房间面积计算器 — 量房 MEASURE</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--concrete:#D0CCC4;--blue:#1565C0;--red:#D32F2F;--pencil:#555;--tape:#FFD600;--white:#FAFAFA;--dark:#2C2C2C}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--concrete);color:var(--dark);font-family:'Noto Sans SC','Share Tech Mono',monospace;font-weight:400;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    /* Chalk snap-line grid */
+    background-image:
+      repeating-linear-gradient(0deg,transparent 0px,transparent 49px,rgba(21,101,192,0.06) 49px,rgba(21,101,192,0.06) 50px),
+      repeating-linear-gradient(90deg,transparent 0px,transparent 49px,rgba(21,101,192,0.06) 49px,rgba(21,101,192,0.06) 50px),
+      /* Chalk dust at intersections */
+      radial-gradient(circle 4px at 50px 50px,rgba(21,101,192,0.04),transparent),
+      radial-gradient(circle 3px at 100px 100px,rgba(21,101,192,0.03),transparent),
+      radial-gradient(circle 4px at 150px 50px,rgba(21,101,192,0.04),transparent)}
+
+  .page{max-width:440px;width:100%;position:relative;z-index:1}
+
+  /* Ruler decoration */
+  .ruler{height:12px;position:relative;margin-bottom:0.8rem;
+    background:repeating-linear-gradient(90deg,var(--dark) 0px,var(--dark) 1px,transparent 1px,transparent 5px);
+    background-size:5px 6px;background-position:0 bottom;background-repeat:repeat-x;
+    border-bottom:1.5px solid var(--dark);opacity:0.15}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1rem;animation:fadeIn .5s ease both}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+  .h-brand{font-family:'Share Tech Mono',monospace;font-size:1.5rem;color:var(--blue);letter-spacing:0.1em}
+  .h-en{font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:var(--pencil);letter-spacing:0.25em}
+  .h-type{font-size:0.88rem;color:var(--pencil);opacity:0.6;margin-top:0.2rem}
+
+  /* ═══ CARDS ═══ */
+  .card{background:var(--white);padding:1rem;margin-bottom:0.7rem;border-radius:2px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.06);
+    /* Ruler top edge */
+    border-top:2px solid var(--dark);position:relative;
+    opacity:0;animation:fadeIn .4s ease forwards}
+  .card::before{content:'';position:absolute;top:2px;left:0;right:0;height:8px;
+    background:repeating-linear-gradient(90deg,transparent 0,transparent 9px,rgba(44,44,44,0.08) 9px,rgba(44,44,44,0.08) 10px);
+    background-size:10px 8px}
+
+  .card-label{font-family:'Share Tech Mono',monospace;font-size:0.6rem;color:var(--blue);letter-spacing:0.12em;margin-bottom:0.4rem;margin-top:0.3rem}
+
+  /* ═══ ROOM NAME ═══ */
+  .room-input{font-family:'Noto Sans SC',sans-serif;font-weight:600;font-size:1.1rem;color:var(--dark);
+    border:none;border-bottom:1.5px dashed rgba(21,101,192,0.2);background:transparent;
+    padding:0.2em 0;outline:none;width:100%;transition:border-color .2s}
+  .room-input:focus{border-bottom-color:var(--blue)}
+
+  /* ═══ DIMENSION INPUTS ═══ */
+  .dim-row{display:flex;gap:0.6rem;align-items:center;margin-bottom:0.3rem}
+  .dim-label{font-size:0.85rem;color:var(--pencil);min-width:2.5em}
+  .dim-input{font-family:'Share Tech Mono',monospace;font-size:1.2rem;color:var(--blue);font-weight:400;
+    width:4em;padding:0.3em 0.5em;border:1.5px solid rgba(21,101,192,0.15);border-radius:2px;
+    background:rgba(21,101,192,0.02);outline:none;text-align:center;transition:all .2s}
+  .dim-input:focus{border-color:var(--blue);background:rgba(21,101,192,0.05)}
+  .dim-unit{font-family:'Share Tech Mono',monospace;font-size:0.82rem;color:var(--pencil);opacity:0.5}
+
+  /* ═══ ROOM VISUAL ═══ */
+  .visual-wrap{display:flex;justify-content:center;align-items:center;padding:1rem 0;min-height:120px}
+  .room-rect{border:2px dashed var(--blue);position:relative;transition:all .3s ease;
+    background:rgba(21,101,192,0.02);min-width:40px;min-height:30px}
+  .room-rect::before{content:attr(data-w);position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);
+    font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:var(--blue)}
+  .room-rect::after{content:attr(data-h);position:absolute;right:-28px;top:50%;transform:translateY(-50%);
+    font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:var(--blue)}
+  /* Dimension arrows */
+  .dim-arrow-h,.dim-arrow-v{position:absolute;background:var(--red);opacity:0.4}
+  .dim-arrow-h{height:1px;bottom:-8px;left:0;right:0}
+  .dim-arrow-v{width:1px;right:-8px;top:0;bottom:0}
+
+  /* ═══ RESULT ═══ */
+  .result{text-align:center;padding:0.5rem 0}
+  .result-label{font-size:0.82rem;color:var(--pencil);opacity:0.5}
+  .result-num{font-family:'Share Tech Mono',monospace;font-size:2.2rem;color:var(--blue);line-height:1.2;
+    letter-spacing:0.04em}
+  .result-unit{font-size:1rem;color:var(--pencil)}
+
+  /* ═══ PRESETS ═══ */
+  .presets{animation:fadeIn .4s ease both;animation-delay:.4s}
+  .preset-label{font-family:'Share Tech Mono',monospace;font-size:0.6rem;color:var(--pencil);letter-spacing:0.1em;
+    margin-bottom:0.3rem;opacity:0.5}
+  .preset-btns{display:flex;flex-wrap:wrap;gap:0.3rem}
+  .preset{font-family:'Share Tech Mono',monospace;font-size:0.78rem;color:var(--pencil);
+    padding:0.3em 0.7em;border:1px solid rgba(44,44,44,0.1);border-radius:2px;
+    background:transparent;cursor:pointer;transition:all .15s}
+  .preset:hover{border-color:var(--blue);color:var(--blue);background:rgba(21,101,192,0.03)}
+
+  .ruler.bottom{margin-bottom:0;margin-top:0.8rem}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;margin-top:0.8rem;animation:fadeIn .4s ease both;animation-delay:.5s}
+  .footer-motto{font-family:'Share Tech Mono',monospace;font-size:0.78rem;color:var(--blue);opacity:0.25}
+  .footer-disc{font-size:0.55rem;color:var(--pencil);opacity:0.15;margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1rem}.result-num{font-size:1.8rem}}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <div class="ruler"></div>
+
+  <header class="header">
+    <div class="h-brand">量房</div>
+    <div class="h-en">MEASURE</div>
+    <div class="h-type">房间面积计算器</div>
+  </header>
+
+  <!-- ═══ ROOM NAME ═══ -->
+  <div class="card" style="animation-delay:.1s">
+    <div class="card-label">ROOM NAME</div>
+    <input class="room-input" type="text" value="客厅" id="roomName">
+  </div>
+
+  <!-- ═══ DIMENSIONS ═══ -->
+  <div class="card" style="animation-delay:.2s">
+    <div class="card-label">DIMENSIONS</div>
+    <div class="dim-row">
+      <span class="dim-label">长度</span>
+      <input class="dim-input" type="number" step="0.1" value="5.2" id="dimL" oninput="calc()">
+      <span class="dim-unit">米</span>
+    </div>
+    <div class="dim-row">
+      <span class="dim-label">宽度</span>
+      <input class="dim-input" type="number" step="0.1" value="3.8" id="dimW" oninput="calc()">
+      <span class="dim-unit">米</span>
+    </div>
+
+    <!-- Room visual -->
+    <div class="visual-wrap">
+      <div class="room-rect" id="roomRect" data-w="5.2m" data-h="3.8m" style="width:130px;height:95px">
+        <div class="dim-arrow-h"></div>
+        <div class="dim-arrow-v"></div>
+      </div>
+    </div>
+
+    <!-- Result -->
+    <div class="result">
+      <div class="result-label">面积</div>
+      <div class="result-num" id="area">19.76</div>
+      <div class="result-unit">平方米 (㎡)</div>
+    </div>
+  </div>
+
+  <!-- ═══ PRESETS ═══ -->
+  <div class="presets">
+    <div class="preset-label">QUICK PRESETS</div>
+    <div class="preset-btns">
+      <button class="preset" onclick="setPreset('客厅',5.2,3.8)">客厅 5.2×3.8</button>
+      <button class="preset" onclick="setPreset('卧室',3.6,3.2)">卧室 3.6×3.2</button>
+      <button class="preset" onclick="setPreset('厨房',3.0,2.4)">厨房 3.0×2.4</button>
+      <button class="preset" onclick="setPreset('卫生间',2.0,1.8)">卫生间 2.0×1.8</button>
+    </div>
+  </div>
+
+  <div class="ruler bottom"></div>
+
+  <footer class="footer">
+    <div class="footer-motto">量房 · MEASURE · 装修第一步</div>
+    <div class="footer-disc">虚构应用 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+var dimL=document.getElementById('dimL');
+var dimW=document.getElementById('dimW');
+var areaEl=document.getElementById('area');
+var rect=document.getElementById('roomRect');
+var roomName=document.getElementById('roomName');
+
+function calc(){
+  var l=parseFloat(dimL.value)||0;
+  var w=parseFloat(dimW.value)||0;
+  areaEl.textContent=(l*w).toFixed(2);
+  // Scale visual (max 160px width)
+  var maxDim=Math.max(l,w,1);
+  var scale=140/maxDim;
+  rect.style.width=Math.max(30,l*scale)+'px';
+  rect.style.height=Math.max(20,w*scale)+'px';
+  rect.dataset.w=l+'m';
+  rect.dataset.h=w+'m';
+}
+
+function setPreset(name,l,w){
+  roomName.value=name;
+  dimL.value=l;dimW.value=w;
+  calc();
+}
+
+calc();
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

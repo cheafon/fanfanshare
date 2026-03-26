@@ -1,0 +1,25 @@
+Generate a room area calculator page for fictional app "量房 MEASURE", styled as Chalk Line / construction site marking aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: concrete floor (#D0CCC4), chalk blue (#1565C0), chalk red (#D32F2F), pencil gray (#555), tape yellow (#FFD600), white (#FAFAFA), dark (#2C2C2C). Typography: Share Tech Mono (technical monospace) English, Noto Sans SC 400/600 Chinese 17px+. Layout: CHALK LINE — light concrete background with blue chalk snap-line grid marks, measurement tool aesthetic, construction site feel.
+
+Animation: Medium — Required:
+1. CSS CHALK GRID: Background with faint blue chalk snap-lines — repeating-linear-gradient creating a 1m grid pattern at very low blue opacity, simulating chalk lines snapped on concrete floor
+2. CSS RULER MARKS: Decorative ruler/tape measure along card edges — repeating-linear-gradient creating fine tick marks (major every 10, minor every 5) in dark color
+3. JS AREA CALC: Input length × width → auto-calculate area in real-time (m² display with 2 decimal places), input fields styled as measurement tape readouts
+4. CSS CHALK DUST: Subtle blue powder scatter effect at chalk line intersections via radial-gradient spots
+5. JS DIMENSION VISUAL: As user changes dimensions, a CSS rectangle scales proportionally to visualize the room shape
+
+Page structure:
+1. Header: "量房" + "MEASURE" + "房间面积计算器" + ruler mark decoration
+2. Room name input: "客厅" (editable)
+3. Dimension inputs (tape measure styled):
+   - 长度: [5.2] 米 (input with ruler marks)
+   - 宽度: [3.8] 米 (input with ruler marks)
+4. Visual room shape: CSS rectangle scaling proportionally to dimensions, with chalk line border + dimension labels on edges
+5. Result: 面积 = 19.76 ㎡ (large display, auto-calculated)
+6. Quick presets: 常见户型 — 客厅(5.2×3.8) · 卧室(3.6×3.2) · 厨房(3.0×2.4) · 卫生间(2.0×1.8)
+7. Footer: "量房 · MEASURE · 装修第一步"
+
+Chalk grid: repeating-linear-gradient(0deg, transparent 0, transparent 49px, rgba(21,101,192,0.06) 49px, rgba(21,101,192,0.06) 50px) + same at 90deg. Ruler: repeating-linear-gradient(90deg, dark 0 1px, transparent 1px 5px) for minor ticks, every 5th thicker.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-chalkline-areacalc.html. Do NOT open.
