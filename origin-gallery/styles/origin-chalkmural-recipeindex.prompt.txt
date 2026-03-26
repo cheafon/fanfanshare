@@ -1,0 +1,27 @@
+Generate a recipe collection index page for fictional app "灶神 HEARTH", styled as Chalk Mural / street chalk wall art aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: dark wall (#2A2D35), chalk white (#F0EDE6), chalk coral (#FF8A7A), chalk teal (#5EC4B6), chalk yellow (#FFD54F), chalk lilac (#B39DDB), dim rgba(240,237,230,0.2). Typography: Permanent Marker (chalk handwritten display) English, ZCOOL KuaiLe (rounded playful Chinese) 17px+. Layout: CHALK MURAL — dark slate wall background with chalk dust texture, recipe cards as chalk drawings, playful hand-drawn energy.
+
+Animation: Medium — Required:
+1. CSS CHALK WALL: Dark background with SVG noise for rough wall surface + subtle repeating-linear-gradient creating faint brick-like horizontal lines
+2. CSS CHALK DUST: Text with text-shadow in same color at slight offsets creating chalky edge glow, letters appear to be written in chalk on dark surface
+3. JS FAVORITE TOGGLE: Click heart icon on recipe to toggle favorite — heart fills with chalk coral color + brief scale pulse, counter updates
+4. CSS CHALK UNDERLINES: Category headers with rough wavy underlines (CSS border-image or background with irregular pattern)
+5. STAGGERED: Recipe cards scribble-in with slight rotation wobble animation
+
+Page structure:
+1. Header: "灶神" in large chalk + "HEARTH" + "我的菜谱本" + "收藏 12 道"
+2. Categories (chalk-colored pills): 全部 · 家常菜 · 汤粥 · 烘焙 · 快手菜
+3. Recipe cards (6 recipes, 2-column grid, staggered wobble):
+   - 番茄炒蛋 · 10min · 家常菜 · ♡ 收藏 (coral)
+   - 排骨莲藕汤 · 90min · 汤粥 · ♡ (teal)
+   - 蒜蓉西兰花 · 15min · 快手菜 · ♡ (yellow)
+   - 红烧肉 · 60min · 家常菜 · ♡ (coral)
+   - 南瓜小米粥 · 40min · 汤粥 · ♡ (teal)
+   - 蔓越莓饼干 · 45min · 烘焙 · ♡ (lilac)
+4. Add recipe: "+ 添加新菜谱" chalk button
+5. Footer: "灶神 · HEARTH · 用心做饭，认真吃饭"
+
+Chalk wall: SVG feTurbulence for wall roughness + repeating-linear-gradient(0deg, transparent 18px, rgba(white,0.008) 18px 19px, transparent 19px 38px) for faint mortar lines. Chalk text: text-shadow: 0 0 2px rgba(color,0.4), 1px 0 1px rgba(color,0.2) for chalk dust edge.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-chalkmural-recipeindex.html. Do NOT open.
