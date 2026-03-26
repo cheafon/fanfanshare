@@ -1,0 +1,29 @@
+Generate a formal dinner party invitation page for fictional event "月圆之夜 FULL MOON DINNER", styled as Toile de Jouy / French pastoral printed fabric aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: toile blue (#4A6FA5), toile cream (#FDF8F0), white (#FFFFFF), rose accent (#C4858A), warm gray (#8A8A8A), light blue (#D4E4F4), dim rgba(74,111,165,0.2). Typography: Bodoni Moda (high-contrast elegant Didone serif) English, Noto Serif SC 300/400/600 Chinese 17px+. Layout: TOILE — cream background with toile-style decorative pattern, elegant invitation card with ornate borders, French romantic pastoral feel.
+
+Animation: Low-Medium (elegant, refined) — Required:
+1. CSS TOILE PATTERN: Background with repeating decorative pattern using CSS — small repeating ornamental motifs created with radial-gradient and repeating-conic-gradient in toile blue on cream, simulating printed fabric pattern (small floral/diamond repeating units)
+2. CSS ORNATE BORDER: Invitation card with elaborate decorative border — multiple nested border layers (outer solid, middle dashed, inner solid with gap) creating classic engraved invitation feel
+3. CSS FLORAL CORNERS: 4 corner decorations made with CSS — small circles + curved lines simulating toile floral motifs at card corners
+4. JS RSVP TOGGLE: Two elegant buttons "欣然赴约" / "遗憾缺席" — click one to select with smooth color fill transition + the other dims
+5. CSS ELEGANT REVEAL: Card fades in with slight scale (like unfolding an envelope), refined 1.2s animation
+
+Page structure:
+1. Envelope flap decoration: Small toile pattern strip at top
+2. Invitation card (centered, ornate border):
+   - "诚挚邀请" + ornamental line
+   - "月圆之夜 · 春分晚宴"
+   - Host: "林小舟 & 陈安宁 诚邀"
+   - Date: "二〇二六年三月二十八日 · 星期六"
+   - Time: "晚间七时"
+   - Venue: "梧桐小院 · 静安区愚园路388号"
+   - Dress code: "Smart Casual · 舒适优雅"
+   - Menu preview: "时令沙拉 · 慢煮牛排 · 手工意面 · 提拉米苏"
+3. RSVP section: [欣然赴约] [遗憾缺席] toggle buttons
+4. Note: "如有饮食禁忌请提前告知 · 期待与您共度美好夜晚"
+5. Footer: "月圆之夜 · FULL MOON · 好友相聚，月色正好"
+
+Toile pattern: repeating-radial-gradient(circle 3px, rgba(74,111,165,0.06) 2px, transparent 2px) at 16px intervals + repeating-linear-gradient creating small diamond lattice at very low opacity. Ornate border: box-shadow with multiple inset layers + dashed outline + solid inner border.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-toile-dinnerinvite.html. Do NOT open.

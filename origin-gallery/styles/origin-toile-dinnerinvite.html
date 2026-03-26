@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>月圆之夜 · 春分晚宴邀请</title>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;1,6..96,400&family=Noto+Serif+SC:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--blue:#4A6FA5;--cream:#FDF8F0;--white:#FFFFFF;--rose:#C4858A;--gray:#8A8A8A;--ltblue:#D4E4F4;--dim:rgba(74,111,165,0.2)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--cream);color:#3A3A3A;font-family:'Noto Serif SC','Bodoni Moda',serif;font-weight:300;font-size:17px;line-height:1.9;
+    display:flex;justify-content:center;padding:2rem 1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    /* Toile pattern — diamond lattice + small dot motifs */
+    background-image:
+      repeating-linear-gradient(45deg,transparent,transparent 14px,rgba(74,111,165,0.025) 14px,rgba(74,111,165,0.025) 15px),
+      repeating-linear-gradient(-45deg,transparent,transparent 14px,rgba(74,111,165,0.025) 14px,rgba(74,111,165,0.025) 15px),
+      radial-gradient(circle 1.5px at 15px 15px,rgba(74,111,165,0.04) 1px,transparent 1px);
+    background-size:30px 30px,30px 30px,30px 30px}
+
+  .page{max-width:420px;width:100%;position:relative;z-index:1}
+
+  /* Toile strip */
+  .toile-strip{height:8px;background:repeating-linear-gradient(90deg,var(--blue) 0px,var(--blue) 4px,var(--cream) 4px,var(--cream) 8px,var(--rose) 8px,var(--rose) 10px,var(--cream) 10px,var(--cream) 16px);
+    opacity:0.2;margin-bottom:1.5rem;border-radius:1px}
+
+  /* ═══ INVITATION CARD ═══ */
+  .card{background:var(--white);padding:2rem 1.5rem;position:relative;text-align:center;
+    /* Ornate nested borders */
+    border:1px solid rgba(74,111,165,0.15);
+    outline:1px dashed rgba(74,111,165,0.1);outline-offset:4px;
+    box-shadow:0 0 0 8px var(--white),0 0 0 9px rgba(74,111,165,0.08),
+      0 4px 20px rgba(74,111,165,0.06);
+    opacity:0;animation:envelopeOpen 1.2s cubic-bezier(0.4,0,0.2,1) both;animation-delay:.2s}
+  @keyframes envelopeOpen{from{opacity:0;transform:scale(0.96) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}
+
+  /* Floral corners */
+  .corner{position:absolute;width:20px;height:20px}
+  .corner::before{content:'';position:absolute;width:8px;height:8px;border-radius:50%;border:1px solid rgba(74,111,165,0.12)}
+  .corner::after{content:'';position:absolute;width:12px;height:1px;background:rgba(74,111,165,0.08)}
+  .c-tl{top:8px;left:8px}.c-tl::before{top:0;left:0}.c-tl::after{top:4px;left:8px;transform:rotate(45deg)}
+  .c-tr{top:8px;right:8px}.c-tr::before{top:0;right:0}.c-tr::after{top:4px;right:8px;transform:rotate(-45deg)}
+  .c-bl{bottom:8px;left:8px}.c-bl::before{bottom:0;left:0}.c-bl::after{bottom:4px;left:8px;transform:rotate(-45deg)}
+  .c-br{bottom:8px;right:8px}.c-br::before{bottom:0;right:0}.c-br::after{bottom:4px;right:8px;transform:rotate(45deg)}
+
+  /* ═══ CONTENT ═══ */
+  .invite-label{font-family:'Bodoni Moda',serif;font-weight:400;font-size:0.72rem;color:var(--blue);letter-spacing:0.2em;opacity:0.5}
+
+  .ornament{display:flex;align-items:center;justify-content:center;gap:6px;margin:0.5rem 0}
+  .orn-line{width:30px;height:0.5px;background:var(--blue);opacity:0.2}
+  .orn-diamond{width:5px;height:5px;background:var(--rose);transform:rotate(45deg);opacity:0.3}
+
+  .event-name{font-weight:600;font-size:1.3rem;color:#2A2A2A;margin-top:0.3rem;letter-spacing:0.08em}
+  .event-sub{font-family:'Bodoni Moda',serif;font-style:italic;font-size:0.85rem;color:var(--rose);margin-top:0.1rem}
+
+  .hosts{font-size:0.92rem;color:var(--gray);margin-top:0.8rem}
+  .host-names{font-weight:400;font-size:1rem;color:#3A3A3A;margin-top:0.1rem}
+
+  .details{margin-top:1rem;padding-top:0.8rem;border-top:0.5px solid rgba(74,111,165,0.08)}
+  .detail-line{font-size:0.92rem;color:#4A4A4A;line-height:2.2}
+  .detail-en{font-family:'Bodoni Moda',serif;font-style:italic;font-size:0.78rem;color:var(--blue);opacity:0.4}
+
+  .menu{margin-top:0.8rem;padding-top:0.6rem;border-top:0.5px solid rgba(74,111,165,0.06)}
+  .menu-label{font-family:'Bodoni Moda',serif;font-size:0.65rem;color:var(--blue);letter-spacing:0.15em;opacity:0.4;margin-bottom:0.2rem}
+  .menu-items{font-size:0.88rem;color:var(--gray);line-height:2}
+
+  /* ═══ RSVP ═══ */
+  .rsvp{margin-top:1rem;padding-top:0.8rem;border-top:0.5px solid rgba(74,111,165,0.06)}
+  .rsvp-label{font-family:'Bodoni Moda',serif;font-size:0.65rem;color:var(--blue);letter-spacing:0.12em;opacity:0.4;margin-bottom:0.5rem}
+  .rsvp-btns{display:flex;gap:0.5rem;justify-content:center}
+  .rsvp-btn{font-family:'Noto Serif SC',serif;font-weight:400;font-size:0.85rem;
+    padding:0.5em 1.2em;border-radius:3px;border:1px solid;cursor:pointer;transition:all .3s;background:transparent}
+  .rsvp-btn.accept{border-color:var(--blue);color:var(--blue)}
+  .rsvp-btn.accept:hover,.rsvp-btn.accept.selected{background:var(--blue);color:var(--white)}
+  .rsvp-btn.decline{border-color:var(--rose);color:var(--rose)}
+  .rsvp-btn.decline:hover,.rsvp-btn.decline.selected{background:var(--rose);color:var(--white)}
+  .rsvp-btn.dimmed{opacity:0.2;pointer-events:none}
+  .rsvp-msg{font-size:0.78rem;color:var(--gray);opacity:0;margin-top:0.4rem;transition:opacity .3s}
+  .rsvp-msg.show{opacity:0.5}
+
+  .note{font-size:0.82rem;color:var(--gray);opacity:0.4;margin-top:0.8rem;font-style:italic;line-height:1.8}
+
+  .toile-strip.bottom{margin-bottom:0;margin-top:1.5rem}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;margin-top:0.8rem;opacity:0;animation:envelopeOpen 1s ease both;animation-delay:1s}
+  .footer-motto{font-family:'Bodoni Moda',serif;font-style:italic;font-size:0.82rem;color:var(--blue);opacity:0.2}
+  .footer-disc{font-size:0.55rem;color:var(--gray);opacity:0.1;margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1.5rem 1rem}.card{padding:1.5rem 1rem}}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <div class="toile-strip"></div>
+
+  <!-- ═══ INVITATION CARD ═══ -->
+  <div class="card">
+    <div class="corner c-tl"></div><div class="corner c-tr"></div>
+    <div class="corner c-bl"></div><div class="corner c-br"></div>
+
+    <div class="invite-label">诚挚邀请</div>
+    <div class="ornament"><div class="orn-line"></div><div class="orn-diamond"></div><div class="orn-line"></div></div>
+
+    <div class="event-name">月圆之夜 · 春分晚宴</div>
+    <div class="event-sub">Full Moon Dinner</div>
+
+    <div class="hosts">
+      <div>林小舟 & 陈安宁</div>
+      <div style="font-size:0.82rem;color:var(--gray);opacity:0.5;margin-top:0.1rem">诚邀您共赴晚宴</div>
+    </div>
+
+    <div class="details">
+      <div class="detail-line">二〇二六年三月二十八日 · 星期六</div>
+      <div class="detail-line">晚间七时</div>
+      <div class="detail-line">梧桐小院 · 静安区愚园路 388 号</div>
+      <div class="detail-en">Smart Casual · 舒适优雅</div>
+    </div>
+
+    <div class="menu">
+      <div class="menu-label">MENU</div>
+      <div class="menu-items">时令沙拉 · 慢煮牛排 · 手工意面 · 提拉米苏</div>
+    </div>
+
+    <div class="ornament"><div class="orn-line"></div><div class="orn-diamond"></div><div class="orn-line"></div></div>
+
+    <div class="rsvp">
+      <div class="rsvp-label">R.S.V.P.</div>
+      <div class="rsvp-btns">
+        <button class="rsvp-btn accept" onclick="rsvp('accept',this)">欣然赴约</button>
+        <button class="rsvp-btn decline" onclick="rsvp('decline',this)">遗憾缺席</button>
+      </div>
+      <div class="rsvp-msg" id="rsvpMsg"></div>
+    </div>
+
+    <div class="note">如有饮食禁忌请提前告知<br>期待与您共度美好夜晚</div>
+  </div>
+
+  <div class="toile-strip bottom"></div>
+
+  <footer class="footer">
+    <div class="footer-motto">月圆之夜 · Full Moon · 好友相聚，月色正好</div>
+    <div class="footer-disc">虚构晚宴 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+function rsvp(type,btn){
+  var btns=document.querySelectorAll('.rsvp-btn');
+  var msg=document.getElementById('rsvpMsg');
+  btns.forEach(function(b){b.classList.remove('selected','dimmed')});
+  btn.classList.add('selected');
+  var other=type==='accept'?btns[1]:btns[0];
+  other.classList.add('dimmed');
+  msg.textContent=type==='accept'?'感谢确认，期待与您相见':'已收到，下次一定';
+  msg.classList.add('show');
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
