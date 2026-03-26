@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>搬家倒计时 — 迁徙 MIGRATE</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--screen:#0C0C14;--red:#FF3366;--cyan:#00FFCC;--blue:#3366FF;--white:#E8E8F0;--dim:#444}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--screen);color:var(--white);font-family:'Noto Sans SC','JetBrains Mono',monospace;font-weight:400;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative}
+
+  /* CRT Scanlines */
+  .scanlines{position:fixed;inset:0;pointer-events:none;z-index:10;
+    background:repeating-linear-gradient(0deg,transparent,transparent 1px,rgba(0,0,0,0.12) 1px,rgba(0,0,0,0.12) 2px);
+    background-size:100% 2px}
+  /* Screen glow */
+  .glow{position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:radial-gradient(ellipse at 50% 50%,rgba(51,102,255,0.03) 0%,transparent 70%)}
+
+  .page{max-width:460px;width:100%;position:relative;z-index:1}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.5rem;animation:fadeIn .5s ease both}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .h-brand{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:1.8rem;color:var(--white);letter-spacing:0.08em;
+    /* RGB split */
+    text-shadow:-2px 0 var(--red),2px 0 var(--cyan);
+    animation:rgbShift 4s ease-in-out infinite}
+  @keyframes rgbShift{0%,90%,100%{text-shadow:-2px 0 var(--red),2px 0 var(--cyan)}93%{text-shadow:-4px 0 var(--red),4px 0 var(--cyan)}96%{text-shadow:-1px 1px var(--red),3px -1px var(--cyan)}}
+  .h-en{font-family:'JetBrains Mono',monospace;font-weight:400;font-size:0.65rem;color:var(--dim);letter-spacing:0.25em}
+  .h-countdown{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:1rem;color:var(--red);margin-top:0.5rem;
+    text-shadow:-1px 0 rgba(255,51,102,0.3),1px 0 rgba(0,255,204,0.3)}
+
+  /* ═══ OVERVIEW ═══ */
+  .overview{display:flex;justify-content:center;gap:1.2rem;margin-bottom:1.2rem;flex-wrap:wrap;
+    animation:fadeIn .5s ease both;animation-delay:.1s}
+  .ov-item{text-align:center}
+  .ov-num{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:1.3rem;color:var(--cyan)}
+  .ov-label{font-size:0.72rem;color:var(--dim)}
+
+  /* ═══ CATEGORY ═══ */
+  .category{margin-bottom:1rem;opacity:0;animation:fadeIn .5s ease forwards}
+  .cat-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.3rem}
+  .cat-name{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:0.82rem;letter-spacing:0.06em}
+  .cat-count{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--dim)}
+  .cat-bar{height:3px;background:rgba(255,255,255,0.04);border-radius:2px;overflow:hidden;margin-bottom:0.4rem}
+  .cat-fill{height:100%;border-radius:2px;transition:width .5s ease}
+
+  .item{display:flex;align-items:center;gap:0.5rem;padding:0.3rem 0.5rem;cursor:pointer;
+    transition:all .15s;border-radius:3px;user-select:none}
+  .item:hover{background:rgba(255,255,255,0.02)}
+  .item.checked{opacity:0.3}
+  .item.checked .item-name{text-decoration:line-through;text-decoration-color:var(--cyan)}
+
+  .cb{width:14px;height:14px;border:1.5px solid var(--dim);border-radius:2px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;transition:all .15s;font-size:0.6rem}
+  .item.checked .cb{border-color:var(--cyan);background:var(--cyan);color:var(--screen)}
+  .item-name{font-size:0.9rem;color:var(--white);transition:all .2s}
+
+  /* Accent colors */
+  .cat-red .cat-name{color:var(--red)}.cat-red .cat-fill{background:linear-gradient(90deg,var(--red),var(--cyan))}
+  .cat-cyan .cat-name{color:var(--cyan)}.cat-cyan .cat-fill{background:linear-gradient(90deg,var(--cyan),var(--blue))}
+  .cat-blue .cat-name{color:var(--blue)}.cat-blue .cat-fill{background:linear-gradient(90deg,var(--blue),var(--red))}
+  .cat-white .cat-name{color:var(--white)}.cat-white .cat-fill{background:linear-gradient(90deg,var(--white),var(--cyan))}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;margin-top:0.5rem;animation:fadeIn .5s ease both;animation-delay:1s}
+  .footer-motto{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--dim);opacity:0.35;letter-spacing:0.04em}
+  .footer-disc{font-size:0.55rem;color:var(--dim);opacity:0.12;margin-top:0.2rem}
+
+  /* Glitch effect class */
+  .glitching{animation:glitch .15s steps(2) 1}
+  @keyframes glitch{0%{transform:translateX(0) skewX(0);opacity:1}25%{transform:translateX(-5px) skewX(-2deg);opacity:0.7}50%{transform:translateX(3px) skewX(1deg);opacity:0.9}75%{transform:translateX(-2px) skewX(-1deg);opacity:0.8}100%{transform:translateX(0) skewX(0);opacity:1}}
+
+  @media(max-width:400px){body{padding:1rem}.h-brand{font-size:1.5rem}}
+</style>
+</head>
+<body>
+
+<div class="scanlines"></div>
+<div class="glow"></div>
+
+<div class="page">
+
+  <header class="header">
+    <div class="h-brand">迁徙</div>
+    <div class="h-en">MIGRATE</div>
+    <div class="h-countdown">搬家倒计时：7 天</div>
+  </header>
+
+  <div class="overview">
+    <div class="ov-item"><div class="ov-num" id="ovTotal">24</div><div class="ov-label">总计</div></div>
+    <div class="ov-item"><div class="ov-num" id="ovDone">11</div><div class="ov-label">已完成</div></div>
+    <div class="ov-item"><div class="ov-num" id="ovPct">46%</div><div class="ov-label">进度</div></div>
+  </div>
+
+  <div id="cats"></div>
+
+  <footer class="footer">
+    <div class="footer-motto">迁徙 · MIGRATE · 每一次搬家都是新的开始</div>
+    <div class="footer-disc">虚构应用 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+var data=[
+  {name:'打包整理',cls:'cat-red',items:[
+    {t:'衣物分类装箱',done:true},{t:'书籍打包标号',done:true},{t:'厨房用品包裹',done:true},
+    {t:'易碎品特殊包装',done:false},{t:'电子设备装箱',done:false},{t:'最后一箱日用品',done:false}]},
+  {name:'手续办理',cls:'cat-cyan',items:[
+    {t:'新房钥匙交接',done:true},{t:'宽带迁移预约',done:true},{t:'物业费结清',done:true},
+    {t:'快递地址更新',done:true},{t:'居住证变更',done:false},{t:'社区登记',done:false}]},
+  {name:'搬家当天',cls:'cat-blue',items:[
+    {t:'搬家公司确认',done:true},{t:'纸箱编号清点',done:true},{t:'冰箱提前断电',done:true},
+    {t:'贵重物品随身',done:false},{t:'旧房最终检查',done:false},{t:'新房开窗通风',done:false}]},
+  {name:'入住安顿',cls:'cat-white',items:[
+    {t:'床铺优先安装',done:true},{t:'网络安装调试',done:false},{t:'家具归位摆放',done:false},
+    {t:'邻居打招呼',done:false},{t:'附近超市探路',done:false},{t:'庆祝乔迁快乐',done:false}]}
+];
+
+function render(){
+  var catsEl=document.getElementById('cats');
+  catsEl.innerHTML='';
+  var totalDone=0,totalAll=0;
+  data.forEach(function(cat,ci){
+    var done=cat.items.filter(function(x){return x.done}).length;
+    totalDone+=done;totalAll+=cat.items.length;
+    var pct=Math.round(done/cat.items.length*100);
+    var div=document.createElement('div');
+    div.className='category '+cat.cls;
+    div.style.animationDelay=(0.2+ci*0.12)+'s';
+    div.innerHTML='<div class="cat-header"><span class="cat-name">'+cat.name+'</span><span class="cat-count">'+done+'/'+cat.items.length+'</span></div>'+
+      '<div class="cat-bar"><div class="cat-fill" style="width:'+pct+'%"></div></div>';
+    cat.items.forEach(function(item,ii){
+      var it=document.createElement('div');
+      it.className='item'+(item.done?' checked':'');
+      it.innerHTML='<div class="cb">'+(item.done?'✓':'')+'</div><span class="item-name">'+item.t+'</span>';
+      it.onclick=function(){item.done=!item.done;render()};
+      div.appendChild(it);
+    });
+    catsEl.appendChild(div);
+  });
+  document.getElementById('ovDone').textContent=totalDone;
+  document.getElementById('ovPct').textContent=Math.round(totalDone/totalAll*100)+'%';
+}
+render();
+
+// Random glitch effect
+setInterval(function(){
+  var els=document.querySelectorAll('.category');
+  if(els.length===0)return;
+  var el=els[Math.floor(Math.random()*els.length)];
+  el.classList.add('glitching');
+  setTimeout(function(){el.classList.remove('glitching')},150);
+},3500+Math.random()*2000);
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

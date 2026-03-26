@@ -1,0 +1,47 @@
+Generate a moving/relocation checklist page for fictional app "迁徙 MIGRATE", styled as Chromatic Aberration / RGB glitch art aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: dark screen (#0C0C14), glitch red (#FF3366), glitch cyan (#00FFCC), glitch blue (#3366FF), scan white (#E8E8F0), dim gray (#444). Typography: JetBrains Mono (monospace technical) English, Noto Sans SC 400/600 Chinese 17px+. Layout: CHROMATIC ABERRATION — dark screen background with CRT scanlines, RGB-split text effects, glitch aesthetic.
+
+Animation: Medium-High — Required:
+1. CSS RGB SPLIT: Title text with chromatic aberration effect — text-shadow with offset red (-2px,0) and cyan (2px,0) creating RGB channel separation look. Subtle animation that occasionally shifts the offset.
+2. CSS CRT SCANLINES: Full-page overlay of horizontal scanlines using repeating-linear-gradient (1px transparent, 1px rgba(0,0,0,0.15)) at 2px intervals, fixed position
+3. JS GLITCH EFFECT: Every 3-5 seconds, a random section briefly "glitches" — translateX shift + skewX + opacity flicker for 150ms, then returns to normal
+4. CSS PROGRESS BARS: Each category has a completion bar with glitch-style gradient (red→cyan→blue segments)
+5. JS CHECKBOX: Click items to check off, bar updates. Checked items get strikethrough with cyan color.
+
+Page structure:
+1. Header: "迁徙" + "MIGRATE" + RGB split effect + "搬家倒计时：7天"
+2. Overview: 总计 24项 · 已完成 11项 · 进度 46%
+3. Category: 打包整理 (6 items, glitch red accent):
+   - [x] 衣物分类装箱
+   - [x] 书籍打包标号
+   - [x] 厨房用品包裹
+   - [ ] 易碎品特殊包装
+   - [ ] 电子设备装箱
+   - [ ] 最后一箱日用品
+4. Category: 手续办理 (6 items, glitch cyan accent):
+   - [x] 新房钥匙交接
+   - [x] 宽带迁移预约
+   - [x] 物业费结清
+   - [x] 快递地址更新
+   - [ ] 居住证变更
+   - [ ] 社区登记
+5. Category: 搬家当天 (6 items, glitch blue accent):
+   - [x] 搬家公司确认
+   - [x] 纸箱编号清点
+   - [x] 冰箱提前断电
+   - [ ] 贵重物品随身
+   - [ ] 旧房最终检查
+   - [ ] 新房开窗通风
+6. Category: 入住安顿 (6 items, white accent):
+   - [x] 床铺优先安装
+   - [ ] 网络安装调试
+   - [ ] 家具归位摆放
+   - [ ] 邻居打招呼
+   - [ ] 附近超市探路
+   - [ ] 庆祝乔迁快乐
+7. Footer: "迁徙 · MIGRATE · 每一次搬家都是新的开始"
+
+RGB split: text-shadow: -2px 0 var(--red), 2px 0 var(--cyan). Scanlines: repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(0,0,0,0.12) 1px, rgba(0,0,0,0.12) 2px). Glitch: JS setInterval picks random element, applies transform:translateX(random)skewX(random) + opacity flicker for 150ms.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-chromaglitch-movinglist.html. Do NOT open.
