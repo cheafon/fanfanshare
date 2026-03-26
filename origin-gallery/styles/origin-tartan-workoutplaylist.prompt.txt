@@ -1,0 +1,31 @@
+Generate a workout playlist page for fictional app "燃动 BURNBEAT", styled as Tartan Plaid / Scottish woven textile aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: tartan burgundy (#6B1D2A), tartan forest (#1B4332), tartan navy (#1B2A4A), tartan cream (#F5E6C8), tartan gold (#D4A843), dim rgba(245,230,200,0.3). Typography: Archivo Black (bold condensed impact) English headings, Noto Sans SC 500/700 Chinese 17px+. Layout: TARTAN — dark background with CSS tartan plaid pattern (overlapping horizontal/vertical stripes), playlist cards with energetic feel.
+
+Animation: Medium-High — Required:
+1. CSS TARTAN PATTERN: Background with overlapping repeating-linear-gradient creating authentic tartan plaid — horizontal stripes (burgundy/forest/navy bands of varying widths) + vertical stripes at 90deg with multiply blend mode, + thin cream accent lines creating the woven cross effect
+2. CSS BPM BARS: Each song has a visual BPM indicator — small horizontal bar whose width maps to BPM (120-180 range), with gradient from forest to burgundy based on intensity
+3. JS BPM COUNTER: Hover/click a song to show its BPM with a pulsing dot that blinks at the actual beat rate (calculated from BPM)
+4. CARD STAGGER: Playlist songs slide in from alternating left/right with staggered delays
+5. HOVER PLAID SHIFT: Song cards on hover show subtle background-position shift of an inner tartan micro-pattern, creating woven fabric movement illusion
+
+Page structure:
+1. Header: "燃动" + "BURNBEAT" + "今日训练歌单" + workout type "HIIT 高强度间歇"
+2. Workout info: 总时长 45分钟 · 10首 · 平均BPM 152
+3. Playlist (10 songs, staggered, with BPM bars):
+   01. 热身 · 慢跑 — "光" 陈粒 · 118 BPM
+   02. 间歇1 · 冲刺 — "野子" 苏运莹 · 156 BPM
+   03. 恢复 · 慢走 — "平凡之路" 朴树 · 124 BPM
+   04. 间歇2 · 波比跳 — "倔强" 五月天 · 168 BPM
+   05. 恢复 · 拉伸 — "后来" 刘若英 · 110 BPM
+   06. 间歇3 · 登山者 — "存在" 汪峰 · 172 BPM
+   07. 恢复 · 深呼吸 — "小幸运" 田馥甄 · 120 BPM
+   08. 间歇4 · 开合跳 — "奔跑" 黄征 · 176 BPM
+   09. 冲刺 · 全力输出 — "怒放的生命" 汪峰 · 180 BPM
+   10. 冷却 · 放松 — "夜空中最亮的星" 逃跑计划 · 108 BPM
+4. Stats summary: 估计消耗 420 千卡 · 最高心率区间 4-5
+5. Footer: "燃动 · BURNBEAT · 用音乐点燃每一滴汗"
+
+Tartan: repeating-linear-gradient(0deg, transparent 0, transparent 20px, rgba(burgundy,0.3) 20px 24px, transparent 24px 44px, rgba(forest,0.2) 44px 50px, transparent 50px 70px) PLUS repeating-linear-gradient(90deg, same pattern) with background-blend-mode:multiply. Thin cream lines: repeating-linear-gradient(0deg, transparent 0 21px, rgba(cream,0.1) 21px 22px, transparent 22px 50px) both directions.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-tartan-workoutplaylist.html. Do NOT open.
