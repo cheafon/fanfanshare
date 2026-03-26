@@ -1,0 +1,26 @@
+Generate a class contact directory for fictional group "高三(2)班 CLASS 2", styled as Blackboard Erased / classroom chalkboard with erase marks aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: blackboard green (#1B3B2A), chalk white (#E8E4D8), chalk dust (#C8C4B8 at low opacity), erased area (#2A4A38 lighter patch), yellow chalk (#FFD54F), pink chalk (#F48FB1), blue chalk (#64B5F6). Typography: Kalam (handwritten chalk) English, Ma Shan Zheng or ZCOOL KuaiLe (handwritten Chinese) 17px+. Layout: BLACKBOARD — dark green board with visible erase smear marks, chalk-written content, classroom nostalgia.
+
+Animation: Medium — Required:
+1. CSS ERASE MARKS: Background dark green board with several lighter radial-gradient patches simulating where chalk was erased but left ghost marks, creating authentic erased blackboard surface
+2. CSS CHALK TEXT: All text with slight text-shadow in same color creating chalky powder edge, slightly uneven opacity
+3. JS SEARCH FILTER: Type classmate name → non-matching entries fade to very dim (like erased away), matching ones stay bright chalk white
+4. CSS CHALK COLORS: Different groups in different chalk colors (学习组=white, 体育组=yellow, 文艺组=pink, 班委=blue)
+5. CSS BOARD FRAME: Wooden frame border around the page (linear-gradient wood color on border)
+
+Page structure:
+1. Header: "高三(2)班" in large chalk + "通讯录" + "2026届 · 42人" + wooden frame top
+2. Teacher: 班主任 李老师 · 数学 · 138xxxx1234
+3. Search: 搜索同学 (chalk-styled input)
+4. Groups (chalk colored, 4 groups):
+   班委(blue): 班长小林·副班长晓晓·学习委员大伟·文艺委员小美
+   学习组(white): 阿杰·小鱼·阿瑞·豆豆·石头·飞哥
+   体育组(yellow): 老虎·铁柱·大力·阿猛·小钢
+   文艺组(pink): 小星·月月·花花·琪琪·朵朵
+5. Stats: 男生 22 · 女生 20 · 共 42 人
+6. Footer: "高三(2)班 · 青春不散场"
+
+Erase marks: 4-5 radial-gradient(ellipse Wpx Hpx at X% Y%, rgba(42,74,56,0.5), transparent) creating lighter erased patches. Chalk: text-shadow: 0 0 1px rgba(chalk,0.5), 1px 0 1px rgba(chalk,0.2). Wood frame: border: 8px solid; border-image: linear-gradient(180deg, #8B6914, #6B4E2E, #8B6914) 1.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-blackboarderased-classlist.html. Do NOT open.

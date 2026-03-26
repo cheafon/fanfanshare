@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>通讯录 — 高三(2)班</title>
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+<style>
+  :root{--board:#1B3B2A;--chalk:#E8E4D8;--dust:rgba(200,196,184,0.08);--erased:#2A4A38;--yellow:#FFD54F;--pink:#F48FB1;--blue:#64B5F6;--wood1:#8B6914;--wood2:#6B4E2E}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--board);color:var(--chalk);font-family:'ZCOOL KuaiLe','Kalam',cursive;font-weight:400;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    /* Erase smear marks */
+    background-image:
+      radial-gradient(ellipse 120px 60px at 25% 20%,rgba(42,74,56,0.5),transparent),
+      radial-gradient(ellipse 80px 100px at 70% 35%,rgba(42,74,56,0.4),transparent),
+      radial-gradient(ellipse 150px 50px at 45% 60%,rgba(42,74,56,0.35),transparent),
+      radial-gradient(ellipse 100px 80px at 80% 80%,rgba(42,74,56,0.4),transparent),
+      radial-gradient(ellipse 90px 70px at 15% 75%,rgba(42,74,56,0.3),transparent)}
+
+  /* Wooden frame */
+  .frame{max-width:460px;width:100%;border:8px solid;
+    border-image:linear-gradient(180deg,var(--wood1),var(--wood2),var(--wood1)) 1;
+    padding:1.5rem 1.2rem;position:relative;
+    box-shadow:inset 0 0 30px rgba(0,0,0,0.15)}
+
+  /* Chalk text style */
+  .chalk{text-shadow:0 0 2px rgba(232,228,216,0.3),1px 0 1px rgba(232,228,216,0.15)}
+  .chalk-yellow{color:var(--yellow);text-shadow:0 0 3px rgba(255,213,79,0.3),1px 0 1px rgba(255,213,79,0.15)}
+  .chalk-pink{color:var(--pink);text-shadow:0 0 3px rgba(244,143,177,0.3),1px 0 1px rgba(244,143,177,0.15)}
+  .chalk-blue{color:var(--blue);text-shadow:0 0 3px rgba(100,181,246,0.3),1px 0 1px rgba(100,181,246,0.15)}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1rem;animation:chalkIn .5s ease both}
+  @keyframes chalkIn{from{opacity:0}to{opacity:1}}
+  .h-class{font-size:1.8rem;letter-spacing:0.06em}
+  .h-type{font-size:1rem;opacity:0.6;margin-top:0.1rem}
+  .h-meta{font-family:'Kalam',cursive;font-size:0.78rem;opacity:0.35;margin-top:0.1rem}
+
+  /* Chalk line */
+  .chalk-line{height:1px;background:linear-gradient(90deg,transparent 5%,rgba(232,228,216,0.12) 20%,rgba(232,228,216,0.15) 50%,rgba(232,228,216,0.12) 80%,transparent 95%);margin:0.8rem 0}
+
+  /* ═══ TEACHER ═══ */
+  .teacher{text-align:center;margin-bottom:0.5rem;animation:chalkIn .5s ease both;animation-delay:.1s}
+  .teacher-name{font-size:0.92rem;opacity:0.7}
+
+  /* ═══ SEARCH ═══ */
+  .search{margin-bottom:1rem;animation:chalkIn .5s ease both;animation-delay:.15s}
+  .search-input{width:100%;padding:0.4em 0.7em;background:transparent;
+    border:none;border-bottom:1px dashed rgba(232,228,216,0.15);color:var(--chalk);
+    font-family:'ZCOOL KuaiLe',cursive;font-size:0.88rem;outline:none;text-align:center;
+    text-shadow:0 0 2px rgba(232,228,216,0.3)}
+  .search-input::placeholder{color:rgba(232,228,216,0.15)}
+
+  /* ═══ GROUPS ═══ */
+  .group{margin-bottom:0.8rem;opacity:0;animation:chalkIn .4s ease forwards}
+  .g-label{font-size:0.82rem;margin-bottom:0.3rem;letter-spacing:0.04em}
+  .g-members{display:flex;flex-wrap:wrap;gap:0.3rem}
+  .member{font-size:0.88rem;padding:0.2em 0.6em;border-radius:3px;transition:all .3s;cursor:default;
+    border:1px dashed transparent}
+  .member:hover{border-color:rgba(232,228,216,0.1);background:rgba(232,228,216,0.02)}
+  .member.dim{opacity:0.08;text-shadow:none}/* Erased away */
+
+  /* Group colors */
+  .g-blue .g-label{color:var(--blue)}
+  .g-blue .member{color:rgba(100,181,246,0.7);text-shadow:0 0 2px rgba(100,181,246,0.2)}
+  .g-white .member{color:rgba(232,228,216,0.6);text-shadow:0 0 2px rgba(232,228,216,0.2)}
+  .g-yellow .g-label{color:var(--yellow)}
+  .g-yellow .member{color:rgba(255,213,79,0.7);text-shadow:0 0 2px rgba(255,213,79,0.2)}
+  .g-pink .g-label{color:var(--pink)}
+  .g-pink .member{color:rgba(244,143,177,0.7);text-shadow:0 0 2px rgba(244,143,177,0.2)}
+
+  /* ═══ STATS ═══ */
+  .stats{text-align:center;font-family:'Kalam',cursive;font-size:0.78rem;opacity:0.25;margin-top:0.3rem;
+    animation:chalkIn .4s ease both;animation-delay:.6s}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;margin-top:0.5rem;animation:chalkIn .4s ease both;animation-delay:.7s}
+  .footer-text{font-size:0.88rem;opacity:0.2}
+  .footer-disc{font-size:0.55rem;opacity:0.08;margin-top:0.3rem}
+
+  @media(max-width:400px){body{padding:0.5rem}.frame{padding:1.2rem 0.8rem}.h-class{font-size:1.5rem}}
+</style>
+</head>
+<body>
+
+<div class="frame">
+
+  <header class="header">
+    <div class="h-class chalk">高三(2)班</div>
+    <div class="h-type chalk">通讯录</div>
+    <div class="h-meta">2026 届 · 42 人</div>
+  </header>
+
+  <div class="chalk-line"></div>
+
+  <div class="teacher">
+    <div class="teacher-name chalk">班主任 李老师 · 数学 · 138xxxx1234</div>
+  </div>
+
+  <div class="chalk-line"></div>
+
+  <div class="search">
+    <input class="search-input" type="text" placeholder="搜索同学..." id="searchInput" oninput="filterMembers(this.value)">
+  </div>
+
+  <!-- ═══ GROUPS ═══ -->
+  <div class="group g-blue" style="animation-delay:.2s">
+    <div class="g-label chalk-blue">班委</div>
+    <div class="g-members">
+      <span class="member">班长 小林</span>
+      <span class="member">副班 晓晓</span>
+      <span class="member">学委 大伟</span>
+      <span class="member">文委 小美</span>
+    </div>
+  </div>
+
+  <div class="group g-white" style="animation-delay:.3s">
+    <div class="g-label chalk" style="opacity:0.5">学习组</div>
+    <div class="g-members">
+      <span class="member">阿杰</span><span class="member">小鱼</span>
+      <span class="member">阿瑞</span><span class="member">豆豆</span>
+      <span class="member">石头</span><span class="member">飞哥</span>
+    </div>
+  </div>
+
+  <div class="group g-yellow" style="animation-delay:.4s">
+    <div class="g-label chalk-yellow">体育组</div>
+    <div class="g-members">
+      <span class="member">老虎</span><span class="member">铁柱</span>
+      <span class="member">大力</span><span class="member">阿猛</span>
+      <span class="member">小钢</span>
+    </div>
+  </div>
+
+  <div class="group g-pink" style="animation-delay:.5s">
+    <div class="g-label chalk-pink">文艺组</div>
+    <div class="g-members">
+      <span class="member">小星</span><span class="member">月月</span>
+      <span class="member">花花</span><span class="member">琪琪</span>
+      <span class="member">朵朵</span>
+    </div>
+  </div>
+
+  <div class="chalk-line"></div>
+
+  <div class="stats">男生 22 · 女生 20 · 共 42 人</div>
+
+  <footer class="footer">
+    <div class="footer-text chalk">高三(2)班 · 青春不散场</div>
+    <div class="footer-disc">虚构班级 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+function filterMembers(query){
+  var q=query.trim();
+  document.querySelectorAll('.member').forEach(function(m){
+    if(!q){m.classList.remove('dim');return}
+    if(m.textContent.includes(q)){m.classList.remove('dim')}
+    else{m.classList.add('dim')}
+  });
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
