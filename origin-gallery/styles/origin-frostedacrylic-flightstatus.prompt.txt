@@ -1,0 +1,25 @@
+Generate a flight status tracker page for fictional app "云途 SKYWAY", styled as Frosted Acrylic / translucent matte panel aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: deep gradient bg (from #0F0C29 via #302B63 to #24243E), frost white (rgba(255,255,255,0.08)), frost border (rgba(255,255,255,0.12)), text white (#F0F0F5), accent sky blue (#60A5FA), accent green (#34D399), accent amber (#FBBF24), accent red (#F87171). Typography: General Sans or Satoshi — use Plus Jakarta Sans (modern geometric) English, Noto Sans SC 400/600 Chinese 17px+. Layout: FROSTED ACRYLIC — deep gradient background with colorful under-glow, content on frosted glass panels (backdrop-filter:blur + semi-transparent bg), modern material design.
+
+Animation: Medium — Required:
+1. CSS GRADIENT BACKGROUND: Deep animated gradient (purple→indigo→dark blue) slowly shifting with background-position animation over 15s, creating living color underneath the frost panels
+2. CSS FROSTED PANELS: Cards use backdrop-filter:blur(20px) + background:rgba(255,255,255,0.06) + border:1px solid rgba(255,255,255,0.1), creating translucent frosted acrylic effect
+3. JS LIVE CLOCK: Current time display updating every second, styled as airport digital clock
+4. CSS STATUS PILLS: Flight status badges (准时=green, 延误=amber, 登机中=blue, 已起飞=dim) with subtle glow matching their color
+5. STAGGERED: Flight cards slide up with frosted reveal effect
+
+Page structure:
+1. Header: "云途" + "SKYWAY" + "航班动态" + JS live clock HH:MM:SS
+2. Search: Flight number input (decorative frosted input)
+3. Flight cards (4 flights, frosted panels, staggered):
+   - MU5137 上海虹桥→北京大兴 · 14:30→17:05 · 登机口 A12 · 准时 (green)
+   - CA1502 上海浦东→成都天府 · 15:15→18:40 · 登机口 B08 · 延误30min (amber)
+   - CZ3526 上海浦东→广州白云 · 16:00→18:30 · 登机口 C15 · 登机中 (blue pulse)
+   - HU7608 上海虹桥→深圳宝安 · 17:20→19:55 · 登机口 — · 已起飞 (dim)
+4. Flight detail (expanded for one): 机型 A320neo · 预计准点率 89% · 行李转盘 5
+5. Footer: "云途 · SKYWAY · 一路顺风"
+
+Frosted: backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1). Gradient: linear-gradient(135deg,#0F0C29,#302B63,#24243E) background-size:200% 200% with 15s position shift.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-frostedacrylic-flightstatus.html. Do NOT open.

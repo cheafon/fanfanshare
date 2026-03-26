@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>航班动态 — 云途 SKYWAY</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--blue:#60A5FA;--green:#34D399;--amber:#FBBF24;--red:#F87171;--white:#F0F0F5;--frost-bg:rgba(255,255,255,0.06);--frost-border:rgba(255,255,255,0.1)}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{min-height:100vh;color:var(--white);font-family:'Noto Sans SC','Plus Jakarta Sans',sans-serif;font-weight:400;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    background:linear-gradient(135deg,#0F0C29,#302B63,#24243E,#0F0C29);
+    background-size:300% 300%;animation:gradShift 15s ease infinite}
+  @keyframes gradShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+  .page{max-width:460px;width:100%;position:relative;z-index:1}
+
+  /* Frost panel */
+  .frost{background:var(--frost-bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    border:1px solid var(--frost-border);border-radius:12px}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.2rem;animation:riseIn .5s ease both}
+  @keyframes riseIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+  .h-brand{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.5rem;color:var(--white);letter-spacing:0.06em}
+  .h-en{font-family:'Plus Jakarta Sans',sans-serif;font-weight:400;font-size:0.68rem;color:rgba(240,240,245,0.3);letter-spacing:0.25em}
+  .h-sub{font-size:0.88rem;color:rgba(240,240,245,0.4);margin-top:0.3rem}
+  .h-clock{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:1.4rem;color:var(--blue);
+    margin-top:0.3rem;letter-spacing:0.1em;text-shadow:0 0 12px rgba(96,165,250,0.2)}
+
+  /* ═══ SEARCH ═══ */
+  .search{margin-bottom:1rem;animation:riseIn .5s ease both;animation-delay:.1s}
+  .search-input{width:100%;padding:0.6em 1em;border-radius:10px;font-size:0.88rem;
+    font-family:'Noto Sans SC',sans-serif;color:var(--white);outline:none;
+    background:rgba(255,255,255,0.04);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    border:1px solid rgba(255,255,255,0.08);transition:border-color .2s}
+  .search-input::placeholder{color:rgba(240,240,245,0.2)}
+  .search-input:focus{border-color:var(--blue)}
+
+  /* ═══ FLIGHT CARDS ═══ */
+  .flights{display:flex;flex-direction:column;gap:0.6rem;margin-bottom:1rem}
+
+  .flight{padding:1rem;transition:all .25s;cursor:default;
+    opacity:0;animation:riseIn .45s ease forwards}
+  .flight:hover{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.15)}
+
+  .fl-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.3rem}
+  .fl-code{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:1rem;color:var(--white);letter-spacing:0.04em}
+  .fl-status{font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:0.68rem;
+    padding:0.2em 0.7em;border-radius:20px;letter-spacing:0.04em}
+  .fl-status.on-time{background:rgba(52,211,153,0.12);color:var(--green);box-shadow:0 0 8px rgba(52,211,153,0.1)}
+  .fl-status.delayed{background:rgba(251,191,36,0.12);color:var(--amber);box-shadow:0 0 8px rgba(251,191,36,0.1)}
+  .fl-status.boarding{background:rgba(96,165,250,0.12);color:var(--blue);animation:boardPulse 1.5s ease-in-out infinite;
+    box-shadow:0 0 8px rgba(96,165,250,0.1)}
+  @keyframes boardPulse{0%,100%{opacity:1}50%{opacity:0.6}}
+  .fl-status.departed{background:rgba(240,240,245,0.04);color:rgba(240,240,245,0.3)}
+
+  .fl-route{display:flex;align-items:center;gap:0.5rem;margin-bottom:0.2rem}
+  .fl-city{font-weight:500;font-size:0.95rem;color:var(--white)}
+  .fl-arrow{font-size:0.75rem;color:rgba(240,240,245,0.2);flex-shrink:0}
+  .fl-time{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.78rem;color:rgba(240,240,245,0.3)}
+
+  .fl-bottom{display:flex;justify-content:space-between;align-items:center}
+  .fl-gate{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.78rem;color:rgba(240,240,245,0.25)}
+  .fl-gate span{color:var(--white);font-weight:600}
+
+  /* ═══ DETAIL ═══ */
+  .detail{padding:0.7rem 1rem;margin-bottom:1rem;
+    animation:riseIn .5s ease both;animation-delay:.7s}
+  .detail-label{font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:0.6rem;
+    color:rgba(240,240,245,0.2);letter-spacing:0.12em;margin-bottom:0.3rem}
+  .detail-row{display:flex;justify-content:space-between;font-size:0.82rem;padding:0.15rem 0;
+    color:rgba(240,240,245,0.35)}
+  .detail-row span:last-child{color:rgba(240,240,245,0.5)}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;animation:riseIn .5s ease both;animation-delay:.8s}
+  .footer-motto{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.78rem;color:rgba(240,240,245,0.15)}
+  .footer-disc{font-size:0.55rem;color:rgba(240,240,245,0.06);margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1rem}.flight{padding:0.8rem}}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <header class="header">
+    <div class="h-brand">云途</div>
+    <div class="h-en">SKYWAY</div>
+    <div class="h-sub">航班动态</div>
+    <div class="h-clock" id="clock">--:--:--</div>
+  </header>
+
+  <div class="search">
+    <input class="search-input" type="text" placeholder="输入航班号查询 · MU5137">
+  </div>
+
+  <div class="flights">
+
+    <div class="flight frost" style="animation-delay:.2s">
+      <div class="fl-top">
+        <span class="fl-code">MU5137</span>
+        <span class="fl-status on-time">准时</span>
+      </div>
+      <div class="fl-route">
+        <span class="fl-city">上海虹桥</span>
+        <span class="fl-arrow">→</span>
+        <span class="fl-city">北京大兴</span>
+      </div>
+      <div class="fl-time">14:30 — 17:05</div>
+      <div class="fl-bottom">
+        <span class="fl-gate">登机口 <span>A12</span></span>
+      </div>
+    </div>
+
+    <div class="flight frost" style="animation-delay:.3s">
+      <div class="fl-top">
+        <span class="fl-code">CA1502</span>
+        <span class="fl-status delayed">延误 30min</span>
+      </div>
+      <div class="fl-route">
+        <span class="fl-city">上海浦东</span>
+        <span class="fl-arrow">→</span>
+        <span class="fl-city">成都天府</span>
+      </div>
+      <div class="fl-time">15:15 — 18:40（预计 15:45 起飞）</div>
+      <div class="fl-bottom">
+        <span class="fl-gate">登机口 <span>B08</span></span>
+      </div>
+    </div>
+
+    <div class="flight frost" style="animation-delay:.4s">
+      <div class="fl-top">
+        <span class="fl-code">CZ3526</span>
+        <span class="fl-status boarding">登机中</span>
+      </div>
+      <div class="fl-route">
+        <span class="fl-city">上海浦东</span>
+        <span class="fl-arrow">→</span>
+        <span class="fl-city">广州白云</span>
+      </div>
+      <div class="fl-time">16:00 — 18:30</div>
+      <div class="fl-bottom">
+        <span class="fl-gate">登机口 <span>C15</span></span>
+      </div>
+    </div>
+
+    <div class="flight frost" style="animation-delay:.5s;opacity:0.5">
+      <div class="fl-top">
+        <span class="fl-code">HU7608</span>
+        <span class="fl-status departed">已起飞</span>
+      </div>
+      <div class="fl-route">
+        <span class="fl-city">上海虹桥</span>
+        <span class="fl-arrow">→</span>
+        <span class="fl-city">深圳宝安</span>
+      </div>
+      <div class="fl-time">17:20 — 19:55</div>
+      <div class="fl-bottom">
+        <span class="fl-gate">行李转盘 <span>5</span></span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="detail frost">
+    <div class="detail-label">MU5137 DETAILS</div>
+    <div class="detail-row"><span>机型</span><span>Airbus A320neo</span></div>
+    <div class="detail-row"><span>预计准点率</span><span>89%</span></div>
+    <div class="detail-row"><span>飞行时长</span><span>约 2h 35min</span></div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-motto">云途 · SKYWAY · 一路顺风</div>
+    <div class="footer-disc">虚构应用 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+// Live clock
+var clockEl=document.getElementById('clock');
+function tick(){
+  var n=new Date();
+  clockEl.textContent=[n.getHours(),n.getMinutes(),n.getSeconds()].map(function(v){return v<10?'0'+v:v}).join(':');
+}
+tick();setInterval(tick,1000);
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
