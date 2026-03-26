@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>今日用药 — 药时光 MEDTIME</title>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--blue:#4A90D9;--yellow:#F5D547;--red:#E8524A;--green:#5CB85C;--canvas:#FAFAF5;--gray:#777;--dark:#2C2C2C}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--canvas);color:var(--dark);font-family:'Noto Sans SC','Josefin Sans',sans-serif;font-weight:400;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    /* Pointillist dot canvas — 4 color layers */
+    background-image:
+      radial-gradient(circle,rgba(74,144,217,0.07) 1.2px,transparent 1.2px),
+      radial-gradient(circle,rgba(245,213,71,0.06) 1.2px,transparent 1.2px),
+      radial-gradient(circle,rgba(232,82,74,0.06) 1.2px,transparent 1.2px),
+      radial-gradient(circle,rgba(92,184,92,0.06) 1.2px,transparent 1.2px);
+    background-size:6px 6px,7px 7px,8px 8px,9px 9px;
+    background-position:0 0,2px 3px,4px 1px,1px 5px}
+
+  .page{max-width:460px;width:100%;position:relative;z-index:1}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.5rem;animation:dotIn .5s ease both}
+  @keyframes dotIn{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}
+  .h-brand{font-family:'Josefin Sans',sans-serif;font-weight:700;font-size:1.5rem;color:var(--dark);letter-spacing:0.08em}
+  .h-en{font-family:'Josefin Sans',sans-serif;font-weight:300;font-size:0.7rem;color:var(--gray);letter-spacing:0.2em}
+  .h-sub{font-size:0.92rem;color:var(--gray);margin-top:0.4rem}
+  .h-clock{font-family:'Josefin Sans',sans-serif;font-weight:600;font-size:1.1rem;color:var(--blue);margin-top:0.3rem;letter-spacing:0.06em}
+
+  /* ═══ ADHERENCE DOTS ═══ */
+  .adherence{display:flex;justify-content:center;gap:0.6rem;margin-bottom:1.5rem;animation:dotIn .5s ease both;animation-delay:.1s}
+  .ad-dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--gray);transition:all .3s;cursor:default}
+  .ad-dot.taken{border-color:transparent}
+  .ad-dot.blue{background:var(--blue)}.ad-dot.yellow{background:var(--yellow)}
+  .ad-dot.green{background:var(--green)}.ad-dot.red{background:var(--red)}
+  .ad-dot.pending{background:transparent}
+  .ad-label{text-align:center;font-size:0.75rem;color:var(--gray);margin-top:-0.2rem;margin-bottom:1rem}
+
+  /* ═══ TIME SLOT ═══ */
+  .slot{background:rgba(255,255,255,0.7);border-radius:10px;padding:1rem 1.2rem;margin-bottom:0.8rem;
+    border-left:4px solid transparent;transition:all .25s;
+    opacity:0;animation:slotBounce .4s cubic-bezier(0.34,1.3,0.64,1) forwards;
+    backdrop-filter:blur(2px)}
+  @keyframes slotBounce{from{opacity:0;transform:translateY(10px) scale(0.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+  .slot:hover{box-shadow:0 3px 12px rgba(0,0,0,0.04)}
+  .slot.active{box-shadow:0 0 0 2px rgba(74,144,217,0.15)}
+  .slot.blue-border{border-left-color:var(--blue)}
+  .slot.yellow-border{border-left-color:var(--yellow)}
+  .slot.green-border{border-left-color:var(--green)}
+  .slot.red-border{border-left-color:var(--red)}
+
+  .slot-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem}
+  .slot-time{font-family:'Josefin Sans',sans-serif;font-weight:600;font-size:0.95rem;color:var(--dark)}
+  .slot-label{font-family:'Josefin Sans',sans-serif;font-weight:400;font-size:0.7rem;color:var(--gray);letter-spacing:0.06em}
+
+  /* ═══ MED ITEM ═══ */
+  .med{display:flex;align-items:center;gap:0.6rem;padding:0.35rem 0;cursor:pointer;transition:opacity .2s;user-select:none}
+  .med.taken{opacity:0.35}
+  .med-dot{width:12px;height:12px;border-radius:50%;border:2px solid;flex-shrink:0;transition:all .25s;position:relative}
+  .med-dot.blue-d{border-color:var(--blue)}.med.taken .med-dot.blue-d{background:var(--blue)}
+  .med-dot.yellow-d{border-color:var(--yellow)}.med.taken .med-dot.yellow-d{background:var(--yellow)}
+  .med-dot.green-d{border-color:var(--green)}.med.taken .med-dot.green-d{background:var(--green)}
+  .med-dot.red-d{border-color:var(--red)}.med.taken .med-dot.red-d{background:var(--red)}
+  .med-info{flex:1}
+  .med-name{font-weight:500;font-size:0.92rem;color:var(--dark)}
+  .med-desc{font-size:0.78rem;color:var(--gray)}
+  .med.taken .med-name{text-decoration:line-through;text-decoration-color:rgba(44,44,44,0.2)}
+
+  @keyframes dotPulse{0%{transform:scale(1)}50%{transform:scale(1.4)}100%{transform:scale(1)}}
+
+  /* ═══ NOTE ═══ */
+  .note{background:rgba(255,255,255,0.5);border-radius:8px;padding:0.8rem 1rem;margin-bottom:1rem;
+    border:1px dashed rgba(119,119,119,0.15);animation:dotIn .5s ease both;animation-delay:1s}
+  .note-label{font-family:'Josefin Sans',sans-serif;font-weight:600;font-size:0.65rem;color:var(--blue);letter-spacing:0.1em;margin-bottom:0.2rem}
+  .note-text{font-size:0.88rem;color:var(--gray)}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;animation:dotIn .5s ease both;animation-delay:1.1s}
+  .footer-motto{font-family:'Josefin Sans',sans-serif;font-size:0.8rem;color:var(--gray);opacity:0.4;letter-spacing:0.04em}
+  .footer-disc{font-size:0.55rem;color:var(--gray);opacity:0.15;margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1rem}.slot{padding:0.8rem 1rem}}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="h-brand">药时光</div>
+    <div class="h-en">MEDTIME</div>
+    <div class="h-sub">今日用药</div>
+    <div class="h-clock" id="clock">--:--:--</div>
+  </header>
+
+  <!-- ═══ ADHERENCE DOTS ═══ -->
+  <div class="adherence">
+    <div class="ad-dot taken blue" id="ad0"></div>
+    <div class="ad-dot taken blue" id="ad1"></div>
+    <div class="ad-dot taken yellow" id="ad2"></div>
+    <div class="ad-dot taken green" id="ad3"></div>
+    <div class="ad-dot pending" id="ad4" style="border-color:var(--green)"></div>
+    <div class="ad-dot pending" id="ad5" style="border-color:var(--red)"></div>
+  </div>
+  <div class="ad-label">今日进度 4 / 6</div>
+
+  <!-- ═══ MORNING ═══ -->
+  <div class="slot blue-border" style="animation-delay:.25s">
+    <div class="slot-header"><span class="slot-time">08:00 早晨</span><span class="slot-label">MORNING</span></div>
+    <div class="med taken" onclick="toggleMed(this,0)">
+      <div class="med-dot blue-d"></div>
+      <div class="med-info"><div class="med-name">氨氯地平 5mg</div><div class="med-desc">降压 · 每日一次</div></div>
+    </div>
+    <div class="med taken" onclick="toggleMed(this,1)">
+      <div class="med-dot blue-d"></div>
+      <div class="med-info"><div class="med-name">二甲双胍 500mg</div><div class="med-desc">控糖 · 随餐服用</div></div>
+    </div>
+  </div>
+
+  <!-- ═══ NOON ═══ -->
+  <div class="slot yellow-border" style="animation-delay:.4s">
+    <div class="slot-header"><span class="slot-time">12:00 中午</span><span class="slot-label">NOON</span></div>
+    <div class="med taken" onclick="toggleMed(this,2)">
+      <div class="med-dot yellow-d"></div>
+      <div class="med-info"><div class="med-name">维生素 D 1000IU</div><div class="med-desc">补充 · 随餐服用</div></div>
+    </div>
+  </div>
+
+  <!-- ═══ EVENING ═══ -->
+  <div class="slot green-border" style="animation-delay:.55s">
+    <div class="slot-header"><span class="slot-time">18:00 傍晚</span><span class="slot-label">EVENING</span></div>
+    <div class="med taken" onclick="toggleMed(this,3)">
+      <div class="med-dot green-d"></div>
+      <div class="med-info"><div class="med-name">阿托伐他汀 20mg</div><div class="med-desc">降脂 · 晚餐后服用</div></div>
+    </div>
+    <div class="med" onclick="toggleMed(this,4)">
+      <div class="med-dot green-d"></div>
+      <div class="med-info"><div class="med-name">碳酸钙 600mg</div><div class="med-desc">补钙 · 随餐服用</div></div>
+    </div>
+  </div>
+
+  <!-- ═══ BEDTIME ═══ -->
+  <div class="slot red-border" style="animation-delay:.7s">
+    <div class="slot-header"><span class="slot-time">22:00 睡前</span><span class="slot-label">BEDTIME</span></div>
+    <div class="med" onclick="toggleMed(this,5)">
+      <div class="med-dot red-d"></div>
+      <div class="med-info"><div class="med-name">褪黑素 3mg</div><div class="med-desc">助眠 · 睡前 30 分钟</div></div>
+    </div>
+  </div>
+
+  <!-- ═══ NOTE ═══ -->
+  <div class="note">
+    <div class="note-label">NEXT VISIT</div>
+    <div class="note-text">下次复诊：4 月 15 日 周三 · 内分泌科 张医生</div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-motto">药时光 · MEDTIME · 按时吃药，好好生活</div>
+    <div class="footer-disc">虚构应用 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+// Real-time clock
+var clockEl=document.getElementById('clock');
+function updateClock(){
+  var now=new Date();
+  var h=String(now.getHours()).padStart(2,'0');
+  var m=String(now.getMinutes()).padStart(2,'0');
+  var s=String(now.getSeconds()).padStart(2,'0');
+  clockEl.textContent=h+':'+m+':'+s;
+}
+updateClock();setInterval(updateClock,1000);
+
+// Toggle medication
+var adDots=document.querySelectorAll('.ad-dot');
+var takenCount=4;
+var adLabel=document.querySelector('.ad-label');
+var colors=['blue','blue','yellow','green','green','red'];
+
+function updateLabel(){
+  adLabel.textContent='今日进度 '+takenCount+' / 6';
+}
+
+function toggleMed(el,idx){
+  var wasTaken=el.classList.contains('taken');
+  el.classList.toggle('taken');
+  // Pulse the dot
+  var dot=el.querySelector('.med-dot');
+  dot.style.animation='none';void dot.offsetWidth;
+  dot.style.animation='dotPulse .3s ease';
+
+  // Update adherence dots
+  if(!wasTaken){
+    takenCount++;
+    adDots[idx].classList.add('taken',colors[idx]);
+    adDots[idx].classList.remove('pending');
+    adDots[idx].style.borderColor='transparent';
+  }else{
+    takenCount--;
+    adDots[idx].classList.remove('taken',colors[idx]);
+    adDots[idx].classList.add('pending');
+    var bc={'blue':'var(--blue)','yellow':'var(--yellow)','green':'var(--green)','red':'var(--red)'};
+    adDots[idx].style.borderColor=bc[colors[idx]];
+  }
+  updateLabel();
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

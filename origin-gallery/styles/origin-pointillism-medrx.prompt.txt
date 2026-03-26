@@ -1,0 +1,30 @@
+Generate a daily medication reminder page for fictional app "药时光 MEDTIME", styled as Pointillism / Neo-Impressionist dot painting aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: pointillist blue (#4A90D9), pointillist yellow (#F5D547), pointillist red (#E8524A), pointillist green (#5CB85C), canvas cream (#FAFAF5), warm gray (#777), dark (#2C2C2C). Typography: Josefin Sans (geometric clean modern) English, Noto Sans SC 400/600 Chinese 17px+. Layout: POINTILLISM — light canvas background densely covered with tiny colored dots, medication cards clean and functional, time-based organization.
+
+Animation: Medium — Required:
+1. CSS POINTILLIST DOTS: Background covered with dense colored dot pattern using multiple overlapping radial-gradient layers — tiny dots (1.5-2px) in blue/yellow/red/green at different grid sizes (6px, 7px, 8px, 9px offsets) creating a vibrant pointillist canvas effect
+2. JS REAL-TIME CLOCK: Current time display updating every second, with the current/next medication time slot highlighted automatically
+3. CSS DOT PROGRESS: Daily medication adherence shown as a row of colored dots — taken=filled solid, pending=outline, creating a dot-art progress indicator
+4. CARD STAGGER: Medication time slots enter with staggered bounce-in animation
+5. JS CHECKBOX: Click medication items to mark as taken — dot fills with color + subtle scale pulse
+
+Page structure:
+1. Header: "药时光" + "MEDTIME" + "今日用药" + JS real-time clock display
+2. Adherence dots: 6 dots representing 6 medications, filled/outline showing today's progress (e.g. 4/6 taken)
+3. Morning slot (08:00, blue accent):
+   - 氨氯地平 5mg · 降压 · 每日一次
+   - 二甲双胍 500mg · 控糖 · 随餐服用
+4. Noon slot (12:00, yellow accent):
+   - 维生素D 1000IU · 补充 · 随餐服用
+5. Evening slot (18:00, green accent):
+   - 阿托伐他汀 20mg · 降脂 · 晚餐后
+   - 碳酸钙 600mg · 补钙 · 随餐
+6. Bedtime slot (22:00, red accent):
+   - 褪黑素 3mg · 助眠 · 睡前30分钟
+7. Note: "下次复诊：4月15日 周三 · 内分泌科 张医生"
+8. Footer: "药时光 · MEDTIME · 按时吃药，好好生活"
+
+Pointillist dots: 4 layers of radial-gradient(circle, color 1px, transparent 1px) each at different background-size (6px 6px, 7px 7px, 8px 8px, 9px 9px) and background-position offsets, in blue/yellow/red/green respectively, each at ~0.06-0.08 opacity. Combined they create dense colorful dot field.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-pointillism-medrx.html. Do NOT open.
