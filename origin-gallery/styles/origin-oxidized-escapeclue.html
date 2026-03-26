@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>密室: 废弃实验室 — 锁界 LOCKDOWN</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--rust:#8B3A0F;--patina:#4A7A5A;--iron:#1C1A18;--brown:#5C3317;--metal:#B87333;--verdigris:rgba(77,182,172,0.08);--dim:#D4CFC8}
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{background:var(--iron);color:var(--dim);font-family:'Noto Sans SC','IBM Plex Mono',monospace;font-weight:500;font-size:17px;line-height:1.7;
+    display:flex;justify-content:center;padding:1.5rem;-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative;
+    /* Corrosion spots */
+    background-image:
+      radial-gradient(ellipse 100px 80px at 20% 15%,rgba(139,58,15,0.1) 0%,transparent 70%),
+      radial-gradient(ellipse 70px 90px at 80% 20%,rgba(74,122,90,0.06) 0%,transparent 70%),
+      radial-gradient(ellipse 120px 60px at 40% 50%,rgba(92,51,23,0.08) 0%,transparent 70%),
+      radial-gradient(ellipse 80px 100px at 70% 65%,rgba(139,58,15,0.06) 0%,transparent 70%),
+      radial-gradient(ellipse 90px 70px at 15% 80%,rgba(74,122,90,0.05) 0%,transparent 70%),
+      radial-gradient(ellipse 110px 80px at 85% 85%,rgba(92,51,23,0.07) 0%,transparent 70%);
+    animation:flicker 7s step-end infinite}
+  @keyframes flicker{0%,92%,94%,96%,100%{opacity:1}93%{opacity:0.92}95%{opacity:0.97}}
+
+  .grain{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.04}
+
+  .page{max-width:460px;width:100%;position:relative;z-index:1}
+
+  /* ═══ HEADER ═══ */
+  .header{text-align:center;margin-bottom:1.2rem;animation:ironIn .6s ease both}
+  @keyframes ironIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+  .h-brand{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:1.5rem;color:var(--metal);letter-spacing:0.08em}
+  .h-en{font-family:'IBM Plex Mono',monospace;font-weight:400;font-size:0.65rem;color:var(--rust);letter-spacing:0.2em}
+  .h-room{font-size:0.88rem;color:rgba(212,207,200,0.4);margin-top:0.3rem}
+  .h-timer{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:1.1rem;color:var(--rust);margin-top:0.3rem;
+    text-shadow:0 0 6px rgba(139,58,15,0.3)}
+
+  /* ═══ STATUS ═══ */
+  .status{display:flex;justify-content:center;gap:1.2rem;margin-bottom:1.2rem;flex-wrap:wrap;
+    animation:ironIn .5s ease both;animation-delay:.1s}
+  .st{text-align:center}
+  .st-num{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:1rem;color:var(--metal)}
+  .st-label{font-size:0.7rem;color:rgba(212,207,200,0.25)}
+
+  /* ═══ METAL PLATE CARD ═══ */
+  .plate{position:relative;padding:1rem 1.1rem;margin-bottom:0.7rem;
+    background:linear-gradient(135deg,rgba(184,115,51,0.04),transparent 40%,rgba(184,115,51,0.02));
+    border:1.5px solid rgba(184,115,51,0.12);
+    box-shadow:2px 3px 0 rgba(0,0,0,0.2),-1px -1px 0 rgba(184,115,51,0.05);
+    transition:all .25s;opacity:0;animation:ironIn .5s ease forwards}
+  .plate:hover{border-color:rgba(184,115,51,0.2)}
+  /* Bolt corners */
+  .plate::before,.plate::after{content:'';position:absolute;width:7px;height:7px;border-radius:50%;
+    background:radial-gradient(circle at 35% 35%,rgba(184,115,51,0.3),rgba(28,26,24,0.5));
+    border:0.5px solid rgba(184,115,51,0.15)}
+  .plate::before{top:6px;left:6px}
+  .plate::after{top:6px;right:6px}
+  .bolt-bl,.bolt-br{position:absolute;width:7px;height:7px;border-radius:50%;
+    background:radial-gradient(circle at 35% 35%,rgba(184,115,51,0.3),rgba(28,26,24,0.5));
+    border:0.5px solid rgba(184,115,51,0.15)}
+  .bolt-bl{bottom:6px;left:6px}
+  .bolt-br{bottom:6px;right:6px}
+
+  /* Rust drip on left edge */
+  .plate .rust-drip{position:absolute;top:15px;left:-1px;width:3px;height:30px;
+    background:linear-gradient(180deg,rgba(139,58,15,0.2),rgba(139,58,15,0.05),transparent);border-radius:0 0 2px 2px}
+
+  .plate-label{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:0.6rem;color:var(--rust);letter-spacing:0.12em;margin-bottom:0.3rem}
+  .plate-text{font-size:0.92rem;color:rgba(212,207,200,0.6);line-height:1.9}
+
+  /* ═══ LOCKED CLUE ═══ */
+  .locked{cursor:pointer}
+  .locked .plate-text{display:none}
+  .locked.unlocked .plate-text{display:block;animation:panelSlide .4s ease both}
+  .locked.unlocked .unlock-btn{display:none}
+  @keyframes panelSlide{from{max-height:0;opacity:0}to{max-height:200px;opacity:1}}
+
+  .unlock-btn{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:0.78rem;
+    color:var(--metal);background:transparent;border:1px solid rgba(184,115,51,0.2);
+    padding:0.4em 1em;cursor:pointer;transition:all .2s;margin-top:0.2rem}
+  .unlock-btn:hover{background:rgba(184,115,51,0.08);border-color:var(--metal)}
+
+  .disabled-plate{opacity:0.3;cursor:not-allowed}
+  .disabled-plate .plate-label{color:rgba(212,207,200,0.2)}
+
+  /* ═══ SOLVED ═══ */
+  .solved{animation:ironIn .5s ease both;animation-delay:.7s;margin-bottom:1rem}
+  .solved-label{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:0.6rem;color:var(--patina);letter-spacing:0.12em;margin-bottom:0.3rem}
+  .solved-item{display:flex;align-items:center;gap:0.4rem;padding:0.2rem 0;font-size:0.85rem;color:var(--patina);opacity:0.6}
+  .check{width:12px;height:12px;border-radius:50%;border:1.5px solid var(--patina);display:flex;align-items:center;justify-content:center;
+    font-size:0.55rem;flex-shrink:0}
+
+  /* ═══ FOOTER ═══ */
+  .footer{text-align:center;animation:ironIn .5s ease both;animation-delay:.8s}
+  .footer-motto{font-family:'IBM Plex Mono',monospace;font-size:0.78rem;color:var(--rust);opacity:0.25}
+  .footer-disc{font-size:0.55rem;color:rgba(212,207,200,0.08);margin-top:0.2rem}
+
+  @media(max-width:400px){body{padding:1rem}.plate{padding:0.8rem}}
+</style>
+</head>
+<body>
+
+<svg class="grain" width="100%" height="100%">
+  <filter id="gf"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" stitchTiles="stitch"/></filter>
+  <rect width="100%" height="100%" filter="url(#gf)"/>
+</svg>
+
+<div class="page">
+
+  <header class="header">
+    <div class="h-brand">锁界</div>
+    <div class="h-en">LOCKDOWN</div>
+    <div class="h-room">密室：废弃实验室</div>
+    <div class="h-timer" id="timer">28:42</div>
+  </header>
+
+  <div class="status">
+    <div class="st"><div class="st-num">2/5</div><div class="st-label">谜题解锁</div></div>
+    <div class="st"><div class="st-num">1/3</div><div class="st-label">已用提示</div></div>
+  </div>
+
+  <!-- ═══ ACTIVE CLUE ═══ -->
+  <div class="plate" style="animation-delay:.2s">
+    <span class="bolt-bl"></span><span class="bolt-br"></span>
+    <div class="rust-drip"></div>
+    <div class="plate-label">CLUE #1 — 已揭示</div>
+    <div class="plate-text">实验记录显示，编号 7-4-2 的试管曾在周二使用。日志本第三页有一个被圈出的化学式。</div>
+  </div>
+
+  <!-- ═══ LOCKED CLUES ═══ -->
+  <div class="plate locked" style="animation-delay:.3s" onclick="unlockClue(this)">
+    <span class="bolt-bl"></span><span class="bolt-br"></span>
+    <div class="rust-drip" style="top:25px;height:20px"></div>
+    <div class="plate-label">CLUE #2 — 已锁定</div>
+    <button class="unlock-btn">解锁提示</button>
+    <div class="plate-text">墙上的时钟停在了 3:15。但仔细看——分针指向的不是数字，而是墙上的一道裂缝。</div>
+  </div>
+
+  <div class="plate locked" style="animation-delay:.4s" onclick="unlockClue(this)">
+    <span class="bolt-bl"></span><span class="bolt-br"></span>
+    <div class="plate-label">CLUE #3 — 已锁定</div>
+    <button class="unlock-btn">解锁提示</button>
+    <div class="plate-text">地板第四块砖的颜色和其他不同。试着按下去——你会听到一声机械咔哒声。</div>
+  </div>
+
+  <div class="plate disabled-plate" style="animation-delay:.5s">
+    <span class="bolt-bl"></span><span class="bolt-br"></span>
+    <div class="plate-label">CLUE #4 — 需先解锁 #3</div>
+  </div>
+
+  <!-- ═══ SOLVED ═══ -->
+  <div class="solved">
+    <div class="solved-label">SOLVED</div>
+    <div class="solved-item"><div class="check">✓</div>密码锁（1247）</div>
+    <div class="solved-item"><div class="check">✓</div>紫外线灯</div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-motto">锁界 · LOCKDOWN · 真相就在眼前</div>
+    <div class="footer-disc">虚构密室 · 仅供展示</div>
+  </footer>
+
+</div>
+
+<script>
+function unlockClue(el){
+  if(el.classList.contains('unlocked')||el.classList.contains('disabled-plate'))return;
+  el.classList.add('unlocked');
+  el.querySelector('.plate-label').textContent=el.querySelector('.plate-label').textContent.replace('已锁定','已揭示');
+}
+
+// Timer countdown
+var total=28*60+42;
+var timerEl=document.getElementById('timer');
+setInterval(function(){
+  if(total<=0)return;
+  total--;
+  var m=Math.floor(total/60);
+  var s=total%60;
+  timerEl.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+},1000);
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

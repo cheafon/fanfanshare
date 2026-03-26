@@ -1,0 +1,26 @@
+Generate an escape room clue card page for fictional venue "锁界 LOCKDOWN", styled as Oxidized Metal / corroded industrial aesthetic. Chinese text primary, 17px+ body, production-quality. VISUAL EFFECTS.
+
+Color palette: rust (#8B3A0F), patina green (#2E8B57 at low sat → #4A7A5A), iron dark (#1C1A18), oxidized brown (#5C3317), warm metal (#B87333), verdigris (#4DB6AC at low opacity), dim white (#D4CFC8). Typography: IBM Plex Mono (industrial monospace) English, Noto Sans SC 500/600 Chinese 17px+. Layout: OXIDIZED — dark iron background with corrosion texture, clue cards as weathered metal plates, industrial decay atmosphere.
+
+Animation: Medium-High — Required:
+1. CSS CORROSION TEXTURE: Background with overlapping radial-gradient rust/patina spots at various sizes simulating corroded metal surface + SVG noise for pitted texture
+2. CSS METAL PLATES: Clue cards styled as metal plates — linear-gradient creating brushed metal sheen + border with uneven thickness (box-shadow at asymmetric offsets) + small "bolt" circles at corners via ::before/::after
+3. JS CLUE UNLOCK: 3 locked clues — click "解锁提示" to reveal text with a "sliding metal panel" animation (height transition from 0 + content opacity)
+4. CSS RUST DRIP: Decorative rust drip marks using linear-gradient with irregular stops (rust color fading downward) on card edges
+5. CSS FLICKER: Overhead "light" effect — subtle opacity flicker on the whole page every 5-8s simulating failing industrial lighting
+
+Page structure:
+1. Header: "锁界" + "LOCKDOWN" + "密室: 废弃实验室" + "剩余时间 28:42"
+2. Room status: 已解锁 2/5 个谜题 · 已用提示 1/3
+3. Active clue (revealed, metal plate):
+   线索 #1: "实验记录显示，编号 7-4-2 的试管曾在周二使用。日志本第三页有一个被圈出的化学式。"
+4. Locked clues (3 cards, click to unlock):
+   线索 #2: [解锁提示] → "墙上的时钟停在了 3:15。但分针指向的不是数字……"
+   线索 #3: [解锁提示] → "地板第四块砖的颜色和其他不同。试着按下去。"
+   线索 #4: [已锁定 — 需先解锁线索 #3]
+5. Solved puzzles: ✓ 密码锁 (1247) · ✓ 紫外线灯
+6. Footer: "锁界 · LOCKDOWN · 真相就在眼前"
+
+Corrosion: 6+ radial-gradient spots of varying rust/patina/brown at random positions and sizes, overlapping on iron dark base. Metal plate: linear-gradient(135deg, rgba(metal,0.1), transparent 50%, rgba(metal,0.05)) for brushed sheen. Bolts: ::before and ::after as small 6px circles with radial-gradient metallic highlight.
+
+Save to /Users/eason/Projects/html-loop/origin-gallery/styles/origin-oxidized-escapeclue.html. Do NOT open.
